@@ -1,9 +1,14 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "installCommand": "npm install && cd server && npm install",
   "builds": [
     {
       "src": "server/src/index.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["server/**/*"]
+      }
     },
     {
       "src": "package.json",
@@ -19,8 +24,11 @@
       "dest": "server/src/index.ts"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/dist/$1"
+      "dest": "/index.html"
     }
   ]
 }
