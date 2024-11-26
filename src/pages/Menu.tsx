@@ -271,7 +271,7 @@ function Menu() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-center mb-12 text-gray-100">Our Menu</h1>
+          <h1 className="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Our Menu</h1>
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
             {categories[0].description}
           </p>
@@ -296,7 +296,7 @@ function Menu() {
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
               <section>
-                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                <h2 className="text-3xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">{category.title}</h2>
                 {category.basePrice && (
                   <span className="text-primary-300 text-lg font-semibold ml-auto">
                     {category.basePrice}
@@ -345,7 +345,7 @@ function Menu() {
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
               <section>
-                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                <h2 className="text-3xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">{category.title}</h2>
                 {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
                 {category.subtitle && (
                   <div className="flex items-center gap-2 text-gray-400 text-sm italic ml-2">
@@ -389,7 +389,7 @@ function Menu() {
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
               <section>
-                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                <h2 className="text-3xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">{category.title}</h2>
                 {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
                 {category.subtitle && (
                   <div className="flex items-center gap-2 text-gray-400 text-sm italic ml-2">

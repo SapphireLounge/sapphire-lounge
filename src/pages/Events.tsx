@@ -38,9 +38,7 @@ function Events() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            Events
-          </h1>
+          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Upcoming Events</h1>
           <p className="text-gray-300 max-w-2xl mx-auto">
             Join us for specially curated events, designed to enhance your Sapphire Lounge experience
           </p>

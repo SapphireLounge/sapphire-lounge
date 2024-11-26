@@ -49,13 +49,13 @@ function Home() {
             <div className="flex gap-3 justify-center">
               <Link 
                 to="/reservations"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-2.5 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="bg-gradient-to-r from-primary-300 to-accent-400 text-white px-6 py-2.5 rounded-full font-semibold hover:from-primary-400 hover:to-accent-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
               >
                 Book Now
               </Link>
               <Link
                 to="/menu"
-                className="bg-dark-800/50 backdrop-blur-sm border border-blue-500/20 px-6 py-2.5 rounded-full font-semibold hover:bg-dark-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="bg-dark-800/50 backdrop-blur-sm border border-primary-300/20 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-dark-700/50 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
               >
                 View Menu
               </Link>
@@ -75,7 +75,7 @@ function Home() {
               <div className="flex justify-center">
                 <Calendar className="w-8 h-8 text-primary-300 mb-2" />
               </div>
-              <h3 className="text-base font-bold text-white mb-1">Easy Reservations</h3>
+              <h3 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1">Easy Reservations</h3>
               <p className="text-gray-200 text-xs">Book your perfect spot instantly.</p>
             </div>
           </motion.article>
@@ -88,7 +88,7 @@ function Home() {
               <div className="flex justify-center">
                 <Users className="w-8 h-8 text-primary-300 mb-2" />
               </div>
-              <h3 className="text-base font-bold text-white mb-1">Loyalty Scheme</h3>
+              <h3 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1">Loyalty Scheme</h3>
               <p className="text-gray-200 text-xs">Unlock premium benefits & discounts.</p>
             </div>
           </motion.article>

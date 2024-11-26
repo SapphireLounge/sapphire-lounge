@@ -49,11 +49,7 @@ function Loyalty() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-14"
         >
-          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-3">
-            <span className="inline-block bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 text-transparent bg-clip-text leading-tight tracking-normal">
-              Loyalty Scheme
-            </span>
-          </h1>
+          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Loyalty Program</h1>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             Join our exclusive membership scheme and enjoy premium benefits every month
           </p>
@@ -92,7 +88,10 @@ function Loyalty() {
                 </ul>
               </div>
               <div className="mt-auto pt-4">
-                <button className="w-full px-4 py-2 rounded-lg font-semibold bg-gradient-to-r from-primary-500 to-accent-500 text-white hover:from-primary-600 hover:to-accent-600 transition-all text-sm">
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-primary-300 to-accent-400 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-400 hover:to-accent-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
+                >
                   Subscribe Now
                 </button>
               </div>

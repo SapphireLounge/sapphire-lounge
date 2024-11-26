@@ -26,9 +26,7 @@ function Contact() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1">
-            Contact Us
-          </h1>
+          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Contact Us</h1>
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
             Get in touch with us for bookings, inquiries, or any questions you may have
           </p>
@@ -101,14 +99,12 @@ function Contact() {
           >
             {/* Info Cards */}
             <motion.div className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20">
-              <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                Get in Touch
-              </h2>
+              <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Get in Touch</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-5 h-5 text-primary-300 mt-1" />
                   <div>
-                    <h3 className="font-medium text-primary-300">Address</h3>
+                    <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Visit Us</h3>
                     <p className="text-gray-400">Wind Street, Swansea, Wales</p>
                   </div>
                 </div>
@@ -122,7 +118,7 @@ function Contact() {
                 <div className="flex items-start space-x-3">
                   <Clock className="w-5 h-5 text-primary-300 mt-1" />
                   <div>
-                    <h3 className="font-medium text-primary-300">Opening Hours</h3>
+                    <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Opening Hours</h3>
                     <p className="text-gray-400">Tuesday - Sunday: 5:00 PM - 2:00 AM</p>
                   </div>
                 </div>
