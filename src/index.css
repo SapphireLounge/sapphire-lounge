@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-300 text-gray-100;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  .glass-effect {
+    @apply bg-dark-100/40 backdrop-blur-lg border border-accent-700/20;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400;
+  }
+
+  .gradient-border {
+    @apply relative;
+  }
+
+  .gradient-border::after {
+    @apply content-[''] absolute inset-0 rounded-xl border border-transparent bg-gradient-to-r from-primary-400/20 to-accent-500/20 -z-10 pointer-events-none;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-300;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent-600;
+}
