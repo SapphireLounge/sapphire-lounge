@@ -9,9 +9,9 @@ export default {
           100: '#e0f2fe',
           200: '#bae6fd',
           300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
+          400: '#0284c7',  // Updated for better contrast
+          500: '#0369a1',
+          600: '#075985',
         },
         accent: {
           50: '#faf5ff',

@@ -38,7 +38,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-2 text-gray-200">Quick Links</h4>
+            <h2 className="text-base font-semibold mb-2 text-gray-200">Quick Links</h2>
             <ul className="space-y-1.5">
               <li>
                 <Link to="/menu" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
@@ -59,7 +59,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-2 text-gray-200">Support</h4>
+            <h2 className="text-base font-semibold mb-2 text-gray-200">Support</h2>
             <ul className="space-y-1.5">
               <li>
                 <Link to="/faq" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
@@ -85,7 +85,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-2 text-gray-200">Opening Hours</h4>
+            <h2 className="text-base font-semibold mb-2 text-gray-200">Opening Hours</h2>
             <ul className="space-y-1.5 text-sm text-gray-400">
               <li>Monday: Closed</li>
               <li>Tuesday - Sunday: 5PM - 2AM</li>

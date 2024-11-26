@@ -271,9 +271,7 @@ function Menu() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1">
-            Our Menu
-          </h1>
+          <h1 className="text-4xl font-bold text-center mb-12 text-gray-100">Our Menu</h1>
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
             {categories[0].description}
           </p>
@@ -297,46 +295,41 @@ function Menu() {
               transition={{ delay: index * 0.1 }}
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
-              <div className="flex flex-col gap-1 mb-3">
-                <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5 text-primary-300" />
-                  <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                    {category.title}
-                  </h2>
-                  {category.basePrice && (
-                    <span className="text-primary-300 text-lg font-semibold ml-auto">
-                      {category.basePrice}
-                    </span>
-                  )}
-                </div>
+              <section>
+                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                {category.basePrice && (
+                  <span className="text-primary-300 text-lg font-semibold ml-auto">
+                    {category.basePrice}
+                  </span>
+                )}
                 {category.subtitle && (
                   <div className="flex items-center gap-2 text-gray-400 text-sm italic ml-2">
                     <span className="text-accent-400">-</span>
                     <p>{category.subtitle}</p>
                   </div>
                 )}
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
-                {category.items.map((item, i) => (
-                  <div 
-                    key={typeof item === 'string' ? item : item.name}
-                    className="flex items-center justify-between gap-2 text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
-                    onClick={() => {
-                      const itemName = typeof item === 'string' ? item : item.name;
-                      const itemPrice = typeof item === 'string' ? category.basePrice || '' : item.price || '';
-                      addItemToNotepad(itemName, itemPrice);
-                    }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
-                      <span>{typeof item === 'string' ? item : item.name}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
+                  {category.items.map((item, i) => (
+                    <div 
+                      key={typeof item === 'string' ? item : item.name}
+                      className="flex items-center justify-between gap-2 text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
+                      onClick={() => {
+                        const itemName = typeof item === 'string' ? item : item.name;
+                        const itemPrice = typeof item === 'string' ? category.basePrice || '' : item.price || '';
+                        addItemToNotepad(itemName, itemPrice);
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
+                        <span>{typeof item === 'string' ? item : item.name}</span>
+                      </div>
+                      {typeof item !== 'string' && item.price && (
+                        <span className="text-primary-300">{item.price}</span>
+                      )}
                     </div>
-                    {typeof item !== 'string' && item.price && (
-                      <span className="text-primary-300">{item.price}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </section>
             </motion.div>
           ))}
         </div>
@@ -351,40 +344,36 @@ function Menu() {
               transition={{ delay: index * 0.1 }}
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
-              <div className="flex flex-col gap-1 mb-3">
-                <div className="flex items-center gap-2">
-                  {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
-                  <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                    {category.title}
-                  </h2>
-                </div>
+              <section>
+                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
                 {category.subtitle && (
                   <div className="flex items-center gap-2 text-gray-400 text-sm italic ml-2">
                     <span className="text-accent-400">-</span>
                     <p>{category.subtitle}</p>
                   </div>
                 )}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                {category.items.map((item, i) => (
-                  <div
-                    key={item.name}
-                    className="text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
-                    onClick={() => addItemToNotepad(item.name, item.price || '')}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
-                        <span>{item.name}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  {category.items.map((item, i) => (
+                    <div
+                      key={item.name}
+                      className="text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
+                      onClick={() => addItemToNotepad(item.name, item.price || '')}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
+                          <span>{item.name}</span>
+                        </div>
+                        <span className="text-primary-300">{item.price}</span>
                       </div>
-                      <span className="text-primary-300">{item.price}</span>
+                      {item.ingredients && (
+                        <p className="text-gray-500 text-xs mt-1 ml-6">{item.ingredients}</p>
+                      )}
                     </div>
-                    {item.ingredients && (
-                      <p className="text-gray-500 text-xs mt-1 ml-6">{item.ingredients}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </section>
             </motion.div>
           ))}
         </div>
@@ -399,55 +388,51 @@ function Menu() {
               transition={{ delay: index * 0.1 }}
               className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
-              <div className="flex flex-col gap-1 mb-3">
-                <div className="flex items-center gap-2">
-                  {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
-                  <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                    {category.title}
-                  </h2>
-                </div>
+              <section>
+                <h2 className="text-3xl font-semibold mb-6 text-primary-300">{category.title}</h2>
+                {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
                 {category.subtitle && (
                   <div className="flex items-center gap-2 text-gray-400 text-sm italic ml-2">
                     <span className="text-accent-400">-</span>
                     <p>{category.subtitle}</p>
                   </div>
                 )}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                {category.items.map((item, i) => (
-                  <div
-                    key={item.name}
-                    className="flex justify-between items-center text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
-                    onClick={() => addItemToNotepad(item.name, item.price || '')}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
-                      <span>{item.name}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  {category.items.map((item, i) => (
+                    <div
+                      key={item.name}
+                      className="flex justify-between items-center text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
+                      onClick={() => addItemToNotepad(item.name, item.price || '')}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
+                        <span>{item.name}</span>
+                      </div>
+                      <span className="text-primary-300">{item.price}</span>
                     </div>
-                    <span className="text-primary-300">{item.price}</span>
-                  </div>
-                ))}
-                {category.extras && (
-                  <div className="col-span-2 mt-4">
-                    <h3 className="text-lg font-medium text-primary-300 mb-2">Extras</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      {category.extras.map((extra, i) => (
-                        <div
-                          key={extra.name}
-                          className="flex justify-between items-center text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
-                          onClick={() => addItemToNotepad(extra.name, extra.price || '')}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
-                            <span>{extra.name}</span>
+                  ))}
+                  {category.extras && (
+                    <div className="col-span-2 mt-4">
+                      <h3 className="text-lg font-medium text-primary-300 mb-2">Extras</h3>
+                      <div className="grid grid-cols-2 gap-2">
+                        {category.extras.map((extra, i) => (
+                          <div
+                            key={extra.name}
+                            className="flex justify-between items-center text-gray-300 hover:text-primary-300 transition-colors cursor-pointer"
+                            onClick={() => addItemToNotepad(extra.name, extra.price || '')}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Star className="w-4 h-4 text-accent-400 flex-shrink-0" />
+                              <span>{extra.name}</span>
+                            </div>
+                            <span className="text-primary-300">{extra.price}</span>
                           </div>
-                          <span className="text-primary-300">{extra.price}</span>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              </section>
             </motion.div>
           ))}
         </div>
