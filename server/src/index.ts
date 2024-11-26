@@ -1,16 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import { reservationRoutes } from './routes/reservations';
 import newsletterRoutes from './routes/newsletterRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import { corsMiddleware } from './middleware/cors';
 import { logger } from './utils/logger';
+import connectDB from './config/database';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -28,25 +27,18 @@ app.use('/api/newsletter', newsletterRoutes);
 // Error handling
 app.use(errorHandler);
 
-// MongoDB connection with retry logic
-const connectDB = async () => {
-  try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/sapphire-lounge';
-    await mongoose.connect(mongoURI);
-    logger.info('MongoDB connected successfully');
-  } catch (error) {
-    logger.error('MongoDB connection error:', error);
-    process.exit(1);
-  }
-};
+// Connect to MongoDB
+connectDB().catch((error) => {
+  logger.error('Failed to connect to MongoDB:', error);
+});
 
-// Start server only after DB connection
-connectDB().then(() => {
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`);
-    logger.info(`API available at http://localhost:${PORT}/api`);
   });
-}).catch((error) => {
-  logger.error('Failed to start server:', error);
-  process.exit(1);
-});
+}
+
+// Export for Vercel
+export default app;
