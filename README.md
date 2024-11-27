@@ -1,34 +1,34 @@
 # 🌟 Sapphire Lounge Digital Platform
 
-A modern digital menu and ordering system for a premium shisha lounge, built with React, TypeScript, and Tailwind CSS.
+A premium shisha lounge website featuring an elegant dark theme, interactive reservations, and a loyalty program. Built with React, TypeScript, and Tailwind CSS.
 
 ## ✨ Features
 
-- 📱 Mobile-first responsive design
-- 🌙 Dark theme with gradient accents
-- 🛒 Interactive menu and ordering system
-- 🎯 Real-time order management
-- 💳 Loyalty program integration
-- 📅 Table reservation system
-- 📨 Newsletter subscription
-- 🎉 Events showcase
-- 📸 Gallery display
+- 🎨 Premium dark-themed design with gradient accents
+- 📱 Fully responsive layout for all devices
+- 🛎️ Interactive table reservation system
+- 💎 Three-tier loyalty program
+- 🍽️ Digital menu showcase
+- 📖 Engaging about us section
+- ✨ Smooth animations and transitions
+- 🎯 User-friendly navigation
 
 ## 🚀 Tech Stack
 
-- **Frontend:**
+- **Frontend Framework:**
   - React 18
   - TypeScript
+  - Vite
+
+- **Styling & UI:**
   - Tailwind CSS
   - Framer Motion
-  - React Hook Form
-  - Zod Validation
+  - Lucide React Icons
 
-- **Backend:**
-  - Node.js
-  - Express
-  - MongoDB Atlas
-  - TypeScript
+- **Development Tools:**
+  - ESLint
+  - PostCSS
+  - Git & GitHub
 
 ## 🛠️ Installation
 
@@ -40,99 +40,103 @@ A modern digital menu and ordering system for a premium shisha lounge, built wit
 
 2. **Install dependencies:**
    ```bash
-   # Install frontend dependencies
-   npm install
-
-   # Install backend dependencies
-   cd server
    npm install
    ```
 
-3. **Environment Setup:**
-   Create `.env` files in both root and server directories:
-
-   Root `.env`:
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
-
-   Server `.env`:
-   ```env
-   PORT=5000
-   MONGODB_URI=your_mongodb_atlas_uri
-   EMAIL_SERVICE=your_email_service
-   EMAIL_USER=your_email
-   EMAIL_PASS=your_email_password
-   ```
-
-## 🎮 Development
-
-1. **Start the development server:**
+3. **Start the development server:**
    ```bash
-   # Start frontend (from root directory)
-   npm run dev
-
-   # Start backend (from server directory)
    npm run dev
    ```
 
-2. **Access the application:**
-   - Frontend: http://localhost:5173
-   - Backend: http://localhost:5000
+4. **Access the application:**
+   - Open http://localhost:5173 in your browser
 
-## 🎨 Features in Detail
-
-### Menu System
-- Interactive digital menu
-- Real-time order management
-- Smooth animations
-- Category filtering
-
-### Loyalty Program
-- Three-tier system (Silver, Gold, Platinum)
-- Progressive rewards
-- Member benefits tracking
+## 🎨 Key Components
 
 ### Reservation System
-- Table booking
-- Time slot management
-- Email confirmations
+- Interactive booking interface
+- Table type selection
+- Guest count management
+- Animated success confirmation
+- Date and time selection
 
-### Events & Gallery
-- Featured events showcase
-- Photo gallery
-- Special offers display
+### Loyalty Program
+- Three premium tiers:
+  - Silver Membership
+  - Gold Membership
+  - Platinum Membership
+- Subscription management
+- Member benefits display
+- Interactive pricing cards
 
-## 📱 Mobile Responsiveness
+### Menu Showcase
+- Categorized menu items
+- Visual presentation
+- Detailed descriptions
+- Price display
 
-The application is designed with a mobile-first approach, ensuring optimal display across:
-- 📱 Mobile phones
+### About Section
+- Company story
+- Shisha culture information
+- Health-conscious approach
+- Premium experience details
+
+## 📱 Responsive Design
+
+The application features a responsive design that adapts to:
+- 📱 Mobile devices
 - 📱 Tablets
 - 💻 Laptops
-- 🖥️ Desktop monitors
+- 🖥️ Desktop screens
 
-## 🔐 Security
+## 🎯 Current Status
 
-- Form validation
-- Data sanitization
-- Secure API endpoints
-- Environment variable protection
+The project is currently in a development phase with:
+- ✅ Complete frontend implementation
+- ✅ Interactive UI components
+- ✅ Responsive design
+- ✅ Animation integration
+- 🔄 Pending backend integration for:
+  - User authentication
+  - Reservation processing
+  - Payment processing
+  - Email notifications
 
 ## 🚀 Deployment
 
-The application is deployed using:
-- Frontend: Vercel
-- Backend: Your preferred hosting
-- Database: MongoDB Atlas
+The application is deployed on:
+- **Platform:** Vercel
+- **Branch:** payment-integration
+- **Status:** Frontend preview
+
+## 📝 Project Structure
+
+```
+sapphire-lounge/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Page components
+│   ├── services/      # Service layer
+│   ├── types/         # TypeScript types
+│   └── hooks/         # Custom React hooks
+├── public/            # Static assets
+└── config/           # Configuration files
+```
+
+## 🔜 Future Enhancements
+
+Planned future improvements include:
+1. Backend API integration
+2. User authentication system
+3. Real payment processing
+4. Email notification system
+5. Reservation management system
+6. Admin dashboard
+
+## 📧 Contact
+
+For inquiries about this project, please contact the repository owners.
 
 ## 📝 License
 
 This project is proprietary and confidential.
-
-## 🤝 Contributing
-
-For contribution guidelines, please contact the repository owners.
-
-## 📧 Support
-
-For support, please email [support email].
