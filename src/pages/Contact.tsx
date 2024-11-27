@@ -5,18 +5,30 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Create custom marker icon
-const customIcon = new L.Icon({
-  iconUrl: '/images/marker-icon.svg',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
+// Fix Leaflet default icon issue
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
 });
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 // Sapphire Lounge coordinates (Green Dragon Lane, Swansea)
 const position: [number, number] = [51.6196, -3.9405];
 
 function Contact() {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -49,7 +61,7 @@ function Contact() {
                   type="text"
                   id="name"
                   className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  required
+                  placeholder="Your name"
                 />
               </div>
               <div>
@@ -58,7 +70,7 @@ function Contact() {
                   type="email"
                   id="email"
                   className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  required
+                  placeholder="your.email@example.com"
                 />
               </div>
               <div>
@@ -67,27 +79,15 @@ function Contact() {
                   id="message"
                   rows={4}
                   className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  required
+                  placeholder="Your message..."
                 ></textarea>
               </div>
-              <div className="space-y-12">
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"
-                >
-                  Send Message
-                </button>
-                <div className="flex justify-center">
-                  <motion.img
-                    src="/images/logo/Sapphire Lounge Circle Logo.png"
-                    alt="Sapphire Lounge Logo"
-                    className="w-32 h-32"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </div>
-              </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-primary-300 to-accent-400 text-dark-300 font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+              >
+                Send Message
+              </button>
             </form>
           </motion.div>
 
@@ -97,53 +97,52 @@ function Contact() {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-8"
           >
-            {/* Info Cards */}
-            <motion.div className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20">
-              <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Get in Touch</h3>
+            {/* Contact Details */}
+            <div className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20 mb-8">
+              <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                Contact Details
+              </h2>
               <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 text-primary-300 mt-1" />
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Visit Us</h3>
-                    <p className="text-gray-400">Wind Street, Swansea, Wales</p>
-                  </div>
+                <div className="flex items-center space-x-3">
+                  <Phone className="text-primary-300 w-5 h-5" />
+                  <span>+44 1234 567890</span>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Phone className="w-5 h-5 text-primary-300 mt-1" />
-                  <div>
-                    <h3 className="font-medium text-primary-300">Phone</h3>
-                    <p className="text-gray-400">01792 555988</p>
-                  </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="text-primary-300 w-5 h-5" />
+                  <span>info@sapphirelounge.com</span>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Clock className="w-5 h-5 text-primary-300 mt-1" />
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Opening Hours</h3>
-                    <p className="text-gray-400">Tuesday - Sunday: 5:00 PM - 2:00 AM</p>
-                  </div>
+                <div className="flex items-center space-x-3">
+                  <MapPin className="text-primary-300 w-5 h-5" />
+                  <span>Green Dragon Lane, Swansea</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Clock className="text-primary-300 w-5 h-5" />
+                  <span>Mon-Sun: 12:00 PM - 12:00 AM</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Map */}
-            <motion.div className="h-[300px] rounded-lg overflow-hidden border border-accent-700/20">
-              <MapContainer
-                center={position}
-                zoom={15}
-                style={{ height: '100%', width: '100%' }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <Marker position={position} icon={customIcon}>
-                  <Popup>
-                    Sapphire Lounge<br />
-                    Green Dragon Lane, Swansea
-                  </Popup>
-                </Marker>
-              </MapContainer>
-            </motion.div>
+            {isMounted && (
+              <motion.div className="h-[300px] rounded-lg overflow-hidden border border-accent-700/20">
+                <MapContainer
+                  center={position}
+                  zoom={15}
+                  style={{ height: '100%', width: '100%' }}
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  />
+                  <Marker position={position}>
+                    <Popup>
+                      Sapphire Lounge<br />
+                      Green Dragon Lane, Swansea
+                    </Popup>
+                  </Marker>
+                </MapContainer>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>

@@ -3,6 +3,11 @@ import { motion } from 'framer-motion';
 import { Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+interface SpecialOffersProps {
+  titleClassName?: string;
+  buttonClassName?: string;
+}
+
 const specialOffers = [
   {
     id: 1,
@@ -30,11 +35,11 @@ const specialOffers = [
   }
 ];
 
-function SpecialOffers() {
+function SpecialOffers({ titleClassName, buttonClassName }: SpecialOffersProps) {
   return (
     <section className="py-8 bg-[#020B18]">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
+        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Special Offers
         </h2>
         <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto text-sm">
@@ -69,7 +74,7 @@ function SpecialOffers() {
                 </div>
                 <Link
                   to="/reservations"
-                  className="block w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm text-center"
+                  className={`block w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm text-center ${buttonClassName}`}
                 >
                   Book Now
                 </Link>

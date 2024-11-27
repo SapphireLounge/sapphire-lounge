@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Star, Users, Clock, Scroll } from 'lucide-react';
+import { Calendar, Star, Users, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
 import SpecialOffers from '../components/SpecialOffers';
@@ -15,7 +15,7 @@ function Home() {
     <div className="relative">
       {/* Hero Section */}
       <div 
-        className="h-[65vh] relative bg-cover bg-center"
+        className="h-[55vh] relative bg-cover bg-center flex items-center justify-center pt-16"
         style={{
           backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url("https://images.unsplash.com/photo-1542332213-31f87348057f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")'
         }}
@@ -23,31 +23,30 @@ function Home() {
         aria-label="Luxurious lounge interior with ambient lighting"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent-900" />
-        <div className="container mx-auto px-4 h-full flex flex-col items-center justify-center relative z-10">
+        <div className="container mx-auto px-8 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-2xl text-center"
+            className="max-w-2xl mx-auto text-center mt-6"
           >
-            <div className="flex flex-col items-center mb-4">
+            <div className="flex flex-col items-center mb-6">
               <img 
                 src="/images/logo/Sapphire Lounge Circle Logo.png" 
                 alt="Sapphire Lounge" 
-                className="w-28 h-28 mb-3 object-contain"
+                className="w-24 h-24 mb-4 object-contain"
               />
-              <h1 className="text-5xl md:text-6xl font-bold mb-1.5 text-white">
+              <h1 className="text-5xl md:text-6xl font-bold mb-0 text-white">
                 Sapphire Lounge
               </h1>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 uppercase tracking-wider">
+            <h2 className="text-2xl md:text-3xl font-semibold -mt-3 mb-0.5 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 uppercase tracking-wider">
               Premium Shisha Experience
             </h2>
-            <p className="text-lg mb-3 text-gray-200">
-              Experience the finest flavours in an atmosphere of luxury and comfort. 
-              Your journey to exceptional relaxation begins here.
+            <p className="text-sm mt-0.5 mb-4 text-gray-200 max-w-3xl mx-auto whitespace-nowrap overflow-hidden">
+              Experience the finest flavours in an atmosphere of luxury and comfort. Your journey to exceptional relaxation begins here.
             </p>
-            <div className="flex gap-6 justify-center items-center">
+            <div className="flex gap-8 justify-center items-center mb-4">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -78,7 +77,7 @@ function Home() {
       </div>
 
       {/* Features Section */}
-      <div className="bg-black container mx-auto px-4 py-12">
+      <div className="bg-black container mx-auto px-8 py-6">
         <div className="grid grid-cols-4 gap-3 max-w-6xl mx-auto">
           <motion.article
             whileHover={{ y: -5 }}

@@ -2,7 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar } from 'lucide-react';
 
-function FeaturedEvents() {
+interface FeaturedEventsProps {
+  titleClassName?: string;
+  buttonClassName?: string;
+}
+
+function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps) {
   const events = [
     {
       id: 1,
@@ -30,7 +35,7 @@ function FeaturedEvents() {
   return (
     <section className="py-8 bg-[#020B18]">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
+        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Upcoming Events
         </h2>
         <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto text-sm">
@@ -66,7 +71,7 @@ function FeaturedEvents() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm"
+                  className={`w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm ${buttonClassName}`}
                 >
                   RSVP Now
                 </motion.button>
