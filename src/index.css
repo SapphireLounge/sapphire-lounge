@@ -3,8 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  html {
+    @apply min-h-screen;
+    background: theme('colors.dark.300');
+  }
+  
   body {
-    @apply bg-dark-300 text-gray-100;
+    @apply bg-dark-300 text-gray-100 min-h-screen;
     scrollbar-width: thin;
     scrollbar-color: theme('colors.accent.700') theme('colors.dark.300');
   }
@@ -18,11 +27,13 @@
   .glass-effect {
     @apply bg-dark-100/40 backdrop-blur-lg border border-accent-700/20;
     -moz-backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400;
     -moz-background-clip: text;
+    -webkit-background-clip: text;
   }
 
   .gradient-border {
@@ -36,18 +47,50 @@
 
 /* Firefox-specific fixes */
 @-moz-document url-prefix() {
+  * {
+    outline: none !important;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
   .glass-effect {
-    background-color: rgba(18, 18, 18, 0.9);
+    background-color: rgba(18, 18, 18, 0.95);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   }
   
   .flex {
     min-height: 0;
     min-width: 0;
+    display: -moz-box;
+    display: flex;
   }
 
   .grid {
     min-height: 0;
     min-width: 0;
+    display: -moz-grid;
+    display: grid;
+  }
+
+  /* Force hardware acceleration */
+  .animate-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Fix for sticky positioning */
+  .sticky {
+    position: -moz-sticky;
+    position: sticky;
+  }
+
+  /* Better text rendering */
+  * {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
