@@ -12,6 +12,19 @@ interface OrderNotepadProps {
   className?: string;
 }
 
+interface AddToNotepadEvent extends CustomEvent {
+  detail: {
+    name: string;
+    price: string;
+  };
+}
+
+declare global {
+  interface WindowEventMap {
+    'addToNotepad': AddToNotepadEvent;
+  }
+}
+
 export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) => {
   const [orders, setOrders] = useState<OrderItem[]>(() => {
     const saved = localStorage.getItem('orderNotepad');
@@ -23,7 +36,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   }, [orders]);
 
   useEffect(() => {
-    const handleAddItem = (event: CustomEvent<{ name: string; price: string }>) => {
+    const handleAddItem = (event: AddToNotepadEvent) => {
       const { name, price } = event.detail;
       const existingItem = orders.find(item => item.name === name);
       if (existingItem) {
@@ -37,8 +50,8 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
       }
     };
 
-    window.addEventListener('addToNotepad' as any, handleAddItem);
-    return () => window.removeEventListener('addToNotepad' as any, handleAddItem);
+    window.addEventListener('addToNotepad', handleAddItem as EventListener);
+    return () => window.removeEventListener('addToNotepad', handleAddItem as EventListener);
   }, [orders]);
 
   const removeItem = (index: number) => {
@@ -91,15 +104,14 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
         <p className="text-neutral-500 text-sm text-center py-2">Click items from the menu to add them here</p>
       ) : (
         <div className="flex flex-col">
-          <AnimatePresence initial={false} mode="wait">
+          <AnimatePresence>
             {orders.map((order, index) => (
               <motion.div
-                key={`${order.name}-${index}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.1 }}
-                style={{ position: 'relative' }}
+                key={order.name}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
                 className="flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0"
               >
                 <span className="flex-1 text-primary-100">{order.name}</span>

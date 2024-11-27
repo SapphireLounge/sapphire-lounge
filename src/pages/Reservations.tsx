@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import { reservationSchema, type ReservationFormData } from '@/lib/validations';
 import { handleFormSubmission } from '@/lib/form-handler';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import ReservationSuccess from '../components/ReservationSuccess';
 
 function Reservations() {
   const {
@@ -63,9 +64,32 @@ function Reservations() {
   ];
 
   const tableOptions = [
-    { id: 'regular', name: 'Regular Seating' },
-    { id: 'booth', name: 'Booth' }
+    { id: 'regular', name: 'Regular Seating', displayName: 'Regular Seating' },
+    { id: 'booth', name: 'Booth', displayName: 'Booth Seating' }
   ];
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [guests, setGuests] = useState<number>(2);
+  const [tableType, setTableType] = useState<string>('Regular Seating');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const handleTimeChange = (time: string) => {
+    setSelectedTime(time);
+  };
+
+  const handleGuestsChange = (guests: number) => {
+    setGuests(guests);
+  };
+
+  const handleTableTypeChange = (tableType: string) => {
+    const selectedOption = tableOptions.find(option => option.id === tableType);
+    setTableType(selectedOption?.displayName || 'Regular Seating');
+  };
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
@@ -145,6 +169,7 @@ function Reservations() {
                     min={format(new Date(), 'yyyy-MM-dd')}
                     max={format(addDays(new Date(), 30), 'yyyy-MM-dd')}
                     className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                    onChange={(e) => handleDateChange(new Date(e.target.value))}
                   />
                   {errors.date && (
                     <p className="text-red-400 text-xs">{errors.date.message}</p>
@@ -160,6 +185,7 @@ function Reservations() {
                   <select
                     {...register('time')}
                     className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none"
+                    onChange={(e) => handleTimeChange(e.target.value)}
                   >
                     <option value="">Select time</option>
                     {timeSlots.map((time) => (
@@ -183,6 +209,7 @@ function Reservations() {
                     min="1"
                     max="8"
                     className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                    onChange={(e) => handleGuestsChange(parseInt(e.target.value))}
                   />
                   {errors.guests && (
                     <p className="text-red-400 text-xs">{errors.guests.message}</p>
@@ -196,6 +223,7 @@ function Reservations() {
                 <select
                   {...register('tablePreference')}
                   className="w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                  onChange={(e) => handleTableTypeChange(e.target.value)}
                 >
                   <option value="">Select preference</option>
                   {tableOptions.map((option) => (
@@ -223,7 +251,13 @@ function Reservations() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-1/2 px-3 py-1.5 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-1/2 bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (selectedDate && selectedTime) {
+                    setShowSuccess(true);
+                  }
+                }}
               >
                 {isSubmitting ? <LoadingSpinner /> : 'Book Now'}
               </button>
@@ -245,6 +279,18 @@ function Reservations() {
           />
         </motion.div>
       </div>
+      {showSuccess && selectedDate && selectedTime && (
+        <ReservationSuccess
+          isOpen={true}
+          onClose={() => setShowSuccess(false)}
+          reservationDetails={{
+            date: format(selectedDate, 'EEEE, MMMM do, yyyy'),
+            time: selectedTime,
+            guests: guests,
+            tableType: tableType
+          }}
+        />
+      )}
     </div>
   );
 }

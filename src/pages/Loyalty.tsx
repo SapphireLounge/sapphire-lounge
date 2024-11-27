@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Gift, Award, Zap, Check } from 'lucide-react';
+import { usePayment } from '../hooks/usePayment';
+import SubscriptionSuccess from '../components/SubscriptionSuccess';
 
-function Loyalty() {
-  const tiers = [
+interface TierBenefit {
+  level: string;
+  price: number;
+  iconClass: string;
+  benefits: string[];
+}
+
+const Loyalty: React.FC = () => {
+  const { processPayment, isProcessing, error } = usePayment();
+  const [successTier, setSuccessTier] = useState<{ level: string; iconClass: string } | null>(null);
+
+  const tiers: TierBenefit[] = [
     {
       level: 'Silver',
-      price: '£10',
+      price: 1000, // £10.00
       iconClass: 'from-gray-500 to-gray-300',
       benefits: [
         '10% off the total bill',
@@ -17,7 +29,7 @@ function Loyalty() {
     },
     {
       level: 'Gold',
-      price: '£20',
+      price: 2000, // £20.00
       iconClass: 'from-yellow-600 to-yellow-400',
       benefits: [
         '20% off the total bill',
@@ -32,7 +44,7 @@ function Loyalty() {
     },
     {
       level: 'Sapphire',
-      price: '£30',
+      price: 3000, // £30.00
       iconClass: 'from-blue-600 to-blue-400',
       benefits: [
         '30% off the total bill',
@@ -80,16 +92,14 @@ function Loyalty() {
                     tier.level === 'Gold' ? 'ring-yellow-500' : 
                     'ring-blue-500'
                   }`}>
-                    <Crown className={`w-6 h-6 ${
-                      tier.level === 'Silver' ? 'text-white' : 
-                      tier.level === 'Gold' ? 'text-white' : 
-                      'text-white'
-                    }`} />
+                    {tier.level === 'Silver' && <Award className="w-6 h-6 text-white" />}
+                    {tier.level === 'Gold' && <Crown className="w-6 h-6 text-white" />}
+                    {tier.level === 'Sapphire' && <Zap className="w-6 h-6 text-white" />}
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white">{tier.level}</h3>
                     <div className="flex items-baseline">
-                      <span className="text-xl font-bold text-primary-400">{tier.price}</span>
+                      <span className="text-xl font-bold text-primary-400">£{(tier.price / 100).toFixed(2)}</span>
                       <span className="text-gray-400 text-sm ml-1">per month</span>
                     </div>
                   </div>
@@ -104,13 +114,29 @@ function Loyalty() {
                   ))}
                 </ul>
               </div>
+
               <div className="mt-auto pt-4">
                 <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-colors"
+                  className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg disabled:opacity-50"
+                  onClick={async () => {
+                    const result = await processPayment(tier.price);
+                    if (result.success) {
+                      console.log(`Payment successful for ${tier.level}. Transaction ID: ${result.transactionId}`);
+                      setSuccessTier({
+                        level: tier.level,
+                        iconClass: tier.iconClass
+                      });
+                    }
+                  }}
+                  disabled={isProcessing}
                 >
-                  Subscribe Now
+                  {isProcessing ? 'Processing...' : 'Subscribe Now'}
                 </button>
+                {error && (
+                  <div className="mt-2 text-red-500 text-sm">
+                    {error}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -182,8 +208,15 @@ function Loyalty() {
           </motion.div>
         </div>
       </div>
+      {successTier && (
+        <SubscriptionSuccess
+          isOpen={true}
+          onClose={() => setSuccessTier(null)}
+          tier={successTier}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default Loyalty;
