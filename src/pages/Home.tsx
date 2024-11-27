@@ -8,6 +8,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { BackToTop } from '../components/ui/BackToTop';
 import { Newsletter } from '../components/Newsletter';
+import Testimonials from '../components/Testimonials';
 
 function Home() {
   return (
@@ -46,19 +47,31 @@ function Home() {
               Experience the finest flavours in an atmosphere of luxury and comfort. 
               Your journey to exceptional relaxation begins here.
             </p>
-            <div className="flex gap-3 justify-center">
-              <Link 
-                to="/reservations"
-                className="bg-gradient-to-r from-primary-300 to-accent-400 text-white px-6 py-2.5 rounded-full font-semibold hover:from-primary-400 hover:to-accent-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
+            <div className="flex gap-6 justify-center items-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                Book Now
-              </Link>
-              <Link
-                to="/menu"
-                className="bg-dark-800/50 backdrop-blur-sm border border-primary-300/20 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-dark-700/50 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
+                <Link 
+                  to="/reservations"
+                  className="inline-flex px-6 py-3 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-colors"
+                >
+                  Book Now
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                View Menu
-              </Link>
+                <Link
+                  to="/menu"
+                  className="inline-flex px-6 py-3 bg-dark-800/50 backdrop-blur-sm border border-primary-400/20 text-white rounded-lg font-medium hover:bg-dark-700/50 hover:border-primary-400/40 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-all duration-300"
+                >
+                  View Menu
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -101,8 +114,8 @@ function Home() {
               <div className="flex justify-center">
                 <Clock className="w-8 h-8 text-primary-300 mb-2" />
               </div>
-              <h3 className="text-base font-bold text-white mb-1">Extended Hours</h3>
-              <p className="text-gray-200 text-xs">Open late for your comfort.</p>
+              <h3 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1">Extended Hours</h3>
+              <p className="text-gray-200 text-xs">Open late for your convenience.</p>
             </div>
           </motion.article>
 
@@ -112,14 +125,17 @@ function Home() {
           >
             <div className="p-3 text-center">
               <div className="flex justify-center">
-                <Scroll className="w-8 h-8 text-primary-300 mb-2" />
+                <Star className="w-8 h-8 text-primary-300 mb-2" />
               </div>
-              <h3 className="text-base font-bold text-white mb-1">Menu Choice</h3>
-              <p className="text-gray-200 text-xs">Signature flavours & blends.</p>
+              <h3 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1">Menu Choice</h3>
+              <p className="text-gray-200 text-xs">Premium flavours & blends.</p>
             </div>
           </motion.article>
         </div>
       </div>
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* Featured Events */}
       <ErrorBoundary>

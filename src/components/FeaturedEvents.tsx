@@ -7,21 +7,21 @@ function FeaturedEvents() {
     {
       id: 1,
       title: "Flavour Tasting Night",
-      date: "March 15, 2024",
+      date: "December 15, 2023",
       image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
       description: "Join us for an exclusive tasting of our newest premium flavours."
     },
     {
       id: 2,
       title: "DJ Night",
-      date: "March 16, 2024",
+      date: "December 16, 2023",
       image: "/images/events/DJ Night.jpg",
       description: "Experience the perfect blend of music and atmosphere with our resident DJ."
     },
     {
       id: 3,
       title: "Student Night",
-      date: "March 20, 2024",
+      date: "December 20, 2023",
       image: "/images/events/Student Night.avif",
       description: "Special discounts and offers for students. Valid student ID required."
     }

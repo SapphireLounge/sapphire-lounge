@@ -68,10 +68,8 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900"
+    <div 
+      className={`bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 ${className}`}
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -92,22 +90,17 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
       {orders.length === 0 ? (
         <p className="text-neutral-500 text-sm text-center py-2">Click items from the menu to add them here</p>
       ) : (
-        <div className="space-y-3">
-          <AnimatePresence initial={false}>
+        <div className="flex flex-col">
+          <AnimatePresence initial={false} mode="wait">
             {orders.map((order, index) => (
               <motion.div
-                key={order.name + index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ 
-                  opacity: 0,
-                  x: 75,
-                  transition: {
-                    duration: 0.2,
-                    ease: "easeOut"
-                  }
-                }}
-                className="flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800"
+                key={`${order.name}-${index}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.1 }}
+                style={{ position: 'relative' }}
+                className="flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0"
               >
                 <span className="flex-1 text-primary-100">{order.name}</span>
                 <div className="flex items-center gap-2 bg-neutral-800 rounded-md px-1">
@@ -145,7 +138,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
           </div>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

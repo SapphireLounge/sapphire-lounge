@@ -20,6 +20,14 @@ const Navbar = () => {
               Home
             </NavLink>
             <NavLink 
+              to="/about" 
+              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              About Us
+            </NavLink>
+            <NavLink 
               to="/menu" 
               className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
@@ -83,6 +91,15 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Home
+            </NavLink>
+            <NavLink 
+              to="/about" 
+              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
+                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              About Us
             </NavLink>
             <NavLink 
               to="/menu" 

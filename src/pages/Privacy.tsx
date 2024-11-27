@@ -11,7 +11,7 @@ function Privacy() {
           transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Privacy Policy</h1>
+          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1">Privacy Policy</h1>
 
           <div className="space-y-6 text-gray-300">
             <section className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20">

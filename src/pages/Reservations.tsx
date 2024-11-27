@@ -77,8 +77,8 @@ function Reservations() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Make a Reservation</h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Make a Reservation</h1>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
             Reserve your perfect spot at Sapphire Shisha Lounge. For parties larger than 8,
             please contact us directly.
           </p>
@@ -223,7 +223,7 @@ function Reservations() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-primary-300 to-accent-400 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-400 hover:to-accent-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-1/2 px-3 py-1.5 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? <LoadingSpinner /> : 'Book Now'}
               </button>

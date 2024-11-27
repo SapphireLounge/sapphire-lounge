@@ -26,8 +26,8 @@ function Contact() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Contact Us</h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Contact Us</h1>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
             Get in touch with us for bookings, inquiries, or any questions you may have
           </p>
         </motion.div>

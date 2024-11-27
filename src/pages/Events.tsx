@@ -7,7 +7,7 @@ function Events() {
     {
       id: 1,
       title: "Flavour Tasting Night",
-      date: "March 15, 2024",
+      date: "December 15, 2023",
       time: "7 PM - 10 PM",
       image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
       description: "Join us for an exclusive tasting of our newest premium flavours."
@@ -15,7 +15,7 @@ function Events() {
     {
       id: 2,
       title: "DJ Night",
-      date: "March 16, 2024",
+      date: "December 16, 2023",
       time: "8 PM - 2 AM",
       image: "/images/events/DJ Night.jpg",
       description: "Experience the perfect blend of music and atmosphere with our resident DJ."
@@ -23,7 +23,7 @@ function Events() {
     {
       id: 3,
       title: "Student Night",
-      date: "March 20, 2024",
+      date: "December 20, 2023",
       time: "6 PM - 11 PM",
       image: "/images/events/Student Night.avif",
       description: "Special discounts and offers for students. Valid student ID required."
@@ -38,7 +38,7 @@ function Events() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Upcoming Events</h1>
+          <h1 className="text-4xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1">Upcoming Events</h1>
           <p className="text-gray-300 max-w-2xl mx-auto">
             Join us for specially curated events, designed to enhance your Sapphire Lounge experience
           </p>
@@ -54,7 +54,7 @@ function Events() {
               whileHover={{ y: -10 }}
               className="bg-dark-500/50 backdrop-blur-sm rounded-xl overflow-hidden border border-accent-700/20 shadow-xl"
             >
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-72 overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.4 }}
@@ -63,16 +63,16 @@ function Events() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="flex items-center text-primary-300 mb-2">
+                <div className="absolute bottom-0 left-0 right-0 p-4 pb-2">
+                  <h3 className="text-xl font-bold text-white mb-1">{event.title}</h3>
+                  <p className="text-gray-200 text-sm mb-2">{event.description}</p>
+                  <div className="flex items-center text-primary-300">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span className="text-sm font-medium">{event.date} • {event.time}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-1">{event.title}</h3>
-                  <p className="text-gray-200 text-sm">{event.description}</p>
                 </div>
               </div>
-              <div className="p-4">
+              <div className="p-4 pt-2">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}

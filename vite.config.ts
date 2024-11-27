@@ -14,8 +14,6 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    host: true, // Listen on all addresses
-    strictPort: true, // Don't try other ports if 5173 is taken
     open: true,
     proxy: {
       '/api': {

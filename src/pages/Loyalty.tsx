@@ -7,36 +7,43 @@ function Loyalty() {
     {
       level: 'Silver',
       price: '£10',
+      iconClass: 'from-gray-500 to-gray-300',
       benefits: [
-        '10% off all menu items',
-        'One free shisha per month',
-        'Priority seating',
-        'Access to exclusive events'
+        '10% off the total bill',
+        'One free drink per month',
+        'Free dessert in birthday month',
+        'Half price on one Standard shisha per month'
       ]
     },
     {
       level: 'Gold',
-      price: '£15',
+      price: '£20',
+      iconClass: 'from-yellow-600 to-yellow-400',
       benefits: [
-        '15% off all menu items',
-        'Two free shishas per month',
+        '20% off the total bill',
         'Priority reservations',
         'VIP seating when available',
         'Exclusive flavour access',
-        'Access to exclusive events'
+        'Half price entry to exclusive events',
+        'One free drink per month',
+        'Birthday Package: Free shisha & dessert',
+        'Half price on one Premium shisha per month'
       ]
     },
     {
-      level: 'Platinum',
-      price: '£20',
+      level: 'Sapphire',
+      price: '£30',
+      iconClass: 'from-blue-600 to-blue-400',
       benefits: [
-        '20% off all menu items',
-        'Three free shishas per month',
+        '30% off the total bill',
         'Guaranteed VIP seating',
         'Skip-the-queue privilege',
         'Exclusive flavours & premium lines',
-        'Access to exclusive events',
-        'Bring a friend for free (once per month)'
+        'Half price entry to exclusive events',
+        'Bring a friend for free (once per month)',
+        'One free drink per month',
+        'Birthday Package: Free shisha & dessert',
+        'Half price on two Premium shishas per month'
       ]
     }
   ];
@@ -49,8 +56,10 @@ function Loyalty() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-14"
         >
-          <h1 className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Loyalty Program</h1>
-          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1">
+            Loyalty Scheme
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto text-base mb-2">
             Join our exclusive membership scheme and enjoy premium benefits every month
           </p>
         </motion.div>
@@ -66,8 +75,16 @@ function Loyalty() {
             >
               <div>
                 <div className="flex items-center space-x-4 mb-3">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20">
-                    <Crown className="w-6 h-6 text-primary-400" />
+                  <div className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br ${tier.iconClass} shadow-lg ring-2 ring-opacity-50 ${
+                    tier.level === 'Silver' ? 'ring-gray-400' : 
+                    tier.level === 'Gold' ? 'ring-yellow-500' : 
+                    'ring-blue-500'
+                  }`}>
+                    <Crown className={`w-6 h-6 ${
+                      tier.level === 'Silver' ? 'text-white' : 
+                      tier.level === 'Gold' ? 'text-white' : 
+                      'text-white'
+                    }`} />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white">{tier.level}</h3>
@@ -90,7 +107,7 @@ function Loyalty() {
               <div className="mt-auto pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-primary-300 to-accent-400 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-400 hover:to-accent-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-300"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-colors"
                 >
                   Subscribe Now
                 </button>
