@@ -5,6 +5,8 @@
 @layer base {
   body {
     @apply bg-dark-300 text-gray-100;
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.accent.700') theme('colors.dark.300');
   }
 }
 
@@ -15,10 +17,12 @@
 
   .glass-effect {
     @apply bg-dark-100/40 backdrop-blur-lg border border-accent-700/20;
+    -moz-backdrop-filter: blur(16px);
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400;
+    -moz-background-clip: text;
   }
 
   .gradient-border {
@@ -30,7 +34,24 @@
   }
 }
 
-/* Custom scrollbar */
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  .glass-effect {
+    background-color: rgba(18, 18, 18, 0.9);
+  }
+  
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .grid {
+    min-height: 0;
+    min-width: 0;
+  }
+}
+
+/* Custom scrollbar - Webkit browsers */
 ::-webkit-scrollbar {
   width: 8px;
 }
