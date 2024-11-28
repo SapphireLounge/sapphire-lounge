@@ -19,8 +19,8 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// Sapphire Lounge coordinates (Green Dragon Lane, Swansea)
-const position: [number, number] = [51.6196, -3.9405];
+// Sapphire Lounge coordinates (Wind Street, Swansea)
+const position: [number, number] = [51.6184, -3.9432];
 
 function Contact() {
   const [isMounted, setIsMounted] = React.useState(false);
