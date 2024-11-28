@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Gift, Award, Zap, Check } from 'lucide-react';
+import { Crown, Gift, Award, Zap, Check, Loader2 } from 'lucide-react';
 import { usePayment } from '../hooks/usePayment';
 import SubscriptionSuccess from '../components/SubscriptionSuccess';
 
@@ -12,7 +12,9 @@ interface TierBenefit {
 }
 
 const Loyalty: React.FC = () => {
-  const { processPayment, isProcessing, error } = usePayment();
+  const { processPayment, error } = usePayment();
+  const [processingTier, setProcessingTier] = useState<string | null>(null);
+  const [errorTier, setErrorTier] = useState<string | null>(null);
   const [successTier, setSuccessTier] = useState<{ level: string; iconClass: string } | null>(null);
 
   const tiers: TierBenefit[] = [
@@ -59,6 +61,18 @@ const Loyalty: React.FC = () => {
       ]
     }
   ];
+
+  const handleSubscription = async (tier: TierBenefit) => {
+    setProcessingTier(tier.level);
+    setErrorTier(null);
+    const result = await processPayment(tier.price);
+    if (result.success) {
+      setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
+    } else {
+      setErrorTier(tier.level);
+    }
+    setProcessingTier(null);
+  };
 
   return (
     <div className="min-h-screen bg-[#020B18] pt-24 pb-12">
@@ -118,23 +132,21 @@ const Loyalty: React.FC = () => {
               <div className="mt-auto pt-4">
                 <button
                   className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg disabled:opacity-50"
-                  onClick={async () => {
-                    const result = await processPayment(tier.price);
-                    if (result.success) {
-                      console.log(`Payment successful for ${tier.level}. Transaction ID: ${result.transactionId}`);
-                      setSuccessTier({
-                        level: tier.level,
-                        iconClass: tier.iconClass
-                      });
-                    }
-                  }}
-                  disabled={isProcessing}
+                  onClick={() => handleSubscription(tier)}
+                  disabled={processingTier === tier.level}
                 >
-                  {isProcessing ? 'Processing...' : 'Subscribe Now'}
+                  {processingTier === tier.level ? (
+                    <span className="flex items-center justify-center">
+                      <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                      Processing...
+                    </span>
+                  ) : (
+                    'Subscribe Now'
+                  )}
                 </button>
-                {error && (
-                  <div className="mt-2 text-red-500 text-sm">
-                    {error}
+                {errorTier === tier.level && (
+                  <div className="mt-2 text-red-500 text-sm text-center">
+                    Payment declined. Please try again.
                   </div>
                 )}
               </div>
