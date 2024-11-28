@@ -84,7 +84,7 @@ function Contact() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary-300 to-accent-400 text-dark-300 font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                className="w-full bg-gradient-to-br from-primary-400 to-accent-400 hover:from-primary-500 hover:to-accent-500 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Send Message
               </button>
@@ -105,7 +105,7 @@ function Contact() {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Phone className="text-primary-300 w-5 h-5" />
-                  <span>+44 1234 567890</span>
+                  <span>01792 555888</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="text-primary-300 w-5 h-5" />
@@ -113,11 +113,11 @@ function Contact() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="text-primary-300 w-5 h-5" />
-                  <span>Green Dragon Lane, Swansea</span>
+                  <span>Wind Street, Swansea, Wales</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Clock className="text-primary-300 w-5 h-5" />
-                  <span>Mon-Sun: 12:00 PM - 12:00 AM</span>
+                  <span>TUE - SUN: 5:00 PM - 2:00 AM</span>
                 </div>
               </div>
             </div>
@@ -137,7 +137,7 @@ function Contact() {
                   <Marker position={position}>
                     <Popup>
                       Sapphire Lounge<br />
-                      Green Dragon Lane, Swansea
+                      Wind Street, Swansea, Wales
                     </Popup>
                   </Marker>
                 </MapContainer>
