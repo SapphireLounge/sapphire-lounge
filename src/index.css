@@ -1,15 +1,55 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './styles/button-effects.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: light) {
   :root {
-    color-scheme: dark;
+    color: #213547;
+    background-color: #ffffff;
   }
-  
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
   html {
     @apply min-h-screen;
-    background: theme('colors.dark.300');
+    background: theme('colors.dark.100');
   }
   
   body {
@@ -26,12 +66,14 @@
 
   .glass-effect {
     @apply bg-dark-100/40 backdrop-blur-lg border border-accent-700/20;
-    -moz-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    -moz-backdrop-filter: blur(16px);
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400;
+    background-clip: text;
     -moz-background-clip: text;
     -webkit-background-clip: text;
   }
@@ -48,7 +90,8 @@
 /* Firefox-specific fixes */
 @-moz-document url-prefix() {
   * {
-    outline: none !important;
+    scrollbar-width: thin;
+    scrollbar-color: #4a5568 transparent;
   }
 
   body {
@@ -91,6 +134,44 @@
   * {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Edge-specific fixes */
+@supports (-ms-ime-align: auto) {
+  /* Fix for backdrop-filter */
+  .glass-effect {
+    background-color: rgba(18, 18, 18, 0.95);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Fix for gradient text */
+  .gradient-text {
+    color: theme('colors.primary.300');
+  }
+
+  /* Fix for scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.accent.700') theme('colors.dark.300');
+  }
+
+  /* Fix for sticky positioning */
+  .sticky {
+    position: -ms-sticky;
+    position: sticky;
+  }
+
+  /* Better text rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Force hardware acceleration for animations */
+  .animate-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
 

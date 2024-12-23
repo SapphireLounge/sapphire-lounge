@@ -1,6 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'bg-gradient-to-r',
+    'from-[#833AB4]',
+    'via-[#FD1D1D]',
+    'to-[#FCAF45]',
+    'hover:from-[#6d2e96]',
+    'hover:via-[#e41818]',
+    'hover:to-[#f5a333]',
+    'border-[#E1306C]',
+    'bg-[#1877F2]',
+    'hover:bg-[#0c5dc7]',
+    'border-[#1877F2]',
+    'hover:bg-[#141414]',
+  ],
   theme: {
     extend: {
       colors: {
@@ -33,10 +47,11 @@ export default {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-out',
+        'fade-in': 'fadeIn 0.3s ease-in',
         'slide-up': 'slideUp 0.5s ease-out',
         'slide-down': 'slideDown 0.3s ease-out',
         'scale-up': 'scaleUp 0.3s ease-out',
+        'shimmer': 'shimmer 4s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -44,16 +59,23 @@ export default {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         slideDown: {
-          '0%': { transform: 'translateY(-20px)', opacity: '0' },
+          '0%': { transform: 'translateY(-100%)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         scaleUp: {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '0%': { transform: 'scale(0.8)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-150%) translateY(-150%) rotate(45deg)', opacity: '0' },
+          '10%': { opacity: '0.9' },
+          '20%': { opacity: '0.9' },
+          '30%': { transform: 'translateX(150%) translateY(150%) rotate(45deg)', opacity: '0' },
+          '100%': { transform: 'translateX(-150%) translateY(-150%) rotate(45deg)', opacity: '0' },
         },
       },
       transitionProperty: {
@@ -69,5 +91,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }

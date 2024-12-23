@@ -1,17 +1,40 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { A11yProvider } from './components/A11yAnnouncer';
+import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Reservations from './pages/Reservations';
-import Menu from './pages/Menu';
-import Events from './pages/Events';
-import Shop from './pages/Shop';
-import Loyalty from './pages/Loyalty';
-import Contact from './pages/Contact';
-import FAQ from './pages/FAQ';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
+import { Suspense, lazy, memo } from 'react';
+
+// Lazy load routes with preload hints
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Reservations = lazy(() => import('./pages/Reservations'));
+const Menu = lazy(() => import('./pages/Menu'));
+const Events = lazy(() => import('./pages/Events'));
+const Loyalty = lazy(() => import('./pages/Loyalty'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const VIPServices = lazy(() => import('./pages/VIPServices'));
+
+// Enhanced loading component with ARIA
+const LoadingSpinner = memo(() => (
+  <div 
+    className="min-h-screen flex items-center justify-center"
+    role="status"
+    aria-label="Loading content"
+  >
+    <div 
+      className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"
+      aria-hidden="true"
+    />
+  </div>
+));
+
+LoadingSpinner.displayName = 'LoadingSpinner';
 
 const router = createBrowserRouter([
   {
@@ -20,60 +43,139 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Home />
+          </Suspense>
+        )
       },
       {
         path: "/about",
-        element: <About />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <About />
+          </Suspense>
+        )
       },
       {
         path: "/reservations",
-        element: <Reservations />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Reservations />
+          </Suspense>
+        )
       },
       {
         path: "/menu",
-        element: <Menu />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Menu />
+          </Suspense>
+        )
       },
       {
         path: "/events",
-        element: <Events />
-      },
-      {
-        path: "/shop",
-        element: <Shop />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Events />
+          </Suspense>
+        )
       },
       {
         path: "/loyalty",
-        element: <Loyalty />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Loyalty />
+          </Suspense>
+        )
       },
       {
         path: "/contact",
-        element: <Contact />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Contact />
+          </Suspense>
+        )
       },
       {
         path: "/faq",
-        element: <FAQ />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <FAQ />
+          </Suspense>
+        )
       },
       {
         path: "/privacy",
-        element: <Privacy />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Privacy />
+          </Suspense>
+        )
       },
       {
         path: "/terms",
-        element: <Terms />
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Terms />
+          </Suspense>
+        )
+      },
+      {
+        path: "/vip-services",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <VIPServices />
+          </Suspense>
+        )
+      },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <NotFound />
+          </Suspense>
+        )
       }
     ]
   }
 ], {
   future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true
+    v7_normalizeFormMethod: true
   }
 });
 
+// Preload hints for routes
+const preloadRoutes = () => {
+  // Only preload routes after initial render
+  setTimeout(() => {
+    const routesToPreload = [Home, About, Menu, Contact];
+    routesToPreload.forEach(route => {
+      route.preload?.();
+    });
+  }, 2000); // Wait for 2 seconds after initial render
+};
+
 function App() {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+          console.log('Service worker registration failed:', error);
+        });
+      });
+    }
+    // Preload important routes after initial render
+    preloadRoutes();
+  }, []);
+
   return (
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <A11yProvider>
+        <JsonLd data={restaurantJsonLd} />
+        <RouterProvider router={router} />
+      </A11yProvider>
+    </HelmetProvider>
   );
 }
 

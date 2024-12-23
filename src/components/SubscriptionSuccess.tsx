@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, X, CreditCard, Gift, CalendarClock } from 'lucide-react';
 
@@ -9,9 +9,24 @@ interface SubscriptionSuccessProps {
     level: string;
     iconClass: string;
   };
+  onSuccessIconLoad?: (x: number, y: number) => void;
 }
 
-const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClose, tier }) => {
+const SuccessIcon = ({ className, onLoad }: { className?: string; onLoad?: (rect: DOMRect) => void }) => {
+  const iconRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const icon = iconRef.current;
+    if (icon && onLoad) {
+      const rect = icon.getBoundingClientRect();
+      onLoad(rect);
+    }
+  }, []); // Run only once on mount
+
+  return <CheckCircle2 ref={iconRef} className={className} />;
+};
+
+const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClose, tier, onSuccessIconLoad }) => {
   const steps = [
     {
       icon: <CreditCard className="w-5 h-5" />,
@@ -29,6 +44,10 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
       description: 'Start enjoying your benefits immediately'
     }
   ];
+
+  const handleIconLoad = useCallback((rect: DOMRect) => {
+    onSuccessIconLoad?.(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  }, [onSuccessIconLoad]);
 
   return (
     <AnimatePresence>
@@ -57,17 +76,12 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
             </button>
 
             <div className="text-center mb-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
-                className="mx-auto mb-4"
-              >
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${tier.iconClass} mx-auto flex items-center justify-center`}>
-                  <CheckCircle2 className="w-8 h-8 text-white" />
-                </div>
-              </motion.div>
-              
+              <div className="flex justify-center mb-4">
+                <SuccessIcon 
+                  className="w-16 h-16 text-green-500"
+                  onLoad={handleIconLoad}
+                />
+              </div>
               <motion.h3
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

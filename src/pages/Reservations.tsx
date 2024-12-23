@@ -5,6 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Calendar, Clock, Users } from 'lucide-react';
 import { format, addDays } from 'date-fns';
 import { Toaster } from 'react-hot-toast';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import "@/styles/datepicker.css";
 
 import { reservationSchema, type ReservationFormData } from '@/lib/validations';
 import { handleFormSubmission } from '@/lib/form-handler';
@@ -22,16 +25,36 @@ function Reservations() {
     resolver: zodResolver(reservationSchema),
   });
 
-  // Define type for saved form data
-  type SavedFormData = Pick<ReservationFormData, 'name' | 'email' | 'phone'>;
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [guests, setGuests] = useState<number>(1);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  const timeSlots = [
+    '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', 
+    '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', 
+    '23:00', '23:30', '00:00', '00:30', '01:00', '01:30'
+  ];
+
+  const guestOptions = Array.from({ length: 8 }, (_, i) => i + 1);
+
+  const occasions = [
+    "None",
+    "Birthday",
+    "Anniversary",
+    "Date Night",
+    "Business Meeting",
+    "Celebration",
+    "Other"
+  ];
 
   // Load saved form data on component mount
   useEffect(() => {
     const savedData = localStorage.getItem('reservationFormData');
     if (savedData) {
       try {
-        const parsedData = JSON.parse(savedData) as SavedFormData;
-        // Only set the fields we know are strings and saved
+        const parsedData = JSON.parse(savedData) as Pick<ReservationFormData, 'name' | 'email' | 'phone'>;
         if (parsedData.name) setValue('name', parsedData.name);
         if (parsedData.email) setValue('email', parsedData.email);
         if (parsedData.phone) setValue('phone', parsedData.phone);
@@ -53,70 +76,94 @@ function Reservations() {
 
     const result = await handleFormSubmission('reservations', data);
     if (result.success) {
+      setShowSuccess(true);
       reset();
     }
-  };
-
-  const timeSlots = [
-    '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', 
-    '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', 
-    '23:00', '23:30', '00:00', '00:30', '01:00', '01:30'
-  ];
-
-  const tableOptions = [
-    { id: 'regular', name: 'Regular Seating', displayName: 'Regular Seating' },
-    { id: 'booth', name: 'Booth', displayName: 'Booth Seating' }
-  ];
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string>('');
-  const [guests, setGuests] = useState<number>(2);
-  const [tableType, setTableType] = useState<string>('Regular Seating');
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
-  };
-
-  const handleTimeChange = (time: string) => {
-    setSelectedTime(time);
-  };
-
-  const handleGuestsChange = (guests: number) => {
-    setGuests(guests);
-  };
-
-  const handleTableTypeChange = (tableType: string) => {
-    const selectedOption = tableOptions.find(option => option.id === tableType);
-    setTableType(selectedOption?.displayName || 'Regular Seating');
   };
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <Toaster position="top-center" />
-      <div className="container mx-auto px-4 max-w-4xl">
+      <div className="container mx-auto px-4 max-w-2xl">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Make a Reservation</h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
-            Reserve your perfect spot at Sapphire Shisha Lounge. For parties larger than 8,
-            please contact us directly.
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+            Reserve your perfect spot at Sapphire Shisha Lounge.
+          </p>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto mt-1">
+            For parties larger than 8, please contact us directly.
           </p>
         </motion.div>
 
-        {/* Main Content */}
+        {/* Form Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-dark-900/50 backdrop-blur-sm p-4 rounded-lg shadow-lg mb-6 border border-accent-700/20 max-w-3xl mx-auto"
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Date and Time Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Name Field */}
+              {/* Date Selection */}
+              <div className="space-y-1">
+                <label className="block text-sm font-medium">Select Date</label>
+                <div className="relative">
+                  <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date: Date | null) => {
+                      if (date) {
+                        setSelectedDate(date);
+                        setValue('date', date.toISOString().split('T')[0]);
+                        setIsCalendarOpen(false);
+                      }
+                    }}
+                    minDate={new Date()}
+                    maxDate={addDays(new Date(), 30)}
+                    dateFormat="yyyy-MM-dd"
+                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
+                    placeholderText="Select a date"
+                    showPopperArrow={false}
+                    open={isCalendarOpen}
+                    onInputClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                    onClickOutside={() => setIsCalendarOpen(false)}
+                  />
+                  {errors.date && (
+                    <p className="text-red-400 text-xs">{errors.date.message}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Time Selection */}
+              <div className="space-y-1">
+                <label className="block text-sm font-medium">Select Time</label>
+                <div className="relative">
+                  <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  <select
+                    {...register('time')}
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                    onChange={(e) => setSelectedTime(e.target.value)}
+                  >
+                    <option value="">Select time</option>
+                    {timeSlots.map((time) => (
+                      <option key={time} value={time}>{time}</option>
+                    ))}
+                  </select>
+                  {errors.time && (
+                    <p className="text-red-400 text-xs">{errors.time.message}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Name and Email Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="block text-sm font-medium">Name</label>
                 <input
@@ -130,21 +177,22 @@ function Reservations() {
                 )}
               </div>
 
-              {/* Email Field */}
               <div className="space-y-1">
                 <label className="block text-sm font-medium">Email</label>
                 <input
                   type="email"
                   {...register('email')}
                   className="w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  placeholder="your@email.com"
+                  placeholder="Your email"
                 />
                 {errors.email && (
                   <p className="text-red-400 text-xs">{errors.email.message}</p>
                 )}
               </div>
+            </div>
 
-              {/* Phone Field */}
+            {/* Phone and Guests Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="block text-sm font-medium">Phone</label>
                 <input
@@ -158,84 +206,70 @@ function Reservations() {
                 )}
               </div>
 
-              {/* Date Selection */}
-              <div className="space-y-1">
-                <label className="block text-sm font-medium">Select Date</label>
-                <div className="relative">
-                  <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <input
-                    type="date"
-                    {...register('date')}
-                    min={format(new Date(), 'yyyy-MM-dd')}
-                    max={format(addDays(new Date(), 30), 'yyyy-MM-dd')}
-                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                    onChange={(e) => handleDateChange(new Date(e.target.value))}
-                  />
-                  {errors.date && (
-                    <p className="text-red-400 text-xs">{errors.date.message}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Time Selection */}
-              <div className="space-y-1">
-                <label className="block text-sm font-medium">Select Time</label>
-                <div className="relative">
-                  <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <select
-                    {...register('time')}
-                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none"
-                    onChange={(e) => handleTimeChange(e.target.value)}
-                  >
-                    <option value="">Select time</option>
-                    {timeSlots.map((time) => (
-                      <option key={time} value={time}>{time}</option>
-                    ))}
-                  </select>
-                  {errors.time && (
-                    <p className="text-red-400 text-xs">{errors.time.message}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Number of Guests */}
               <div className="space-y-1">
                 <label className="block text-sm font-medium">Number of Guests</label>
                 <div className="relative">
-                  <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <input
-                    type="number"
+                  <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  <select
                     {...register('guests', { valueAsNumber: true })}
-                    min="1"
-                    max="8"
-                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                    onChange={(e) => handleGuestsChange(parseInt(e.target.value))}
-                  />
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                    onChange={(e) => setGuests(parseInt(e.target.value))}
+                  >
+                    <option value="">None</option>
+                    {guestOptions.map((num) => (
+                      <option key={num} value={num}>
+                        {num} {num === 1 ? 'Guest' : 'Guests'}
+                      </option>
+                    ))}
+                  </select>
                   {errors.guests && (
                     <p className="text-red-400 text-xs">{errors.guests.message}</p>
                   )}
                 </div>
               </div>
+            </div>
 
+            {/* Table and Special Occasion Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Table Preference */}
               <div className="space-y-1">
                 <label className="block text-sm font-medium">Table Preference</label>
-                <select
-                  {...register('tablePreference')}
-                  className="w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  onChange={(e) => handleTableTypeChange(e.target.value)}
-                >
-                  <option value="">Select preference</option>
-                  {tableOptions.map((option) => (
-                    <option key={option.id} value={option.id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  <select
+                    {...register('tablePreference')}
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                  >
+                    <option value="">None</option>
+                    <option value="booth">Booth</option>
+                    <option value="regular">Regular</option>
+                  </select>
+                  {errors.tablePreference && (
+                    <p className="text-red-400 text-xs">{errors.tablePreference.message}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Special Occasion */}
+              <div className="space-y-1">
+                <label className="block text-sm font-medium">Special Occasion</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400">🎉</span>
+                  <select
+                    {...register('specialOccasion')}
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                  >
+                    {occasions.map((occasion) => (
+                      <option key={occasion} value={occasion === "None" ? "" : occasion}>
+                        {occasion}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
-            {/* Notes */}
+            {/* Special Requests */}
             <div className="space-y-1">
               <label className="block text-sm font-medium">Special Requests</label>
               <textarea
@@ -252,12 +286,6 @@ function Reservations() {
                 type="submit"
                 disabled={isSubmitting}
                 className="w-1/2 bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (selectedDate && selectedTime) {
-                    setShowSuccess(true);
-                  }
-                }}
               >
                 {isSubmitting ? <LoadingSpinner /> : 'Book Now'}
               </button>
@@ -279,6 +307,7 @@ function Reservations() {
           />
         </motion.div>
       </div>
+      
       {showSuccess && selectedDate && selectedTime && (
         <ReservationSuccess
           isOpen={true}
@@ -286,8 +315,7 @@ function Reservations() {
           reservationDetails={{
             date: format(selectedDate, 'EEEE, MMMM do, yyyy'),
             time: selectedTime,
-            guests: guests,
-            tableType: tableType
+            guests: guests
           }}
         />
       )}

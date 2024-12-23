@@ -37,11 +37,27 @@ function FAQ() {
     },
     {
       question: "Do you have outdoor seating?",
-      answer: "Yes, we have a comfortable outdoor seating area with heating for cooler evenings."
+      answer: "No, we are an indoor-only venue offering comfortable booth and regular seating options in our stylishly designed space."
     },
     {
       question: "What health & safety measures do you have in place?",
       answer: "We follow all current local health guidelines, including regular sanitization of equipment, cleanliness of premises, and staff health monitoring."
+    },
+    {
+      question: "What are your loyalty program tiers?",
+      answer: "We offer three exclusive tiers: Silver, Gold, and Sapphire. Each tier provides increasing benefits including discounts, priority bookings, and special perks. Visit our Loyalty page for full details."
+    },
+    {
+      question: "Do you accommodate group bookings?",
+      answer: "Yes, we welcome group bookings! We have spacious booth seating perfect for groups. For larger parties, please contact us directly to discuss arrangements and any special requirements."
+    },
+    {
+      question: "Is there parking available?",
+      answer: "While we don't have dedicated parking, there are several public parking options nearby. We recommend using the local paid parking facilities within walking distance."
+    },
+    {
+      question: "Is Wi-Fi available?",
+      answer: "Yes, we provide complimentary high-speed Wi-Fi to all our guests. Just ask our staff for the current password."
     }
   ];
 

@@ -38,21 +38,21 @@ function Footer() {
           </div>
 
           <div>
-            <h2 className="text-base font-semibold mb-2 text-gray-200">Quick Links</h2>
-            <ul className="space-y-1.5">
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
               <li>
-                <Link to="/menu" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
-                  Menu
+                <Link to="/about" className="text-gray-400 hover:text-primary-400 transition-colors">
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link to="/reservations" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
-                  Reservations
-                </Link>
-              </li>
-              <li>
-                <Link to="/events" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
+                <Link to="/events" className="text-gray-400 hover:text-primary-400 transition-colors">
                   Events
+                </Link>
+              </li>
+              <li>
+                <Link to="/vip-services" className="text-gray-400 hover:text-primary-400 transition-colors">
+                  Special Occasions
                 </Link>
               </li>
             </ul>
@@ -89,12 +89,13 @@ function Footer() {
             <ul className="space-y-1.5 text-sm text-gray-400">
               <li>Monday: Closed</li>
               <li>Tuesday - Sunday: 5PM - 2AM</li>
+              <li>Open Bank Holidays</li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-accent-700/20 mt-6 pt-4 text-center text-gray-400">
-          <p className="text-xs">&copy; {new Date().getFullYear()} Sapphire Lounge. All rights reserved.</p>
+        <div className="border-t border-accent-700/20 mt-6 pt-6">
+          <p className="text-center text-xs text-gray-400">&copy; {new Date().getFullYear()} Sapphire Lounge. All rights reserved.</p>
         </div>
       </div>
     </footer>

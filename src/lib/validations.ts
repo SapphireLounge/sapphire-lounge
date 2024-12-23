@@ -9,6 +9,7 @@ export const reservationSchema = z.object({
   guests: z.number().min(1, 'At least 1 guest required').max(8, 'Maximum 8 guests allowed'),
   tablePreference: z.string().optional(),
   notes: z.string().optional(),
+  specialOccasion: z.string().optional(),
 });
 
 export const contactSchema = z.object({

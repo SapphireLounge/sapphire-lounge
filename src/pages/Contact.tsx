@@ -21,8 +21,9 @@ const DefaultIcon: L.Icon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// Sapphire Lounge coordinates (Wind Street, Swansea)
-const position: [number, number] = [51.6184, -3.9432];
+// FINAL COORDINATES - Sapphire Lounge location on Wind Street (between ASK Italian & Dorothy's)
+// DO NOT MODIFY these coordinates as they mark the exact location of Sapphire Lounge
+const position: [number, number] = [51.61958, -3.94048];
 
 function Contact() {
   const [isMounted, setIsMounted] = React.useState(false);
@@ -184,7 +185,7 @@ function Contact() {
               <motion.div className="h-[300px] rounded-lg overflow-hidden border border-accent-700/20">
                 <MapContainer
                   center={position}
-                  zoom={15}
+                  zoom={19}
                   style={{ height: '100%', width: '100%' }}
                 >
                   <TileLayer
