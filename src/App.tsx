@@ -96,7 +96,7 @@ function App() {
   return (
     <A11yProvider>
       <HelmetProvider>
-        <JsonLd data={restaurantJsonLd} />
+        <JsonLd type="Restaurant" data={restaurantJsonLd} />
         <RouterProvider router={router} />
         {process.env.NODE_ENV === 'development' && <ViewportDebug />}
       </HelmetProvider>
