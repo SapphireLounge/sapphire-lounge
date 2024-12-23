@@ -39,120 +39,36 @@ LoadingSpinner.displayName = 'LoadingSpinner';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
-      {
-        path: "/",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Home />
-          </Suspense>
-        )
-      },
-      {
-        path: "/about",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <About />
-          </Suspense>
-        )
-      },
-      {
-        path: "/reservations",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Reservations />
-          </Suspense>
-        )
-      },
-      {
-        path: "/menu",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Menu />
-          </Suspense>
-        )
-      },
-      {
-        path: "/events",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Events />
-          </Suspense>
-        )
-      },
-      {
-        path: "/loyalty",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Loyalty />
-          </Suspense>
-        )
-      },
-      {
-        path: "/contact",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Contact />
-          </Suspense>
-        )
-      },
-      {
-        path: "/faq",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <FAQ />
-          </Suspense>
-        )
-      },
-      {
-        path: "/privacy",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Privacy />
-          </Suspense>
-        )
-      },
-      {
-        path: "/terms",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <Terms />
-          </Suspense>
-        )
-      },
-      {
-        path: "/vip-services",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <VIPServices />
-          </Suspense>
-        )
-      },
-      {
-        path: "*",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <NotFound />
-          </Suspense>
-        )
-      }
+      { index: true, element: <Home /> },
+      { path: 'about', element: <About /> },
+      { path: 'reservations', element: <Reservations /> },
+      { path: 'menu', element: <Menu /> },
+      { path: 'events', element: <Events /> },
+      { path: 'loyalty', element: <Loyalty /> },
+      { path: 'contact', element: <Contact /> },
+      { path: 'faq', element: <FAQ /> },
+      { path: 'privacy', element: <Privacy /> },
+      { path: 'terms', element: <Terms /> },
+      { path: 'vip-services', element: <VIPServices /> }
     ]
   }
-], {
-  future: {
-    v7_normalizeFormMethod: true
-  }
-});
+]);
 
-// Preload hints for routes
+// Preload important routes
 const preloadRoutes = () => {
   // Only preload routes after initial render
   setTimeout(() => {
-    const routesToPreload = [Home, About, Menu, Contact];
-    routesToPreload.forEach(route => {
-      route.preload?.();
+    Promise.all([
+      import('./pages/Home'),
+      import('./pages/About'),
+      import('./pages/Menu'),
+      import('./pages/Contact')
+    ]).catch(error => {
+      console.error('Error preloading routes:', error);
     });
   }, 2000); // Wait for 2 seconds after initial render
 };
