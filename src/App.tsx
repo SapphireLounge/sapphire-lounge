@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
@@ -35,12 +35,19 @@ const LoadingSpinner = memo(() => (
   </div>
 ));
 
-LoadingSpinner.displayName = 'LoadingSpinner';
+// Layout wrapper with Suspense
+const LayoutWrapper = () => (
+  <Layout>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Outlet />
+    </Suspense>
+  </Layout>
+);
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <LayoutWrapper />,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
@@ -90,9 +97,7 @@ function App() {
     <A11yProvider>
       <HelmetProvider>
         <JsonLd data={restaurantJsonLd} />
-        <Suspense fallback={<LoadingSpinner />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <RouterProvider router={router} />
         {process.env.NODE_ENV === 'development' && <ViewportDebug />}
       </HelmetProvider>
     </A11yProvider>
