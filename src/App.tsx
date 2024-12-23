@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { A11yProvider } from './components/A11yAnnouncer';
-import { JsonLd, restaurantJsonLd } from './components/JsonLd';
+import { JsonLd, businessJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
 import { ViewportDebug } from './components/ui/ViewportDebug';
@@ -96,7 +96,7 @@ function App() {
   return (
     <A11yProvider>
       <HelmetProvider>
-        <JsonLd type="Restaurant" data={restaurantJsonLd} />
+        <JsonLd type="LocalBusiness" data={businessJsonLd} />
         <RouterProvider router={router} />
         {process.env.NODE_ENV === 'development' && <ViewportDebug />}
       </HelmetProvider>

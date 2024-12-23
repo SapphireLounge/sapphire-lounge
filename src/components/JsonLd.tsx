@@ -21,33 +21,44 @@ export function JsonLd({ type, data }: JsonLdProps) {
   );
 }
 
-export const restaurantJsonLd = {
+export const businessJsonLd = {
   name: 'Sapphire Lounge',
   image: '/images/sapphire-lounge.jpg',
-  description: 'Premier shisha lounge in Swansea offering premium flavors and a sophisticated atmosphere',
+  description: 'Premium shisha lounge in Swansea offering luxury flavors and a sophisticated atmosphere',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Your Street Address',
+    streetAddress: '123 Example Street',
     addressLocality: 'Swansea',
     addressRegion: 'Wales',
-    postalCode: 'Your Postal Code',
-    addressCountry: 'GB'
+    postalCode: 'SA1 1AA',
+    addressCountry: 'UK'
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 'YOUR_LATITUDE',
-    longitude: 'YOUR_LONGITUDE'
+    latitude: '51.6214',
+    longitude: '-3.9436'
   },
-  url: 'https://sapphirelounge.com',
-  telephone: 'YOUR_PHONE',
-  servesCuisine: 'Middle Eastern',
+  url: 'https://sapphirelounge.vercel.app',
+  telephone: '+44 1234567890',
   priceRange: '££',
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '12:00',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+      opens: '16:00',
       closes: '23:00'
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Friday', 'Saturday'],
+      opens: '16:00',
+      closes: '00:00'
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Sunday'],
+      opens: '16:00',
+      closes: '22:00'
     }
   ]
 };
