@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import ErrorBoundary from './components/ErrorBoundary';
 import App from './App.tsx';
 import './index.css';
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')!).render(
     <HelmetProvider>
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Toaster position="top-center" />
+        <SpeedInsights />
         <App />
       </ErrorBoundary>
     </HelmetProvider>
