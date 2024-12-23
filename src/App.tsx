@@ -5,6 +5,7 @@ import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
+import { ViewportDebug } from './components/ui/ViewportDebug';
 
 // Lazy load routes with preload hints
 const Home = lazy(() => import('./pages/Home'));
@@ -170,12 +171,15 @@ function App() {
   }, []);
 
   return (
-    <HelmetProvider>
-      <A11yProvider>
+    <A11yProvider>
+      <HelmetProvider>
         <JsonLd data={restaurantJsonLd} />
-        <RouterProvider router={router} />
-      </A11yProvider>
-    </HelmetProvider>
+        <Suspense fallback={<LoadingSpinner />}>
+          <RouterProvider router={router} />
+        </Suspense>
+        {process.env.NODE_ENV === 'development' && <ViewportDebug />}
+      </HelmetProvider>
+    </A11yProvider>
   );
 }
 
