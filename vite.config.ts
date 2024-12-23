@@ -6,12 +6,18 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-    },
+    }
+  },
+  optimizeDeps: {
+    include: ['@tailwindcss/aspect-ratio']
   },
   plugins: [
     react()
   ],
   build: {
+    commonjsOptions: {
+      include: [/node_modules/, /tailwind\.config\.cjs/]
+    },
     rollupOptions: {
       output: {
         manualChunks: {
