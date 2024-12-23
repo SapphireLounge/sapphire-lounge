@@ -27,7 +27,10 @@ createRoot(document.getElementById('root')!).render(
     <HelmetProvider>
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Toaster position="top-center" />
-        <SpeedInsights />
+        <SpeedInsights 
+          sampleRate={100}
+          debug={process.env.NODE_ENV === 'development'}
+        />
         <App />
       </ErrorBoundary>
     </HelmetProvider>
