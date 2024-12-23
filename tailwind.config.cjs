@@ -1,7 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import aspectRatio from '@tailwindcss/aspect-ratio';
-
-export default {
+module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   safelist: [
     'bg-gradient-to-r',
@@ -93,5 +91,7 @@ export default {
       },
     },
   },
-  plugins: [aspectRatio],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
