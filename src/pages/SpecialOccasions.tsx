@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Users, Gift, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Feature {
   text: string;
@@ -14,6 +15,7 @@ interface Package {
 }
 
 function SpecialOccasions() {
+  const navigate = useNavigate();
   const vipPackages: Package[] = [
     {
       title: "Premium VIP Experience",
@@ -54,12 +56,12 @@ function SpecialOccasions() {
     {
       title: "Corporate Events",
       icon: Calendar,
-      description: "Perfect for team gatherings and casual meetings",
+      description: "Host your corporate event in our sophisticated venue",
       features: [
-        { text: "Reserved booth or regular seating" },
-        { text: "Group shisha packages" },
-        { text: "Complimentary mocktails" },
-        { text: "Flexible booking times" }
+        { text: "Private area reservation" },
+        { text: "Customized packages" },
+        { text: "Catering options" },
+        { text: "AV equipment available" }
       ]
     }
   ];
@@ -159,6 +161,7 @@ function SpecialOccasions() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/contact')}
               className="bg-gradient-to-r from-primary-400 to-accent-500 px-8 py-3 rounded-lg font-semibold 
                        hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 
                        focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"

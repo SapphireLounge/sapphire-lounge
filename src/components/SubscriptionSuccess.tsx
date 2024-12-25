@@ -52,25 +52,22 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+        >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80"
-            onClick={onClose}
-          />
-          
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="bg-[#050D1A] rounded-xl p-6 max-w-md w-full relative z-10 border border-dark-700 shadow-2xl"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="relative w-full max-w-md bg-dark-900 rounded-lg shadow-xl p-6 mx-4"
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+              className="absolute top-2 right-2 p-2 text-gray-400 hover:text-white"
+              aria-label="Close dialog"
             >
               <X className="w-5 h-5" />
             </button>
@@ -78,64 +75,46 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
             <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
                 <SuccessIcon 
-                  className="w-16 h-16 text-green-500"
+                  className="w-12 h-12 text-green-500" 
                   onLoad={handleIconLoad}
                 />
               </div>
-              <motion.h3
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-2xl font-bold text-white mb-2"
-              >
-                Welcome to {tier.level}!
-              </motion.h3>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-gray-200"
-              >
-                Your subscription has been confirmed
-              </motion.p>
+              <h2 className="text-2xl font-bold mb-2">Welcome to {tier.level}!</h2>
+              <p className="text-gray-400">Your subscription has been confirmed</p>
             </div>
 
             <div className="space-y-4">
               {steps.map((step, index) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                  className="flex items-start space-x-3 bg-[#0A1628] p-3 rounded-lg border border-dark-700/50"
+                  key={step.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start p-3 bg-dark-800 rounded-lg"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400">
+                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-dark-700 rounded-full text-primary-300">
                     {step.icon}
                   </div>
-                  <div>
-                    <h4 className="text-gray-100 font-medium">{step.title}</h4>
-                    <p className="text-gray-300 text-sm">{step.description}</p>
+                  <div className="ml-4">
+                    <h3 className="font-semibold text-lg">{step.title}</h3>
+                    <p className="text-sm text-gray-400">{step.description}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="mt-6"
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onClose}
+              className="w-full mt-6 py-3 px-6 bg-gradient-to-r from-primary-500 to-accent-500 
+                       text-white font-semibold rounded-lg shadow-lg hover:from-primary-600 
+                       hover:to-accent-600 transition-all"
             >
-              <button
-                onClick={onClose}
-                className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"
-              >
-                Start Exploring
-              </button>
-            </motion.div>
+              Start Exploring
+            </motion.button>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
