@@ -6,134 +6,130 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md">
+    <nav className="fixed w-full z-50 bg-black border-b border-gray-800/50">
       {/* Desktop Navigation */}
       <div className="container mx-auto px-4">
-        <div className="flex justify-center h-16">
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-4">
+            <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-10 w-10" />
+            <span className="text-2xl font-semibold text-white">Sapphire Lounge</span>
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-6">
+            <NavLink to="/" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
               Home
             </NavLink>
-            <NavLink 
-              to="/about" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              About Us
-            </NavLink>
-            <NavLink 
-              to="/menu" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
+            <NavLink to="/menu" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
               Menu
             </NavLink>
-            <NavLink 
-              to="/reservations" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
+            <NavLink to="/reservations" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
               Reservations
             </NavLink>
-            <NavLink 
-              to="/loyalty" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
+            <NavLink to="/events" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
+              Events
+            </NavLink>
+            <NavLink to="/special-occasions" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
+              Special Occasions
+            </NavLink>
+            <NavLink to="/loyalty" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
               Loyalty Scheme
             </NavLink>
-            <NavLink 
-              to="/contact" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
+            <NavLink to="/about" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
+              About
+            </NavLink>
+            <NavLink to="/contact" className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}>
               Contact
             </NavLink>
           </div>
 
-          {/* Mobile Menu Button - Positioned Absolutely */}
-          <div className="md:hidden absolute right-4 top-1/2 transform -translate-y-1/2">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-dark-400 focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              <Menu className={`${isOpen ? 'hidden' : 'block'} h-6 w-6`} />
-              <X className={`${isOpen ? 'block' : 'hidden'} h-6 w-6`} />
-            </button>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white focus:outline-none"
+          >
+            <Menu className="h-8 w-8" />
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown - Centered */}
+      {/* Mobile Menu Dropdown */}
       <div 
         className={`${
-          isOpen ? 'block' : 'hidden'
-        } md:hidden w-full bg-black shadow-lg`}
+          isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+        } md:hidden fixed inset-0 bg-black transition-all duration-300 ease-in-out z-50`}
       >
-        <div className="container mx-auto px-4">
-          <div className="py-2 space-y-1">
+        <div className="container mx-auto px-4 py-6">
+          {/* Mobile Menu Header */}
+          <div className="flex justify-between items-center mb-6">
+            <Link to="/" className="flex items-center gap-4">
+              <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-10 w-10" />
+              <span className="text-2xl font-semibold text-white">Sapphire Lounge</span>
+            </Link>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 rounded-lg text-gray-400 hover:text-white focus:outline-none"
+            >
+              <X className="h-8 w-8" />
+            </button>
+          </div>
+
+          {/* Mobile Menu Links */}
+          <div className="flex flex-col space-y-4">
             <NavLink 
               to="/" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
             >
               Home
             </NavLink>
             <NavLink 
-              to="/about" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              About Us
-            </NavLink>
-            <NavLink 
               to="/menu" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
             >
               Menu
             </NavLink>
             <NavLink 
               to="/reservations" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
             >
               Reservations
             </NavLink>
             <NavLink 
-              to="/loyalty" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
+              to="/events" 
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
+            >
+              Events
+            </NavLink>
+            <NavLink 
+              to="/special-occasions" 
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
+            >
+              Special Occasions
+            </NavLink>
+            <NavLink 
+              to="/loyalty" 
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
             >
               Loyalty Scheme
             </NavLink>
             <NavLink 
-              to="/contact" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
+              to="/about" 
               onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
+            >
+              About
+            </NavLink>
+            <NavLink 
+              to="/contact" 
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `nav-link text-lg ${isActive ? 'nav-link-active' : ''}`}
             >
               Contact
             </NavLink>

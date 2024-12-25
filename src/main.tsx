@@ -28,8 +28,7 @@ createRoot(document.getElementById('root')!).render(
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Toaster position="top-center" />
         <SpeedInsights 
-          sampleRate={100}
-          debug={process.env.NODE_ENV === 'development'}
+          sampleRate={1.0}
         />
         <App />
       </ErrorBoundary>
