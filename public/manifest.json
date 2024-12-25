@@ -9,7 +9,7 @@
   "display_override": ["window-controls-overlay"],
   "background_color": "#020B18",
   "theme_color": "#020B18",
-  "orientation": "portrait",
+  "orientation": "any",
   "categories": ["food", "lifestyle", "entertainment"],
   "icons": [
     {
@@ -23,23 +23,24 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "shortcuts": [
     {
       "name": "Book a Table",
       "url": "/reservations",
-      "description": "Make a reservation"
+      "description": "Book your table at Sapphire Lounge"
     },
     {
       "name": "View Menu",
       "url": "/menu",
-      "description": "Browse our menu"
-    },
-    {
-      "name": "Events",
-      "url": "/events",
-      "description": "Check upcoming events"
+      "description": "Browse our premium shisha menu"
     }
   ],
   "prefer_related_applications": false
