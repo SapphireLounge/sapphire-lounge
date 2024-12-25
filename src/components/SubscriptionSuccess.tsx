@@ -56,13 +56,13 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+          className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/80 overflow-y-auto pt-16"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="relative w-full max-w-md bg-dark-900 rounded-lg shadow-xl p-6 mx-4"
+            className="relative w-full max-w-sm bg-dark-900 rounded-lg shadow-xl p-4 mx-4 my-4"
           >
             <button
               onClick={onClose}

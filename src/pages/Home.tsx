@@ -124,9 +124,9 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-[2.5rem] md:text-7xl font-bold mb-1 whitespace-nowrap"
+              className="text-[2.5rem] md:text-7xl font-bold mb-1 text-center"
             >
-              Sapphire&nbsp;Lounge
+              Sapphire Lounge
             </motion.h1>
 
             {/* Subtitle */}
@@ -134,9 +134,9 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-xl md:text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-[#6B8DE3] to-[#8B5CF6] whitespace-nowrap"
+              className="text-xl md:text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-[#6B8DE3] to-[#8B5CF6] text-center"
             >
-              PREMIUM&nbsp;SHISHA&nbsp;EXPERIENCE
+              PREMIUM SHISHA EXPERIENCE
             </motion.h2>
 
             {/* Description */}
@@ -144,11 +144,9 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-gray-300 text-sm md:text-base"
+              className="text-gray-300 text-sm md:text-base text-center mx-auto max-w-2xl"
             >
-              Experience the finest flavours in an<br />
-              atmosphere of luxury and comfort.
-              <br />
+              Experience the finest flavours in an atmosphere of luxury and comfort.
               Your journey to exceptional relaxation starts here.
             </motion.p>
 

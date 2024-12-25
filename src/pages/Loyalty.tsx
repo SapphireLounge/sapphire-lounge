@@ -299,23 +299,29 @@ const Loyalty: React.FC = () => {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleTierSelection(tier)}
                     disabled={processingTier === tier.level}
-                    className={`w-full py-3 rounded-lg font-semibold transition-all relative
-                      ${processingTier === tier.level
-                        ? 'bg-primary-500/50 cursor-not-allowed'
+                    className={`w-full py-3 px-6 rounded-lg font-semibold shadow-lg transition-all
+                      ${successTier?.level === tier.level
+                        ? 'bg-green-500 hover:bg-green-600 text-white cursor-default'
                         : errorTier === tier.level
-                        ? 'bg-red-500/80 hover:bg-red-500'
-                        : 'bg-gradient-to-r from-primary-400 to-accent-500 hover:from-primary-500 hover:to-accent-600'
-                      } text-white shadow-lg`}
+                        ? 'bg-red-500 hover:bg-red-600 text-white'
+                        : 'bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white'
+                      }
+                      disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {processingTier === tier.level ? (
                       <div className="flex items-center justify-center">
                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
                         Processing...
                       </div>
+                    ) : successTier?.level === tier.level ? (
+                      <div className="flex items-center justify-center">
+                        <Check className="w-5 h-5 mr-2" />
+                        Success!
+                      </div>
                     ) : errorTier === tier.level ? (
-                      'Try Again'
+                      "Try Again"
                     ) : (
-                      'Subscribe Now'
+                      "Subscribe Now"
                     )}
                   </motion.button>
                 </div>
