@@ -6,34 +6,32 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   base: '',
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+  css: {
+    devSourcemap: true,
+    modules: {
+      localsConvention: 'camelCase'
     }
   },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['framer-motion', 'react-helmet-async']
-        },
-        assetFileNames: ({ name }) => {
-          if (/\.(gif|jpe?g|png|svg|webp)$/.test(name ?? '')) {
-            return 'assets/images/[name].[hash][extname]';
-          }
-          return 'assets/[name].[hash][extname]';
-        }
-      }
-    },
-    copyPublicDir: true
-  },
-  publicDir: 'public',
   server: {
-    port: 5173,
-    open: true
+    port: 3000,
+    host: true,
+    strictPort: false,
+    open: true,
+    watch: {
+      usePolling: true
+    },
+    hmr: {
+      overlay: true,
+      timeout: 5000
+    },
+    cors: true
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom']
   }
 });

@@ -16,6 +16,15 @@ module.exports = {
     'hover:bg-[#141414]',
   ],
   theme: {
+    screens: {
+      'xs': '375px',    // iPhone SE, smaller phones
+      'sm': '390px',    // iPhone 14
+      'md': '412px',    // Pixel 7
+      'lg': '428px',    // iPhone 14 Pro Max
+      'xl': '512px',    // Pixel 8 Pro
+      '2xl': '720px',   // Tablets
+      '3xl': '1024px',  // Larger tablets/desktop
+    },
     extend: {
       colors: {
         primary: {

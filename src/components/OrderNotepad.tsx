@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Minus, Trash2, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { haptics } from '../utils/haptics';
 
 interface OrderItem {
   name: string;
@@ -37,6 +38,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
 
   useEffect(() => {
     const handleAddItem = (event: AddToNotepadEvent) => {
+      haptics.light(); // Lighter feedback when adding item
       const { name, price } = event.detail;
       const existingItem = orders.find(item => item.name === name);
       if (existingItem) {
@@ -55,10 +57,12 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   }, [orders]);
 
   const removeItem = (index: number) => {
+    haptics.light(); // Light feedback for removal
     setOrders(orders.filter((_, i) => i !== index));
   };
 
   const updateQuantity = (index: number, delta: number) => {
+    haptics.light(); // Light feedback for increment
     setOrders(orders.map((item, i) => {
       if (i === index) {
         const newQuantity = Math.max(1, item.quantity + delta);
@@ -69,6 +73,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   };
 
   const clearAll = () => {
+    haptics.light(); // Light feedback for clearing
     setOrders([]);
     localStorage.removeItem('orderNotepad');
   };
