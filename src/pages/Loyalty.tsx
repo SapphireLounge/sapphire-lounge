@@ -97,8 +97,13 @@ const Loyalty: React.FC = () => {
       if (success) {
         setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
         setShowConfetti(true);
-        // Celebration haptic feedback
-        await haptics.celebrate();
+        
+        try {
+          // Celebration haptic feedback
+          await haptics.celebrate();
+        } catch (hapticError) {
+          console.debug('Haptic feedback failed:', hapticError);
+        }
         
         // Get the position of the clicked tier for confetti
         const element = document.querySelector(`[data-tier="${tier.level}"]`);
@@ -111,14 +116,22 @@ const Loyalty: React.FC = () => {
         }
       } else {
         setErrorTier(tier.level);
-        // Error haptic feedback
-        await haptics.error();
+        try {
+          // Error haptic feedback
+          await haptics.error();
+        } catch (hapticError) {
+          console.debug('Haptic feedback failed:', hapticError);
+        }
       }
     } catch (error) {
       console.error('Error processing tier selection:', error);
       setErrorTier(tier.level);
-      // Error haptic feedback
-      await haptics.error();
+      try {
+        // Error haptic feedback
+        await haptics.error();
+      } catch (hapticError) {
+        console.debug('Haptic feedback failed:', hapticError);
+      }
     } finally {
       setProcessingTier(null);
     }

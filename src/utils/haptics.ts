@@ -53,6 +53,9 @@ export const haptics = {
   // Error pattern (three quick pulses)
   error: () => safeVibrate([20, 40, 20, 40, 20]),
 
+  // Celebration pattern (playful sequence)
+  celebrate: () => safeVibrate([15, 30, 15, 30, 15, 100, 30]),
+
   // Custom pattern with validation
   pattern: (pattern: number[]) => {
     if (!Array.isArray(pattern) || pattern.some(n => typeof n !== 'number')) {
