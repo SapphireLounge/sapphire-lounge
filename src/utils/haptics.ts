@@ -6,12 +6,11 @@ const hasVibrationSupport = () => {
            typeof navigator.vibrate === 'function' &&
            !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch (error) {
-    console.warn('Haptics API check failed:', error);
     return false;
   }
 };
 
-// Safe vibrate function
+// Safe vibrate function that doesn't require permissions
 const safeVibrate = (pattern: number | number[]) => {
   try {
     if (hasVibrationSupport()) {
@@ -20,7 +19,6 @@ const safeVibrate = (pattern: number | number[]) => {
     }
     return false;
   } catch (error) {
-    console.warn('Vibration failed:', error);
     return false;
   }
 };
