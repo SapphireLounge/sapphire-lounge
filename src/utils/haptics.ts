@@ -11,20 +11,6 @@ const hasVibrationSupport = () => {
   }
 };
 
-// Attempt to get vibration permission
-const requestVibrationPermission = async () => {
-  try {
-    if ('permissions' in navigator) {
-      const result = await navigator.permissions.query({ name: 'vibrate' as PermissionName });
-      return result.state === 'granted';
-    }
-    return true; // If permissions API is not available, assume granted
-  } catch (error) {
-    console.warn('Vibration permission request failed:', error);
-    return false;
-  }
-};
-
 // Safe vibrate function
 const safeVibrate = (pattern: number | number[]) => {
   try {
@@ -42,56 +28,20 @@ const safeVibrate = (pattern: number | number[]) => {
 // Different vibration patterns for different types of feedback
 export const haptics = {
   // Light tap feedback (15ms)
-  light: async () => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate(15);
-    }
-    return false;
-  },
+  light: () => safeVibrate(15),
 
   // Medium tap feedback (25ms)
-  medium: async () => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate(25);
-    }
-    return false;
-  },
+  medium: () => safeVibrate(25),
 
   // Heavy feedback (35ms)
-  heavy: async () => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate(35);
-    }
-    return false;
-  },
+  heavy: () => safeVibrate(35),
 
   // Success celebration - powerful, satisfying burst
-  celebrate: async () => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate([50, 30, 50, 30, 50]);
-    }
-    return false;
-  },
+  celebrate: () => safeVibrate([50, 30, 100]),
 
   // Error pattern (three short pulses)
-  error: async () => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate([30, 20, 30, 20, 30]);
-    }
-    return false;
-  },
+  error: () => safeVibrate([35, 50, 35, 50, 35]),
 
   // Custom pattern
-  pattern: async (pattern: number[]) => {
-    const hasPermission = await requestVibrationPermission();
-    if (hasPermission) {
-      return safeVibrate(pattern);
-    }
-    return false;
-  }
+  pattern: (pattern: number[]) => safeVibrate(pattern)
 };
