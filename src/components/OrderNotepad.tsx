@@ -37,24 +37,24 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   }, [orders]);
 
   useEffect(() => {
-    const handleAddItem = async (event: AddToNotepadEvent) => {
+    const handleAddItem = (event: AddToNotepadEvent) => {
       const { name, price } = event.detail;
       const existingOrder = orders.find(order => order.name === name);
       if (existingOrder) {
-        await haptics.medium();
+        haptics.medium();
         setOrders(orders.map(order =>
           order.name === name
             ? { ...order, quantity: order.quantity + 1 }
             : order
         ));
       } else {
-        await haptics.light();
+        haptics.light();
         setOrders([...orders, { name, price, quantity: 1 }]);
       }
     };
 
-    const handleRemoveItem = async (index: number) => {
-      await haptics.medium();
+    const handleRemoveItem = (index: number) => {
+      haptics.medium();
       const existingOrder = orders[index];
       if (existingOrder && existingOrder.quantity > 1) {
         setOrders(orders.map((order, i) =>
@@ -67,8 +67,8 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
       }
     };
 
-    const handleDeleteItem = async (index: number) => {
-      await haptics.heavy();
+    const handleDeleteItem = (index: number) => {
+      haptics.heavy();
       setOrders(orders.filter((_, i) => i !== index));
     };
 
