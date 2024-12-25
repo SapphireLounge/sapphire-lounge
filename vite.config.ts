@@ -12,6 +12,28 @@ export default defineConfig({
       localsConvention: 'camelCase'
     }
   },
+  build: {
+    sourcemap: true,
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'framer-motion',
+            'lucide-react'
+          ],
+          ui: [
+            '@/components/ui',
+          ]
+        }
+      }
+    }
+  },
   server: {
     port: 3000,
     host: true,
@@ -31,17 +53,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: true,
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html')
-      }
-    }
-  },
   optimizeDeps: {
-    include: ['react', 'react-dom']
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react']
   }
 });
