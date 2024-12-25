@@ -1,50 +1,97 @@
 // Check if the device supports the Vibration API
 const hasVibrationSupport = () => {
-  return 'vibrate' in navigator;
+  try {
+    return typeof window !== 'undefined' && 
+           'vibrate' in navigator && 
+           typeof navigator.vibrate === 'function' &&
+           !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch (error) {
+    console.warn('Haptics API check failed:', error);
+    return false;
+  }
+};
+
+// Attempt to get vibration permission
+const requestVibrationPermission = async () => {
+  try {
+    if ('permissions' in navigator) {
+      const result = await navigator.permissions.query({ name: 'vibrate' as PermissionName });
+      return result.state === 'granted';
+    }
+    return true; // If permissions API is not available, assume granted
+  } catch (error) {
+    console.warn('Vibration permission request failed:', error);
+    return false;
+  }
+};
+
+// Safe vibrate function
+const safeVibrate = (pattern: number | number[]) => {
+  try {
+    if (hasVibrationSupport()) {
+      navigator.vibrate(pattern);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.warn('Vibration failed:', error);
+    return false;
+  }
 };
 
 // Different vibration patterns for different types of feedback
 export const haptics = {
   // Light tap feedback (15ms)
-  light: () => {
-    if (hasVibrationSupport()) {
-      navigator.vibrate(15);
+  light: async () => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate(15);
     }
+    return false;
   },
 
   // Medium tap feedback (25ms)
-  medium: () => {
-    if (hasVibrationSupport()) {
-      navigator.vibrate(25);
+  medium: async () => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate(25);
     }
+    return false;
   },
 
   // Heavy feedback (35ms)
-  heavy: () => {
-    if (hasVibrationSupport()) {
-      navigator.vibrate(35);
+  heavy: async () => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate(35);
     }
+    return false;
   },
 
   // Success celebration - powerful, satisfying burst
-  celebrate: () => {
-    if (hasVibrationSupport()) {
-      // Strong initial pulse (200ms), brief pause, then medium follow-up (100ms)
-      navigator.vibrate([200, 50, 100]);
+  celebrate: async () => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate([50, 30, 50, 30, 50]);
     }
+    return false;
   },
 
   // Error pattern (three short pulses)
-  error: () => {
-    if (hasVibrationSupport()) {
-      navigator.vibrate([15, 50, 15, 50, 15]);
+  error: async () => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate([30, 20, 30, 20, 30]);
     }
+    return false;
   },
 
   // Custom pattern
-  pattern: (pattern: number[]) => {
-    if (hasVibrationSupport()) {
-      navigator.vibrate(pattern);
+  pattern: async (pattern: number[]) => {
+    const hasPermission = await requestVibrationPermission();
+    if (hasPermission) {
+      return safeVibrate(pattern);
     }
+    return false;
   }
 };

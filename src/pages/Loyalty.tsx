@@ -84,36 +84,50 @@ const Loyalty: React.FC = () => {
     }
   ];
 
-  const handleSubscription = async (tier: TierBenefit) => {
-    setProcessingTier(tier.level);
-    setErrorTier(null);
-
+  const handleTierSelection = async (tier: TierBenefit) => {
     try {
-      // Simulate API call
-      const result = await processPayment(tier.price);
+      setProcessingTier(tier.level);
+      setErrorTier(null);
       
-      if (result.success) {
-        // Trigger celebration haptic with success message
-        haptics.celebrate();
-        
+      // Provide haptic feedback when starting process
+      await haptics.medium();
+
+      const success = await processPayment(tier.price);
+      
+      if (success) {
         setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
         setShowConfetti(true);
+        // Celebration haptic feedback
+        await haptics.celebrate();
+        
+        // Get the position of the clicked tier for confetti
+        const element = document.querySelector(`[data-tier="${tier.level}"]`);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          setConfettiPosition({
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+          });
+        }
       } else {
         setErrorTier(tier.level);
-        haptics.error();
+        // Error haptic feedback
+        await haptics.error();
       }
     } catch (error) {
-      console.error('Subscription error:', error);
-      haptics.error();
+      console.error('Error processing tier selection:', error);
+      setErrorTier(tier.level);
+      // Error haptic feedback
+      await haptics.error();
     } finally {
       setProcessingTier(null);
     }
   };
 
-  const handleSuccessIconLoad = useCallback((x: number, y: number) => {
-    setConfettiPosition({ x, y });
-    setShowConfetti(true);
-  }, []);
+  const handleIconFlip = async (level: string) => {
+    await haptics.light();
+    setFlippedIcon(prev => prev === level ? null : level);
+  };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -126,10 +140,6 @@ const Loyalty: React.FC = () => {
       if (timer) clearTimeout(timer);
     };
   }, [showConfetti]);
-
-  const handleTierSelect = (tier: TierBenefit) => {
-    handleSubscription(tier);
-  };
 
   return (
     <div className="min-h-screen bg-[#020B18] pt-24 pb-12">
@@ -192,6 +202,7 @@ const Loyalty: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
               className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 flex flex-col h-full relative overflow-hidden group"
+              data-tier={tier.level}
             >
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-accent-500/5 opacity-0 
@@ -236,10 +247,7 @@ const Loyalty: React.FC = () => {
                         duration: 1,
                         ease: [0.6, 0.01, -0.05, 0.95]
                       }}
-                      onClick={() => {
-                        setFlippedIcon(tier.level);
-                        setTimeout(() => setFlippedIcon(null), 1000);
-                      }}
+                      onClick={() => handleIconFlip(tier.level)}
                       className="relative z-10 cursor-pointer"
                     >
                       {tier.level === 'Silver' && (
@@ -276,7 +284,7 @@ const Loyalty: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => handleTierSelect(tier)}
+                    onClick={() => handleTierSelection(tier)}
                     disabled={processingTier === tier.level}
                     className={`w-full py-3 rounded-lg font-semibold transition-all relative
                       ${processingTier === tier.level
@@ -381,7 +389,7 @@ const Loyalty: React.FC = () => {
             isOpen={!!successTier}
             onClose={() => setSuccessTier(null)}
             tier={successTier}
-            onSuccessIconLoad={handleSuccessIconLoad}
+            onSuccessIconLoad={() => {}}
           />
         )}
       </div>

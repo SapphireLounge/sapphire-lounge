@@ -36,15 +36,15 @@ const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Menu = lazy(() => import('./pages/Menu'));
 const Events = lazy(() => import('./pages/Events'));
+const Reservations = lazy(() => import('./pages/Reservations'));
 const Loyalty = lazy(() => import('./pages/Loyalty'));
 const Contact = lazy(() => import('./pages/Contact'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const VIPServices = lazy(() => import('./pages/VIPServices'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-const Reservations = lazy(() => import('./pages/Reservations'));
 const SpecialOccasions = lazy(() => import('./pages/SpecialOccasions'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Wrap lazy components with Suspense
 const wrapWithSuspense = (Component: React.LazyExoticComponent<ComponentType>) => {

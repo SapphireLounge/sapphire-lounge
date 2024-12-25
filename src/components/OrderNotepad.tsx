@@ -37,39 +37,47 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   }, [orders]);
 
   useEffect(() => {
-    const handleAddItem = (event: AddToNotepadEvent) => {
-      haptics.light(); // Lighter feedback when adding item
+    const handleAddItem = async (event: AddToNotepadEvent) => {
       const { name, price } = event.detail;
-      const existingItem = orders.find(item => item.name === name);
-      if (existingItem) {
-        setOrders(orders.map(item =>
-          item.name === name
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+      const existingOrder = orders.find(order => order.name === name);
+      if (existingOrder) {
+        await haptics.medium();
+        setOrders(orders.map(order =>
+          order.name === name
+            ? { ...order, quantity: order.quantity + 1 }
+            : order
         ));
       } else {
+        await haptics.light();
         setOrders([...orders, { name, price, quantity: 1 }]);
       }
+    };
+
+    const handleRemoveItem = async (index: number) => {
+      await haptics.medium();
+      const existingOrder = orders[index];
+      if (existingOrder && existingOrder.quantity > 1) {
+        setOrders(orders.map((order, i) =>
+          i === index
+            ? { ...order, quantity: order.quantity - 1 }
+            : order
+        ));
+      } else {
+        setOrders(orders.filter((_, i) => i !== index));
+      }
+    };
+
+    const handleDeleteItem = async (index: number) => {
+      await haptics.heavy();
+      setOrders(orders.filter((_, i) => i !== index));
     };
 
     window.addEventListener('addToNotepad', handleAddItem as EventListener);
     return () => window.removeEventListener('addToNotepad', handleAddItem as EventListener);
   }, [orders]);
 
-  const removeItem = (index: number) => {
-    haptics.light(); // Light feedback for removal
-    setOrders(orders.filter((_, i) => i !== index));
-  };
-
-  const updateQuantity = (index: number, delta: number) => {
-    haptics.light(); // Light feedback for increment
-    setOrders(orders.map((item, i) => {
-      if (i === index) {
-        const newQuantity = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    }));
+  const saveOrders = (orders: OrderItem[]) => {
+    localStorage.setItem('orderNotepad', JSON.stringify(orders));
   };
 
   const clearAll = () => {
@@ -122,7 +130,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
                 <span className="flex-1 text-primary-100">{order.name}</span>
                 <div className="flex items-center gap-2 bg-neutral-800 rounded-md px-1">
                   <button
-                    onClick={() => updateQuantity(index, -1)}
+                    onClick={() => handleRemoveItem(index)}
                     className="p-1 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50"
                     disabled={order.quantity <= 1}
                   >
@@ -130,7 +138,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
                   </button>
                   <span className="w-6 text-center text-primary-200">{order.quantity}</span>
                   <button
-                    onClick={() => updateQuantity(index, 1)}
+                    onClick={() => handleAddItem({ detail: { name: order.name, price: order.price } } as AddToNotepadEvent)}
                     className="p-1 hover:bg-neutral-700 rounded transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5 text-primary-300" />
@@ -138,7 +146,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
                 </div>
                 <span className="text-primary-200 w-16 text-right">£{(parseFloat(order.price.replace('£', '')) * order.quantity).toFixed(2)}</span>
                 <button
-                  onClick={() => removeItem(index)}
+                  onClick={() => handleDeleteItem(index)}
                   className="text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800"
                   title="Remove item"
                 >
