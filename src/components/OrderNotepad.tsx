@@ -93,63 +93,68 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
   );
 
   return (
-    <div className={`bg-neutral-900 border border-neutral-800 rounded-lg p-4 ${className}`}>
-      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <ShoppingCart className="w-5 h-5 text-primary-300" />
-        Your Order
-      </h3>
-      <div className="space-y-2">
+    <div className={`fixed bottom-20 right-4 w-72 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border rounded-lg shadow-lg overflow-hidden ${className}`}>
+      <div className="p-4 border-b">
+        <h2 className="text-lg font-semibold flex items-center gap-2">
+          <ShoppingCart className="w-5 h-5" />
+          Order Notepad
+        </h2>
+      </div>
+
+      <div className="max-h-96 overflow-y-auto">
         <AnimatePresence>
-          {orders.map((order) => (
+          {orders.map(order => (
             <motion.div
               key={order.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center justify-between gap-2"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="p-4 border-b flex items-center justify-between gap-4"
             >
               <div className="flex-1">
-                <div className="text-sm text-neutral-300">{order.name}</div>
+                <h3 className="font-medium">{order.name}</h3>
+                <p className="text-sm text-muted-foreground">{order.price}</p>
               </div>
-              <div className="flex items-center gap-1 bg-neutral-800 rounded px-1">
+
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleDecreaseQuantity(order.id)}
-                  className="p-1 hover:bg-neutral-700 rounded transition-colors"
-                  disabled={order.quantity <= 1}
+                  className="p-1 hover:bg-accent rounded-full"
                 >
-                  <Minus className="w-3.5 h-3.5 text-primary-300" />
+                  <Minus className="w-4 h-4" />
                 </button>
-                <span className="text-sm w-6 text-center">{order.quantity}</span>
+                <span className="w-8 text-center">{order.quantity}</span>
                 <button
                   onClick={() => handleIncreaseQuantity(order.id)}
-                  className="p-1 hover:bg-neutral-700 rounded transition-colors"
+                  className="p-1 hover:bg-accent rounded-full"
                 >
-                  <Plus className="w-3.5 h-3.5 text-primary-300" />
+                  <Plus className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDeleteItem(order.id)}
+                  className="p-1 hover:bg-accent rounded-full text-destructive"
+                >
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-primary-200 w-16 text-right">£{(parseFloat(order.price.replace('£', '')) * order.quantity).toFixed(2)}</span>
-              <button
-                onClick={() => handleDeleteItem(order.id)}
-                className="text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800"
-                title="Remove item"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
             </motion.div>
           ))}
         </AnimatePresence>
-        <div className="pt-3 border-t border-neutral-800">
-          <div className="flex justify-between items-center">
-            <span className="font-medium">Total</span>
-            <span className="text-lg font-semibold text-primary-200">£{totalPrice.toFixed(2)}</span>
-          </div>
-        </div>
       </div>
+
+      {orders.length > 0 && (
+        <div className="p-4 border-t">
+          <p className="text-lg font-semibold">
+            Total: £{totalPrice.toFixed(2)}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
 
-export const addItemToNotepad = (name: string, price: string) => {
-  const event = new CustomEvent('addToNotepad', { detail: { name, price } });
-  window.dispatchEvent(event);
-};
+// Helper function to add items programmatically
+export function addItemToNotepad(name: string, price: string) {
+  window.dispatchEvent(new CustomEvent('addToNotepad', { detail: { name, price } }));
+}

@@ -44,24 +44,21 @@ export const haptics = {
   // Medium tap feedback (slightly longer)
   medium: () => safeVibrate(20),
 
-  // Heavy feedback (more noticeable)
+  // Heavy tap feedback (even longer)
   heavy: () => safeVibrate(30),
 
-  // Success pattern (two quick pulses)
-  success: () => safeVibrate([15, 30, 15]),
+  // Success feedback (two short pulses)
+  success: () => safeVibrate([10, 30, 10]),
 
-  // Error pattern (three quick pulses)
-  error: () => safeVibrate([20, 40, 20, 40, 20]),
+  // Warning feedback (three pulses increasing in duration)
+  warning: () => safeVibrate([10, 20, 20, 20, 30]),
 
-  // Celebration pattern (playful sequence)
-  celebrate: () => safeVibrate([15, 30, 15, 30, 15, 100, 30]),
+  // Error feedback (three strong pulses)
+  error: () => safeVibrate([30, 20, 30, 20, 30]),
 
-  // Custom pattern with validation
-  pattern: (pattern: number[]) => {
-    if (!Array.isArray(pattern) || pattern.some(n => typeof n !== 'number')) {
-      console.warn('Invalid haptic pattern provided');
-      return false;
-    }
-    return safeVibrate(pattern);
-  }
+  // Selection feedback (single medium pulse)
+  selection: () => safeVibrate(15),
+
+  // Custom pattern (array of durations in milliseconds)
+  custom: (pattern: number[]) => safeVibrate(pattern)
 };
