@@ -16,26 +16,56 @@ export default defineConfig({
         description: 'Premium shisha experience in Swansea',
         theme_color: '#020B18',
         background_color: '#020B18',
+        id: '/',
+        start_url: '/',
+        scope: '/',
+        display: 'standalone',
+        display_override: ['window-controls-overlay'],
+        orientation: 'any',
+        categories: ['food', 'lifestyle', 'entertainment'],
         icons: [
           {
-            src: '/icon-192.png',
+            src: 'icon-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: '/icon-512.png',
+            src: 'icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: '/apple-touch-icon.png',
+            src: 'apple-touch-icon.png',
             sizes: '180x180',
             type: 'image/png',
             purpose: 'any'
           }
         ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module'
       }
     })
   ],
@@ -58,14 +88,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
+        manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react';
-            }
-            if (id.includes('framer-motion') || id.includes('lucide-react')) {
-              return 'vendor-animations';
-            }
             return 'vendor';
           }
         },

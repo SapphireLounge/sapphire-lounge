@@ -1,12 +1,14 @@
 const CACHE_NAME = 'sapphire-lounge-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/index.css',
-  '/assets/index.js',
-  '/images/logo.png',
-  // Add other static assets here
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
+  './assets/index.css',
+  './assets/index.js',
+  './images/logo.png'
 ];
 
 self.addEventListener('install', (event) => {
