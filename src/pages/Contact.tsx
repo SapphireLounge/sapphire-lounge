@@ -69,7 +69,7 @@ function Contact() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
       <Toaster position="top-center" />
       <div className="container mx-auto px-4">
         <motion.div

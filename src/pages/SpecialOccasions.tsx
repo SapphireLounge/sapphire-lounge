@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Users, Gift, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Feature {
   text: string;
@@ -14,6 +15,7 @@ interface Package {
 }
 
 function SpecialOccasions() {
+  const navigate = useNavigate();
   const vipPackages: Package[] = [
     {
       title: "Premium VIP Experience",
@@ -54,18 +56,18 @@ function SpecialOccasions() {
     {
       title: "Corporate Events",
       icon: Calendar,
-      description: "Perfect for team gatherings and casual meetings",
+      description: "Host your corporate event in our sophisticated venue",
       features: [
-        { text: "Reserved booth or regular seating" },
-        { text: "Group shisha packages" },
-        { text: "Complimentary mocktails" },
-        { text: "Flexible booking times" }
+        { text: "Private area reservation" },
+        { text: "Customized packages" },
+        { text: "Catering options" },
+        { text: "AV equipment available" }
       ]
     }
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -90,7 +92,7 @@ function SpecialOccasions() {
           >
             <h2 className="text-2xl font-bold text-white text-center mb-8">VIP Packages</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {vipPackages.map((pkg, index) => (
+              {vipPackages.map((pkg) => (
                 <div 
                   key={pkg.title}
                   className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative group overflow-hidden"
@@ -99,8 +101,8 @@ function SpecialOccasions() {
                   <h3 className="text-xl font-semibold text-white mb-2">{pkg.title}</h3>
                   <p className="text-gray-400 mb-6">{pkg.description}</p>
                   <ul className="space-y-3">
-                    {pkg.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
+                    {pkg.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
                         <span className="text-primary-300">★</span>
                         <span className="text-gray-300">{feature.text}</span>
                       </li>
@@ -123,7 +125,7 @@ function SpecialOccasions() {
           >
             <h2 className="text-2xl font-bold text-white text-center mb-8">Special Occasions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {specialOccasions.map((occasion, index) => (
+              {specialOccasions.map((occasion) => (
                 <div 
                   key={occasion.title}
                   className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative group overflow-hidden"
@@ -132,8 +134,8 @@ function SpecialOccasions() {
                   <h3 className="text-xl font-semibold text-white mb-2">{occasion.title}</h3>
                   <p className="text-gray-400 mb-6">{occasion.description}</p>
                   <ul className="space-y-3">
-                    {occasion.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
+                    {occasion.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
                         <span className="text-primary-300">★</span>
                         <span className="text-gray-300">{feature.text}</span>
                       </li>
@@ -159,6 +161,7 @@ function SpecialOccasions() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/contact')}
               className="bg-gradient-to-r from-primary-400 to-accent-500 px-8 py-3 rounded-lg font-semibold 
                        hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 
                        focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"

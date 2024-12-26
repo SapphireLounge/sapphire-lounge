@@ -32,7 +32,7 @@ function Events() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -31,49 +31,30 @@ const businessJsonLd = {
   priceRange: '££'
 };
 
-// Lazy load components
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Menu = lazy(() => import('./pages/Menu'));
-const Events = lazy(() => import('./pages/Events'));
-const Reservations = lazy(() => import('./pages/Reservations'));
-const Loyalty = lazy(() => import('./pages/Loyalty'));
-const Contact = lazy(() => import('./pages/Contact'));
-const FAQ = lazy(() => import('./pages/FAQ'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const Terms = lazy(() => import('./pages/Terms'));
-const VIPServices = lazy(() => import('./pages/VIPServices'));
-const SpecialOccasions = lazy(() => import('./pages/SpecialOccasions'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-
-// Wrap lazy components with Suspense
-const wrapWithSuspense = (Component: React.LazyExoticComponent<ComponentType>) => {
+// Lazy load components with error boundaries
+const lazyLoad = (importFn: () => Promise<{ default: ComponentType<any> }>) => {
+  const LazyComponent = lazy(importFn);
   return (
     <ErrorBoundary>
       <Suspense fallback={<LoadingSpinner />}>
-        <Component />
+        <LazyComponent />
       </Suspense>
     </ErrorBoundary>
   );
 };
 
-// Layout wrapper with Suspense and ErrorBoundary
+// Layout wrapper
 const LayoutWrapper = () => {
   const location = useLocation();
-  
-  // Scroll to top when route changes
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [location]);
 
   return (
-    <ErrorBoundary>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Layout>
-          <Outlet />
-        </Layout>
-      </Suspense>
-    </ErrorBoundary>
+    <Layout>
+      <Outlet />
+    </Layout>
   );
 };
 
@@ -81,43 +62,34 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <LayoutWrapper />,
+    errorElement: lazyLoad(() => import('./pages/NotFound')),
     children: [
-      { path: '', element: wrapWithSuspense(Home) },
-      { path: 'about', element: wrapWithSuspense(About) },
-      { path: 'reservations', element: wrapWithSuspense(Reservations) },
-      { path: 'menu', element: wrapWithSuspense(Menu) },
-      { path: 'events', element: wrapWithSuspense(Events) },
-      { path: 'loyalty', element: wrapWithSuspense(Loyalty) },
-      { path: 'contact', element: wrapWithSuspense(Contact) },
-      { path: 'faq', element: wrapWithSuspense(FAQ) },
-      { path: 'privacy', element: wrapWithSuspense(Privacy) },
-      { path: 'terms', element: wrapWithSuspense(Terms) },
-      { path: 'vip-services', element: wrapWithSuspense(VIPServices) },
-      { path: 'special-occasions', element: wrapWithSuspense(SpecialOccasions) },
-      { path: '*', element: wrapWithSuspense(NotFound) }
+      { index: true, element: lazyLoad(() => import('./pages/Home')) },
+      { path: 'about', element: lazyLoad(() => import('./pages/About')) },
+      { path: 'menu', element: lazyLoad(() => import('./pages/Menu')) },
+      { path: 'events', element: lazyLoad(() => import('./pages/Events')) },
+      { path: 'reservations', element: lazyLoad(() => import('./pages/Reservations')) },
+      { path: 'loyalty', element: lazyLoad(() => import('./pages/Loyalty')) },
+      { path: 'contact', element: lazyLoad(() => import('./pages/Contact')) },
+      { path: 'faq', element: lazyLoad(() => import('./pages/FAQ')) },
+      { path: 'privacy', element: lazyLoad(() => import('./pages/Privacy')) },
+      { path: 'terms', element: lazyLoad(() => import('./pages/Terms')) },
+      { path: 'vip-services', element: lazyLoad(() => import('./pages/VIPServices')) },
+      { path: 'special-occasions', element: lazyLoad(() => import('./pages/SpecialOccasions')) },
+      { path: '*', element: lazyLoad(() => import('./pages/NotFound')) }
     ]
   }
 ]);
 
-const App = () => {
-  useEffect(() => {
-    // Preload important routes in the background
-    [Home, About, Menu, Reservations].forEach(route => {
-      const lazyComponent = route as unknown as { preload?: () => void };
-      if (lazyComponent.preload) {
-        lazyComponent.preload();
-      }
-    });
-  }, []);
-
+function App() {
   return (
     <HelmetProvider>
       <A11yProvider>
-        <JsonLd type="Restaurant" data={businessJsonLd} />
+        <JsonLd data={businessJsonLd} />
         <RouterProvider router={router} />
       </A11yProvider>
     </HelmetProvider>
   );
-};
+}
 
 export default App;

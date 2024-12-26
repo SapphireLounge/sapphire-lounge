@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Star, Users, Clock } from 'lucide-react';
+import { Calendar, Star, Users, Clock, Flame } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
 import SpecialOffers from '../components/SpecialOffers';
@@ -104,54 +104,47 @@ function Home() {
           role="banner"
           aria-label="Luxurious lounge interior with ambient lighting"
         >
-          <div className="container mx-auto px-4">
-            {/* Logo Icon */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24"
+          >
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-4"
+              className="flex justify-center mb-6"
             >
               <img 
-                src="/images/logo/Sapphire Lounge Circle Logo.png" 
-                alt="Sapphire Logo" 
-                className="w-24 h-24 mx-auto text-primary-300" 
+                src="/images/logo/Sapphire Lounge Circle Logo.png"
+                alt="Sapphire Lounge Logo"
+                className="w-32 h-32 object-contain"
               />
             </motion.div>
-
-            {/* Main Title */}
-            <motion.h1
+            <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-[2.5rem] md:text-7xl font-bold mb-1 whitespace-nowrap"
+              className="text-4xl md:text-5xl font-bold mb-4 text-white text-center mx-auto"
+              style={{ maxWidth: "fit-content" }}
             >
-              Sapphire&nbsp;Lounge
+              Sapphire Lounge
             </motion.h1>
-
-            {/* Subtitle */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-xl md:text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-[#6B8DE3] to-[#8B5CF6] whitespace-nowrap"
-            >
-              PREMIUM&nbsp;SHISHA&nbsp;EXPERIENCE
-            </motion.h2>
-
-            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-gray-300 text-sm md:text-base"
+              transition={{ delay: 0.1 }}
+              className="text-xl md:text-2xl font-bold mb-3 max-w-2xl mx-auto text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
             >
-              Experience the finest flavours in an<br />
-              atmosphere of luxury and comfort.
-              <br />
-              Your journey to exceptional relaxation starts here.
+              PREMIUM SHISHA EXPERIENCE
             </motion.p>
-
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto text-center"
+            >
+              <p>Experience the finest flavours in an atmosphere of luxury and comfort.</p>
+              <p>Your journey to exceptional relaxation starts here.</p>
+            </motion.div>
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -178,7 +171,7 @@ function Home() {
                 View Menu
               </Link>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Features Section */}
