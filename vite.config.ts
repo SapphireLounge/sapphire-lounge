@@ -11,6 +11,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       strategies: 'generateSW',
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'],
       manifest: {
         name: 'Sapphire Lounge',
         short_name: 'Sapphire',
@@ -45,6 +46,10 @@ export default defineConfig({
           }
         ]
       },
+      devOptions: {
+        enabled: true,
+        type: 'module'
+      },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,svg,woff2}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
@@ -78,7 +83,7 @@ export default defineConfig({
             }
           },
           {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images',
@@ -92,7 +97,7 @@ export default defineConfig({
             }
           },
           {
-            urlPattern: /\.(?:js|css)$/,
+            urlPattern: /\.(?:js|css)$/i,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'static-resources',
