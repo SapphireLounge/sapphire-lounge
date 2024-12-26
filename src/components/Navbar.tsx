@@ -8,12 +8,12 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full z-50 bg-black border-b border-gray-800/50">
       {/* Desktop Navigation */}
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+      <div className="container mx-auto px-4 safe-top">
+        <div className="flex justify-between items-center h-16 py-3">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-4">
-            <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-10 w-10" />
-            <span className="text-2xl font-semibold text-white">Sapphire Lounge</span>
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-8 w-8" />
+            <span className="text-xl font-semibold text-white">Sapphire Lounge</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -63,9 +63,9 @@ const Navbar = () => {
         <div className="container mx-auto px-4 py-6">
           {/* Mobile Menu Header */}
           <div className="flex justify-between items-center mb-6">
-            <Link to="/" className="flex items-center gap-4">
-              <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-10 w-10" />
-              <span className="text-2xl font-semibold text-white">Sapphire Lounge</span>
+            <Link to="/" className="flex items-center gap-3">
+              <img src="/images/logo/Sapphire Lounge Circle Logo.png" alt="Sapphire Logo" className="h-8 w-8" />
+              <span className="text-xl font-semibold text-white">Sapphire Lounge</span>
             </Link>
             <button
               onClick={() => setIsOpen(false)}
