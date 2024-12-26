@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Crown, Zap, Check, Loader2 } from 'lucide-react';
 import { usePayment } from '../hooks/usePayment';
-import ReactConfetti from 'react-confetti';
 import SubscriptionSuccess from '../components/SubscriptionSuccess';
 import { Toaster } from 'react-hot-toast';
 import { haptics } from '../utils/haptics';
@@ -19,25 +18,7 @@ const Loyalty: React.FC = () => {
   const [processingTier, setProcessingTier] = useState<string | null>(null);
   const [errorTier, setErrorTier] = useState<string | null>(null);
   const [successTier, setSuccessTier] = useState<{ level: string; iconClass: string } | null>(null);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [confettiPosition, setConfettiPosition] = useState({ x: 0, y: 0 });
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
   const [flippedIcon, setFlippedIcon] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const tiers: TierBenefit[] = [
     {
@@ -89,49 +70,16 @@ const Loyalty: React.FC = () => {
       setProcessingTier(tier.level);
       setErrorTier(null);
       
-      // Provide haptic feedback when starting process
-      await haptics.medium();
-
       const success = await processPayment(tier.price);
       
       if (success) {
         setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
-        setShowConfetti(true);
-        
-        try {
-          // Celebration haptic feedback
-          await haptics.celebrate();
-        } catch (hapticError) {
-          console.debug('Haptic feedback failed:', hapticError);
-        }
-        
-        // Get the position of the clicked tier for confetti
-        const element = document.querySelector(`[data-tier="${tier.level}"]`);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          setConfettiPosition({
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2,
-          });
-        }
       } else {
         setErrorTier(tier.level);
-        try {
-          // Error haptic feedback
-          await haptics.error();
-        } catch (hapticError) {
-          console.debug('Haptic feedback failed:', hapticError);
-        }
       }
     } catch (error) {
       console.error('Error processing tier selection:', error);
       setErrorTier(tier.level);
-      try {
-        // Error haptic feedback
-        await haptics.error();
-      } catch (hapticError) {
-        console.debug('Haptic feedback failed:', hapticError);
-      }
     } finally {
       setProcessingTier(null);
     }
@@ -142,61 +90,14 @@ const Loyalty: React.FC = () => {
     setFlippedIcon(prev => prev === level ? null : level);
   };
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (showConfetti) {
-      timer = setTimeout(() => {
-        setShowConfetti(false);
-      }, 5000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [showConfetti]);
-
   return (
-    <div className="min-h-screen bg-[#020B18] pt-24 pb-12">
+    <div className="min-h-screen bg-[#020B18] pt-8 pb-12">
       <Toaster position="top-center" />
-      {showConfetti && successTier && (
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 1000 }}>
-          <ReactConfetti
-            width={windowSize.width}
-            height={windowSize.height}
-            colors={[
-              successTier.level === 'Silver' ? '#C0C0C0' : 
-              successTier.level === 'Gold' ? '#FFD700' : 
-              '#4169E1',
-              '#FFFFFF',
-              successTier.level === 'Silver' ? '#A9A9A9' :
-              successTier.level === 'Gold' ? '#DAA520' :
-              '#1E90FF',
-              successTier.level === 'Silver' ? '#E8E8E8' :
-              successTier.level === 'Gold' ? '#FFF8DC' :
-              '#87CEEB'
-            ]}
-            recycle={false}
-            numberOfPieces={300}
-            confettiSource={{
-              x: confettiPosition.x,
-              y: confettiPosition.y,
-              w: 0,
-              h: 0
-            }}
-            initialVelocityX={12}
-            initialVelocityY={40}
-            gravity={0.2}
-            tweenDuration={100}
-            wind={0.01}
-            friction={0.97}
-          />
-        </div>
-      )}
       
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
@@ -214,7 +115,7 @@ const Loyalty: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 flex flex-col h-full relative overflow-hidden group"
+              className="bg-black/40 backdrop-blur-sm rounded-xl p-5 md:p-6 border border-white/10 flex flex-col h-full relative overflow-hidden group"
               data-tier={tier.level}
             >
               {/* Gradient overlay */}
@@ -225,13 +126,13 @@ const Loyalty: React.FC = () => {
               <div className="relative z-10">
                 <div className="flex flex-col items-center mb-6">
                   <motion.div
-                    className={`flex items-center justify-center w-24 h-24 rounded-full shadow-xl
+                    className={`flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl
                                ${tier.level === 'Silver' 
                                 ? 'bg-gradient-to-br from-gray-300 to-gray-500' 
                                 : tier.level === 'Gold'
                                 ? 'bg-gradient-to-br from-yellow-300 to-amber-500'
                                 : 'bg-gradient-to-br from-blue-300 to-blue-500'
-                               } relative overflow-hidden mb-6`}
+                               } relative overflow-hidden mb-5 md:mb-6`}
                   >
                     {/* Glitter overlay */}
                     <div 
@@ -264,18 +165,18 @@ const Loyalty: React.FC = () => {
                       className="relative z-10 cursor-pointer"
                     >
                       {tier.level === 'Silver' && (
-                        <Award className="w-12 h-12 text-gray-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Award className="w-10 h-10 md:w-12 md:h-12 text-gray-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                       )}
                       {tier.level === 'Gold' && (
-                        <Zap className="w-12 h-12 text-yellow-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Zap className="w-10 h-10 md:w-12 md:h-12 text-yellow-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                       )}
                       {tier.level === 'Sapphire' && (
-                        <Crown className="w-12 h-12 text-blue-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Crown className="w-10 h-10 md:w-12 md:h-12 text-blue-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                       )}
                     </motion.div>
                   </motion.div>
 
-                  <h3 className={`text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r
+                  <h3 className={`text-xl md:text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r
                                 ${tier.level === 'Silver'
                                   ? 'from-gray-200 via-gray-100 to-gray-300'
                                   : tier.level === 'Gold'
@@ -283,14 +184,14 @@ const Loyalty: React.FC = () => {
                                   : 'from-blue-300 via-sky-200 to-blue-400'}`}>
                     {tier.level}
                   </h3>
-                  <div className="text-3xl font-bold text-[#0090DD] mb-4">
+                  <div className="text-2xl md:text-3xl font-bold text-[#0090DD] mb-3 md:mb-4">
                     £{(tier.price / 100).toFixed(2)}/month
                   </div>
-                  <div className="space-y-2 text-left mb-6">
+                  <div className="space-y-2 text-left mb-5 md:mb-6">
                     {tier.benefits.map((benefit, idx) => (
                       <div key={idx} className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-primary-300 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">{benefit}</span>
+                        <Check className="w-4.5 h-4.5 md:w-5 md:h-5 text-primary-300 mt-0.5 flex-shrink-0" />
+                        <span className="text-base text-gray-300">{benefit}</span>
                       </div>
                     ))}
                   </div>
@@ -406,9 +307,10 @@ const Loyalty: React.FC = () => {
         {successTier && (
           <SubscriptionSuccess
             isOpen={!!successTier}
-            onClose={() => setSuccessTier(null)}
-            tier={successTier}
-            onSuccessIconLoad={() => {}}
+            onClose={() => {
+              setSuccessTier(null);
+            }}
+            tier={successTier || { level: '', iconClass: '' }}
           />
         )}
       </div>

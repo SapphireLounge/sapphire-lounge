@@ -67,7 +67,7 @@ function SpecialOccasions() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -92,7 +92,7 @@ function SpecialOccasions() {
           >
             <h2 className="text-2xl font-bold text-white text-center mb-8">VIP Packages</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {vipPackages.map((pkg, index) => (
+              {vipPackages.map((pkg) => (
                 <div 
                   key={pkg.title}
                   className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative group overflow-hidden"
@@ -101,8 +101,8 @@ function SpecialOccasions() {
                   <h3 className="text-xl font-semibold text-white mb-2">{pkg.title}</h3>
                   <p className="text-gray-400 mb-6">{pkg.description}</p>
                   <ul className="space-y-3">
-                    {pkg.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
+                    {pkg.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
                         <span className="text-primary-300">★</span>
                         <span className="text-gray-300">{feature.text}</span>
                       </li>
@@ -125,7 +125,7 @@ function SpecialOccasions() {
           >
             <h2 className="text-2xl font-bold text-white text-center mb-8">Special Occasions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {specialOccasions.map((occasion, index) => (
+              {specialOccasions.map((occasion) => (
                 <div 
                   key={occasion.title}
                   className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative group overflow-hidden"
@@ -134,8 +134,8 @@ function SpecialOccasions() {
                   <h3 className="text-xl font-semibold text-white mb-2">{occasion.title}</h3>
                   <p className="text-gray-400 mb-6">{occasion.description}</p>
                   <ul className="space-y-3">
-                    {occasion.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
+                    {occasion.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
                         <span className="text-primary-300">★</span>
                         <span className="text-gray-300">{feature.text}</span>
                       </li>

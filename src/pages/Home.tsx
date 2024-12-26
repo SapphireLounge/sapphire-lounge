@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Star, Users, Clock } from 'lucide-react';
+import { Calendar, Star, Users, Clock, Flame } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
 import SpecialOffers from '../components/SpecialOffers';
@@ -109,10 +109,21 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24"
           >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex justify-center mb-6"
+            >
+              <img 
+                src="/images/logo/Sapphire Lounge Circle Logo.png"
+                alt="Sapphire Lounge Logo"
+                className="w-32 h-32 object-contain"
+              />
+            </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-400 text-center mx-auto"
+              className="text-4xl md:text-5xl font-bold mb-4 text-white text-center mx-auto"
               style={{ maxWidth: "fit-content" }}
             >
               Sapphire Lounge
@@ -121,10 +132,19 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto text-center"
+              className="text-xl md:text-2xl font-bold mb-3 max-w-2xl mx-auto text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
             >
-              Premium Shisha Experience | Sapphire Membership Club
+              PREMIUM SHISHA EXPERIENCE
             </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto text-center"
+            >
+              <p>Experience the finest flavours in an atmosphere of luxury and comfort.</p>
+              <p>Your journey to exceptional relaxation starts here.</p>
+            </motion.div>
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

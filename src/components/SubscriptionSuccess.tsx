@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, X, CreditCard, Gift, CalendarClock, Check } from 'lucide-react';
+import { CheckCircle2, X, CreditCard, Gift, CalendarClock } from 'lucide-react';
 import ReactConfetti from 'react-confetti';
+import { haptics } from '../utils/haptics';
 
 interface SubscriptionSuccessProps {
   isOpen: boolean;
@@ -10,24 +11,13 @@ interface SubscriptionSuccessProps {
     level: string;
     iconClass: string;
   };
-  onSuccessIconLoad?: (x: number, y: number) => void;
 }
 
-const SuccessIcon = ({ className, onLoad }: { className?: string; onLoad?: (rect: DOMRect) => void }) => {
-  const iconRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    const icon = iconRef.current;
-    if (icon && onLoad) {
-      const rect = icon.getBoundingClientRect();
-      onLoad(rect);
-    }
-  }, []); // Run only once on mount
-
-  return <CheckCircle2 ref={iconRef} className={className} />;
-};
-
-const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClose, tier, onSuccessIconLoad }) => {
+const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
+  isOpen,
+  onClose,
+  tier,
+}) => {
   const steps = [
     {
       icon: <CreditCard className="w-5 h-5" />,
@@ -46,17 +36,58 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
     }
   ];
 
-  const handleIconLoad = useCallback((rect: DOMRect) => {
-    onSuccessIconLoad?.(rect.left + rect.width / 2, rect.top + rect.height / 2);
-  }, [onSuccessIconLoad]);
-
+  const checkIconRef = useRef<HTMLDivElement>(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
+  // Get confetti colors based on tier
+  const confettiColors = useMemo(() => {
+    return tier.level === 'Silver' 
+      ? ['#C0C0C0', '#D3D3D3', '#A9A9A9']
+      : tier.level === 'Gold'
+      ? ['#FFD700', '#DAA520', '#FFA500']
+      : ['#4169E1', '#1E90FF', '#00BFFF'];
+  }, [tier.level]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isOpen && checkIconRef.current) {
+      // Reduced delay to 50ms for smoother animation
+      timer = setTimeout(() => {
+        setShowConfetti(true);
+      }, 50);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      setShowConfetti(false);
+    };
+  }, [isOpen]);
+
+  // Enhanced haptic feedback synchronized with modal appearance
   useEffect(() => {
     if (isOpen) {
-      setShowConfetti(true);
-    } else {
-      setShowConfetti(false);
+      // Start haptic feedback slightly before modal appears
+      const triggerHaptics = async () => {
+        try {
+          // Initial strong burst
+          await haptics.heavy();
+          await haptics.heavy();
+          
+          // Delayed sustained feedback
+          setTimeout(async () => {
+            for (let i = 0; i < 3; i++) {
+              setTimeout(async () => {
+                await haptics.heavy();
+              }, i * 150);
+            }
+          }, 100);
+        } catch (error) {
+          console.debug('Haptic feedback failed:', error);
+        }
+      };
+      
+      // Trigger haptics slightly before modal appears
+      setTimeout(triggerHaptics, -50);
     }
   }, [isOpen]);
 
@@ -73,6 +104,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="relative w-full max-w-sm bg-dark-900 rounded-lg shadow-xl p-4 mx-auto my-auto"
           >
             <button
@@ -88,30 +120,43 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", duration: 0.5 }}
+                ref={checkIconRef}
               >
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                  <Check className="w-8 h-8 text-white" />
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                      delay: 0.2 
+                    }}
+                  >
+                    <CheckCircle2 className="w-8 h-8 text-white" />
+                  </motion.div>
                 </div>
                 {showConfetti && (
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <ReactConfetti
-                      width={window.innerWidth}
-                      height={window.innerHeight}
-                      recycle={false}
-                      numberOfPieces={200}
-                      gravity={0.3}
-                      confettiSource={{
-                        x: window.innerWidth / 2,
-                        y: window.innerHeight / 2 - 100
-                      }}
-                      style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        zIndex: 1000
-                      }}
-                    />
-                  </div>
+                  <ReactConfetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    recycle={false}
+                    numberOfPieces={400}
+                    gravity={0.15}
+                    friction={0.95}
+                    opacity={0.95}
+                    initialVelocityY={10}
+                    initialVelocityX={10}
+                    colors={confettiColors}
+                    tweenDuration={7000}
+                    style={{
+                      position: 'fixed',
+                      top: 0,
+                      left: 0,
+                      zIndex: 1000,
+                      pointerEvents: 'none'
+                    }}
+                  />
                 )}
               </motion.div>
               <h2 className="text-2xl font-bold mb-2">Welcome to {tier.level}!</h2>
