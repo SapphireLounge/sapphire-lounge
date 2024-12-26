@@ -6,14 +6,26 @@ const hasVibrationSupport = () => {
   }
 
   try {
+    // Check for secure context
+    const isSecureContext = window.isSecureContext;
+    
     // Check for vibration support and respect reduced motion preference
     const hasVibrate = 'vibrate' in navigator;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isMobile = /iPhone|iPad|iPod|Android|Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isDevelopment = process.env.NODE_ENV === 'development';
 
     // Log the detection results for debugging
+    console.debug('Haptics Environment:', {
+      isSecureContext,
+      isDevelopment,
+      environment: process.env.NODE_ENV,
+      protocol: window.location.protocol,
+      host: window.location.host
+    });
+
     console.debug('Haptics Support:', {
       hasVibrate,
       prefersReducedMotion,
@@ -23,7 +35,13 @@ const hasVibrationSupport = () => {
       userAgent: navigator.userAgent
     });
 
-    return hasVibrate && !prefersReducedMotion && (isMobile || isStandalone || isTouchDevice);
+    // In development, be more permissive
+    if (isDevelopment) {
+      return hasVibrate && !prefersReducedMotion && (isMobile || isStandalone || isTouchDevice);
+    }
+
+    // In production, require secure context and proper support
+    return isSecureContext && hasVibrate && !prefersReducedMotion && (isMobile || isStandalone);
   } catch (error) {
     console.debug('Haptics not supported:', error);
     return false;
@@ -54,7 +72,7 @@ const safeVibrate = (pattern: number | number[]) => {
       
       attempts++;
       const success = navigator.vibrate(normalizedPattern);
-      console.debug(`Haptics: Vibration attempt ${attempts} ${success ? 'succeeded' : 'failed'}`);
+      console.debug(`Haptics: Vibration attempt ${attempts} ${success ? 'succeeded' : 'failed'} on ${window.location.href}`);
       
       if (!success && attempts < maxAttempts) {
         setTimeout(tryVibrate, 100);
