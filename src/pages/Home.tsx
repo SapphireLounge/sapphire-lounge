@@ -92,7 +92,7 @@ function Home() {
       <main id="main-content" className="relative">
         {/* Hero Section */}
         <div 
-          className="relative h-[80vh] flex items-center justify-center text-center py-8"
+          className="relative h-[85vh] flex items-center justify-center text-center py-8"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("${bgImageLoaded ? heroImageUrl : blurImageUrl}")`,
             backgroundSize: 'cover',
@@ -107,23 +107,23 @@ function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24"
+            className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex justify-center mb-6"
+              className="flex justify-center mb-4"
             >
               <img 
                 src="/images/logo/Sapphire Lounge Circle Logo.png"
                 alt="Sapphire Lounge Logo"
-                className="w-32 h-32 object-contain"
+                className="w-24 h-24 md:w-28 md:h-28 object-contain"
               />
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl font-bold mb-4 text-white text-center mx-auto"
+              className="text-3xl md:text-4xl font-bold mb-3 text-white text-center mx-auto"
               style={{ maxWidth: "fit-content" }}
             >
               Sapphire Lounge
@@ -132,7 +132,7 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-xl md:text-2xl font-bold mb-3 max-w-2xl mx-auto text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+              className="text-lg md:text-xl font-bold mb-2 max-w-2xl mx-auto text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
             >
               PREMIUM SHISHA EXPERIENCE
             </motion.p>
@@ -140,7 +140,7 @@ function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto text-center"
+              className="text-base md:text-lg text-gray-300 mb-6 max-w-2xl mx-auto text-center"
             >
               <p>Experience the finest flavours in an atmosphere of luxury and comfort.</p>
               <p>Your journey to exceptional relaxation starts here.</p>
