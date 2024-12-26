@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Minus, Trash2, ShoppingCart } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Plus, Minus, Trash2, ClipboardList } from 'lucide-react';
 import { haptics } from '../utils/haptics';
 
 interface OrderItem {
@@ -37,7 +36,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
     localStorage.setItem('orderNotepad', JSON.stringify(orders));
   }, [orders]);
 
-  const handleAddItem = (event: AddToNotepadEvent) => {
+  const handleAddItem = useCallback((event: AddToNotepadEvent) => {
     const { name, price } = event.detail;
     const existingOrder = orders.find(order => order.name === name);
     if (existingOrder) {
@@ -56,7 +55,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
         quantity: 1 
       }]);
     }
-  };
+  }, [orders]);
 
   const handleDeleteItem = (id: string) => {
     haptics.light();
@@ -86,75 +85,83 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
     return () => {
       window.removeEventListener('addToNotepad', handleAddItem as EventListener);
     };
-  }, [orders]);
+  }, [handleAddItem]);
 
   const totalPrice = orders.reduce((sum, order) => 
     sum + parseFloat(order.price.replace('£', '')) * order.quantity, 0
   );
 
   return (
-    <div className={`fixed bottom-20 right-4 w-72 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border rounded-lg shadow-lg overflow-hidden ${className}`}>
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          <ShoppingCart className="w-5 h-5" />
-          Order Notepad
-        </h2>
-      </div>
-
-      <div className="max-h-96 overflow-y-auto">
-        <AnimatePresence>
-          {orders.map(order => (
-            <motion.div
-              key={order.id}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="p-4 border-b flex items-center justify-between gap-4"
-            >
-              <div className="flex-1">
-                <h3 className="font-medium">{order.name}</h3>
-                <p className="text-sm text-muted-foreground">{order.price}</p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleDecreaseQuantity(order.id)}
-                  className="p-1 hover:bg-accent rounded-full"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-8 text-center">{order.quantity}</span>
-                <button
-                  onClick={() => handleIncreaseQuantity(order.id)}
-                  className="p-1 hover:bg-accent rounded-full"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => handleDeleteItem(order.id)}
-                  className="p-1 hover:bg-accent rounded-full text-destructive"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      {orders.length > 0 && (
-        <div className="p-4 border-t">
-          <p className="text-lg font-semibold">
-            Total: £{totalPrice.toFixed(2)}
-          </p>
+    <div className={`bg-black/40 p-4 ${className}`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <ClipboardList className="w-5 h-5 text-primary-300" />
+          <h2 className="text-xl font-semibold text-white">Order Notepad</h2>
         </div>
+        {orders.length > 0 && (
+          <button
+            onClick={() => {
+              haptics.warning();
+              setOrders([]);
+            }}
+            className="text-red-500 hover:text-red-400 transition-colors"
+            aria-label="Clear all items"
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+
+      {orders.length === 0 ? (
+        <p className="text-gray-400 text-center py-4">Your order notepad is empty</p>
+      ) : (
+        <>
+          <div className="space-y-3 mb-4">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                className="flex items-center justify-between bg-black/20 p-3 rounded-lg"
+              >
+                <div className="flex-1">
+                  <p className="text-white">{order.name}</p>
+                  <p className="text-sm text-gray-400">{order.price}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleDecreaseQuantity(order.id)}
+                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                    aria-label={`Decrease quantity of ${order.name}`}
+                  >
+                    <Minus className="w-4 h-4 text-gray-400" />
+                  </button>
+                  <span className="text-white w-6 text-center">{order.quantity}</span>
+                  <button
+                    onClick={() => handleIncreaseQuantity(order.id)}
+                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                    aria-label={`Increase quantity of ${order.name}`}
+                  >
+                    <Plus className="w-4 h-4 text-gray-400" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      haptics.warning();
+                      handleDeleteItem(order.id);
+                    }}
+                    className="p-1 hover:bg-gray-700/50 rounded transition-colors text-red-500 hover:text-red-400"
+                    aria-label={`Delete ${order.name}`}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between pt-3 border-t border-white/10">
+            <span className="text-white font-medium">Total</span>
+            <span className="text-primary-300 font-semibold">£{totalPrice.toFixed(2)}</span>
+          </div>
+        </>
       )}
     </div>
   );
 };
-
-// Helper function to add items programmatically
-export function addItemToNotepad(name: string, price: string) {
-  window.dispatchEvent(new CustomEvent('addToNotepad', { detail: { name, price } }));
-}
