@@ -100,7 +100,16 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
                       recycle={false}
                       numberOfPieces={200}
                       gravity={0.3}
-                      initialPosition={{ x: window.innerWidth / 2, y: 0 }}
+                      confettiSource={{
+                        x: window.innerWidth / 2,
+                        y: window.innerHeight / 2 - 100
+                      }}
+                      style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        zIndex: 1000
+                      }}
                     />
                   </div>
                 )}
