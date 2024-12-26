@@ -1,6 +1,7 @@
 // Check if the device supports the Vibration API
 const hasVibrationSupport = () => {
   if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+    console.debug('Haptics: Window or Navigator not available');
     return false;
   }
 
@@ -8,10 +9,21 @@ const hasVibrationSupport = () => {
     // Check for vibration support and respect reduced motion preference
     const hasVibrate = 'vibrate' in navigator;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = /iPhone|iPad|iPod|Android|Mobile|webOS/i.test(navigator.userAgent);
+    const isMobile = /iPhone|iPad|iPod|Android|Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    return hasVibrate && !prefersReducedMotion && (isMobile || isStandalone);
+    // Log the detection results for debugging
+    console.debug('Haptics Support:', {
+      hasVibrate,
+      prefersReducedMotion,
+      isMobile,
+      isStandalone,
+      isTouchDevice,
+      userAgent: navigator.userAgent
+    });
+
+    return hasVibrate && !prefersReducedMotion && (isMobile || isStandalone || isTouchDevice);
   } catch (error) {
     console.debug('Haptics not supported:', error);
     return false;
@@ -35,11 +47,16 @@ const safeVibrate = (pattern: number | number[]) => {
     const maxAttempts = 3;
     
     const tryVibrate = () => {
-      if (attempts >= maxAttempts) return false;
+      if (attempts >= maxAttempts) {
+        console.debug('Haptics: Max vibration attempts reached');
+        return false;
+      }
       
+      attempts++;
       const success = navigator.vibrate(normalizedPattern);
+      console.debug(`Haptics: Vibration attempt ${attempts} ${success ? 'succeeded' : 'failed'}`);
+      
       if (!success && attempts < maxAttempts) {
-        attempts++;
         setTimeout(tryVibrate, 100);
       }
       return success;
@@ -47,7 +64,7 @@ const safeVibrate = (pattern: number | number[]) => {
 
     return tryVibrate();
   } catch (error) {
-    console.debug('Vibration failed:', error);
+    console.debug('Haptics vibration failed:', error);
     return false;
   }
 };
@@ -55,26 +72,42 @@ const safeVibrate = (pattern: number | number[]) => {
 // Different vibration patterns for different types of feedback
 export const haptics = {
   // Light tap feedback (single short pulse)
-  light: () => safeVibrate(15),
+  light() {
+    return safeVibrate(10);
+  },
 
   // Medium tap feedback (slightly longer)
-  medium: () => safeVibrate(25),
+  medium() {
+    return safeVibrate(20);
+  },
 
   // Heavy tap feedback (even longer)
-  heavy: () => safeVibrate(35),
+  heavy() {
+    return safeVibrate(30);
+  },
 
   // Success feedback (two short pulses)
-  success: () => safeVibrate([15, 30, 15]),
+  success() {
+    return safeVibrate([10, 30, 10]);
+  },
 
   // Warning feedback (three pulses increasing in duration)
-  warning: () => safeVibrate([15, 30, 25, 30, 35]),
+  warning() {
+    return safeVibrate([10, 20, 15, 30, 20]);
+  },
 
   // Error feedback (three strong pulses)
-  error: () => safeVibrate([35, 30, 35, 30, 35]),
+  error() {
+    return safeVibrate([30, 20, 30, 20, 30]);
+  },
 
   // Selection feedback (single medium pulse)
-  selection: () => safeVibrate(20),
+  selection() {
+    return safeVibrate(15);
+  },
 
   // Custom pattern (array of durations in milliseconds)
-  custom: (pattern: number[]) => safeVibrate(pattern)
+  custom(pattern: number[]) {
+    return safeVibrate(pattern);
+  },
 };
