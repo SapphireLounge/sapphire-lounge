@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, X, CreditCard, Gift, CalendarClock } from 'lucide-react';
+import { CheckCircle2, X, CreditCard, Gift, CalendarClock, Check } from 'lucide-react';
+import ReactConfetti from 'react-confetti';
 
 interface SubscriptionSuccessProps {
   isOpen: boolean;
@@ -49,6 +50,16 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
     onSuccessIconLoad?.(rect.left + rect.width / 2, rect.top + rect.height / 2);
   }, [onSuccessIconLoad]);
 
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShowConfetti(true);
+    } else {
+      setShowConfetti(false);
+    }
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -56,29 +67,44 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/80 overflow-y-auto pt-16"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="relative w-full max-w-sm bg-dark-900 rounded-lg shadow-xl p-4 mx-4 my-4"
+            className="relative w-full max-w-sm bg-dark-900 rounded-lg shadow-xl p-4 mx-auto my-auto"
           >
             <button
               onClick={onClose}
-              className="absolute top-2 right-2 p-2 text-gray-400 hover:text-white"
-              aria-label="Close dialog"
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
 
-            <div className="text-center mb-6">
-              <div className="flex justify-center mb-4">
-                <SuccessIcon 
-                  className="w-12 h-12 text-green-500" 
-                  onLoad={handleIconLoad}
-                />
-              </div>
+            <div className="flex flex-col items-center text-center">
+              <motion.div 
+                className="relative mb-4"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", duration: 0.5 }}
+              >
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                  <Check className="w-8 h-8 text-white" />
+                </div>
+                {showConfetti && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <ReactConfetti
+                      width={window.innerWidth}
+                      height={window.innerHeight}
+                      recycle={false}
+                      numberOfPieces={200}
+                      gravity={0.3}
+                      initialPosition={{ x: window.innerWidth / 2, y: 0 }}
+                    />
+                  </div>
+                )}
+              </motion.div>
               <h2 className="text-2xl font-bold mb-2">Welcome to {tier.level}!</h2>
               <p className="text-gray-400">Your subscription has been confirmed</p>
             </div>

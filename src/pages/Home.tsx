@@ -104,52 +104,27 @@ function Home() {
           role="banner"
           aria-label="Luxurious lounge interior with ambient lighting"
         >
-          <div className="container mx-auto px-4">
-            {/* Logo Icon */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-4"
-            >
-              <img 
-                src="/images/logo/Sapphire Lounge Circle Logo.png" 
-                alt="Sapphire Logo" 
-                className="w-24 h-24 mx-auto text-primary-300" 
-              />
-            </motion.div>
-
-            {/* Main Title */}
-            <motion.h1
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24"
+          >
+            <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-[2.5rem] md:text-7xl font-bold mb-1 text-center"
+              className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-400 text-center mx-auto"
+              style={{ maxWidth: "fit-content" }}
             >
               Sapphire Lounge
             </motion.h1>
-
-            {/* Subtitle */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-xl md:text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-[#6B8DE3] to-[#8B5CF6] text-center"
-            >
-              PREMIUM SHISHA EXPERIENCE
-            </motion.h2>
-
-            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-gray-300 text-sm md:text-base text-center mx-auto max-w-2xl"
+              transition={{ delay: 0.1 }}
+              className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto text-center"
             >
-              Experience the finest flavours in an atmosphere of luxury and comfort.
-              Your journey to exceptional relaxation starts here.
+              Premium Shisha Experience | Sapphire Membership Club
             </motion.p>
-
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -176,7 +151,7 @@ function Home() {
                 View Menu
               </Link>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Features Section */}
