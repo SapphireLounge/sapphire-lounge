@@ -1,4 +1,8 @@
 const CACHE_NAME = 'sapphire-lounge-v1';
+
+// This line is required for workbox injection
+self.__WB_MANIFEST;
+
 const urlsToCache = [
   '/',
   '/index.html',

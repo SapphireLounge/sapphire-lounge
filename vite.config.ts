@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'auto',
       strategies: 'injectManifest',
       srcDir: 'public',
       filename: 'sw.js',
@@ -46,6 +47,10 @@ export default defineConfig({
             purpose: 'any'
           }
         ]
+      },
+      injectManifest: {
+        injectionPoint: 'self.__WB_MANIFEST',
+        rollupFormat: 'iife'
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
