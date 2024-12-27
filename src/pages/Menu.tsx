@@ -1,9 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Star, Coffee, Wine, IceCream, Apple, GlassWater, Beer } from 'lucide-react';
-import { OrderNotepad } from '../components/OrderNotepad';
-import { addItemToNotepad } from '../utils/notepadUtils';
-import { haptics } from '../utils/haptics';
+import { OrderNotepad, addItemToNotepad } from '../components/OrderNotepad';
 
 interface MenuItem {
   name: string;
@@ -21,6 +19,7 @@ interface BaseMenuCategory {
 }
 
 interface ShishaCategory extends BaseMenuCategory {
+  basePrice?: string;
   items: (string | MenuItem)[];
 }
 
@@ -28,11 +27,24 @@ interface DrinksCategory extends BaseMenuCategory {
   items: MenuItem[];
 }
 
+interface DessertsCategory extends BaseMenuCategory {
+  items: MenuItem[];
+  extras?: MenuItem[];
+}
+
 function Menu() {
   const categories: ShishaCategory[] = [
     {
+      title: "",
+      description: "Explore our selection of premium shisha flavours & refreshments",
+      subtitle: "Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session",
+      note: "",
+      items: []
+    },
+    {
       title: "House Flavours",
       subtitle: "Recommended double blends by customers (Any House Flavour Shisha Combo with Drinks - £16)",
+      basePrice: "£12.00",
       icon: Flame,
       items: [
         "Double Apple",
@@ -52,6 +64,7 @@ function Menu() {
     {
       title: "Standard Single Flavours",
       subtitle: "Mix and match any two flavours to create your own unique double blend",
+      basePrice: "£12.00",
       icon: Flame,
       items: [
         "Apple", "Mint", "Lemon", "Blueberry", "Strawberry",
@@ -64,6 +77,7 @@ function Menu() {
     {
       title: "Premium Flavours",
       subtitle: "Exclusive signature blends crafted for an extraordinary shisha experience",
+      basePrice: "£18.00",
       icon: Flame,
       items: [
         "Queen & Jungle Juice",
@@ -88,28 +102,6 @@ function Menu() {
         { name: "Ice Base", price: "£2.00" },
         { name: "Large Head", price: "£2.00" },
         { name: "Additional Flavour", price: "£6.00" }
-      ]
-    },
-    {
-      title: "Ice-Cream",
-      subtitle: "Classic flavours with optional toppings",
-      icon: IceCream,
-      items: [
-        {
-          name: "Vanilla Ice-Cream",
-          price: "£3.50",
-          description: "Classic vanilla ice cream"
-        },
-        {
-          name: "Chocolate Ice-Cream",
-          price: "£3.50",
-          description: "Rich chocolate ice cream"
-        },
-        {
-          name: "Strawberry Ice-Cream",
-          price: "£3.50",
-          description: "Fresh strawberry ice cream"
-        }
       ]
     }
   ];
@@ -225,167 +217,292 @@ function Menu() {
     }
   ];
 
+  const desserts: DessertsCategory[] = [
+    {
+      title: "Ice-Cream",
+      subtitle: "Classic flavours with optional toppings",
+      icon: IceCream,
+      items: [
+        { 
+          name: "Vanilla", 
+          description: "Smooth and creamy classic vanilla ice cream",
+          price: "£3.00" 
+        },
+        { 
+          name: "Chocolate", 
+          description: "Rich and indulgent chocolate ice cream",
+          price: "£3.00" 
+        },
+        { 
+          name: "Strawberry", 
+          description: "Sweet and refreshing strawberry ice cream",
+          price: "£3.00" 
+        },
+        { 
+          name: "Mega Sundae", 
+          description: "Three scoops of your choice with chocolate sauce, whipped cream, nuts, and a cherry on top",
+          price: "£7.00" 
+        }
+      ],
+      extras: [
+        { name: "Whipped Cream", price: "£0.50" },
+        { name: "Chocolate Sauce", price: "£0.50" },
+        { name: "Strawberry Sauce", price: "£0.50" },
+        { name: "Sprinkles", price: "£0.50" }
+      ]
+    },
+    {
+      title: "Chocolate Milkshakes",
+      subtitle: "Indulgent milkshakes blended with your favourite chocolate bars",
+      icon: GlassWater,
+      items: [
+        { name: "Kinder Bueno", price: "£5.00" },
+        { name: "Ferrero Rocher", price: "£5.00" },
+        { name: "Galaxy", price: "£5.00" },
+        { name: "Milky Bar", price: "£5.00" },
+        { name: "Snickers", price: "£5.00" },
+        { name: "Mars", price: "£5.00" },
+        { name: "Twix", price: "£5.00" },
+        { name: "Bounty", price: "£5.00" },
+        { name: "Maltesers", price: "£5.00" },
+        { name: "Oreo", price: "£5.00" },
+        { name: "M&M's", price: "£5.00" },
+        { name: "Wispa", price: "£5.00" }
+      ]
+    },
+    {
+      title: "Dessert Waffles",
+      subtitle: "Freshly made Belgian waffles with either choice of Ice-Cream or Whipped Cream",
+      icon: IceCream,
+      items: [
+        { name: "Nutella & Hazelnut Pieces", price: "£6.00" },
+        { name: "Kinder Bueno & Chocolate Sauce", price: "£6.00" },
+        { name: "Mixed Berries & White Chocolate Sauce", price: "£6.00" },
+        { name: "Lotus Biscoff & Caramel Sauce", price: "£6.00" },
+        { name: "Ferrero Rocher & Chocolate Sauce", price: "£6.00" },
+        { name: "Oreo & Chocolate Sauce", price: "£6.00" },
+        { name: "Reeses Pieces & Chocolate Sauce", price: "£6.00" },
+        { name: "Jammy Dodger & White Chocolate Sauce", price: "£6.00" },
+        { name: "Banana & Nutella", price: "£6.00" },
+        { name: "Strawberries & Nutella", price: "£6.00" }
+      ],
+      extras: [
+        { name: "Ice-Cream Scoop", price: "£1.00" },
+        { name: "Additional Topping", price: "£1.00" }
+      ]
+    }
+  ];
+
+  const [showNotepad, setShowNotepad] = React.useState(true);
+
   return (
-    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+      <div className="container mx-auto px-4 max-w-3xl">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-white mb-4">Our Menu</h1>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Explore our carefully curated selection of premium shisha flavours and refreshing beverages.
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Our Menu
+          </h1>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
+            {categories[0].description}
+          </p>
+          <p className="text-gray-500 text-xs mt-1 max-w-2xl mx-auto">
+            {categories[0].subtitle}
           </p>
         </motion.div>
 
         {/* Order Notepad */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden"
-            >
-              <OrderNotepad />
-            </motion.div>
-          </div>
-        </motion.div>
+        <div className="mb-12">
+          <AnimatePresence>
+            {showNotepad && (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <OrderNotepad className="bg-dark-900/50 backdrop-blur-sm border border-accent-700/20" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-        {/* Menu Categories */}
-        <div className="max-w-3xl mx-auto space-y-8">
-          {/* Shisha Categories */}
-          {categories.map((category, index) => (
+        {/* Shisha Menu */}
+        <div className="grid gap-6 mb-12">
+          {categories.slice(1).map((category, index) => (
             <motion.div
-              key={category.title || `category-${index}`}
+              key={category.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative overflow-hidden`}
+              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
-              {/* Content */}
-              <div className="relative z-10">
-                {category.icon && (
-                  <div className="flex items-center mb-4">
-                    <category.icon className="w-6 h-6 text-primary-300 mr-2" />
-                    <h2 className="text-xl font-semibold text-white">{category.title}</h2>
+              <section>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
+                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      {category.title}
+                    </h2>
+                  </div>
+                  {category.basePrice && (
+                    <span className="text-primary-300 text-base font-bold">
+                      {category.basePrice}
+                    </span>
+                  )}
+                </div>
+                {category.subtitle && (
+                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                    <span className="text-accent-400">-</span>
+                    <p>{category.subtitle}</p>
                   </div>
                 )}
-
-                {!category.icon && category.title && (
-                  <h2 className="text-xl font-semibold text-white mb-4">{category.title}</h2>
-                )}
-
-                {category.subtitle && (
-                  <p className="text-gray-400 text-sm mb-4">{category.subtitle}</p>
-                )}
-
-                <div className="space-y-3">
+                <div className={`grid ${category.title === "House Flavours" ? "grid-cols-[1fr_1fr_1fr] auto-rows-min" : "grid-cols-2 sm:grid-cols-3"} gap-1`}>
                   {category.items.map((item, i) => (
-                    <motion.div
+                    <div 
                       key={typeof item === 'string' ? item : item.name}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      whileTap={{ 
-                        scale: 0.9, 
-                        backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                        transition: { duration: 0.3 }
-                      }}
-                      transition={{ 
-                        opacity: { delay: i * 0.05 },
-                        scale: { type: "spring", stiffness: 500, damping: 20 }
-                      }}
-                      className="flex justify-between items-start cursor-pointer p-2 rounded-lg"
+                      className={`flex items-start justify-between text-gray-300 hover:text-primary-300 transition-colors cursor-pointer p-1 rounded-lg hover:bg-dark-800/50 w-full ${category.title === "House Flavours" ? "min-w-0" : ""}`}
                       onClick={() => {
-                        haptics.light();
-                        typeof item === 'string' 
-                          ? addItemToNotepad(item, '£12.00')
-                          : addItemToNotepad(item.name, item.price ?? '£0.00')
+                        const itemName = typeof item === 'string' ? item : item.name;
+                        const itemPrice = typeof item === 'string' ? category.basePrice || '' : item.price || '';
+                        addItemToNotepad(itemName, itemPrice);
                       }}
                     >
-                      <div className="flex-1">
-                        <div className="flex items-start gap-2">
-                          <Star className="w-4 h-4 text-primary-300 mt-0.5" />
-                          <span className="text-gray-200">
-                            {typeof item === 'string' ? item : item.name}
-                          </span>
-                        </div>
-                        {typeof item !== 'string' && item.description && (
-                          <p className="text-gray-400 text-sm mt-1 ml-6">{item.description}</p>
-                        )}
+                      <div className={`flex items-start gap-1 ${category.title === "House Flavours" ? "min-w-0" : ""}`}>
+                        <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
+                        <span className={`text-sm leading-tight ${category.title === "House Flavours" ? "break-words" : ""}`}>{typeof item === 'string' ? item : item.name}</span>
                       </div>
-                      <span className="text-primary-300 ml-4">
-                        {typeof item === 'string' ? '£12.00' : item.price ?? '£0.00'}
-                      </span>
-                    </motion.div>
+                      {typeof item !== 'string' && item.price && (
+                        <span className={`text-primary-300 text-sm font-bold ml-2 ${category.title === "House Flavours" ? "flex-shrink-0" : ""}`}>{item.price}</span>
+                      )}
+                    </div>
                   ))}
                 </div>
-              </div>
+              </section>
             </motion.div>
           ))}
+        </div>
 
-          {/* Drinks Categories */}
+        {/* Drinks Menu */}
+        <div className="grid gap-6 mb-12">
           {drinks.map((category, index) => (
             <motion.div
               key={category.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: (index + categories.length) * 0.1 }}
-              className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 relative overflow-hidden"
+              transition={{ delay: index * 0.1 }}
+              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
             >
-              {/* Content */}
-              <div className="relative z-10">
-                <div className="flex items-center mb-4">
-                  {category.icon && <category.icon className="w-6 h-6 text-primary-300 mr-2" />}
-                  <h2 className="text-xl font-semibold text-white">{category.title}</h2>
+              <section>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
+                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      {category.title}
+                    </h2>
+                  </div>
                 </div>
-
                 {category.subtitle && (
-                  <p className="text-gray-400 text-sm mb-4">{category.subtitle}</p>
+                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                    <span className="text-accent-400">-</span>
+                    <p>{category.subtitle}</p>
+                  </div>
                 )}
-
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                   {category.items.map((item, i) => (
-                    <motion.div
+                    <div
                       key={item.name}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      whileTap={{ 
-                        scale: 0.9, 
-                        backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                        transition: { duration: 0.3 }
-                      }}
-                      transition={{ 
-                        opacity: { delay: i * 0.05 },
-                        scale: { type: "spring", stiffness: 500, damping: 20 }
-                      }}
-                      className="flex justify-between items-start cursor-pointer p-2 rounded-lg"
-                      onClick={() => {
-                        haptics.light();
-                        addItemToNotepad(item.name, item.price ?? '£0.00')
-                      }}
+                      className="group cursor-pointer p-1 rounded-lg hover:bg-dark-800/50"
+                      onClick={() => addItemToNotepad(item.name, item.price || '')}
                     >
-                      <div className="flex-1">
-                        <div className="flex items-start gap-2">
-                          <Star className="w-4 h-4 text-primary-300 mt-0.5" />
-                          <span className="text-gray-200">
-                            {item.name}
-                          </span>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-start gap-1">
+                          <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
+                          <span className="text-gray-300 group-hover:text-primary-300 transition-colors text-sm leading-tight">{item.name}</span>
                         </div>
-                        {item.description && (
-                          <p className="text-gray-400 text-sm mt-1 ml-6">{item.description}</p>
-                        )}
+                        <span className="text-primary-300 text-sm font-bold ml-2">{item.price}</span>
                       </div>
-                      <span className="text-primary-300 ml-4">{item.price ?? '£0.00'}</span>
-                    </motion.div>
+                      {item.description && (
+                        <p className="text-gray-500 text-xs mt-0.5 ml-4">{item.description}</p>
+                      )}
+                    </div>
                   ))}
                 </div>
-              </div>
+              </section>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desserts Menu */}
+        <div className="grid gap-6">
+          {desserts.map((category, index) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
+            >
+              <section>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
+                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      {category.title}
+                    </h2>
+                  </div>
+                </div>
+                {category.subtitle && (
+                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                    <span className="text-accent-400">-</span>
+                    <p>{category.subtitle}</p>
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                  {category.items.map((item, i) => (
+                    <div
+                      key={item.name}
+                      className="group cursor-pointer p-1 rounded-lg hover:bg-dark-800/50"
+                      onClick={() => addItemToNotepad(item.name, item.price || '')}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-start gap-1">
+                          <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
+                          <span className="text-gray-300 group-hover:text-primary-300 transition-colors text-sm leading-tight">{item.name}</span>
+                        </div>
+                        <span className="text-primary-300 text-sm font-bold ml-2">{item.price}</span>
+                      </div>
+                      {item.description && (
+                        <p className="text-gray-500 text-xs mt-0.5 ml-4">{item.description}</p>
+                      )}
+                    </div>
+                  ))}
+                  {category.extras && (
+                    <div className="col-span-full mt-2">
+                      <h3 className="text-lg font-medium text-primary-300 mb-1">Extras</h3>
+                      <div className="grid grid-cols-2 gap-1">
+                        {category.extras.map((extra, i) => (
+                          <div
+                            key={extra.name}
+                            className="flex justify-between items-center text-sm text-gray-300 p-1 rounded-lg hover:bg-dark-800/50 cursor-pointer"
+                            onClick={() => addItemToNotepad(extra.name, extra.price || '')}
+                          >
+                            <div className="flex items-start gap-1">
+                              <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
+                              <span className="text-sm leading-tight">{extra.name}</span>
+                            </div>
+                            <span className="text-primary-300 text-sm font-bold ml-2">{extra.price}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </section>
             </motion.div>
           ))}
         </div>

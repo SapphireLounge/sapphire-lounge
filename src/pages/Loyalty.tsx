@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Crown, Zap, Check, Loader2 } from 'lucide-react';
+import { Award, Crown, Zap, Check } from 'lucide-react';
 import { usePayment } from '../hooks/usePayment';
+import ReactConfetti from 'react-confetti';
 import SubscriptionSuccess from '../components/SubscriptionSuccess';
-import { Toaster } from 'react-hot-toast';
-import { haptics } from '../utils/haptics';
 
 interface TierBenefit {
   level: string;
@@ -18,7 +17,24 @@ const Loyalty: React.FC = () => {
   const [processingTier, setProcessingTier] = useState<string | null>(null);
   const [errorTier, setErrorTier] = useState<string | null>(null);
   const [successTier, setSuccessTier] = useState<{ level: string; iconClass: string } | null>(null);
-  const [flippedIcon, setFlippedIcon] = useState<string | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiPosition, setConfettiPosition] = useState({ x: 0, y: 0 });
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const tiers: TierBenefit[] = [
     {
@@ -65,45 +81,82 @@ const Loyalty: React.FC = () => {
     }
   ];
 
-  const handleTierSelection = async (tier: TierBenefit) => {
-    try {
-      setProcessingTier(tier.level);
-      setErrorTier(null);
-      
-      const success = await processPayment(tier.price);
-      
-      if (success) {
-        setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
-      } else {
-        setErrorTier(tier.level);
-      }
-    } catch (error) {
-      console.error('Error processing tier selection:', error);
+  const handleSubscription = async (tier: TierBenefit) => {
+    setProcessingTier(tier.level);
+    setErrorTier(null);
+    const result = await processPayment(tier.price);
+    if (result.success) {
+      setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
+    } else {
       setErrorTier(tier.level);
-    } finally {
-      setProcessingTier(null);
     }
+    setProcessingTier(null);
   };
 
-  const handleIconFlip = async (level: string) => {
-    await haptics.light();
-    setFlippedIcon(prev => prev === level ? null : level);
-  };
+  const handleSuccessIconLoad = useCallback((x: number, y: number) => {
+    setConfettiPosition({ x, y });
+    setShowConfetti(true);
+  }, []);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (showConfetti) {
+      timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [showConfetti]);
 
   return (
-    <div className="min-h-screen bg-[#020B18] pt-8 pb-12">
-      <Toaster position="top-center" />
+    <div className="min-h-screen bg-[#020B18] pt-24 pb-12">
+      {showConfetti && successTier && (
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 1000 }}>
+          <ReactConfetti
+            width={windowSize.width}
+            height={windowSize.height}
+            colors={[
+              successTier.level === 'Silver' ? '#C0C0C0' : 
+              successTier.level === 'Gold' ? '#FFD700' : 
+              '#4169E1', // Sapphire blue
+              '#FFFFFF',
+              successTier.level === 'Silver' ? '#A9A9A9' :
+              successTier.level === 'Gold' ? '#DAA520' :
+              '#1E90FF',
+              successTier.level === 'Silver' ? '#E8E8E8' :
+              successTier.level === 'Gold' ? '#FFF8DC' :
+              '#87CEEB'
+            ]}
+            recycle={false}
+            numberOfPieces={300}
+            confettiSource={{
+              x: confettiPosition.x,
+              y: confettiPosition.y,
+              w: 0,
+              h: 0
+            }}
+            initialVelocityX={12}
+            initialVelocityY={40}
+            gravity={0.2}
+            tweenDuration={100}
+            wind={0.01}
+            friction={0.97}
+          />
+        </div>
+      )}
       
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-14"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1">
             Loyalty Scheme
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-300 max-w-2xl mx-auto text-base mb-2">
             Join our exclusive membership scheme and enjoy premium benefits every month
           </p>
         </motion.div>
@@ -115,205 +168,159 @@ const Loyalty: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-black/40 backdrop-blur-sm rounded-xl p-5 md:p-6 border border-white/10 flex flex-col h-full relative overflow-hidden group"
-              data-tier={tier.level}
+              className="bg-dark-800/50 rounded-xl p-4 border border-dark-700/50 hover:border-primary-500/50 transition-colors flex flex-col h-full"
             >
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-accent-500/5 opacity-0 
-                            group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Content */}
-              <div className="relative z-10">
+              <div>
                 <div className="flex flex-col items-center mb-6">
-                  <motion.div
-                    className={`flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl
-                               ${tier.level === 'Silver' 
-                                ? 'bg-gradient-to-br from-gray-300 to-gray-500' 
-                                : tier.level === 'Gold'
-                                ? 'bg-gradient-to-br from-yellow-300 to-amber-500'
-                                : 'bg-gradient-to-br from-blue-300 to-blue-500'
-                               } relative overflow-hidden mb-5 md:mb-6`}
+                  <div
+                    className={`flex items-center justify-center w-20 h-20 rounded-full shadow-lg ring-2 ring-opacity-50 ${
+                      tier.level === 'Silver' ? 'ring-gray-400 bg-gradient-to-br from-gray-400 via-gray-200 to-gray-600' : 
+                      tier.level === 'Gold' ? 'ring-yellow-500 bg-gradient-to-br from-yellow-600 via-yellow-300 to-yellow-800' : 
+                      'ring-blue-500 bg-gradient-to-br from-blue-500 via-sky-400 to-blue-800'
+                    } relative overflow-hidden`}
                   >
-                    {/* Glitter overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30"></div>
                     <div 
-                      className="absolute inset-0 animate-shimmer mix-blend-overlay"
+                      className="absolute inset-0 animate-shimmer"
                       style={{
-                        backgroundImage: 'url(/images/glitter-texture.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        opacity: 0.7,
+                        background: `linear-gradient(90deg, 
+                          transparent 0%,
+                          rgba(255, 255, 255, 0.95) 10%,
+                          transparent 30%
+                        )`,
+                        width: '150%',
+                        height: '150%',
+                        top: '-25%',
+                        left: '-25%',
+                        zIndex: 2,
+                        transformOrigin: 'center center'
                       }}
                     />
-                    {/* Additional shine effect */}
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-white/20 animate-pulse"
-                      style={{
-                        mixBlendMode: 'overlay'
-                      }}
-                    />
-                    
-                    {/* Icon */}
-                    <motion.div
-                      animate={{ 
-                        rotateY: flippedIcon === tier.level ? 180 : 0 
-                      }}
-                      transition={{ 
-                        duration: 1,
-                        ease: [0.6, 0.01, -0.05, 0.95]
-                      }}
-                      onClick={() => handleIconFlip(tier.level)}
-                      className="relative z-10 cursor-pointer"
-                    >
+                    <div className="relative z-10">
                       {tier.level === 'Silver' && (
-                        <Award className="w-10 h-10 md:w-12 md:h-12 text-gray-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Award className="w-10 h-10 text-gray-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" />
                       )}
                       {tier.level === 'Gold' && (
-                        <Zap className="w-10 h-10 md:w-12 md:h-12 text-yellow-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Zap className="w-10 h-10 text-yellow-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" />
                       )}
                       {tier.level === 'Sapphire' && (
-                        <Crown className="w-10 h-10 md:w-12 md:h-12 text-blue-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                        <Crown className="w-10 h-10 text-sky-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" />
                       )}
-                    </motion.div>
-                  </motion.div>
-
-                  <h3 className={`text-xl md:text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r
-                                ${tier.level === 'Silver'
-                                  ? 'from-gray-200 via-gray-100 to-gray-300'
-                                  : tier.level === 'Gold'
-                                  ? 'from-yellow-300 via-yellow-200 to-yellow-400'
-                                  : 'from-blue-300 via-sky-200 to-blue-400'}`}>
-                    {tier.level}
-                  </h3>
-                  <div className="text-2xl md:text-3xl font-bold text-[#0090DD] mb-3 md:mb-4">
-                    £{(tier.price / 100).toFixed(2)}/month
+                    </div>
                   </div>
-                  <div className="space-y-2 text-left mb-5 md:mb-6">
-                    {tier.benefits.map((benefit, idx) => (
-                      <div key={idx} className="flex items-start gap-2">
-                        <Check className="w-4.5 h-4.5 md:w-5 md:h-5 text-primary-300 mt-0.5 flex-shrink-0" />
-                        <span className="text-base text-gray-300">{benefit}</span>
-                      </div>
-                    ))}
+                  <h3 className="text-2xl font-semibold text-white mt-4">{tier.level}</h3>
+                  <div className="mt-2 flex flex-col items-center">
+                    <span className="text-2xl font-bold text-primary-400">£{(tier.price / 100).toFixed(2)}</span>
+                    <span className="text-sm text-gray-400">per month</span>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleTierSelection(tier)}
-                    disabled={processingTier === tier.level}
-                    className={`w-full py-3 px-6 rounded-lg font-semibold shadow-lg transition-all
-                      ${successTier?.level === tier.level
-                        ? 'bg-green-500 hover:bg-green-600 text-white cursor-default'
-                        : errorTier === tier.level
-                        ? 'bg-red-500 hover:bg-red-600 text-white'
-                        : 'bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white'
-                      }
-                      disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    {processingTier === tier.level ? (
-                      <div className="flex items-center justify-center">
-                        <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Processing...
-                      </div>
-                    ) : successTier?.level === tier.level ? (
-                      <div className="flex items-center justify-center">
-                        <Check className="w-5 h-5 mr-2" />
-                        Success!
-                      </div>
-                    ) : errorTier === tier.level ? (
-                      "Try Again"
-                    ) : (
-                      "Subscribe Now"
-                    )}
-                  </motion.button>
                 </div>
+                <div className="h-px bg-dark-700/50 mb-3"></div>
+                <ul className="space-y-2 flex flex-col items-center">
+                  {tier.benefits.map((benefit, i) => (
+                    <li key={i} className="flex items-center text-gray-300 text-sm">
+                      <Check size={16} className="mr-2 text-primary-400 flex-shrink-0" />
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-auto pt-6">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleSubscription(tier)}
+                  disabled={processingTier === tier.level}
+                  className={`w-full py-3 rounded-lg font-semibold transition-all text-white shadow-lg ${
+                    processingTier === tier.level
+                      ? 'bg-gray-600 cursor-not-allowed'
+                      : `bg-gradient-to-r from-primary-400 to-accent-500 hover:from-primary-500 hover:to-accent-600`
+                  }`}
+                >
+                  {processingTier === tier.level ? (
+                    <span className="flex items-center justify-center">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                      />
+                      Processing...
+                    </span>
+                  ) : (
+                    'Subscribe Now'
+                  )}
+                </motion.button>
+                {errorTier === tier.level && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-500 text-sm mt-2"
+                  >
+                    Payment failed. Please try again.
+                  </motion.p>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Additional Information Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-black/40 backdrop-blur-sm rounded-xl p-8 border border-white/10 mb-8"
-        >
-          <h2 className="text-2xl font-bold text-white mb-6">Additional Information</h2>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">All memberships are billed monthly and can be cancelled at any time</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Benefits reset at the beginning of each month</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Birthday benefits must be claimed within your birthday month</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Discounts cannot be combined with other promotional offers</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Benefits are non-transferable and cannot be carried over to the next month</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">All memberships are valid for 12 months from the date of subscription</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Members can upgrade their tier at any time, with price differences prorated based on remaining duration</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <Check className="w-5 h-5 text-primary-300" />
-              </div>
-              <p className="text-gray-300">Valid ID and membership card must be presented to redeem benefits</p>
-            </div>
+        <div className="max-w-3xl mx-auto mt-16">
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20"
+            >
+              <h2 className="text-xl font-semibold text-white mb-4">Additional Information</h2>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-start">
+                  <Check className="w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" />
+                  <span>All memberships are billed monthly and can be cancelled at any time</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" />
+                  <span>Benefits reset at the beginning of each month</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" />
+                  <span>Birthday benefits must be claimed within your birthday month</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" />
+                  <span>Discounts cannot be combined with other promotional offers</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" />
+                  <span>Benefits are non-transferable and cannot be carried over to the next month</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20"
+            >
+              <h2 className="text-xl font-semibold text-white mb-4">Need Help?</h2>
+              <p className="text-gray-300">
+                If you have any questions about our loyalty scheme or need assistance, please don't hesitate to contact our team. 
+                We're here to help you make the most of your membership benefits.
+              </p>
+            </motion.div>
           </div>
-        </motion.div>
-
-        {/* Need Help Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="bg-black/40 backdrop-blur-sm rounded-xl p-8 border border-white/10"
-        >
-          <h2 className="text-2xl font-bold text-white mb-4">Need Help?</h2>
-          <p className="text-gray-300">
-            If you have any questions about our loyalty scheme or need assistance, please don't hesitate to contact our team. We're here to help you make the most of your membership benefits.
-          </p>
-        </motion.div>
-
-        {successTier && (
-          <SubscriptionSuccess
-            isOpen={!!successTier}
-            onClose={() => {
-              setSuccessTier(null);
-            }}
-            tier={successTier || { level: '', iconClass: '' }}
-          />
-        )}
+        </div>
       </div>
+      {successTier && (
+        <SubscriptionSuccess
+          isOpen={true}
+          onClose={() => {
+            setSuccessTier(null);
+            setShowConfetti(false);
+          }}
+          tier={successTier}
+          onSuccessIconLoad={handleSuccessIconLoad}
+        />
+      )}
     </div>
   );
 };

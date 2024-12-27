@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface FeaturedEventsProps {
   titleClassName?: string;
@@ -58,7 +57,7 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 pb-2">
                   <h3 className="text-xl font-bold text-white mb-1">{event.title}</h3>
                   <p className="text-gray-200 text-sm">{event.description}</p>
@@ -69,15 +68,13 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
                   <Calendar className="w-4 h-4 mr-2" />
                   <span className="text-sm font-medium">{event.date}</span>
                 </div>
-                <Link to="/reservations">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm ${buttonClassName}`}
-                  >
-                    Book Now
-                  </motion.button>
-                </Link>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm ${buttonClassName}`}
+                >
+                  RSVP Now
+                </motion.button>
               </div>
             </motion.article>
           ))}

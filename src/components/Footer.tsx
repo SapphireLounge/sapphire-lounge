@@ -2,80 +2,104 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram } from 'lucide-react';
 
-const TikTokIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="28" 
-    height="28" 
-    viewBox="0 0 24 24" 
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-  </svg>
-);
+function Footer() {
+  // Custom TikTok icon component
+  const TikTokIcon = () => (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M19.321 5.562a5.122 5.122 0 0 1-.443-.045a5.073 5.073 0 0 1-2.797-1.487a5.044 5.044 0 0 1-1.49-2.797a5.122 5.122 0 0 1-.045-.443H9.934v11.928a2.338 2.338 0 0 1-1.233 2.06a2.338 2.338 0 0 1-2.368-.029a2.338 2.338 0 0 1-.748-3.707a2.338 2.338 0 0 1 3.708.748v-3.437a5.796 5.796 0 0 0-2.342-.486A5.835 5.835 0 0 0 1.116 14.7a5.835 5.835 0 0 0 5.835 5.835a5.835 5.835 0 0 0 5.835-5.835V8.35a8.387 8.387 0 0 0 4.796 1.49V5.562h-0.06z"/>
+    </svg>
+  );
 
-const Footer: React.FC = () => {
   return (
-    <footer className="footer-container">
-      <div className="footer-content">
-        {/* Brand Section */}
-        <div className="footer-section">
-          <p className="footer-tagline">
-            Experience luxury and relaxation in<br />
-            the heart of the city.
-          </p>
-          <div className="footer-social">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon hover:text-primary-300 transition-colors">
-              <Facebook size={20} className="h-7 w-7" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon hover:text-primary-300 transition-colors">
-              <Instagram size={20} className="h-7 w-7" />
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="social-icon hover:text-primary-300 transition-colors">
-              <TikTokIcon className="h-7 w-7" />
-            </a>
+    <footer className="bg-black !bg-black text-gray-400">
+      <div className="container mx-auto px-4 py-8 relative bg-black">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div>
+            <p className="text-gray-400 text-sm mb-3">
+              Experience luxury and relaxation in the heart of the city.
+            </p>
+            <div className="flex space-x-3">
+              <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-primary-300 transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-primary-300 transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" aria-label="TikTok" className="text-gray-400 hover:text-primary-300 transition-colors">
+                <TikTokIcon />
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/about" className="text-gray-400 hover:text-primary-400 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/events" className="text-gray-400 hover:text-primary-400 transition-colors">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link to="/vip-services" className="text-gray-400 hover:text-primary-400 transition-colors">
+                  Special Occasions
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-base font-semibold mb-2 text-gray-200">Support</h2>
+            <ul className="space-y-1.5">
+              <li>
+                <Link to="/faq" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-gray-400 hover:text-primary-300 transition-colors text-sm">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-base font-semibold mb-2 text-gray-200">Opening Hours</h2>
+            <ul className="space-y-1.5 text-sm text-gray-400">
+              <li>Monday: Closed</li>
+              <li>Tuesday - Sunday: 5PM - 2AM</li>
+              <li>Open Bank Holidays</li>
+            </ul>
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="footer-section">
-          <h3 className="footer-heading">Quick Links</h3>
-          <nav className="footer-nav">
-            <Link to="/about" className="footer-link">About Us</Link>
-            <Link to="/events" className="footer-link">Events</Link>
-            <Link to="/special-occasions" className="footer-link">Special Occasions</Link>
-          </nav>
+        <div className="border-t border-accent-700/20 mt-6 pt-6">
+          <p className="text-center text-xs text-gray-400">&copy; {new Date().getFullYear()} Sapphire Lounge. All rights reserved.</p>
         </div>
-
-        {/* Support */}
-        <div className="footer-section">
-          <h3 className="footer-heading">Support</h3>
-          <nav className="footer-nav">
-            <Link to="/faq" className="footer-link">FAQ</Link>
-            <Link to="/contact" className="footer-link">Contact Us</Link>
-            <Link to="/privacy" className="footer-link">Privacy Policy</Link>
-            <Link to="/terms" className="footer-link">Terms of Service</Link>
-          </nav>
-        </div>
-
-        {/* Opening Hours */}
-        <div className="footer-section">
-          <h3 className="footer-heading">Opening Hours</h3>
-          <div className="footer-hours">
-            <p className="text-gray-400">Monday: Closed</p>
-            <p className="text-gray-400">Tuesday - Sunday: 5PM - 2AM</p>
-            <p className="text-gray-400">Open Bank Holidays</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Copyright */}
-      <div className="footer-copyright">
-        <p> 2024 Sapphire Lounge. All rights reserved.</p>
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

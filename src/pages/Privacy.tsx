@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 function Privacy() {
   return (
-    <div className="min-h-screen bg-[#020B18] pt-16 pb-12">
+    <div className="min-h-screen bg-[#020B18] pt-24 pb-12">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

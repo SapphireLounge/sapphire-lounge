@@ -47,7 +47,7 @@ function Testimonials() {
     <div className="py-8 bg-[#090909]">
       <div className="container mx-auto px-8">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500 leading-normal pb-1">
+          <h2 className="text-2xl md:text-3xl font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1">
             What Our Guests Say
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto text-xs">

@@ -1,59 +1,120 @@
-import type { FC } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { Facebook, Instagram } from 'lucide-react';
 
 const TikTokIcon = () => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
     fill="currentColor"
-    className="relative top-[1px]"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+    <path d="M19.321 5.562a5.122 5.122 0 0 1-.443-.045a5.073 5.073 0 0 1-2.797-1.487a5.044 5.044 0 0 1-1.49-2.797a5.122 5.122 0 0 1-.045-.443H9.934v11.928a2.338 2.338 0 0 1-1.233 2.06a2.338 2.338 0 0 1-2.368-.029a2.338 2.338 0 0 1-.748-3.707a2.338 2.338 0 0 1 3.708.748v-3.437a5.796 5.796 0 0 0-2.342-.486A5.835 5.835 0 0 0 1.116 14.7a5.835 5.835 0 0 0 5.835 5.835a5.835 5.835 0 0 0 5.835-5.835V8.35a8.387 8.387 0 0 0 4.796 1.49V5.562h-0.06z"/>
   </svg>
 );
 
-const SocialShare: FC = () => {
+const SocialShare: React.FC = () => {
   const socialLinks = [
     {
       name: 'Instagram',
-      icon: <Instagram size={24} />,
-      gradient: 'from-pink-500 via-red-500 to-yellow-500',
-      url: 'https://instagram.com/sapphirelounge'
+      icon: <Instagram className="w-5 h-5" />,
+      comingSoon: false,
+      shareText: 'Share on Instagram',
+      style: {
+        background: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCAF45)',
+        borderColor: '#E1306C',
+        minWidth: '180px',
+        justifyContent: 'center'
+      },
+      hoverStyle: {
+        background: 'linear-gradient(45deg, #6d2e96, #e41818, #f5a333)'
+      }
     },
     {
       name: 'Facebook',
-      icon: <Facebook size={24} />,
-      gradient: 'from-blue-500 to-blue-600',
-      url: 'https://facebook.com/sapphirelounge'
+      icon: <Facebook className="w-5 h-5" />,
+      comingSoon: false,
+      shareText: 'Share on Facebook',
+      style: {
+        backgroundColor: '#1877F2',
+        borderColor: '#1877F2',
+        minWidth: '180px',
+        justifyContent: 'center'
+      },
+      hoverStyle: {
+        backgroundColor: '#0c5dc7'
+      }
     },
     {
       name: 'TikTok',
       icon: <TikTokIcon />,
-      gradient: 'from-[#FF0050] from-20% via-black via-50% to-[#00F2EA] to-80%',
-      url: 'https://tiktok.com/@sapphirelounge'
+      comingSoon: false,
+      shareText: 'Share on TikTok',
+      style: {
+        backgroundColor: '#000000',
+        borderImage: 'linear-gradient(45deg, #25F4EE, #FE2C55) 1',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        minWidth: '180px',
+        justifyContent: 'center'
+      },
+      hoverStyle: {
+        backgroundColor: '#141414'
+      }
     }
   ];
 
+  const handleShare = (platform: string) => {
+    const url = window.location.href;
+    const text = 'Check out Sapphire Lounge!';
+    
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      instagram: `https://www.instagram.com/share?url=${encodeURIComponent(url)}`,
+      tiktok: `https://www.tiktok.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    };
+
+    if (shareUrls[platform as keyof typeof shareUrls]) {
+      window.open(shareUrls[platform as keyof typeof shareUrls], '_blank');
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {socialLinks.map((social, index) => (
-        <motion.button
-          key={index}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className={`w-full flex items-center justify-center gap-3 p-3 rounded-lg text-white font-medium
-            bg-gradient-to-r ${social.gradient} hover:opacity-90 transition-opacity min-h-[48px]`}
-          onClick={() => window.open(social.url, '_blank')}
-        >
-          <span className="flex items-center justify-center w-6 h-6">
+    <div className="w-full max-w-4xl mx-auto">
+      <div className="flex justify-center gap-3">
+        {socialLinks.map((social) => (
+          <button
+            key={social.name}
+            onClick={() => handleShare(social.name.toLowerCase())}
+            disabled={social.comingSoon}
+            style={social.comingSoon ? undefined : social.style}
+            className={`
+              flex items-center gap-2 px-6 py-2 rounded-lg
+              transition-all duration-200 border
+              ${social.comingSoon 
+                ? 'bg-dark-200 text-gray-500 cursor-not-allowed border-gray-700'
+                : 'text-white shadow-md hover:shadow-lg hover:-translate-y-0.5'
+              }
+            `}
+            onMouseOver={(e) => {
+              if (!social.comingSoon) {
+                Object.assign(e.currentTarget.style, social.style, social.hoverStyle);
+              }
+            }}
+            onMouseOut={(e) => {
+              if (!social.comingSoon) {
+                Object.assign(e.currentTarget.style, social.style);
+              }
+            }}
+          >
             {social.icon}
-          </span>
-          <span className="text-sm whitespace-nowrap">Share on {social.name}</span>
-        </motion.button>
-      ))}
+            <span className="text-sm font-medium">{social.shareText}</span>
+            {social.comingSoon && (
+              <span className="text-[10px] opacity-75 ml-1">(Coming Soon)</span>
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

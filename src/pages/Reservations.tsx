@@ -82,7 +82,7 @@ function Reservations() {
   };
 
   return (
-    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <Toaster position="top-center" />
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header Section */}
@@ -112,7 +112,7 @@ function Reservations() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Date Selection */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Select Date</label>
+                <label className="block text-sm font-medium">Select Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <DatePicker
@@ -142,7 +142,7 @@ function Reservations() {
 
               {/* Time Selection */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Select Time</label>
+                <label className="block text-sm font-medium">Select Time</label>
                 <div className="relative">
                   <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
@@ -165,7 +165,7 @@ function Reservations() {
             {/* Name and Email Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Name</label>
+                <label className="block text-sm font-medium">Name</label>
                 <input
                   type="text"
                   {...register('name')}
@@ -178,7 +178,7 @@ function Reservations() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Email</label>
+                <label className="block text-sm font-medium">Email</label>
                 <input
                   type="email"
                   {...register('email')}
@@ -194,7 +194,7 @@ function Reservations() {
             {/* Phone and Guests Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Phone</label>
+                <label className="block text-sm font-medium">Phone</label>
                 <input
                   type="tel"
                   {...register('phone')}
@@ -207,7 +207,7 @@ function Reservations() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Number of Guests</label>
+                <label className="block text-sm font-medium">Number of Guests</label>
                 <div className="relative">
                   <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
@@ -233,7 +233,7 @@ function Reservations() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Table Preference */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Table Preference</label>
+                <label className="block text-sm font-medium">Table Preference</label>
                 <div className="relative">
                   <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
@@ -252,7 +252,7 @@ function Reservations() {
 
               {/* Special Occasion */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Special Occasion</label>
+                <label className="block text-sm font-medium">Special Occasion</label>
                 <div className="relative">
                   <span className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400">🎉</span>
                   <select
@@ -271,7 +271,7 @@ function Reservations() {
 
             {/* Special Requests */}
             <div className="space-y-1">
-              <label className="block text-sm text-gray-400">Special Requests</label>
+              <label className="block text-sm font-medium">Special Requests</label>
               <textarea
                 {...register('notes')}
                 rows={3}

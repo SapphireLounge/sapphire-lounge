@@ -85,7 +85,7 @@ const VIPServices: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#020B18]">
-      <div className="pt-16 pb-12">
+      <div className="pt-24 pb-12">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

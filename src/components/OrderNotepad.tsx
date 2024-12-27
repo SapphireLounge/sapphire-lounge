@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Minus, Trash2, ClipboardList } from 'lucide-react';
-import { haptics } from '../utils/haptics';
+import React, { useState, useEffect } from 'react';
+import { Plus, Minus, Trash2, ShoppingCart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface OrderItem {
-  id: string;
   name: string;
   price: string;
   quantity: number;
@@ -36,132 +35,126 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) =>
     localStorage.setItem('orderNotepad', JSON.stringify(orders));
   }, [orders]);
 
-  const handleAddItem = useCallback((event: AddToNotepadEvent) => {
-    const { name, price } = event.detail;
-    const existingOrder = orders.find(order => order.name === name);
-    if (existingOrder) {
-      haptics.medium();
-      setOrders(orders.map(order =>
-        order.name === name
-          ? { ...order, quantity: order.quantity + 1 }
-          : order
-      ));
-    } else {
-      haptics.light();
-      setOrders([...orders, { 
-        id: `${name}-${Date.now()}`,
-        name, 
-        price, 
-        quantity: 1 
-      }]);
-    }
+  useEffect(() => {
+    const handleAddItem = (event: AddToNotepadEvent) => {
+      const { name, price } = event.detail;
+      const existingItem = orders.find(item => item.name === name);
+      if (existingItem) {
+        setOrders(orders.map(item =>
+          item.name === name
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ));
+      } else {
+        setOrders([...orders, { name, price, quantity: 1 }]);
+      }
+    };
+
+    window.addEventListener('addToNotepad', handleAddItem as EventListener);
+    return () => window.removeEventListener('addToNotepad', handleAddItem as EventListener);
   }, [orders]);
 
-  const handleDeleteItem = (id: string) => {
-    haptics.light();
-    setOrders(orders.filter(order => order.id !== id));
+  const removeItem = (index: number) => {
+    setOrders(orders.filter((_, i) => i !== index));
   };
 
-  const handleIncreaseQuantity = (id: string) => {
-    haptics.light();
-    setOrders(orders.map(order =>
-      order.id === id
-        ? { ...order, quantity: order.quantity + 1 }
-        : order
-    ));
+  const updateQuantity = (index: number, delta: number) => {
+    setOrders(orders.map((item, i) => {
+      if (i === index) {
+        const newQuantity = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    }));
   };
 
-  const handleDecreaseQuantity = (id: string) => {
-    haptics.light();
-    setOrders(orders.map(order =>
-      order.id === id && order.quantity > 1
-        ? { ...order, quantity: order.quantity - 1 }
-        : order
-    ));
+  const clearAll = () => {
+    setOrders([]);
+    localStorage.removeItem('orderNotepad');
   };
 
-  useEffect(() => {
-    window.addEventListener('addToNotepad', handleAddItem as EventListener);
-    return () => {
-      window.removeEventListener('addToNotepad', handleAddItem as EventListener);
-    };
-  }, [handleAddItem]);
-
-  const totalPrice = orders.reduce((sum, order) => 
-    sum + parseFloat(order.price.replace('£', '')) * order.quantity, 0
-  );
+  const calculateTotal = () => {
+    return orders.reduce((total, item) => {
+      const price = parseFloat(item.price.replace('£', ''));
+      return total + (price * item.quantity);
+    }, 0).toFixed(2);
+  };
 
   return (
-    <div className={`bg-black/40 p-4 ${className}`}>
+    <div 
+      className={`bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 ${className}`}
+    >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <ClipboardList className="w-5 h-5 text-primary-300" />
-          <h2 className="text-xl font-semibold text-white">Order Notepad</h2>
+          <ShoppingCart className="w-5 h-5 text-primary-300" />
+          <h2 className="text-lg font-semibold text-primary-300">Your Order</h2>
         </div>
         {orders.length > 0 && (
           <button
-            onClick={() => {
-              haptics.warning();
-              setOrders([]);
-            }}
-            className="text-red-500 hover:text-red-400 transition-colors"
-            aria-label="Clear all items"
+            onClick={clearAll}
+            className="text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1"
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 className="w-4 h-4" />
+            Clear All
           </button>
         )}
       </div>
 
       {orders.length === 0 ? (
-        <p className="text-gray-400 text-center py-4">Your order notepad is empty</p>
+        <p className="text-neutral-500 text-sm text-center py-2">Click items from the menu to add them here</p>
       ) : (
-        <>
-          <div className="space-y-3 mb-4">
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between bg-black/20 p-3 rounded-lg"
+        <div className="flex flex-col">
+          <AnimatePresence>
+            {orders.map((order, index) => (
+              <motion.div
+                key={order.name}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0"
               >
-                <div className="flex-1">
-                  <p className="text-white">{order.name}</p>
-                  <p className="text-sm text-gray-400">{order.price}</p>
-                </div>
-                <div className="flex items-center gap-2">
+                <span className="flex-1 text-primary-100">{order.name}</span>
+                <div className="flex items-center gap-2 bg-neutral-800 rounded-md px-1">
                   <button
-                    onClick={() => handleDecreaseQuantity(order.id)}
-                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
-                    aria-label={`Decrease quantity of ${order.name}`}
+                    onClick={() => updateQuantity(index, -1)}
+                    className="p-1 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50"
+                    disabled={order.quantity <= 1}
                   >
-                    <Minus className="w-4 h-4 text-gray-400" />
+                    <Minus className="w-3.5 h-3.5 text-primary-300" />
                   </button>
-                  <span className="text-white w-6 text-center">{order.quantity}</span>
+                  <span className="w-6 text-center text-primary-200">{order.quantity}</span>
                   <button
-                    onClick={() => handleIncreaseQuantity(order.id)}
-                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
-                    aria-label={`Increase quantity of ${order.name}`}
+                    onClick={() => updateQuantity(index, 1)}
+                    className="p-1 hover:bg-neutral-700 rounded transition-colors"
                   >
-                    <Plus className="w-4 h-4 text-gray-400" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      haptics.warning();
-                      handleDeleteItem(order.id);
-                    }}
-                    className="p-1 hover:bg-gray-700/50 rounded transition-colors text-red-500 hover:text-red-400"
-                    aria-label={`Delete ${order.name}`}
-                  >
-                    <Trash2 className="w-4 h-4" />
+                    <Plus className="w-3.5 h-3.5 text-primary-300" />
                   </button>
                 </div>
-              </div>
+                <span className="text-primary-200 w-16 text-right">£{(parseFloat(order.price.replace('£', '')) * order.quantity).toFixed(2)}</span>
+                <button
+                  onClick={() => removeItem(index)}
+                  className="text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800"
+                  title="Remove item"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </motion.div>
             ))}
+          </AnimatePresence>
+          <div className="pt-3 border-t border-neutral-800">
+            <div className="flex justify-between items-center text-sm">
+              <span className="font-medium text-primary-300">Total:</span>
+              <span className="font-semibold text-primary-200">£{calculateTotal()}</span>
+            </div>
           </div>
-          <div className="flex items-center justify-between pt-3 border-t border-white/10">
-            <span className="text-white font-medium">Total</span>
-            <span className="text-primary-300 font-semibold">£{totalPrice.toFixed(2)}</span>
-          </div>
-        </>
+        </div>
       )}
     </div>
   );
+};
+
+export const addItemToNotepad = (name: string, price: string) => {
+  const event = new CustomEvent('addToNotepad', { detail: { name, price } });
+  window.dispatchEvent(event);
 };

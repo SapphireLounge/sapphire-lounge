@@ -1,21 +1,39 @@
 import { toast } from 'react-hot-toast';
-import { ReservationFormData } from './validations';
-import api from '@/services/api';
+import { submitReservation as apiSubmitReservation, subscribeNewsletter } from './api-client';
+import type { ReservationData } from './api-client';
+import type { ReservationFormData } from './validations';
 
-export const handleFormSubmission = async (data: ReservationFormData) => {
+export interface FormResponse {
+  success: boolean;
+  message: string;
+}
+
+export async function handleFormSubmission(
+  endpoint: 'reservations' | 'contact' | 'newsletter',
+  data: ReservationFormData | Record<string, unknown>
+): Promise<FormResponse> {
   try {
-    const response = await api.reservations.create(data);
-    
-    if (response.success) {
-      toast.success('Reservation submitted successfully!');
-      return true;
-    } else {
-      toast.error('Failed to submit reservation. Please try again.');
-      return false;
+    let response;
+
+    switch (endpoint) {
+      case 'reservations':
+        response = await apiSubmitReservation(data as ReservationData);
+        break;
+      case 'contact':
+        // TODO: Implement contact form submission
+        throw new Error('Contact form submission not implemented');
+      case 'newsletter':
+        response = await subscribeNewsletter(data.email as string);
+        break;
+      default:
+        throw new Error('Invalid endpoint');
     }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    toast.error('An error occurred. Please try again later.');
-    return false;
+
+    toast.success(response.message || 'Submission successful!');
+    return { success: true, message: response.message };
+  } catch (error: any) {
+    const errorMessage = error.message || 'An error occurred. Please try again.';
+    toast.error(errorMessage);
+    return { success: false, message: errorMessage };
   }
-};
+}
