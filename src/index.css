@@ -8,6 +8,9 @@
   :root {
     @apply bg-[#242424] text-white/90;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -29,22 +32,6 @@
 
   #root {
     @apply min-h-screen flex flex-col;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
-  }
-
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-black;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-accent-700 rounded-full hover:bg-accent-600;
   }
 }
 
@@ -52,330 +39,210 @@
 @layer components {
   /* Layout */
   .container {
-    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-[100%] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px];
-  }
-
-  /* Buttons */
-  .btn {
-    @apply inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 
-           border border-transparent text-base font-medium rounded-lg shadow-sm 
-           transition-all duration-200 focus:outline-none focus:ring-2 
-           focus:ring-offset-2 active:scale-95;
-  }
-
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
-  }
-
-  .btn-secondary {
-    @apply bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500;
+    @apply mx-auto px-4;
+    /* Mobile first, then scale up */
+    @apply max-w-[100%];
+    @apply sm:max-w-[640px] sm:px-6;
+    @apply md:max-w-[768px];
+    @apply lg:max-w-[1024px] lg:px-8;
+    @apply xl:max-w-[1280px];
   }
 
   /* Navigation */
   .nav-link {
-    @apply text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors;
+    @apply relative px-3 py-2 text-gray-300 transition-colors duration-200;
+    /* Mobile styles */
+    @apply text-base;
+    /* Desktop styles */
+    @apply md:text-sm md:font-medium;
+    @apply hover:text-white;
   }
 
   .nav-link-active {
-    @apply text-white bg-dark-400;
+    @apply text-white;
+    /* Mobile styles */
+    @apply font-medium;
+    /* Desktop styles */
+    @apply md:bg-dark-400 md:rounded-md;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white;
+    /* Mobile styles */
+    @apply w-full text-center;
+    /* Desktop styles */
+    @apply md:w-auto;
+  }
+
+  .btn-primary {
+    @apply bg-sapphire-600 text-white;
+    @apply hover:bg-sapphire-700;
+    @apply active:bg-sapphire-800;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-400 text-white;
+    @apply hover:bg-dark-500;
+    @apply active:bg-dark-600;
   }
 
   /* Cards */
   .card {
-    @apply bg-accent-900/50 backdrop-blur-sm rounded-xl overflow-hidden transition-all 
-           hover:-translate-y-1 hover:shadow-2xl border border-white/10;
+    @apply bg-dark-400/50 backdrop-blur-sm rounded-lg overflow-hidden;
+    @apply border border-gray-800/50;
+    /* Mobile styles */
+    @apply p-4;
+    /* Desktop styles */
+    @apply md:p-6;
   }
 
-  .card-content {
-    @apply p-6;
+  /* Animations */
+  .slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
   }
 
-  .card-title {
-    @apply text-xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-400;
   }
 
-  .card-description {
-    @apply text-gray-300 mb-4;
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-600 rounded-full;
   }
 
-  /* Social Share */
-  .social-share-button {
-    @apply px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-opacity 
-           hover:opacity-90 min-w-[200px];
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-700;
+  }
+}
+
+/* Large sparkle animations */
+@keyframes sparkle-large {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.8) rotate(180deg);
+  }
+}
+
+.animate-sparkle-large-0 {
+  animation: sparkle-large 2.5s infinite;
+}
+
+.animate-sparkle-large-1 {
+  animation: sparkle-large 2.5s infinite;
+  animation-delay: 0.8s;
+}
+
+.animate-sparkle-large-2 {
+  animation: sparkle-large 2.5s infinite;
+  animation-delay: 1.6s;
+}
+
+/* Small sparkle animations */
+@keyframes sparkle-small {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.animate-sparkle-small-0 {
+  animation: sparkle-small 1.8s infinite;
+}
+
+.animate-sparkle-small-1 {
+  animation: sparkle-small 1.8s infinite;
+  animation-delay: 0.6s;
+}
+
+.animate-sparkle-small-2 {
+  animation: sparkle-small 1.8s infinite;
+  animation-delay: 1.2s;
+}
+
+/* Twinkle animations with different timings */
+@keyframes twinkle-base {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.animate-twinkle-0 {
+  animation: twinkle-base 2s infinite;
+}
+
+.animate-twinkle-1 {
+  animation: twinkle-base 2s infinite;
+  animation-delay: 0.4s;
+}
+
+.animate-twinkle-2 {
+  animation: twinkle-base 2s infinite;
+  animation-delay: 0.8s;
+}
+
+.animate-twinkle-3 {
+  animation: twinkle-base 2s infinite;
+  animation-delay: 1.2s;
+}
+
+.animate-twinkle-4 {
+  animation: twinkle-base 2s infinite;
+  animation-delay: 1.6s;
+}
+
+/* PWA specific styles */
+@media all and (display-mode: standalone) {
+  body {
+    /* Add padding for iOS safe areas */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
-  .share-instagram {
-    @apply text-white;
-    background: linear-gradient(45deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888);
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
   }
 
-  .share-facebook {
-    @apply bg-[#1877f2] text-white;
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
-  .share-tiktok {
-    @apply text-white;
-    background: linear-gradient(90deg, #25F4EE, #000000 50%, #FE2C55);
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
   }
 
-  /* Sections */
-  .section-header {
-    @apply text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
-  }
-
-  .section-description {
-    @apply text-gray-400 text-center mb-8 max-w-2xl mx-auto;
-  }
-
-  /* Contact */
-  .contact-form {
-    @apply bg-accent-900/30 backdrop-blur-sm rounded-xl p-6 border border-white/10;
-  }
-
-  .contact-input {
-    @apply w-full bg-accent-900/50 border border-accent-700 rounded-lg px-4 py-3 text-white 
-           placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-  }
-
-  /* Menu */
-  .menu-category {
-    @apply mb-12;
-  }
-
-  .menu-category-title {
-    @apply text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
-  }
-
-  .menu-category-description {
-    @apply text-gray-400 text-sm italic mb-6;
-  }
-
-  .menu-price {
-    @apply text-xl font-bold text-blue-400 mb-4;
-  }
-
-  .menu-flavors {
-    @apply grid grid-cols-1 md:grid-cols-3 gap-4;
-  }
-
-  .menu-flavor-item {
-    @apply flex items-center gap-2 text-gray-300;
-  }
-
-  .menu-flavor-star {
-    @apply text-blue-400;
-  }
-
-  /* Footer */
-  .footer-container {
-    @apply bg-black text-gray-400 py-8 px-4;
-  }
-
-  .footer-content {
-    @apply container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6;
-  }
-
-  .footer-section {
-    @apply space-y-3;
-  }
-
-  .footer-tagline {
-    @apply text-gray-400 text-sm leading-relaxed;
-  }
-
-  .footer-social {
-    @apply flex gap-4 mt-2;
-  }
-
-  .social-icon {
-    @apply text-gray-400 hover:text-white transition-colors;
-  }
-
-  .footer-heading {
-    @apply text-white text-base font-semibold mb-2;
-  }
-
-  .footer-nav {
-    @apply flex flex-col space-y-2;
-  }
-
-  .footer-link {
-    @apply text-gray-400 hover:text-white transition-colors text-sm;
-  }
-
-  .footer-hours {
-    @apply space-y-1 text-sm;
-  }
-
-  .footer-copyright {
-    @apply mt-8 pt-4 text-center text-xs border-t border-gray-800;
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: -100% center;
-      transform: scale(1.2) rotate(0deg);
-    }
-    50% {
-      background-position: 200% center;
-      transform: scale(1.2) rotate(180deg);
-    }
-    100% {
-      background-position: -100% center;
-      transform: scale(1.2) rotate(360deg);
-    }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 10s infinite linear;
-  }
-
-  @keyframes sparkle-1 {
-    0% {
-      transform: rotate(-45deg) translateX(-100%);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(-45deg) translateX(100%);
-      opacity: 0;
-    }
-  }
-
-  @keyframes sparkle-2 {
-    0% {
-      transform: rotate(45deg) translateX(100%);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(45deg) translateX(-100%);
-      opacity: 0;
-    }
-  }
-
-  .animate-sparkle-1 {
-    animation: sparkle-1 3s infinite;
-  }
-
-  .animate-sparkle-2 {
-    animation: sparkle-2 3s infinite;
-    animation-delay: 1.5s;
-  }
-
-  /* Large sparkle animations */
-  @keyframes sparkle-large {
-    0%, 100% { 
-      opacity: 0;
-      transform: scale(0.2) rotate(0deg);
-    }
-    50% { 
-      opacity: 1;
-      transform: scale(1.8) rotate(180deg);
-    }
-  }
-
-  .animate-sparkle-large-0 {
-    animation: sparkle-large 2.5s infinite;
-  }
-
-  .animate-sparkle-large-1 {
-    animation: sparkle-large 2.5s infinite;
-    animation-delay: 0.8s;
-  }
-
-  .animate-sparkle-large-2 {
-    animation: sparkle-large 2.5s infinite;
-    animation-delay: 1.6s;
-  }
-
-  /* Small sparkle animations */
-  @keyframes sparkle-small {
-    0%, 100% { 
-      opacity: 0;
-      transform: scale(0.3);
-    }
-    50% { 
-      opacity: 1;
-      transform: scale(1.5);
-    }
-  }
-
-  .animate-sparkle-small-0 {
-    animation: sparkle-small 1.8s infinite;
-  }
-
-  .animate-sparkle-small-1 {
-    animation: sparkle-small 1.8s infinite;
-    animation-delay: 0.6s;
-  }
-
-  .animate-sparkle-small-2 {
-    animation: sparkle-small 1.8s infinite;
-    animation-delay: 1.2s;
-  }
-
-  /* Twinkle animations with different timings */
-  @keyframes twinkle-base {
-    0%, 100% { 
-      opacity: 0;
-      transform: scale(0.3);
-    }
-    50% { 
-      opacity: 1;
-      transform: scale(1.5);
-    }
-  }
-
-  .animate-twinkle-0 {
-    animation: twinkle-base 2s infinite;
-  }
-
-  .animate-twinkle-1 {
-    animation: twinkle-base 2s infinite;
-    animation-delay: 0.4s;
-  }
-
-  .animate-twinkle-2 {
-    animation: twinkle-base 2s infinite;
-    animation-delay: 0.8s;
-  }
-
-  .animate-twinkle-3 {
-    animation: twinkle-base 2s infinite;
-    animation-delay: 1.2s;
-  }
-
-  .animate-twinkle-4 {
-    animation: twinkle-base 2s infinite;
-    animation-delay: 1.6s;
-  }
-
-  /* PWA specific styles */
-  @media all and (display-mode: standalone) {
-    body {
-      /* Add padding for iOS safe areas */
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
-
-    .safe-top {
-      padding-top: env(safe-area-inset-top);
-    }
-
-    .safe-bottom {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .safe-left {
-      padding-left: env(safe-area-inset-left);
-    }
-
-    .safe-right {
-      padding-right: env(safe-area-inset-right);
-    }
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
   }
 }
