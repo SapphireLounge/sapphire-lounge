@@ -20,6 +20,19 @@ export interface ReservationResponse extends ApiResponse {
 }
 
 // Loyalty Types
+interface PaymentDetails {
+  cardNumber?: string;
+  expiryDate?: string;
+  cardholderName?: string;
+  billingAddress?: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+}
+
 export interface LoyaltySubscriptionData {
   tier: string;
   name: string;
@@ -27,7 +40,7 @@ export interface LoyaltySubscriptionData {
   phone: string;
   paymentMethod: {
     type: string;
-    details: any; // This would be replaced with actual payment provider types
+    details: PaymentDetails;
   };
 }
 

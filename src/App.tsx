@@ -1,94 +1,190 @@
 import { useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { A11yProvider } from './components/A11yAnnouncer';
-import { JsonLd } from './components/JsonLd';
-import { Suspense, lazy, ComponentType } from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
-import { LoadingSpinner } from './components/ui/LoadingSpinner';
+import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
+import { Suspense, lazy, memo } from 'react';
+import { OrderProvider } from './contexts/OrderContext';
+import ErrorBoundary from './components/ErrorBoundary'; 
 
-// Business data for JSON-LD
-const businessJsonLd = {
-  name: 'Sapphire Lounge',
-  image: '/images/sapphire-lounge.jpg',
-  description: 'Premium shisha lounge in Swansea offering luxury flavors and a sophisticated atmosphere',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Wind Street',
-    addressLocality: 'Swansea',
-    addressRegion: 'Wales',
-    postalCode: 'SA1 1DY',
-    addressCountry: 'GB'
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: '51.6214',
-    longitude: '-3.9436'
-  },
-  telephone: '01792555888',
-  openingHours: ['Tu-Su 17:00-02:00'],
-  priceRange: '££'
-};
+// Lazy load routes with preload hints
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Reservations = lazy(() => import('./pages/Reservations'));
+const Menu = lazy(() => import('./pages/Menu'));
+const Events = lazy(() => import('./pages/Events'));
+const Loyalty = lazy(() => import('./pages/Loyalty'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const VIPServices = lazy(() => import('./pages/VIPServices'));
 
-// Lazy load components with error boundaries
-const lazyLoad = (importFn: () => Promise<{ default: ComponentType<any> }>) => {
-  const LazyComponent = lazy(importFn);
-  return (
-    <ErrorBoundary>
-      <Suspense fallback={<LoadingSpinner />}>
-        <LazyComponent />
-      </Suspense>
-    </ErrorBoundary>
-  );
-};
+// Enhanced loading component with ARIA
+const LoadingSpinner = memo(() => (
+  <div 
+    className="min-h-screen flex items-center justify-center"
+    role="status"
+    aria-label="Loading content"
+  >
+    <div 
+      className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"
+      aria-hidden="true"
+    />
+  </div>
+));
 
-// Layout wrapper
-const LayoutWrapper = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-
-  return (
-    <Layout>
-      <Outlet />
-    </Layout>
-  );
-};
+LoadingSpinner.displayName = 'LoadingSpinner';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <LayoutWrapper />,
-    errorElement: lazyLoad(() => import('./pages/NotFound')),
+    path: "/",
+    element: <Layout />,
+    errorElement: <NotFound />,
     children: [
-      { index: true, element: lazyLoad(() => import('./pages/Home')) },
-      { path: 'about', element: lazyLoad(() => import('./pages/About')) },
-      { path: 'menu', element: lazyLoad(() => import('./pages/Menu')) },
-      { path: 'events', element: lazyLoad(() => import('./pages/Events')) },
-      { path: 'reservations', element: lazyLoad(() => import('./pages/Reservations')) },
-      { path: 'loyalty', element: lazyLoad(() => import('./pages/Loyalty')) },
-      { path: 'contact', element: lazyLoad(() => import('./pages/Contact')) },
-      { path: 'faq', element: lazyLoad(() => import('./pages/FAQ')) },
-      { path: 'privacy', element: lazyLoad(() => import('./pages/Privacy')) },
-      { path: 'terms', element: lazyLoad(() => import('./pages/Terms')) },
-      { path: 'vip-services', element: lazyLoad(() => import('./pages/VIPServices')) },
-      { path: 'special-occasions', element: lazyLoad(() => import('./pages/SpecialOccasions')) },
-      { path: '*', element: lazyLoad(() => import('./pages/NotFound')) }
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Home />
+          </Suspense>
+        )
+      },
+      {
+        path: "/about",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <About />
+          </Suspense>
+        )
+      },
+      {
+        path: "/reservations",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Reservations />
+          </Suspense>
+        )
+      },
+      {
+        path: "/menu",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Menu />
+          </Suspense>
+        )
+      },
+      {
+        path: "/events",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Events />
+          </Suspense>
+        )
+      },
+      {
+        path: "/loyalty",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Loyalty />
+          </Suspense>
+        )
+      },
+      {
+        path: "/contact",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Contact />
+          </Suspense>
+        )
+      },
+      {
+        path: "/faq",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <FAQ />
+          </Suspense>
+        )
+      },
+      {
+        path: "/privacy",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Privacy />
+          </Suspense>
+        )
+      },
+      {
+        path: "/terms",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Terms />
+          </Suspense>
+        )
+      },
+      {
+        path: "/vip-services",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <VIPServices />
+          </Suspense>
+        )
+      },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <NotFound />
+          </Suspense>
+        )
+      }
     ]
   }
-]);
+], {
+  future: {
+    v7_normalizeFormMethod: true
+  }
+});
+
+// Preload hints for routes
+const preloadRoutes = () => {
+  // Only preload routes after initial render
+  setTimeout(() => {
+    import('./pages/Home');
+    import('./pages/About');
+    import('./pages/Menu');
+    import('./pages/Contact');
+  }, 2000); // Wait for 2 seconds after initial render
+};
 
 function App() {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+          console.log('Service worker registration failed:', error);
+        });
+      });
+    }
+    // Preload important routes after initial render
+    preloadRoutes();
+  }, []);
+
   return (
-    <HelmetProvider>
-      <A11yProvider>
-        <JsonLd data={businessJsonLd} />
-        <RouterProvider router={router} />
-      </A11yProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <A11yProvider>
+          <OrderProvider>
+            <div className="min-h-screen bg-dark-900">
+              <JsonLd type="Restaurant" data={restaurantJsonLd} />
+              <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
+            </div>
+          </OrderProvider>
+        </A11yProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

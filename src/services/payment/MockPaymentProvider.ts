@@ -9,7 +9,7 @@ export class MockPaymentProvider implements PaymentProvider {
 
   async processPayment(amount: number): Promise<PaymentResult> {
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 600));
 
     // Simulate success with 90% probability
     const success = Math.random() < 0.9;

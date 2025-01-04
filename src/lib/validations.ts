@@ -6,7 +6,7 @@ export const reservationSchema = z.object({
   phone: z.string().min(10, 'Invalid phone number'),
   date: z.string().min(1, 'Please select a date'),
   time: z.string().min(1, 'Please select a time'),
-  guests: z.number().min(1, 'At least 1 guest required').max(8, 'Maximum 8 guests allowed'),
+  guests: z.number().min(0, 'Number of guests cannot be negative'),
   tablePreference: z.string().optional(),
   notes: z.string().optional(),
   specialOccasion: z.string().optional(),

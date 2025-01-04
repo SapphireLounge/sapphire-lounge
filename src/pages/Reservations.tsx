@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Calendar, Clock, Users } from 'lucide-react';
 import { format, addDays } from 'date-fns';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
@@ -23,13 +23,22 @@ function Reservations() {
     setValue
   } = useForm<ReservationFormData>({
     resolver: zodResolver(reservationSchema),
+    defaultValues: {
+      guests: 1,
+      tablePreference: '',
+      notes: '',
+      specialOccasion: ''
+    }
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>('');
-  const [guests, setGuests] = useState<number>(1);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedTablePreference, setSelectedTablePreference] = useState<string>('');
+  const [selectedGuests, setSelectedGuests] = useState<number>(1);
+  const [selectedOccasion, setSelectedOccasion] = useState<string>('');
+  const [specialRequests, setSpecialRequests] = useState<string>('');
 
   const timeSlots = [
     '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', 
@@ -37,10 +46,8 @@ function Reservations() {
     '23:00', '23:30', '00:00', '00:30', '01:00', '01:30'
   ];
 
-  const guestOptions = Array.from({ length: 8 }, (_, i) => i + 1);
-
   const occasions = [
-    "None",
+    "Select an occasion (optional)",
     "Birthday",
     "Anniversary",
     "Date Night",
@@ -63,26 +70,58 @@ function Reservations() {
         localStorage.removeItem('reservationFormData');
       }
     }
+    // Initialize guests to 1 (minimum table size)
+    setValue('guests', 1);
   }, [setValue]);
 
   const onSubmit = async (data: ReservationFormData) => {
-    // Save basic contact information to localStorage
-    const dataToSave = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-    };
-    localStorage.setItem('reservationFormData', JSON.stringify(dataToSave));
+    try {
+      // Debug log
+      console.log('Form submission data:', data);
+      
+      // Ensure date is in the correct format
+      const formattedDate = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
+      
+      // Save basic contact information to localStorage
+      const dataToSave = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      };
+      localStorage.setItem('reservationFormData', JSON.stringify(dataToSave));
 
-    const result = await handleFormSubmission('reservations', data);
-    if (result.success) {
-      setShowSuccess(true);
-      reset();
+      const formData = {
+        ...data,
+        date: formattedDate,
+        guests: Number(data.guests),
+        specialRequests: data.notes // Ensure special requests are included
+      };
+
+      console.log('Submitting reservation with formatted data:', formData);
+
+      const result = await handleFormSubmission('reservations', formData);
+      if (result.success) {
+        // Update state variables with form data
+        setSelectedGuests(Number(data.guests) || 0);
+        setSelectedTablePreference(data.tablePreference ?? "defaultPreference");
+        setSelectedOccasion(data.specialOccasion ?? "defaultOccasion");
+        setSpecialRequests(data.notes ?? "No special requests");
+        // Add a slight delay before showing success message
+        setTimeout(() => {
+          setShowSuccess(true);
+        }, 500); // 500ms delay
+        reset();
+      } else {
+        toast.error(result.message || 'Failed to make reservation. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting reservation:', error);
+      toast.error('An error occurred while making your reservation. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <Toaster position="top-center" />
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header Section */}
@@ -112,7 +151,7 @@ function Reservations() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Date Selection */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Select Date</label>
+                <label className="block text-sm font-medium">Select Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <DatePicker
@@ -120,13 +159,13 @@ function Reservations() {
                     onChange={(date: Date | null) => {
                       if (date) {
                         setSelectedDate(date);
-                        setValue('date', date.toISOString().split('T')[0]);
+                        setValue('date', format(date, 'dd/MM/yyyy'));
                         setIsCalendarOpen(false);
                       }
                     }}
                     minDate={new Date()}
                     maxDate={addDays(new Date(), 30)}
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat="dd/MM/yyyy"
                     className="w-full bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
                     placeholderText="Select a date"
                     showPopperArrow={false}
@@ -142,7 +181,7 @@ function Reservations() {
 
               {/* Time Selection */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Select Time</label>
+                <label className="block text-sm font-medium">Select Time</label>
                 <div className="relative">
                   <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
@@ -165,7 +204,7 @@ function Reservations() {
             {/* Name and Email Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Name</label>
+                <label className="block text-sm font-medium">Name</label>
                 <input
                   type="text"
                   {...register('name')}
@@ -178,7 +217,7 @@ function Reservations() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Email</label>
+                <label className="block text-sm font-medium">Email</label>
                 <input
                   type="email"
                   {...register('email')}
@@ -193,8 +232,9 @@ function Reservations() {
 
             {/* Phone and Guests Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Phone Number */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Phone</label>
+                <label className="block text-sm font-medium">Phone</label>
                 <input
                   type="tel"
                   {...register('phone')}
@@ -206,21 +246,26 @@ function Reservations() {
                 )}
               </div>
 
+              {/* Number of Guests */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Number of Guests</label>
+                <label className="block text-sm font-medium">Number of Guests</label>
                 <div className="relative">
                   <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
-                    {...register('guests', { valueAsNumber: true })}
-                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
-                    onChange={(e) => setGuests(parseInt(e.target.value))}
+                    {...register('guests', { 
+                      valueAsNumber: true,
+                      onChange: (e) => setSelectedGuests(parseInt(e.target.value))
+                    })}
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
                   >
-                    <option value="">None</option>
-                    {guestOptions.map((num) => (
-                      <option key={num} value={num}>
-                        {num} {num === 1 ? 'Guest' : 'Guests'}
-                      </option>
-                    ))}
+                    <option value="1">Table for 1</option>
+                    <option value="2">Table for 2</option>
+                    <option value="3">Table for 3</option>
+                    <option value="4">Table for 4</option>
+                    <option value="5">Table for 5</option>
+                    <option value="6">Table for 6</option>
+                    <option value="7">Table for 7</option>
+                    <option value="8">Table for 8</option>
                   </select>
                   {errors.guests && (
                     <p className="text-red-400 text-xs">{errors.guests.message}</p>
@@ -233,14 +278,17 @@ function Reservations() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Table Preference */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Table Preference</label>
+                <label className="block text-sm font-medium">
+                  Table Preference <span className="text-gray-400">(optional)</span>
+                </label>
                 <div className="relative">
                   <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                   <select
                     {...register('tablePreference')}
                     className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                    onChange={(e) => setSelectedTablePreference(e.target.value)}
                   >
-                    <option value="">None</option>
+                    <option value="">Select table preference</option>
                     <option value="booth">Booth</option>
                     <option value="regular">Regular</option>
                   </select>
@@ -252,15 +300,19 @@ function Reservations() {
 
               {/* Special Occasion */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-400">Special Occasion</label>
+                <label className="block text-sm font-medium">
+                  Special Occasion <span className="text-gray-400">(optional)</span>
+                </label>
                 <div className="relative">
                   <span className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400">🎉</span>
                   <select
                     {...register('specialOccasion')}
-                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none cursor-pointer hover:border-neutral-600 transition-colors"
+                    className="w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
+                    onChange={(e) => setSelectedOccasion(e.target.value)}
                   >
-                    {occasions.map((occasion) => (
-                      <option key={occasion} value={occasion === "None" ? "" : occasion}>
+                    <option value="">Select an occasion</option>
+                    {occasions.slice(1).map((occasion) => (
+                      <option key={occasion} value={occasion}>
                         {occasion}
                       </option>
                     ))}
@@ -271,12 +323,13 @@ function Reservations() {
 
             {/* Special Requests */}
             <div className="space-y-1">
-              <label className="block text-sm text-gray-400">Special Requests</label>
+              <label className="block text-sm font-medium">Special Requests</label>
               <textarea
                 {...register('notes')}
                 rows={3}
                 className="w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-sm"
-                placeholder="Any special requests or notes..."
+                placeholder="Any special requests or requirements?"
+                onChange={(e) => setSpecialRequests(e.target.value)}
               />
             </div>
 
@@ -315,7 +368,10 @@ function Reservations() {
           reservationDetails={{
             date: format(selectedDate, 'EEEE, MMMM do, yyyy'),
             time: selectedTime,
-            guests: guests
+            guests: selectedGuests,
+            tableType: selectedTablePreference,
+            occasion: selectedOccasion,
+            specialRequests: specialRequests
           }}
         />
       )}

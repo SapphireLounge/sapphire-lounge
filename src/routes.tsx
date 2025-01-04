@@ -8,6 +8,7 @@ const Events = lazy(() => import('./pages/Events'));
 const Reservations = lazy(() => import('./pages/Reservations'));
 const Contact = lazy(() => import('./pages/Contact'));
 const About = lazy(() => import('./pages/About'));
+const VIPServices = lazy(() => import('./pages/VIPServices'));
 
 // Loading component for suspense fallback
 const PageLoader = () => (
@@ -62,6 +63,14 @@ export const routes = [
     element: (
       <Suspense fallback={<PageLoader />}>
         <About />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/vip-services',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <VIPServices />
       </Suspense>
     ),
   },

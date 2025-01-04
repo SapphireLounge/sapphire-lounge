@@ -2,23 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import ErrorBoundary from './components/ErrorBoundary';
 import App from './App.tsx';
 import './index.css';
-
-// Register service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
 
 const ErrorFallback = () => (
   <div className="min-h-screen bg-neutral-900 text-white flex items-center justify-center p-4">
@@ -40,10 +26,6 @@ createRoot(document.getElementById('root')!).render(
     <HelmetProvider>
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Toaster position="top-center" />
-        <SpeedInsights 
-          sampleRate={1.0}
-          debug={import.meta.env.DEV}
-        />
         <App />
       </ErrorBoundary>
     </HelmetProvider>

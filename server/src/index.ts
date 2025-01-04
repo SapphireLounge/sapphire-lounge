@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { reservationRoutes } from './routes/reservations';
 import newsletterRoutes from './routes/newsletterRoutes';
+import { eventRoutes } from './routes/events';
 import { errorHandler } from './middleware/errorHandler';
 import { corsMiddleware } from './middleware/cors';
 import { logger } from './utils/logger';
@@ -23,6 +24,7 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/events', eventRoutes);
 
 // Error handling
 app.use(errorHandler);

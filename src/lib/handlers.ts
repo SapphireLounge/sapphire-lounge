@@ -11,6 +11,11 @@ import {
   ErrorResponse
 } from '@/types/api';
 
+type ContactResponse = {
+  success: boolean;
+  message: string;
+};
+
 export const handleReservation = async (data: ReservationData): Promise<ReservationResponse | ErrorResponse> => {
   try {
     const response = await api.reservations.create(data);
@@ -21,7 +26,7 @@ export const handleReservation = async (data: ReservationData): Promise<Reservat
     throw new Error('Reservation failed');
   } catch (error) {
     toast.error('Failed to make reservation. Please try again.');
-    return { success: false, error };
+    return { success: false, error: error instanceof Error ? error : new Error('An unknown error occurred') };
   }
 };
 
@@ -35,11 +40,11 @@ export const handleLoyaltySubscription = async (data: LoyaltySubscriptionData): 
     throw new Error('Subscription failed');
   } catch (error) {
     toast.error('Failed to process subscription. Please try again.');
-    return { success: false, error };
+    return { success: false, error: error instanceof Error ? error : new Error('An unknown error occurred') };
   }
 };
 
-export const handleNewsletterSubscription = async (email: string): Promise<{ success: boolean; data?: any; error?: unknown }> => {
+export const handleNewsletterSubscription = async (email: string): Promise<{ success: boolean; data?: { success: boolean; message: string }; error?: Error }> => {
   try {
     const response = await api.newsletter.subscribe(email);
     if (response.success) {
@@ -49,11 +54,11 @@ export const handleNewsletterSubscription = async (email: string): Promise<{ suc
     throw new Error('Newsletter subscription failed');
   } catch (error) {
     toast.error('Failed to subscribe to newsletter. Please try again.');
-    return { success: false, error };
+    return { success: false, error: error instanceof Error ? error : new Error('An unknown error occurred') };
   }
 };
 
-export const handleContactSubmission = async (data: ContactData): Promise<{ success: boolean; data?: any; error?: unknown }> => {
+export const handleContactSubmission = async (data: ContactData): Promise<{ success: boolean; data?: ContactResponse; error?: Error }> => {
   try {
     const response = await api.contact.send(data);
     if (response.success) {
@@ -63,7 +68,7 @@ export const handleContactSubmission = async (data: ContactData): Promise<{ succ
     throw new Error('Failed to send message');
   } catch (error) {
     toast.error('Failed to send message. Please try again.');
-    return { success: false, error };
+    return { success: false, error: error instanceof Error ? error : new Error('An unknown error occurred') };
   }
 };
 
@@ -77,6 +82,6 @@ export const handleEventRegistration = async (eventId: number, data: EventRegist
     throw new Error('Event registration failed');
   } catch (error) {
     toast.error('Failed to register for event. Please try again.');
-    return { success: false, error };
+    return { success: false, error: error instanceof Error ? error : new Error('An unknown error occurred') };
   }
 };
