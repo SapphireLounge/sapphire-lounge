@@ -67,19 +67,19 @@ function SpecialOccasions() {
   ];
 
   return (
-    <div className="min-h-screen pt-16 pb-12 bg-[#020B18]">
+    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            VIP Services & Special Occasions
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Special Occasions
           </h1>
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
-            Experience luxury and exclusivity with our premium VIP services and special occasion packages
+            Make your special moments extraordinary at Sapphire Lounge.
           </p>
         </motion.div>
 

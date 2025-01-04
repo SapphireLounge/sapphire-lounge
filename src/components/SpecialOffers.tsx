@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -37,12 +36,12 @@ const specialOffers = [
 
 function SpecialOffers({ titleClassName, buttonClassName }: SpecialOffersProps) {
   return (
-    <section className="py-8 bg-[#020B18]">
+    <section className="pt-4 md:pt-8 bg-[#020B18]">
       <div className="container mx-auto px-4">
-        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
+        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Special Offers
         </h2>
-        <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto text-sm">
+        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-2xl mx-auto text-sm">
           Take advantage of our exclusive deals and make your experience even more special.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -1,5 +1,11 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { Request, Response, NextFunction } from 'express';
+
+// Extend the Express Request type using module augmentation
+declare module 'express' {
+  interface Request {
+    isMobile: boolean;
+  }
+}
 
 // Array of mobile device identifiers
 const MOBILE_AGENTS = [
@@ -18,32 +24,21 @@ function isMobile(userAgent: string) {
 }
 
 // Middleware function
-export function middleware(request: NextRequest) {
-  // Get user agent
-  const userAgent = request.headers.get('user-agent') || '';
-  
-  // Check if mobile/tablet
+export function middleware(req: Request, res: Response, next: NextFunction) {
+  const userAgent = req.headers['user-agent'] || '';
   const isMobileDevice = isMobile(userAgent);
 
-  // Clone the response
-  const response = NextResponse.next();
+  // Add mobile detection to request object
+  req.isMobile = isMobileDevice;
 
-  // Add device type to headers
-  response.headers.set('x-device-type', isMobileDevice ? 'mobile' : 'desktop');
+  // You can add your routing logic here if needed
+  // For example:
+  // if (isMobileDevice && req.path === '/some-path') {
+  //   return res.redirect('/mobile-path');
+  // }
 
-  return response;
+  next();
 }
 
-// Configure middleware to run on specific paths
-export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
-};
+// Export the middleware function as default
+export default middleware;

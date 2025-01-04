@@ -1,16 +1,47 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useDeviceType } from '../hooks/useDeviceType';
+import { useHaptics } from '../hooks/useHaptics';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const deviceType = useDeviceType();
+  const { triggerHaptic } = useHaptics();
+
+  // Close mobile/tablet menu when switching to desktop
+  useEffect(() => {
+    if (deviceType === 'desktop') {
+      setIsOpen(false);
+    }
+  }, [deviceType]);
+
+  const isMenuVisible = deviceType === 'desktop';
+  const showHamburger = deviceType === 'mobile' || deviceType === 'tablet';
+
+  const handleMobileClick = () => {
+    if (showHamburger) {
+      triggerHaptic();
+    }
+    setIsOpen(false);
+  };
 
   return (
-    <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md">
-      {/* Desktop Navigation */}
+    <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-center h-16">
-          <div className="hidden md:flex items-center space-x-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3">
+            <img 
+              src="/images/logo/Sapphire Lounge Circle Logo.png" 
+              alt="Sapphire Logo" 
+              className="h-8 w-8"
+            />
+            <span className="text-xl font-semibold text-white">Sapphire Lounge</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className={`hidden ${isMenuVisible ? 'lg:flex' : ''} items-center space-x-8`}>
             <NavLink 
               to="/" 
               className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -18,14 +49,6 @@ const Navbar = () => {
               }`}
             >
               Home
-            </NavLink>
-            <NavLink 
-              to="/about" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              About Us
             </NavLink>
             <NavLink 
               to="/menu" 
@@ -44,101 +67,143 @@ const Navbar = () => {
               Reservations
             </NavLink>
             <NavLink 
+              to="/events" 
+              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Events
+            </NavLink>
+            <NavLink 
+              to="/vip-services" 
+              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Special Services
+            </NavLink>
+            <NavLink 
               to="/loyalty" 
               className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
-              Loyalty Scheme
-            </NavLink>
-            <NavLink 
-              to="/contact" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Contact
+              Loyalty
             </NavLink>
           </div>
 
-          {/* Mobile Menu Button - Positioned Absolutely */}
-          <div className="md:hidden absolute right-4 top-1/2 transform -translate-y-1/2">
+          {/* Mobile/Tablet Menu Button */}
+          {showHamburger && (
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-dark-400 focus:outline-none"
+              onClick={() => {
+                triggerHaptic();
+                setIsOpen(!isOpen);
+              }}
+              className="lg:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              aria-expanded={isOpen}
               aria-label="Toggle menu"
             >
-              <Menu className={`${isOpen ? 'hidden' : 'block'} h-6 w-6`} />
-              <X className={`${isOpen ? 'block' : 'hidden'} h-6 w-6`} />
+              <span className="sr-only">Open main menu</span>
+              {isOpen ? (
+                <X className="h-8 w-8" aria-hidden="true" />
+              ) : (
+                <Menu className="h-8 w-8" aria-hidden="true" />
+              )}
             </button>
-          </div>
+          )}
         </div>
-      </div>
 
-      {/* Mobile Menu Dropdown - Centered */}
-      <div 
-        className={`${
-          isOpen ? 'block' : 'hidden'
-        } md:hidden w-full bg-black shadow-lg`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="py-2 space-y-1">
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </NavLink>
-            <NavLink 
-              to="/about" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              About Us
-            </NavLink>
-            <NavLink 
-              to="/menu" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Menu
-            </NavLink>
-            <NavLink 
-              to="/reservations" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Reservations
-            </NavLink>
-            <NavLink 
-              to="/loyalty" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Loyalty Scheme
-            </NavLink>
-            <NavLink 
-              to="/contact" 
-              className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium text-center ${
-                isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </NavLink>
+        {/* Mobile/Tablet Navigation Menu */}
+        {(deviceType === 'mobile' || deviceType === 'tablet') && (
+          <div 
+            className={`lg:hidden transition-all duration-300 ease-in-out ${
+              isOpen 
+                ? 'max-h-screen opacity-100 visible' 
+                : 'max-h-0 opacity-0 invisible'
+            }`}
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-black/95">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/menu"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Menu
+              </NavLink>
+              <NavLink
+                to="/reservations"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Reservations
+              </NavLink>
+              <NavLink
+                to="/events"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Events
+              </NavLink>
+              <NavLink
+                to="/vip-services"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Special Services
+              </NavLink>
+              <NavLink
+                to="/loyalty"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`
+                }
+                onClick={handleMobileClick}
+              >
+                Loyalty
+              </NavLink>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );

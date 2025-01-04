@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, Star, Coffee, Wine, IceCream, Apple, GlassWater, Beer } from 'lucide-react';
-import { OrderNotepad, addItemToNotepad } from '../components/OrderNotepad';
+import { Flame, Star, Coffee, Wine, IceCream, Apple, GlassWater, Beer, ChevronDown } from 'lucide-react';
+import { OrderNotepad } from '../components/OrderNotepad';
+import { useDeviceType } from '../hooks/useDeviceType';
+import { AnimatedMenuItem } from '../components/AnimatedMenuItem';
+import { useOrder } from '../contexts/orderContextDefs';
 
 interface MenuItem {
   name: string;
   price?: string;
   ingredients?: string;
   description?: string;
+}
+
+interface OrderItem {
+  name: string;
+  // Add other properties if needed
 }
 
 interface BaseMenuCategory {
@@ -32,7 +40,25 @@ interface DessertsCategory extends BaseMenuCategory {
   extras?: MenuItem[];
 }
 
-function Menu() {
+export const Menu = () => {
+  const showNotepad = true;
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const deviceType = useDeviceType();
+  const isMobile = deviceType === 'mobile';
+  const { addItem, selectedItems, setSelectedItems } = useOrder();
+
+  useEffect(() => {
+    const handleOrderUpdate = (event: CustomEvent) => {
+      const items = event.detail.items.map((item: OrderItem) => item.name);
+      setSelectedItems(items); // Sync selected items with order items
+    };
+
+    window.addEventListener('orderUpdated', handleOrderUpdate as EventListener);
+    return () => {
+      window.removeEventListener('orderUpdated', handleOrderUpdate as EventListener);
+    };
+  }, [setSelectedItems]);
+
   const categories: ShishaCategory[] = [
     {
       title: "",
@@ -172,7 +198,6 @@ function Menu() {
       subtitle: "Indulgent, creamy blends topped with whipped cream & premium garnishes",
       icon: GlassWater,
       items: [
-        { name: "Oreo", price: "£4.00" },
         { name: "Nutella", price: "£4.00" },
         { name: "Strawberry", price: "£4.00" },
         { name: "Vanilla", price: "£4.00" }
@@ -293,218 +318,398 @@ function Menu() {
     }
   ];
 
-  const [showNotepad, setShowNotepad] = React.useState(true);
+  const handleItemSelect = (itemName: string, price?: string, category?: ShishaCategory) => {
+    addItem(itemName, price || category?.basePrice || '£0.00');
+  };
+
+  const renderMenuItem = (item: string | MenuItem, categoryBasePrice?: string, category?: ShishaCategory) => {
+    const itemName = typeof item === 'string' ? item : item.name;
+    const isSelected = selectedItems.includes(itemName);
+
+    if (isMobile) {
+      if (typeof item === 'string') {
+        return (
+          <AnimatedMenuItem
+            key={item}
+            name={item}
+            price={categoryBasePrice}
+            onClick={() => handleItemSelect(item, categoryBasePrice, category)}
+            isSelected={isSelected}
+          />
+        );
+      }
+
+      return (
+        <AnimatedMenuItem
+          key={item.name}
+          name={item.name}
+          price={item.price}
+          description={item.description}
+          ingredients={item.ingredients}
+          onClick={() => handleItemSelect(item.name, item.price)}
+          isSelected={isSelected}
+        />
+      );
+    }
+
+    // Desktop view
+    if (typeof item === 'string') {
+      return (
+        <div 
+          key={item}
+          className="flex items-start justify-between text-gray-300 p-1 rounded-lg hover:bg-dark-800/50 cursor-pointer"
+          onClick={() => handleItemSelect(item, categoryBasePrice, category)}
+        >
+          <div className="flex items-start gap-1 min-w-0">
+            <Star className="text-accent-400 flex-shrink-0 mt-1 w-3 h-3" />
+            <span className="break-words leading-tight">{item}</span>
+          </div>
+          {categoryBasePrice && (
+            <span className="text-primary-300 font-bold ml-2 flex-shrink-0">
+              {categoryBasePrice}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={item.name}
+        className="group cursor-pointer p-2 rounded-lg hover:bg-dark-800/50"
+        onClick={() => handleItemSelect(item.name, item.price)}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex items-start gap-1">
+            <Star className="text-accent-400 flex-shrink-0 mt-1 w-3 h-3" />
+            <span className="text-gray-300 group-hover:text-primary-300 transition-colors leading-tight">
+              {item.name}
+            </span>
+          </div>
+          {item.price && (
+            <span className="text-primary-300 font-bold ml-2">
+              {item.price}
+            </span>
+          )}
+        </div>
+        {item.description && (
+          <p className="text-gray-500 mt-0.5 ml-4 text-xs">
+            {item.description}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  const toggleCategory = (categoryTitle: string) => {
+    if (isMobile) {
+      setSelectedCategory(selectedCategory === categoryTitle ? null : categoryTitle);
+    }
+  };
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4 max-w-3xl">
+      <div className="container mx-auto px-4 max-w-5xl">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Our Menu
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
-            {categories[0].description}
-          </p>
-          <p className="text-gray-500 text-xs mt-1 max-w-2xl mx-auto">
-            {categories[0].subtitle}
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+            Explore our selection of premium shisha flavours and refreshments.
           </p>
         </motion.div>
 
-        {/* Order Notepad */}
-        <div className="mb-12">
+        {/* Order Notepad - Fixed bottom on mobile */}
+        <div className={`${
+          isMobile 
+            ? 'fixed bottom-0 left-0 right-0 z-50 px-2 pb-2 pt-1 bg-gradient-to-t from-[#020B18] via-[#020B18]/95 to-transparent' 
+            : 'mb-12'
+        }`}>
           <AnimatePresence>
             {showNotepad && (
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 20 : 0, x: isMobile ? 0 : -20 }}
+                animate={{ opacity: 1, y: 0, x: 0 }}
+                exit={{ opacity: 0, y: isMobile ? 20 : 0, x: isMobile ? 0 : 20 }}
                 transition={{ duration: 0.2 }}
               >
-                <OrderNotepad className="bg-dark-900/50 backdrop-blur-sm border border-accent-700/20" />
+                <OrderNotepad className={`bg-dark-900/50 backdrop-blur-sm border border-accent-700/20 ${
+                  isMobile ? 'rounded-xl shadow-lg max-h-[30vh] overflow-y-auto' : ''
+                }`} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Shisha Menu */}
-        <div className="grid gap-6 mb-12">
-          {categories.slice(1).map((category, index) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
-            >
-              <section>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
-                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                      {category.title}
-                    </h2>
-                  </div>
-                  {category.basePrice && (
-                    <span className="text-primary-300 text-base font-bold">
-                      {category.basePrice}
-                    </span>
-                  )}
-                </div>
-                {category.subtitle && (
-                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                    <span className="text-accent-400">-</span>
-                    <p>{category.subtitle}</p>
-                  </div>
-                )}
-                <div className={`grid ${category.title === "House Flavours" ? "grid-cols-[1fr_1fr_1fr] auto-rows-min" : "grid-cols-2 sm:grid-cols-3"} gap-1`}>
-                  {category.items.map((item, i) => (
-                    <div 
-                      key={typeof item === 'string' ? item : item.name}
-                      className={`flex items-start justify-between text-gray-300 hover:text-primary-300 transition-colors cursor-pointer p-1 rounded-lg hover:bg-dark-800/50 w-full ${category.title === "House Flavours" ? "min-w-0" : ""}`}
-                      onClick={() => {
-                        const itemName = typeof item === 'string' ? item : item.name;
-                        const itemPrice = typeof item === 'string' ? category.basePrice || '' : item.price || '';
-                        addItemToNotepad(itemName, itemPrice);
-                      }}
-                    >
-                      <div className={`flex items-start gap-1 ${category.title === "House Flavours" ? "min-w-0" : ""}`}>
-                        <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
-                        <span className={`text-sm leading-tight ${category.title === "House Flavours" ? "break-words" : ""}`}>{typeof item === 'string' ? item : item.name}</span>
-                      </div>
-                      {typeof item !== 'string' && item.price && (
-                        <span className={`text-primary-300 text-sm font-bold ml-2 ${category.title === "House Flavours" ? "flex-shrink-0" : ""}`}>{item.price}</span>
+        {/* Menu Sections with Mobile Accordion */}
+        <div className={`grid gap-6 ${isMobile ? 'mb-8' : 'mb-12'}`}>
+          {/* Shisha Menu */}
+          <div className={`grid gap-2`}>
+            {categories.slice(1).map((category) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: isMobile ? 0.05 : 0.1,
+                  duration: isMobile ? 0.2 : 0.3 
+                }}
+                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
+                  isMobile ? 'p-3' : 'p-6'
+                } ${category.title === 'Shisha Extras' ? 'mb-1' : ''}`}
+              >
+                <section>
+                  <div 
+                    className="flex items-center justify-between mb-2 cursor-pointer"
+                    onClick={() => toggleCategory(category.title)}
+                    role="button"
+                    aria-expanded={selectedCategory === category.title}
+                    tabIndex={0}
+                  >
+                    <div className="flex items-center gap-2">
+                      {category.icon && (
+                        <category.icon className={`text-primary-300 ${
+                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
+                        }`} 
+                      />
                       )}
+                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
+                        isMobile ? 'text-xl' : 'text-2xl'
+                      }`}>
+                        {category.title}
+                      </h2>
                     </div>
-                  ))}
-                </div>
-              </section>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Drinks Menu */}
-        <div className="grid gap-6 mb-12">
-          {drinks.map((category, index) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
-            >
-              <section>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
-                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                      {category.title}
-                    </h2>
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          selectedCategory === category.title ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
                   </div>
-                </div>
-                {category.subtitle && (
-                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                    <span className="text-accent-400">-</span>
-                    <p>{category.subtitle}</p>
-                  </div>
-                )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-                  {category.items.map((item, i) => (
-                    <div
-                      key={item.name}
-                      className="group cursor-pointer p-1 rounded-lg hover:bg-dark-800/50"
-                      onClick={() => addItemToNotepad(item.name, item.price || '')}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-start gap-1">
-                          <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
-                          <span className="text-gray-300 group-hover:text-primary-300 transition-colors text-sm leading-tight">{item.name}</span>
-                        </div>
-                        <span className="text-primary-300 text-sm font-bold ml-2">{item.price}</span>
-                      </div>
-                      {item.description && (
-                        <p className="text-gray-500 text-xs mt-0.5 ml-4">{item.description}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Desserts Menu */}
-        <div className="grid gap-6">
-          {desserts.map((category, index) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
-            >
-              <section>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    {category.icon && <category.icon className="w-5 h-5 text-primary-300" />}
-                    <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                      {category.title}
-                    </h2>
-                  </div>
-                </div>
-                {category.subtitle && (
-                  <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                    <span className="text-accent-400">-</span>
-                    <p>{category.subtitle}</p>
-                  </div>
-                )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-                  {category.items.map((item, i) => (
-                    <div
-                      key={item.name}
-                      className="group cursor-pointer p-1 rounded-lg hover:bg-dark-800/50"
-                      onClick={() => addItemToNotepad(item.name, item.price || '')}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-start gap-1">
-                          <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
-                          <span className="text-gray-300 group-hover:text-primary-300 transition-colors text-sm leading-tight">{item.name}</span>
-                        </div>
-                        <span className="text-primary-300 text-sm font-bold ml-2">{item.price}</span>
-                      </div>
-                      {item.description && (
-                        <p className="text-gray-500 text-xs mt-0.5 ml-4">{item.description}</p>
-                      )}
-                    </div>
-                  ))}
-                  {category.extras && (
-                    <div className="col-span-full mt-2">
-                      <h3 className="text-lg font-medium text-primary-300 mb-1">Extras</h3>
-                      <div className="grid grid-cols-2 gap-1">
-                        {category.extras.map((extra, i) => (
-                          <div
-                            key={extra.name}
-                            className="flex justify-between items-center text-sm text-gray-300 p-1 rounded-lg hover:bg-dark-800/50 cursor-pointer"
-                            onClick={() => addItemToNotepad(extra.name, extra.price || '')}
-                          >
-                            <div className="flex items-start gap-1">
-                              <Star className="w-3 h-3 text-accent-400 flex-shrink-0 mt-1" />
-                              <span className="text-sm leading-tight">{extra.name}</span>
-                            </div>
-                            <span className="text-primary-300 text-sm font-bold ml-2">{extra.price}</span>
+                  
+                  <AnimatePresence>
+                    {(!isMobile || selectedCategory === category.title) && (
+                      <motion.div
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {category.subtitle && (
+                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                            <span className="text-accent-400">-</span>
+                            <p>{category.subtitle}</p>
                           </div>
-                        ))}
-                      </div>
+                        )}
+                        <div className={`${
+                          isMobile 
+                            ? 'space-y-2' 
+                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
+                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
+                              : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
+                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
+                                : category.title.includes('Drinks')
+                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                        }`}>
+                          {category.items.map((item) => renderMenuItem(item, category.basePrice, category))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Drinks Menu */}
+          <div className={`grid gap-2 mt-6 ${isMobile ? 'mb-10' : ''}`}>
+            {drinks.map((category) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: isMobile ? 0.05 : 0.1,
+                  duration: isMobile ? 0.2 : 0.3 
+                }}
+                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
+                  isMobile ? 'p-3' : 'p-6'
+                } ${category.title === 'Smoothies' ? 'mb-1' : ''}`}
+              >
+                <section>
+                  <div 
+                    className="flex items-center justify-between mb-2 cursor-pointer"
+                    onClick={() => toggleCategory(category.title)}
+                    role="button"
+                    aria-expanded={selectedCategory === category.title}
+                    tabIndex={0}
+                  >
+                    <div className="flex items-center gap-2">
+                      {category.icon && (
+                        <category.icon className={`text-primary-300 ${
+                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
+                        }`} 
+                      />
+                      )}
+                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
+                        isMobile ? 'text-xl' : 'text-2xl'
+                      }`}>
+                        {category.title}
+                      </h2>
                     </div>
-                  )}
-                </div>
-              </section>
-            </motion.div>
-          ))}
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          selectedCategory === category.title ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </div>
+
+                  <AnimatePresence>
+                    {(!isMobile || selectedCategory === category.title) && (
+                      <motion.div
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {category.subtitle && (
+                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                            <span className="text-accent-400">-</span>
+                            <p>{category.subtitle}</p>
+                          </div>
+                        )}
+                        <div className={`${
+                          isMobile 
+                            ? 'space-y-2' 
+                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
+                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
+                              : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
+                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
+                                : category.title.includes('Drinks')
+                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                        }`}>
+                          {category.items.map((item) => renderMenuItem(item))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desserts Menu */}
+          <div className={`grid gap-2 ${isMobile ? '-mt-4' : 'mt-6'}`}>
+            {desserts.map((category) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: isMobile ? 0.05 : 0.1,
+                  duration: isMobile ? 0.2 : 0.3 
+                }}
+                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
+                  isMobile ? 'p-3' : 'p-6'
+                }`}
+              >
+                <section>
+                  <div 
+                    className="flex items-center justify-between mb-2 cursor-pointer"
+                    onClick={() => toggleCategory(category.title)}
+                    role="button"
+                    aria-expanded={selectedCategory === category.title}
+                    tabIndex={0}
+                  >
+                    <div className="flex items-center gap-2">
+                      {category.icon && (
+                        <category.icon className={`text-primary-300 ${
+                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
+                        }`} 
+                      />
+                      )}
+                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
+                        isMobile ? 'text-xl' : 'text-2xl'
+                      }`}>
+                        {category.title}
+                      </h2>
+                    </div>
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          selectedCategory === category.title ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </div>
+
+                  <AnimatePresence>
+                    {(!isMobile || selectedCategory === category.title) && (
+                      <motion.div
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {category.subtitle && (
+                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
+                            <span className="text-accent-400">-</span>
+                            <p>{category.subtitle}</p>
+                          </div>
+                        )}
+                        <div className={`${
+                          isMobile 
+                            ? 'space-y-2' 
+                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
+                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
+                              : category.title === 'Shisha Extras' || category.title === 'House Drinks'
+                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
+                                : category.title.includes('Drinks')
+                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                        }`}>
+                          {category.items.map((item) => renderMenuItem(item))}
+                          {category.extras && (
+                            <div className="col-span-full mt-2">
+                              <h3 className={`font-medium text-primary-300 mb-1 ${
+                                isMobile ? 'text-base' : 'text-lg'
+                              }`}>
+                                Extras
+                              </h3>
+                              <div className={`${
+                                isMobile 
+                                  ? 'space-y-2' 
+                                  : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
+                                    ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
+                                    : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
+                                      ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
+                                      : category.title.includes('Drinks')
+                                        ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                                        : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
+                              }`}>
+                                {category.extras.map((extra) => renderMenuItem(extra))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

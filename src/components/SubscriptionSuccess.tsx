@@ -14,19 +14,49 @@ interface SubscriptionSuccessProps {
 
 const SuccessIcon = ({ className, onLoad }: { className?: string; onLoad?: (rect: DOMRect) => void }) => {
   const iconRef = useRef<SVGSVGElement>(null);
+  const hasCalledOnLoad = useRef(false);
 
   useEffect(() => {
     const icon = iconRef.current;
-    if (icon && onLoad) {
+    if (icon && onLoad && !hasCalledOnLoad.current) {
       const rect = icon.getBoundingClientRect();
       onLoad(rect);
+      hasCalledOnLoad.current = true;
     }
-  }, []); // Run only once on mount
+  }, [onLoad]);
 
   return <CheckCircle2 ref={iconRef} className={className} />;
 };
 
 const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClose, tier, onSuccessIconLoad }) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Cleanup previous audio instance
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+
+    if (isOpen) {
+      // Create new audio instance
+      audioRef.current = new Audio('/sounds/Ta-Da Trumpet Sound Effect.mp3');
+      audioRef.current.play().catch(error => {
+        console.log('Audio playback failed:', error);
+      });
+    }
+
+    // Cleanup on unmount or when modal closes
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current = null;
+      }
+    };
+  }, [isOpen]);
+
   const steps = [
     {
       icon: <CreditCard className="w-5 h-5" />,
@@ -62,10 +92,10 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
           />
           
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.95, opacity: 0, y: 10 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", duration: 0.5 }}
+            exit={{ scale: 0.95, opacity: 0, y: 10 }}
+            transition={{ type: "spring", duration: 0.15 }}
             className="bg-[#050D1A] rounded-xl p-6 max-w-md w-full relative z-10 border border-dark-700 shadow-2xl"
           >
             <button
@@ -85,7 +115,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
               <motion.h3
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ duration: 0.15 }}
                 className="text-2xl font-bold text-white mb-2"
               >
                 Welcome to {tier.level}!
@@ -94,7 +124,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ duration: 0.15 }}
                 className="text-gray-200"
               >
                 Your subscription has been confirmed
@@ -105,9 +135,9 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
               {steps.map((step, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
+                  transition={{ delay: index * 0.03 }}
                   className="flex items-start space-x-3 bg-[#0A1628] p-3 rounded-lg border border-dark-700/50"
                 >
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400">
@@ -124,7 +154,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({ isOpen, onClo
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              transition={{ delay: 0.1 }}
               className="mt-6"
             >
               <button

@@ -110,14 +110,20 @@ export function Newsletter() {
     schema: newsletterSchema,
     onSuccess: async () => {
       setStatus('loading');
-      try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Show success immediately with a small delay
+      setTimeout(() => {
         setStatus('success');
         setEmail('');
         setShowSuccessModal(true);
+      }, 500);
+
+      try {
+        // Process in background
+        await new Promise(resolve => setTimeout(resolve, 1500));
       } catch (error) {
         setStatus('error');
+        setShowSuccessModal(false);
       }
     }
   });
@@ -128,13 +134,13 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-12 bg-[#020B18]">
+    <section className="py-6 sm:py-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
             Stay Updated
           </h2>
-          <p className="text-gray-400 mb-8">
+          <p className="text-gray-400 mb-8 text-sm sm:text-base">
             Subscribe to our newsletter for exclusive offers and updates.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-6 mx-auto" style={{ maxWidth: "498px" }}>

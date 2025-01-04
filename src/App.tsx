@@ -5,6 +5,8 @@ import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
+import { OrderProvider } from './contexts/OrderContext';
+import ErrorBoundary from './components/ErrorBoundary'; 
 
 // Lazy load routes with preload hints
 const Home = lazy(() => import('./pages/Home'));
@@ -40,9 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        index: true,
         element: (
           <Suspense fallback={<LoadingSpinner />}>
             <Home />
@@ -149,10 +152,10 @@ const router = createBrowserRouter([
 const preloadRoutes = () => {
   // Only preload routes after initial render
   setTimeout(() => {
-    const routesToPreload = [Home, About, Menu, Contact];
-    routesToPreload.forEach(route => {
-      route.preload?.();
-    });
+    import('./pages/Home');
+    import('./pages/About');
+    import('./pages/Menu');
+    import('./pages/Contact');
   }, 2000); // Wait for 2 seconds after initial render
 };
 
@@ -170,12 +173,18 @@ function App() {
   }, []);
 
   return (
-    <HelmetProvider>
-      <A11yProvider>
-        <JsonLd data={restaurantJsonLd} />
-        <RouterProvider router={router} />
-      </A11yProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <A11yProvider>
+          <OrderProvider>
+            <div className="min-h-screen bg-dark-900">
+              <JsonLd type="Restaurant" data={restaurantJsonLd} />
+              <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
+            </div>
+          </OrderProvider>
+        </A11yProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

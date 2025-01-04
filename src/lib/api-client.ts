@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-});
+})
 
 export interface ReservationData {
   name: string;
@@ -15,7 +15,7 @@ export interface ReservationData {
   phone: string;
   date: string;
   time: string;
-  guests: number;
+  guests: number; // Can be 0 for single person
   tablePreference?: string;
   notes?: string;
 }
@@ -25,17 +25,37 @@ export interface NewsletterResponse {
   message: string;
 }
 
-export const submitReservation = async (data: ReservationData) => {
+export interface EventRegistrationData {
+  eventId: number;
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  notes?: string;
+  status?: 'pending' | 'confirmed' | 'cancelled';
+}
+
+export async function submitReservation(data: ReservationData) {
   try {
-    const response = await api.post('/reservations', data);
+    // Ensure guests is included with a default of 0
+    const reservationData = {
+      ...data,
+      guests: data.guests ?? 0
+    };
+    
+    console.log('Submitting reservation with data:', JSON.stringify(reservationData, null, 2));
+    
+    const response = await api.post('/reservations', reservationData);
+    console.log('Reservation submitted successfully:', JSON.stringify(response.data, null, 2));
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
+      console.error('API Error Response:', error.response?.data);
       throw new Error(error.response?.data?.message || 'Failed to submit reservation');
     }
     throw error;
   }
-};
+}
 
 export const getReservations = async (date?: string) => {
   try {
@@ -86,3 +106,31 @@ export const subscribeNewsletter = async (email: string): Promise<NewsletterResp
     throw error;
   }
 };
+
+export async function registerForEvent(data: EventRegistrationData) {
+  try {
+    // Ensure guests is included with a default of 0
+    const eventData = {
+      ...data,
+      guests: data.guests ?? 0,
+      status: data.status ?? 'pending'
+    };
+    
+    console.log('Registering for event with data:', JSON.stringify(eventData, null, 2));
+    
+    const response = await api.post('/events/register', eventData);
+    console.log('Event registration successful:', JSON.stringify(response.data, null, 2));
+    return {
+      success: true,
+      message: 'Successfully registered for the event',
+      ...response.data
+    };
+  } catch (error) {
+    console.error('Event registration error:', error);
+    if (error instanceof AxiosError) {
+      console.error('API Error Response:', error.response?.data);
+      throw new Error(error.response?.data?.message || 'Failed to register for event');
+    }
+    throw error;
+  }
+}

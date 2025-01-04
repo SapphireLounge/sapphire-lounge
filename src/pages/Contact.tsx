@@ -4,7 +4,6 @@ import { Mail, Phone, MapPin, Clock, Loader2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 // Fix Leaflet default icon issue
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -71,11 +70,14 @@ function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Contact Us</h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-2">
-            Get in touch with us for bookings, inquiries, or any questions you may have
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Contact Us
+          </h1>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+            Get in touch with us for any inquiries or feedback.
           </p>
         </motion.div>
 

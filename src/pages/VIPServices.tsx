@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Star, Users, Calendar, Gift, Glass } from 'lucide-react';
+import { Crown, Star, Users, Calendar, Gift } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface PackageType {
@@ -84,77 +84,79 @@ const VIPServices: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#020B18]">
-      <div className="pt-24 pb-12">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-relaxed">
-              VIP Services & Special Occasions
-            </h1>
-            <p className="text-gray-400 text-sm max-w-2xl mx-auto">
-              Experience luxury and exclusivity with our premium VIP services and special occasion packages
-            </p>
-          </motion.div>
+    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+      <div className="container mx-auto px-4 max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Special Services
+          </h1>
+          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+            Experience luxury and exclusivity with our premium services.
+          </p>
+        </motion.div>
 
-          {/* VIP Packages */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 text-center">
-              VIP Packages
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {vipPackages.map((pkg, index) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
-                  key={index}
-                >
-                  <PackageCard package={pkg} />
-                </motion.div>
-              ))}
-            </div>
+        {/* VIP Packages */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 text-center">
+            VIP Packages
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {vipPackages.map((pkg, index) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+                key={index}
+              >
+                <PackageCard package={pkg} />
+              </motion.div>
+            ))}
           </div>
-
-          {/* Special Occasions */}
-          <div>
-            <h2 className="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 text-center">
-              Special Occasions
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {specialOccasions.map((pkg, index) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
-                  key={index}
-                >
-                  <PackageCard package={pkg} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto mt-12 border border-accent-700/20"
-          >
-            <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2">Ready to elevate your experience?</h3>
-            <p className="text-gray-400 mb-4 text-sm">
-              Contact us to customize your perfect package or make a reservation
-            </p>
-            <Link
-              to="/contact"
-              className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-3 px-8 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg"
-            >
-              Get in Touch
-            </Link>
-          </motion.div>
         </div>
+
+        {/* Special Occasions */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 text-center">
+            Special Occasions
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {specialOccasions.map((pkg, index) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+                key={index}
+              >
+                <PackageCard package={pkg} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Call to Action Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center bg-dark-900/50 backdrop-blur-sm rounded-lg p-4 md:p-5 mx-auto mt-6 md:mt-8 border border-accent-700/20 max-w-[90%] md:max-w-lg"
+        >
+          <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2">
+            Ready to elevate your experience?
+          </h3>
+          <p className="text-gray-400 mb-4 text-sm">
+            Contact us to customize your perfect package or make a reservation
+          </p>
+          <Link
+            to="/contact"
+            className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-2 px-6 md:py-2.5 md:px-7 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm"
+          >
+            Get in Touch
+          </Link>
+        </motion.div>
       </div>
     </div>
   );

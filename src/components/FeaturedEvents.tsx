@@ -1,6 +1,6 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface FeaturedEventsProps {
   titleClassName?: string;
@@ -12,36 +12,36 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
     {
       id: 1,
       title: "Flavour Tasting Night",
-      date: "December 15, 2023",
+      date: "January 15, 2025",
       image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
       description: "Join us for an exclusive tasting of our newest premium flavours."
     },
     {
       id: 2,
       title: "DJ Night",
-      date: "December 16, 2023",
+      date: "January 20, 2025",
       image: "/images/events/DJ Night.jpg",
       description: "Experience the perfect blend of music and atmosphere with our resident DJ."
     },
     {
       id: 3,
       title: "Student Night",
-      date: "December 20, 2023",
+      date: "January 25, 2025",
       image: "/images/events/Student Night.avif",
       description: "Special discounts and offers for students. Valid student ID required."
     }
   ];
 
   return (
-    <section className="py-8 bg-[#020B18]">
+    <section className="pt-8 pb-2 bg-[#020B18]">
       <div className="container mx-auto px-4">
-        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
+        <h2 className={`text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Upcoming Events
         </h2>
-        <p className="text-gray-400 text-center mb-8 max-w-2xl mx-auto text-sm">
+        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-2xl mx-auto text-sm">
           Join us for our specially curated events, designed to enhance your Sapphire Lounge experience.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {events.map((event) => (
             <motion.article
               key={event.id}
@@ -68,13 +68,9 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
                   <Calendar className="w-4 h-4 mr-2" />
                   <span className="text-sm font-medium">{event.date}</span>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm ${buttonClassName}`}
-                >
+                <Link to="/events" className={`w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm ${buttonClassName}`}>
                   RSVP Now
-                </motion.button>
+                </Link>
               </div>
             </motion.article>
           ))}
