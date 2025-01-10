@@ -1,0 +1,296 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './styles/button-effects.css';
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles - Desktop First */
+@layer base {
+  :root {
+    @apply bg-[#242424] text-white/90;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    @apply min-h-screen bg-black;
+    height: 100vh;
+    /* Mobile viewport height fix */
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    @apply min-h-screen bg-black text-gray-100 font-sans;
+    min-height: 100vh;
+    /* Mobile viewport height fix */
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+  }
+
+  #root {
+    @apply min-h-screen flex flex-col;
+  }
+}
+
+/* Component styles - Desktop First */
+@layer components {
+  /* Container - Desktop First with Mobile Fallback */
+  .container {
+    @apply mx-auto px-8 max-w-[1280px];
+  }
+
+  /* Responsive container adjustments */
+  @media (max-width: 1280px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      max-width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  /* Navigation - Desktop First */
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-300 hover:text-white;
+  }
+
+  @media (max-width: 768px) {
+    .nav-link {
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  .nav-link-active {
+    @apply text-white bg-dark-400;
+  }
+
+  @media (max-width: 768px) {
+    .nav-link-active {
+      background-color: rgb(17, 24, 39);
+    }
+  }
+
+  /* Button - Desktop First */
+  .btn {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95;
+  }
+
+  @media (max-width: 768px) {
+    .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      transform: none;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+  }
+
+  /* Card - Desktop First */
+  .card {
+    @apply bg-dark-400/50 backdrop-blur-md rounded-xl p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      transform: none;
+    }
+    .card:hover {
+      transform: none;
+    }
+  }
+
+  /* Grid - Desktop First */
+  .grid-layout {
+    @apply grid gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    .grid-layout {
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* Animations - Desktop First */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .animate-fade-in {
+    animation: none;
+  }
+}
+
+/* Utilities - Desktop First */
+.desktop-only {
+  @apply block;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+.mobile-only {
+  @apply hidden;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* Safe area insets for modern mobile devices */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #4a5568 transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .glass-effect {
+    background-color: rgba(18, 18, 18, 0.95);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .flex {
+    min-height: 0;
+    min-width: 0;
+    display: -moz-box;
+    display: flex;
+  }
+
+  .grid {
+    min-height: 0;
+    min-width: 0;
+    display: -moz-grid;
+    display: grid;
+  }
+
+  /* Force hardware acceleration */
+  .animate-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Fix for sticky positioning */
+  .sticky {
+    position: -moz-sticky;
+    position: sticky;
+  }
+
+  /* Better text rendering */
+  * {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Edge-specific fixes */
+@supports (-ms-ime-align: auto) {
+  /* Fix for backdrop-filter */
+  .glass-effect {
+    background-color: rgba(18, 18, 18, 0.95);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Fix for gradient text */
+  .gradient-text {
+    color: theme('colors.primary.300');
+  }
+
+  /* Fix for scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.accent.700') theme('colors.dark.300');
+  }
+
+  /* Fix for sticky positioning */
+  .sticky {
+    position: -ms-sticky;
+    position: sticky;
+  }
+
+  /* Better text rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Force hardware acceleration for animations */
+  .animate-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Custom scrollbar - Webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-300;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent-600;
+}
