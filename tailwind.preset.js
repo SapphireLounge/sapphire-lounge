@@ -1,23 +1,4 @@
-import preset from './tailwind.preset.js';
-
-/** @type {import('tailwindcss').Config} */
 export default {
-  presets: [preset],
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  safelist: [
-    'bg-gradient-to-r',
-    'from-[#833AB4]',
-    'via-[#FD1D1D]',
-    'to-[#FCAF45]',
-    'hover:from-[#6d2e96]',
-    'hover:via-[#e41818]',
-    'hover:to-[#f5a333]',
-    'border-[#E1306C]',
-    'bg-[#1877F2]',
-    'hover:bg-[#0c5dc7]',
-    'border-[#1877F2]',
-    'hover:bg-[#141414]',
-  ],
   theme: {
     extend: {
       colors: {
