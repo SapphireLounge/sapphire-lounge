@@ -32,7 +32,7 @@ const verifyTransporter = async () => {
       message: (error as Error).message,
       name: (error as Error).name,
       stack: (error as Error).stack,
-      code: (error as any).code
+      code: (error as { code?: string }).code
     });
     return false;
   }

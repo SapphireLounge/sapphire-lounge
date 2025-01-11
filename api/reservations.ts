@@ -79,7 +79,7 @@ export default async function handler(
       stack: error.stack,
       name: error.name
     });
-
+    console.error('Error details:', error);
     return res.status(500).json({ 
       error: 'Failed to process reservation',
       details: {
