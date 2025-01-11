@@ -1,5 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { Suspense, useEffect, useState } from 'react';import { motion } from 'framer-motion';
 import { Calendar, Star, Users, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
@@ -88,13 +87,13 @@ function Home() {
         keywords={['shisha lounge', 'premium shisha', 'hookah bar', 'luxury lounge', 'sapphire lounge', 'events', 'special offers']}
       />
       <SkipToContent contentId="main-content" />
-      <main id="main-content" className="relative">
+      <main id="main-content" className="relative w-full overflow-x-hidden">
         {/* Hero Section - Desktop First */}
         <motion.section
           data-section="0"
           className={`
-            relative min-h-[60vh] flex items-center justify-center w-full
-            ${!isMobile ? 'pt-24 pb-12' : 'pt-20 pb-8'}
+            relative flex items-center justify-center w-full
+            ${isMobile ? 'min-h-screen pt-16 pb-8' : 'min-h-[60vh] pt-24 pb-12'}
           `}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -102,43 +101,22 @@ function Home() {
           aria-label="Luxurious lounge interior with ambient lighting"
         >
           <div 
-            className="absolute inset-0 w-screen bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage: `url(${bgImageLoaded ? (deviceType === 'mobile' ? mobileHeroImageUrl : heroImageUrl) : blurImageUrl})`,
-              marginLeft: 'calc(-50vw + 50%)',
-              marginRight: 'calc(-50vw + 50%)',
-              width: '100vw',
               filter: blurComplete ? 'none' : 'blur(5px)',
               transition: 'filter 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: blurComplete ? 'scale(1)' : 'scale(1.05)',
-              backgroundPosition: deviceType === 'mobile' ? 'center center' : 'center 65%',
-              zIndex: 0
+              backgroundPosition: deviceType === 'mobile' ? 'center center' : 'center 65%'
             }}
           />
-          <div className="absolute inset-0" style={{
-            marginLeft: 'calc(-50vw + 50%)',
-            marginRight: 'calc(-50vw + 50%)',
-            width: '100vw',
-            background: 'radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%)',
-            mixBlendMode: 'multiply',
-            zIndex: 1
-          }} />
-          <div className="absolute inset-0 bg-black/30" style={{
-            marginLeft: 'calc(-50vw + 50%)',
-            marginRight: 'calc(-50vw + 50%)',
-            width: '100vw',
-            zIndex: 2
-          }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent-900" style={{
-            marginLeft: 'calc(-50vw + 50%)',
-            marginRight: 'calc(-50vw + 50%)',
-            width: '100vw',
-            opacity: 0.8,
-            zIndex: 3
-          }} />
+          <div className="absolute inset-0 bg-gradient-radial from-black/20 to-black/70" />
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent-900/80" />
+          
           <div className={`
-            container mx-auto ${deviceType === 'mobile' ? 'px-4' : 'px-8'} 
-            relative z-10 py-6
+            relative z-10 w-full max-w-7xl mx-auto
+            ${isMobile ? 'px-4' : 'px-8'} 
           `}>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -167,21 +145,19 @@ function Home() {
                 Premium Shisha Experience
               </h2>
               <div className={`mt-0 mb-4 text-gray-200 max-w-3xl mx-auto ${
-                deviceType === 'mobile' ? 'text-xs px-4 text-center' : 'text-base px-8'
+                isMobile ? 'text-sm px-4' : 'text-base px-8'
               }`}>
-                <p className={`${isMobile ? 'whitespace-nowrap inline-block' : ''}`}>
-                  Experience the finest flavours in an atmosphere of luxury and comfort.
-                </p>
+                <p>Experience the finest flavours in an atmosphere of luxury and comfort.</p>
                 <p>Your journey to exceptional relaxation starts here.</p>
               </div>
               <div className={`
-                flex flex-row items-center justify-center gap-4 mt-8
-                ${!isMobile ? 'mb-6' : 'mb-4'}
+                flex flex-col sm:flex-row items-center justify-center gap-4 mt-8
+                ${isMobile ? 'mb-4' : 'mb-6'}
               `}>
                 <Link
                   to="/reservations"
                   className={`
-                    px-8 py-3 rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
+                    w-full sm:w-auto px-8 py-3 rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
                     min-w-[160px] text-center
@@ -192,7 +168,7 @@ function Home() {
                 <Link
                   to="/menu"
                   className={`
-                    px-8 py-3 rounded-lg bg-transparent
+                    w-full sm:w-auto px-8 py-3 rounded-lg bg-transparent
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
                     border border-primary-400 hover:border-accent-400
