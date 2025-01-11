@@ -1,76 +1,126 @@
 import nodemailer from 'nodemailer';
 
 const BUSINESS_EMAIL = 'sapphireloungeswansea@gmail.com';
+const SENDER_NAME = 'Sapphire Lounge';
 
+// Create reusable transporter object using SendGrid transport
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.sendgrid.net',
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY
   }
 });
 
+// Verify transporter configuration
+const verifyTransporter = async () => {
+  try {
+    await transporter.verify();
+    console.log('SendGrid connection verified successfully');
+    return true;
+  } catch (error) {
+    console.error('SendGrid connection error:', error);
+    return false;
+  }
+};
+
 export const sendReservationConfirmation = async (
-  to: string,
-  name: string,
+  customerEmail: string,
+  customerName: string,
   date: Date,
   time: string,
   guests: number,
   tablePreference: string,
   phone: string
 ) => {
-  const reservationDetails = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h1 style="color: #4A90E2;">Reservation Confirmed!</h1>
-      <p>Dear ${name},</p>
-      <p>Thank you for choosing Sapphire Lounge. Your reservation has been confirmed:</p>
-      <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0;">
-        <p><strong>Date:</strong> ${date.toLocaleDateString()}</p>
-        <p><strong>Time:</strong> ${time}</p>
-        <p><strong>Number of Guests:</strong> ${guests}</p>
-        <p><strong>Table Preference:</strong> ${tablePreference}</p>
-        <p><strong>Contact Number:</strong> ${phone}</p>
-      </div>
-      <p>We look forward to providing you with an exceptional experience.</p>
-      <p>Best regards,<br>Sapphire Lounge Team</p>
-    </div>
-  `;
+  try {
+    // Verify connection before sending
+    const isVerified = await verifyTransporter();
+    if (!isVerified) {
+      throw new Error('Failed to verify email configuration');
+    }
 
-  // Send confirmation to customer
-  const customerMailOptions = {
-    from: process.env.EMAIL_USER,
-    to,
-    subject: 'Reservation Confirmation - Sapphire Lounge',
-    html: reservationDetails
-  };
+    // Format date for email
+    const formattedDate = date.toLocaleDateString('en-GB', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
 
-  // Send notification to business
-  const businessMailOptions = {
-    from: process.env.EMAIL_USER,
-    to: BUSINESS_EMAIL,
-    subject: `New Reservation - ${name}`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #4A90E2;">New Reservation Received</h1>
-        <p>A new reservation has been made with the following details:</p>
-        <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0;">
-          <p><strong>Customer Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${to}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Date:</strong> ${date.toLocaleDateString()}</p>
-          <p><strong>Time:</strong> ${time}</p>
-          <p><strong>Number of Guests:</strong> ${guests}</p>
-          <p><strong>Table Preference:</strong> ${tablePreference}</p>
+    // Send confirmation to customer
+    const customerMailOptions = {
+      from: `"${SENDER_NAME}" <${BUSINESS_EMAIL}>`,
+      to: customerEmail,
+      subject: 'Your Reservation at Sapphire Lounge',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1e3a8a;">Reservation Confirmation</h2>
+          <p>Dear ${customerName},</p>
+          <p>Thank you for choosing Sapphire Lounge. Your reservation has been confirmed:</p>
+          <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Date:</strong> ${formattedDate}</p>
+            <p><strong>Time:</strong> ${time}</p>
+            <p><strong>Number of Guests:</strong> ${guests}</p>
+            ${tablePreference ? `<p><strong>Table Preference:</strong> ${tablePreference}</p>` : ''}
+          </div>
+          <p>If you need to modify or cancel your reservation, please contact us at:</p>
+          <p>📞 Phone: +44 7968 169885</p>
+          <p>📧 Email: ${BUSINESS_EMAIL}</p>
+          <p style="margin-top: 30px;">We look forward to serving you!</p>
+          <p>Best regards,<br>The Sapphire Lounge Team</p>
         </div>
-      </div>
-    `
-  };
+      `
+    };
 
-  // Send both emails
-  await Promise.all([
-    transporter.sendMail(customerMailOptions),
-    transporter.sendMail(businessMailOptions)
-  ]);
+    // Send notification to business
+    const businessMailOptions = {
+      from: `"${SENDER_NAME} System" <${BUSINESS_EMAIL}>`,
+      to: BUSINESS_EMAIL,
+      subject: `New Reservation - ${customerName}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1e3a8a;">New Reservation Received</h2>
+          <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Customer Name:</strong> ${customerName}</p>
+            <p><strong>Email:</strong> ${customerEmail}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Date:</strong> ${formattedDate}</p>
+            <p><strong>Time:</strong> ${time}</p>
+            <p><strong>Number of Guests:</strong> ${guests}</p>
+            ${tablePreference ? `<p><strong>Table Preference:</strong> ${tablePreference}</p>` : ''}
+          </div>
+        </div>
+      `
+    };
+
+    // Send both emails
+    console.log('Sending confirmation email to customer...');
+    await transporter.sendMail(customerMailOptions);
+    console.log('Customer confirmation email sent successfully');
+
+    console.log('Sending notification email to business...');
+    await transporter.sendMail(businessMailOptions);
+    console.log('Business notification email sent successfully');
+
+  } catch (error) {
+    console.error('Error sending reservation emails:', error);
+    const mailError = error as Error & {
+      response?: {
+        body?: {
+          errors?: Array<{ message: string }>;
+        };
+      };
+    };
+    
+    throw new Error(
+      mailError.response?.body?.errors?.[0]?.message || 
+      mailError.message || 
+      'Failed to send reservation emails'
+    );
+  }
 };
 
 export const sendEventBookingConfirmation = async (
