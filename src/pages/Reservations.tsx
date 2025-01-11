@@ -36,6 +36,79 @@ function Reservations() {
     specialRequests: ''
   });
 
+  const handleSubmit = async () => {
+    // Reset validation error
+    setValidationError('');
+
+    // Validate required fields
+    if (!formData.date) {
+      setValidationError('Please select a date');
+      return;
+    }
+    if (!formData.time) {
+      setValidationError('Please select a time');
+      return;
+    }
+    if (!formData.name.trim()) {
+      setValidationError('Please enter your name');
+      return;
+    }
+    if (!formData.email.trim()) {
+      setValidationError('Please enter your email');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setValidationError('Please enter your phone number');
+      return;
+    }
+    if (!formData.guests) {
+      setValidationError('Please select number of guests');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit reservation');
+      }
+
+      // Save email and phone to localStorage
+      localStorage.setItem('reservationEmail', formData.email);
+      localStorage.setItem('reservationPhone', formData.phone);
+
+      // Show success modal
+      setIsSuccessModalOpen(true);
+
+      // Reset form
+      setFormData({
+        date: null,
+        time: '',
+        name: '',
+        email: formData.email, // Keep email for convenience
+        phone: formData.phone, // Keep phone for convenience
+        guests: '',
+        tablePreference: '',
+        occasion: '',
+        specialRequests: ''
+      });
+      setSelectedDate(null);
+    } catch (error) {
+      console.error('Reservation error:', error);
+      setValidationError('Failed to submit reservation. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       // Removed the setWindowSize call
@@ -60,42 +133,6 @@ function Reservations() {
     "Celebration",
     "Other"
   ];
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setValidationError('');
-
-    // Validate required fields
-    const requiredFields = [
-      { field: selectedDate, name: 'Date' },
-      { field: formData.time, name: 'Time' },
-      { field: formData.name, name: 'Name' },
-      { field: formData.email, name: 'Email' },
-      { field: formData.phone, name: 'Phone' },
-      { field: formData.guests, name: 'Number of Guests' }
-    ];
-
-    const missingFields = requiredFields
-      .filter(({ field }) => !field)
-      .map(({ name }) => name);
-
-    if (missingFields.length > 0) {
-      setValidationError(`Please fill in all required fields: ${missingFields.join(', ')}`);
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Save email and phone to localStorage
-    localStorage.setItem('reservationEmail', formData.email);
-    localStorage.setItem('reservationPhone', formData.phone);
-
-    // Add delay before showing success message
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccessModalOpen(true);
-    }, 500);
-  };
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
