@@ -116,7 +116,7 @@ function Home() {
           
           <div className={`
             relative z-10 w-full max-w-7xl mx-auto
-            ${isMobile ? 'px-4' : 'px-8'} 
+            ${isMobile ? 'px-4 mt-20' : 'px-8 mt-0'} 
           `}>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}

@@ -29,15 +29,15 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14 md:h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img 
               src="/images/logo/Sapphire Lounge Circle Logo.png" 
               alt="Sapphire Logo" 
-              className="h-8 w-8"
+              className="h-7 w-7 md:h-8 md:w-8"
             />
-            <span className="text-xl font-semibold text-white">Sapphire Lounge</span>
+            <span className="text-lg md:text-xl font-semibold text-white">Sapphire Lounge</span>
           </Link>
 
           {/* Desktop Navigation */}
