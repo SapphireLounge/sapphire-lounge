@@ -128,39 +128,39 @@ function Home() {
                 <OptimizedImage 
                   src="/images/logo/Sapphire Lounge Circle Logo.png" 
                   alt="Sapphire Lounge" 
-                  className={`${isMobile ? 'w-32 h-32 mb-2' : 'w-32 h-32 mb-3'}`}
+                  className={`${isMobile ? 'w-24 h-24 mb-1' : 'w-32 h-32 mb-3'}`}
                 />
               </div>
               <h1 className={`
-                font-bold text-white leading-normal tracking-wide
-                ${isMobile ? 'text-4xl mb-0.5' : 'text-5xl mb-1'}
+                font-bold text-white leading-tight tracking-wide
+                ${isMobile ? 'text-3xl mb-0' : 'text-5xl mb-1'}
               `}>
                 Sapphire Lounge
               </h1>
               <h2 className={`
                 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 
                 uppercase tracking-wider
-                ${isMobile ? 'text-xl mt-0 mb-1' : 'text-2xl md:text-3xl mb-2'}
+                ${isMobile ? 'text-lg mt-0 mb-1' : 'text-2xl md:text-3xl mb-2'}
               `}>
                 Premium Shisha Experience
               </h2>
               <div className={`mt-0 mb-4 text-gray-200 max-w-3xl mx-auto ${
-                isMobile ? 'text-sm px-4' : 'text-base px-8'
+                isMobile ? 'text-sm px-2 space-y-0' : 'text-base px-8 space-y-1'
               }`}>
                 <p>Experience the finest flavours in an atmosphere of luxury and comfort.</p>
                 <p>Your journey to exceptional relaxation starts here.</p>
               </div>
               <div className={`
-                flex flex-col sm:flex-row items-center justify-center gap-4 mt-8
-                ${isMobile ? 'mb-4' : 'mb-6'}
+                flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4
+                ${isMobile ? 'mt-4 px-6' : 'mt-8'}
               `}>
                 <Link
                   to="/reservations"
                   className={`
-                    w-full sm:w-auto px-8 py-3 rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
+                    w-auto px-8 py-3 rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
-                    min-w-[160px] text-center
+                    min-w-[130px] text-center text-base
                   `}
                 >
                   Book Now
@@ -168,11 +168,11 @@ function Home() {
                 <Link
                   to="/menu"
                   className={`
-                    w-full sm:w-auto px-8 py-3 rounded-lg bg-transparent
+                    w-auto px-8 py-3 rounded-lg bg-transparent
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
                     border border-primary-400 hover:border-accent-400
-                    min-w-[160px] text-center
+                    min-w-[130px] text-center text-base
                   `}
                 >
                   View Menu
