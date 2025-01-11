@@ -16,7 +16,8 @@ router.post('/api/reservations', async (req, res) => {
       new Date(date),
       time,
       parseInt(guests),
-      tablePreference
+      tablePreference,
+      phone
     );
 
     res.status(200).json({ message: 'Reservation confirmed successfully' });

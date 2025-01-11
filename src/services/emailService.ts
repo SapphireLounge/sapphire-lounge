@@ -14,7 +14,8 @@ export const sendReservationConfirmation = async (
   date: Date,
   time: string,
   guests: number,
-  tablePreference: string
+  tablePreference: string,
+  phone: string
 ) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -30,6 +31,7 @@ export const sendReservationConfirmation = async (
           <p><strong>Time:</strong> ${time}</p>
           <p><strong>Number of Guests:</strong> ${guests}</p>
           <p><strong>Table Preference:</strong> ${tablePreference}</p>
+          <p><strong>Contact Number:</strong> ${phone}</p>
         </div>
         <p>We look forward to providing you with an exceptional experience.</p>
         <p>Best regards,<br>Sapphire Lounge Team</p>
