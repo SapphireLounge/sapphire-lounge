@@ -77,8 +77,10 @@ function Reservations() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to submit reservation');
+        throw new Error(data.error || 'Failed to submit reservation');
       }
 
       // Save email and phone to localStorage
