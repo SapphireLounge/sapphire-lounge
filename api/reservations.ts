@@ -27,6 +27,12 @@ export default async function handler(
       tablePreference
     });
 
+    // Log environment check
+    console.log('Checking environment variables:', {
+      hasSendGridKey: !!process.env.SENDGRID_API_KEY,
+      nodeEnv: process.env.NODE_ENV
+    });
+
     // Validate required fields
     if (!date || !time || !name || !email || !phone || !guests) {
       console.log('Missing required fields');

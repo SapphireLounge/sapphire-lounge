@@ -17,11 +17,23 @@ const transporter = nodemailer.createTransport({
 // Verify transporter configuration
 const verifyTransporter = async () => {
   try {
+    // Check if API key is set
+    if (!process.env.SENDGRID_API_KEY) {
+      console.error('SendGrid API key is not set in environment variables');
+      return false;
+    }
+
+    console.log('Attempting to verify SendGrid connection...');
     await transporter.verify();
     console.log('SendGrid connection verified successfully');
     return true;
   } catch (error) {
-    console.error('SendGrid connection error:', error);
+    console.error('SendGrid connection error:', {
+      message: (error as Error).message,
+      name: (error as Error).name,
+      stack: (error as Error).stack,
+      code: (error as any).code
+    });
     return false;
   }
 };
@@ -36,6 +48,9 @@ export const sendReservationConfirmation = async (
   phone: string
 ) => {
   try {
+    // Log attempt to send email
+    console.log('Attempting to send reservation confirmation email to:', customerEmail);
+    
     // Verify connection before sending
     const isVerified = await verifyTransporter();
     if (!isVerified) {
