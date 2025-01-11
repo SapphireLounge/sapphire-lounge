@@ -74,13 +74,24 @@ function Reservations() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          date: formData.date?.toISOString(),
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit reservation');
+        console.error('Reservation failed:', data);
+        if (data.error === 'Email configuration error') {
+          setValidationError('Unable to send confirmation email. Please try again later or contact us directly.');
+        } else if (data.error === 'Missing required fields') {
+          setValidationError('Please fill in all required fields.');
+        } else {
+          setValidationError(data.error || 'Failed to submit reservation. Please try again.');
+        }
+        return;
       }
 
       // Save email and phone to localStorage
@@ -105,7 +116,7 @@ function Reservations() {
       setSelectedDate(null);
     } catch (error) {
       console.error('Reservation error:', error);
-      setValidationError('Failed to submit reservation. Please try again.');
+      setValidationError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
