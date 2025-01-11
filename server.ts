@@ -6,6 +6,8 @@ import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as net from 'net';
+import reservationRoutes from './src/api/reservations';
+import eventRoutes from './src/api/events';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -44,16 +46,6 @@ const createServer = async () => {
   app.use(cors());
   app.use(bodyParser.json());
 
-  // Device detection middleware
-  const deviceDetectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const userAgent = req.headers['user-agent'] || '';
-    const isMobileDevice = isMobile(userAgent);
-    res.setHeader('x-device-type', isMobileDevice ? 'mobile' : 'desktop');
-    next();
-  };
-
-  app.use(deviceDetectionMiddleware);
-
   // API Routes
   const apiRouter = express.Router();
   
@@ -73,8 +65,21 @@ const createServer = async () => {
     });
   });
 
+  app.use(reservationRoutes);
+  app.use(eventRoutes);
+
   // Mount the API router
   app.use('/api', apiRouter);
+
+  // Device detection middleware
+  const deviceDetectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobileDevice = isMobile(userAgent);
+    res.setHeader('x-device-type', isMobileDevice ? 'mobile' : 'desktop');
+    next();
+  };
+
+  app.use(deviceDetectionMiddleware);
 
   // Use vite's connect instance as middleware
   const vite = await createViteServer({
