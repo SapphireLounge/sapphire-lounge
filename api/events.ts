@@ -1,6 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import QRCode from 'qrcode';
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 async function generateQRCode(eventData: any) {
   // Create a unique event code
   const eventCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -26,6 +33,19 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }
+
+  // Set CORS headers for all responses
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+
   // Log request method and headers for debugging
   console.log('Request method:', req.method);
   console.log('Request headers:', req.headers);
