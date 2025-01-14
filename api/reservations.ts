@@ -3,11 +3,18 @@ import { sendReservationConfirmation } from '../src/services/emailService';
 import QRCode from 'qrcode';
 
 // CORS headers
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+const allowedOrigins = [
+  'https://sapphire-lounge-940v6oqp7-xl-uk-radios-projects.vercel.app',
+  'https://sapphire-lounge-cijifuexn-xl-uk-radios-projects.vercel.app',
+  'http://localhost:3000'
+];
+
+const corsHeaders = (origin: string | undefined) => ({
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Origin': origin || '*',
+  'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+  'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+});
 
 async function generateQRCode(reservationData: any) {
   // Create a unique reservation code
@@ -34,22 +41,30 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  const origin = req.headers.origin;
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end();
+    if (origin && allowedOrigins.includes(origin)) {
+      // Set CORS headers
+      Object.entries(corsHeaders(origin)).forEach(([key, value]) => {
+        res.setHeader(key, value);
+      });
+      return res.status(200).end();
+    }
   }
 
   // Set CORS headers for all responses
-  Object.entries(corsHeaders).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
+  if (origin && allowedOrigins.includes(origin)) {
+    Object.entries(corsHeaders(origin)).forEach(([key, value]) => {
+      res.setHeader(key, value);
+    });
+  }
 
   // Log request method and headers for debugging
   console.log('Request method:', req.method);
   console.log('Request headers:', req.headers);
+  console.log('Origin:', origin);
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
