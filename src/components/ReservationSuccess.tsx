@@ -1,18 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, X, Calendar, Clock, Users, MapPin, Mail, Phone, Star, ScrollText } from 'lucide-react';
-
-interface ReservationData {
-  date: Date | null;
-  time: string;
-  name: string;
-  email: string;
-  phone: string;
-  guests: string;
-  tablePreference: string;
-  occasion: string;
-  specialRequests: string;
-}
+import { CheckCircle2, X, Calendar, Clock, Users, Phone, Mail, MessageSquare, Download } from 'lucide-react';
+import html2canvas from 'html2canvas';
+import { ReservationData } from '../types/reservations';
 
 interface ReservationSuccessProps {
   isOpen: boolean;
@@ -21,9 +11,17 @@ interface ReservationSuccessProps {
 }
 
 const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose, reservationData }) => {
-  const formatDate = (date: Date | null) => {
-    if (!date) return 'Not specified';
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Handle modal close
+  const handleClose = () => {
+    onClose();
+  };
+
+  const formatDate = (dateStr: string | null) => {
+    if (!dateStr) return 'Not specified';
     
+    const date = new Date(dateStr);
     const day = date.getDate();
     const ordinal = (n: number) => {
       const s = ['th', 'st', 'nd', 'rd'];
@@ -31,116 +29,184 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
       return n + (s[(v - 20) % 10] || s[v] || s[0]);
     };
     
-    return date.toLocaleDateString('en-GB', {
+    return date.toLocaleDateString('en-US', {
       weekday: 'long',
-      day: 'numeric',
       month: 'long',
+      day: 'numeric',
       year: 'numeric'
-    }).replace(/\d+/, ordinal(day));
+    }).replace(/\d+/, () => ordinal(day));
+  };
+
+  const downloadConfirmation = async () => {
+    if (modalRef.current) {
+      try {
+        // Create a clone of the modal content
+        const modalClone = modalRef.current.cloneNode(true) as HTMLElement;
+        
+        // Remove the close button from clone
+        const closeButton = modalClone.querySelector('button');
+        if (closeButton) {
+          closeButton.remove();
+        }
+        
+        // Style the clone for capture
+        modalClone.style.position = 'absolute';
+        modalClone.style.left = '-9999px';
+        modalClone.style.transform = 'none';
+        modalClone.style.width = '375px'; // Fixed width for consistency
+        modalClone.style.backgroundColor = '#171717';
+        modalClone.style.padding = '24px';
+        modalClone.style.borderRadius = '12px';
+        
+        // Add clone to body temporarily
+        document.body.appendChild(modalClone);
+        
+        // Capture with improved settings
+        const canvas = await html2canvas(modalClone, {
+          scale: 2, // Higher scale for better quality
+          useCORS: true,
+          backgroundColor: '#171717',
+          logging: false,
+          windowWidth: 375,
+          windowHeight: modalClone.offsetHeight,
+          onclone: (clonedDoc) => {
+            const element = clonedDoc.body.firstElementChild as HTMLElement;
+            if (element) {
+              element.style.transform = 'none';
+              element.style.margin = '0';
+            }
+          }
+        });
+
+        // Remove the clone
+        document.body.removeChild(modalClone);
+
+        // Convert and download
+        const image = canvas.toDataURL('image/png', 1.0);
+        const link = document.createElement('a');
+        link.download = 'sapphire-lounge-reservation.png';
+        link.href = image;
+        link.click();
+      } catch (error) {
+        console.error('Error generating confirmation image:', error);
+      }
+    }
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              handleClose();
+            }
+          }}
+        >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/80"
-            onClick={onClose}
-          />
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
-            className="relative bg-[#020B18] rounded-xl p-2 w-full max-w-lg shadow-xl border border-white"
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className="bg-neutral-900 rounded-xl max-w-md w-full relative"
+            ref={modalRef}
           >
             <button
-              onClick={onClose}
-              className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+              onClick={handleClose}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X size={20} />
             </button>
 
-            <div className="text-center mb-2">
-              <div className="flex justify-center mb-1">
-                <CheckCircle2 
-                  className="w-16 h-16 text-green-500" 
-                />
+            <div className="p-4">
+              <div className="text-center mb-3">
+                <div className="inline-block p-2 bg-emerald-500/20 rounded-full mb-2">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white mb-1">Reservation Successful!</h2>
+                  {reservationData.name && <p className="text-sm text-neutral-400">Thank you, {reservationData.name}, for your reservation!</p>}
+                  <p className="text-sm text-neutral-400">Your reservation details are as follows:</p>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-1">
-                Reservation Confirmed!
-              </h3>
-              <div className="text-gray-400 space-y-0.125 md:space-y-0">
-                <p>Your table has been reserved.</p>
-                <p className="mb-6">Your reservation details:</p>
-              </div>
-            </div>
 
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Calendar className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Date:</span>
-                <span className="text-gray-300">{formatDate(reservationData.date)}</span>
-              </div>
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Clock className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Time:</span>
-                <span className="text-gray-300">{reservationData.time}</span>
-              </div>
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Users className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Name:</span>
-                <span className="text-gray-300">{reservationData.name}</span>
-              </div>
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Mail className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Email:</span>
-                <span className="text-gray-300">{reservationData.email}</span>
-              </div>
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Phone:</span>
-                <span className="text-gray-300">{reservationData.phone}</span>
-              </div>
-              <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                <Users className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-100 font-medium">Guests:</span>
-                <span className="text-gray-300">{reservationData.guests}</span>
-              </div>
-              {reservationData.tablePreference && (
-                <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                  <MapPin className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-100 font-medium">Table Preference:</span>
-                  <span className="text-gray-300">{reservationData.tablePreference}</span>
+              {reservationData.qrCode && (
+                <div className="text-center mb-4">
+                  <img 
+                    src={reservationData.qrCode} 
+                    alt="Reservation QR Code" 
+                    className="mx-auto w-28 h-28 bg-white p-2 rounded-lg"
+                  />
+                  <p className="text-xs text-neutral-400 mt-1">Show this QR code upon arrival</p>
                 </div>
               )}
-              {reservationData.occasion && (
-                <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                  <Star className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-100 font-medium">Special Occasion:</span>
-                  <span className="text-gray-300">{reservationData.occasion}</span>
-                </div>
-              )}
-              {reservationData.specialRequests && (
-                <div className="flex items-start space-x-3 bg-[#0A1628] p-1 rounded-lg border border-dark-700/50">
-                  <ScrollText className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-100 font-medium">Special Requests:</span>
-                  <span className="text-gray-300">{reservationData.specialRequests}</span>
-                </div>
-              )}
-            </div>
 
-            <div className="text-sm text-gray-400 text-center mt-1">
-              <p>A confirmation email has been sent to {reservationData.email}</p>
-              <p className="mt-1">We look forward to serving you!</p>
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                  <Calendar className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm break-words">{formatDate(reservationData.date)}</span>
+                  </div>
+                </div>
+                <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                  <Clock className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm break-words">{reservationData.time}</span>
+                  </div>
+                </div>
+                <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                  <Users className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm break-words">{reservationData.guests} {reservationData.guests === 1 ? 'Guest' : 'Guests'}</span>
+                  </div>
+                </div>
+                <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                  <Phone className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm break-words">{reservationData.phone}</span>
+                  </div>
+                </div>
+                <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                  <Mail className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm break-words">{reservationData.email}</span>
+                  </div>
+                </div>
+                {reservationData.specialRequests && (
+                  <div className="flex items-start text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                    <MessageSquare className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0 mt-0.5" />
+                    <div className="flex items-center min-w-0 flex-1">
+                      <span className="text-sm break-words">{reservationData.specialRequests}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <button
+                  onClick={downloadConfirmation}
+                  className="w-full bg-gradient-to-r from-primary-400 to-accent-400 text-white py-2.5 rounded-lg font-medium
+                    hover:from-primary-500 hover:to-accent-500 flex items-center justify-center space-x-2 text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Save Confirmation</span>
+                </button>
+
+                <button
+                  onClick={handleClose}
+                  className="w-full bg-neutral-800 text-neutral-300 py-2.5 rounded-lg hover:bg-neutral-700 transition-colors text-sm"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

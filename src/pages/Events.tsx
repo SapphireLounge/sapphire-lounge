@@ -1,7 +1,19 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Music, Users, Star } from 'lucide-react';
-import { useState } from 'react';
 import EventSuccess from '../components/EventSuccess';
+
+interface EventData {
+  eventId: number;
+  eventTitle: string;
+  date: string;
+  time: string;
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  qrCode?: string;
+}
 
 function Events() {
   const events = [
@@ -32,49 +44,17 @@ function Events() {
   ];
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<EventData>({
+    eventId: 0,
     name: localStorage.getItem('eventName') || '',
     email: localStorage.getItem('eventEmail') || '',
     phone: localStorage.getItem('eventPhone') || '',
-    guests: '',
+    guests: 0,
     eventTitle: '',
     date: '',
-    time: ''
+    time: '',
   });
   const [validationError, setValidationError] = useState<string>('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setValidationError('');
-
-    // Validate required fields
-    const requiredFields = [
-      { field: formData.name, name: 'Name' },
-      { field: formData.email, name: 'Email' },
-      { field: formData.phone, name: 'Phone' },
-      { field: formData.guests, name: 'Number of Guests' },
-      { field: formData.eventTitle, name: 'Event Title' }
-    ];
-
-    const missingFields = requiredFields
-      .filter(({ field }) => !field)
-      .map(({ name }) => name);
-
-    if (missingFields.length > 0) {
-      setValidationError(`Please fill in all required fields: ${missingFields.join(', ')}`);
-      return;
-    }
-
-    // Save to localStorage
-    localStorage.setItem('eventName', formData.name);
-    localStorage.setItem('eventEmail', formData.email);
-    localStorage.setItem('eventPhone', formData.phone);
-
-    // Show success modal with delay
-    setTimeout(() => {
-      setIsSuccessModalOpen(true);
-    }, 500);
-  };
 
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedEventTitle = e.target.value;
@@ -83,10 +63,63 @@ function Events() {
     if (selectedEvent) {
       setFormData(prev => ({
         ...prev,
+        eventId: selectedEvent.id,
         eventTitle: selectedEvent.title,
         date: selectedEvent.date,
-        time: selectedEvent.time
+        time: selectedEvent.time,
+        guests: prev.guests || 0
       }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setValidationError('');
+
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.guests || !formData.eventTitle || !formData.eventId) {
+      setValidationError('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Event registration failed:', data);
+        setValidationError(data.error || 'Failed to register for event');
+        return;
+      }
+
+      // Save form data to localStorage
+      localStorage.setItem('eventName', formData.name);
+      localStorage.setItem('eventEmail', formData.email);
+      localStorage.setItem('eventPhone', formData.phone);
+
+      // Create a new form data object with the QR code
+      const updatedFormData = {
+        ...formData,
+        qrCode: data.data.qrCode
+      };
+      
+      // Update the form data state with all the information
+      setFormData(updatedFormData);
+      
+      // Show the success modal with a delay
+      setTimeout(() => {
+        setIsSuccessModalOpen(true);
+      }, 500);
+    } catch (error) {
+      console.error('Event registration error:', error);
+      setValidationError('Failed to process event registration');
     }
   };
 
@@ -168,111 +201,147 @@ function Events() {
           </div>
         </motion.div>
 
-        {/* Event Booking Form */}
+        {/* Event Registration Form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-dark-500/50 backdrop-blur-sm rounded-xl p-6 border border-accent-700/20 shadow-xl max-w-2xl mx-auto mt-12"
+          transition={{ delay: 0.8 }}
+          className="max-w-3xl mx-auto"
         >
-          <h2 className="text-2xl font-semibold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            Event Registration
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {validationError && (
-              <div className="p-3 rounded-lg bg-red-900/50 border border-red-500/50 text-red-200 text-sm">
-                {validationError}
-              </div>
-            )}
+          <div className="bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl p-6 md:p-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+              Event Registration
+            </h2>
             
-            {/* Event Selection */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Select Event</label>
-              <div className="relative">
-                <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="mb-6">
+                <label htmlFor="eventTitle" className="block text-sm font-medium text-gray-300 mb-2">
+                  Select Event *
+                </label>
                 <select
-                  id="event"
-                  className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-white"
+                  id="eventTitle"
                   value={formData.eventTitle}
                   onChange={handleEventSelect}
+                  className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
                   required
+                  autoComplete="off"
                 >
-                  <option value="" className="text-gray-400">Select an Event</option>
-                  {events.map(event => (
-                    <option key={event.id} value={event.title} className="text-white">{event.title}</option>
+                  <option value="">Select an event</option>
+                  {events.map((event) => (
+                    <option key={event.id} value={event.title}>
+                      {event.title} - {event.date}
+                    </option>
                   ))}
                 </select>
               </div>
-            </div>
 
-            {/* Name Input */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Name</label>
-              <input 
-                type="text" 
-                placeholder="Your name" 
-                className="w-full pl-3 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-white placeholder-gray-400"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
-                required 
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                    Name *
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
+                    required
+                    autoComplete="name"
+                  />
+                </div>
 
-            {/* Email Input */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Email</label>
-              <input 
-                type="email" 
-                placeholder="Your email" 
-                className="w-full pl-3 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-white placeholder-gray-400"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
-                required 
-              />
-            </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    Email *
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
+                    required
+                    autoComplete="email"
+                  />
+                </div>
 
-            {/* Phone Input */}
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Phone</label>
-              <input 
-                type="tel" 
-                placeholder="Your phone number" 
-                className="w-full pl-3 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-white placeholder-gray-400"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
-                required 
-              />
-            </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
+                    Phone *
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
+                    required
+                    autoComplete="tel"
+                  />
+                </div>
 
-            {/* Number of Guests Input */}
-            <div>
-              <label htmlFor="guests" className="block text-sm font-medium mb-2">
-                Number of Guests <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="guests"
-                className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                value={formData.guests}
-                onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                required
+                <div>
+                  <label htmlFor="guests" className="block text-sm font-medium text-gray-300 mb-2">
+                    Number of Guests *
+                  </label>
+                  <select
+                    id="guests"
+                    value={formData.guests || ''}
+                    onChange={(e) => setFormData(prev => ({ 
+                      ...prev, 
+                      guests: parseInt(e.target.value) 
+                    }))}
+                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
+                    required
+                    autoComplete="off"
+                  >
+                    <option value="">Select number of guests</option>
+                    {[...Array(8)].map((_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1} {i === 0 ? 'Guest' : 'Guests'}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {validationError && (
+                <div className="text-red-400 text-sm mt-2 bg-red-900/20 p-3 rounded-lg">
+                  {validationError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-3 px-4 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium
+                  hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-300 
+                  transition-all duration-300 transform hover:scale-[1.02]"
               >
-                <option value="" disabled>Select number of guests</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <option key={num} value={num}>{num}</option>
-                ))}
-              </select>
-            </div>
-
-            <button 
-              type="submit" 
-              className="w-full py-3 px-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-lg hover:from-primary-600 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-500 transition-colors"
-            >
-              Book Now
-            </button>
-          </form>
+                Register for Event
+              </button>
+            </form>
+          </div>
         </motion.div>
 
-        <EventSuccess isOpen={isSuccessModalOpen} onClose={() => setIsSuccessModalOpen(false)} eventData={formData} />
+        <EventSuccess
+          isOpen={isSuccessModalOpen}
+          onClose={() => {
+            setIsSuccessModalOpen(false);
+            // Reset form only after closing the success modal
+            setFormData({
+              eventId: 0,
+              name: localStorage.getItem('eventName') || '',
+              email: localStorage.getItem('eventEmail') || '',
+              phone: localStorage.getItem('eventPhone') || '',
+              guests: 0,
+              eventTitle: '',
+              date: '',
+              time: '',
+            });
+          }}
+          eventData={formData}
+        />
       </div>
     </div>
   );

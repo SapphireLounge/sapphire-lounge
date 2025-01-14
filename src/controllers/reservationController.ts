@@ -50,7 +50,7 @@ async function generateQRCode(reservation: IReservation) {
   return qrCodeDataURL;
 }
 
-export async function createReservation(req: Request, res: Response): Promise<Response> {
+export const createReservation = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { date, time, name, phone, guests, tablePreference, occasion, specialRequests } = req.body as ReservationRequest;
     
@@ -154,41 +154,3 @@ export async function createReservation(req: Request, res: Response): Promise<Re
     });
   }
 };
-
-export const getReservations = async (req: Request, res: Response) => {
-  try {
-    // TODO: Implement fetching reservations from database
-    res.status(200).json({ message: 'Get reservations endpoint' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch reservations' });
-  }
-};
-
-export const updateReservation = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement updating reservation in database
-    res.status(200).json({ message: `Update reservation ${id} endpoint` });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update reservation' });
-  }
-};
-
-export const cancelReservation = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement canceling reservation in database
-    res.status(200).json({ message: `Cancel reservation ${id} endpoint` });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to cancel reservation' });
-  }
-};
-
-const reservationController = {
-  createReservation,
-  getReservations,
-  updateReservation,
-  cancelReservation
-};
-
-export default reservationController;

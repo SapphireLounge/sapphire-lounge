@@ -10,12 +10,33 @@ interface ReservationData {
   date: Date | null;
   time: string;
   name: string;
-  email: string;
   phone: string;
-  guests: string;
+  email?: string;
+  guests: number;
   tablePreference: string;
   occasion: string;
   specialRequests: string;
+  qrCode?: string;
+}
+
+interface ReservationResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    reservation: {
+      date: string;
+      time: string;
+      name: string;
+      phone: string;
+      guests: number;
+      tablePreference?: string;
+      occasion?: string;
+      specialRequests?: string;
+    };
+    qrCode: string;
+  };
+  error?: string;
+  details?: unknown;
 }
 
 function Reservations() {
@@ -28,45 +49,18 @@ function Reservations() {
     date: null,
     time: '',
     name: '',
-    email: localStorage.getItem('reservationEmail') || '',
     phone: localStorage.getItem('reservationPhone') || '',
-    guests: '',
+    email: localStorage.getItem('reservationEmail') || '',
+    guests: 0,
     tablePreference: '',
     occasion: '',
     specialRequests: ''
   });
 
-  const handleSubmit = async () => {
-    // Reset validation error
-    setValidationError('');
-
-    // Validate required fields
-    if (!formData.date) {
-      setValidationError('Please select a date');
-      return;
-    }
-    if (!formData.time) {
-      setValidationError('Please select a time');
-      return;
-    }
-    if (!formData.name.trim()) {
-      setValidationError('Please enter your name');
-      return;
-    }
-    if (!formData.email.trim()) {
-      setValidationError('Please enter your email');
-      return;
-    }
-    if (!formData.phone.trim()) {
-      setValidationError('Please enter your phone number');
-      return;
-    }
-    if (!formData.guests) {
-      setValidationError('Please select number of guests');
-      return;
-    }
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    setValidationError('');
 
     try {
       const response = await fetch('/api/reservations', {
@@ -80,44 +74,32 @@ function Reservations() {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json() as ReservationResponse;
 
       if (!response.ok) {
         console.error('Reservation failed:', data);
-        if (data.error === 'Email configuration error') {
-          setValidationError('Unable to send confirmation email. Please try again later or contact us directly.');
-        } else if (data.error === 'Missing required fields') {
-          setValidationError('Please fill in all required fields.');
-        } else {
-          setValidationError(data.error || 'Failed to submit reservation. Please try again.');
-        }
+        setValidationError(data.error || 'Failed to create reservation');
+        setIsSubmitting(false);
         return;
       }
 
-      // Save email and phone to localStorage
-      localStorage.setItem('reservationEmail', formData.email);
-      localStorage.setItem('reservationPhone', formData.phone);
+      // Check if we have the QR code in the response
+      const qrCode = data.data?.qrCode;
+      if (qrCode) {
+        setFormData(prev => ({
+          ...prev,
+          qrCode
+        }));
+      }
 
-      // Show success modal
-      setIsSuccessModalOpen(true);
-
-      // Reset form
-      setFormData({
-        date: null,
-        time: '',
-        name: '',
-        email: formData.email, // Keep email for convenience
-        phone: formData.phone, // Keep phone for convenience
-        guests: '',
-        tablePreference: '',
-        occasion: '',
-        specialRequests: ''
-      });
-      setSelectedDate(null);
+      // Show the success modal with a delay
+      setTimeout(() => {
+        setIsSuccessModalOpen(true);
+      }, 500);
+      setIsSubmitting(false);
     } catch (error) {
       console.error('Reservation error:', error);
-      setValidationError('Network error. Please check your connection and try again.');
-    } finally {
+      setValidationError('Failed to create reservation. Please try again.');
       setIsSubmitting(false);
     }
   };
@@ -182,10 +164,12 @@ function Reservations() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Date Selection */}
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Select Date</label>
+              <label htmlFor="reservation-date" className="block text-sm font-medium text-gray-300">Date</label>
               <div className="relative">
                 <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                 <DatePicker
+                  id="reservation-date"
+                  name="reservation-date"
                   selected={selectedDate}
                   onChange={(date: Date | null) => {
                     setSelectedDate(date);
@@ -196,7 +180,7 @@ function Reservations() {
                   maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
                   dateFormat="dd/MM/yyyy"
                   className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
-                  placeholderText="Select a date"
+                  placeholderText="Select date"
                   showPopperArrow={false}
                   open={isCalendarOpen}
                   onInputClick={() => setIsCalendarOpen(!isCalendarOpen)}
@@ -207,10 +191,12 @@ function Reservations() {
 
             {/* Time Selection */}
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Select Time</label>
+              <label htmlFor="reservation-time" className="block text-sm font-medium text-gray-300">Time</label>
               <div className="relative">
                 <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                 <select 
+                  id="reservation-time"
+                  name="reservation-time"
                   className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
                   value={formData.time}
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -227,8 +213,10 @@ function Reservations() {
           {/* Name and Email Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Name</label>
+              <label htmlFor="reservation-name" className="block text-sm font-medium text-gray-300">Name</label>
               <input
+                id="reservation-name"
+                name="reservation-name"
                 type="text"
                 className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
                 placeholder="Your name"
@@ -237,8 +225,10 @@ function Reservations() {
               />
             </div>
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Email</label>
+              <label htmlFor="reservation-email" className="block text-sm font-medium text-gray-300">Email</label>
               <input
+                id="reservation-email"
+                name="reservation-email"
                 type="email"
                 className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
                 placeholder="your.email@example.com"
@@ -255,8 +245,10 @@ function Reservations() {
           {/* Phone and Number of Guests Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Phone</label>
+              <label htmlFor="reservation-phone" className="block text-sm font-medium text-gray-300">Phone</label>
               <input
+                id="reservation-phone"
+                name="reservation-phone"
                 type="tel"
                 className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
                 placeholder="Your phone number"
@@ -269,13 +261,15 @@ function Reservations() {
               />
             </div>
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Number of Guests</label>
+              <label htmlFor="reservation-guests" className="block text-sm font-medium text-gray-300">Number of Guests</label>
               <div className="relative">
                 <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                 <select 
+                  id="reservation-guests"
+                  name="reservation-guests"
                   className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
                   value={formData.guests}
-                  onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value, 10) })}
                 >
                   <option value="">Select number of guests</option>
                   {Array.from({ length: 8 }, (_, i) => i + 1).map(num => (
@@ -289,8 +283,10 @@ function Reservations() {
           {/* Table Preference and Special Occasion Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Table Preference (optional)</label>
+              <label htmlFor="reservation-table-preference" className="block text-sm font-medium text-gray-300">Table Preference (optional)</label>
               <select 
+                id="reservation-table-preference"
+                name="reservation-table-preference"
                 className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
                 value={formData.tablePreference}
                 onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
@@ -301,8 +297,10 @@ function Reservations() {
               </select>
             </div>
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-300">Special Occasion (optional)</label>
+              <label htmlFor="reservation-occasion" className="block text-sm font-medium text-gray-300">Special Occasion (optional)</label>
               <select 
+                id="reservation-occasion"
+                name="reservation-occasion"
                 className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
                 value={formData.occasion}
                 onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
@@ -318,8 +316,10 @@ function Reservations() {
 
           {/* Special Requests */}
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-300">Special Requests</label>
+            <label htmlFor="reservation-special-requests" className="block text-sm font-medium text-gray-300">Special Requests</label>
             <textarea
+              id="reservation-special-requests"
+              name="reservation-special-requests"
               className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
               rows={2}
               placeholder="Any special requests or requirements?"
@@ -340,8 +340,24 @@ function Reservations() {
 
       <ReservationSuccess
         isOpen={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
-        reservationData={formData}
+        onClose={() => {
+          setIsSuccessModalOpen(false);
+          setFormData({
+            date: null,
+            time: '',
+            name: '',
+            phone: '',
+            email: '',
+            guests: 0,
+            tablePreference: '',
+            occasion: '',
+            specialRequests: '',
+          });
+        }}
+        reservationData={{
+          ...formData,
+          date: formData.date ? formData.date.toISOString().split('T')[0] : ''
+        }}
       />
     </div>
   );

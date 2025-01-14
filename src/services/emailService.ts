@@ -195,6 +195,62 @@ export const sendEventBookingConfirmation = async (
   ]);
 };
 
+export const sendEventConfirmation = async ({
+  to,
+  name,
+  eventTitle,
+  date,
+  time,
+  guests,
+  qrCode
+}: {
+  to: string;
+  name: string;
+  eventTitle: string;
+  date: string;
+  time: string;
+  guests: number;
+  qrCode: string;
+}) => {
+  const subject = `Event Booking Confirmation - ${eventTitle}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h1 style="color: #333; text-align: center;">Event Booking Confirmed!</h1>
+      <p style="color: #666;">Dear ${name},</p>
+      <p style="color: #666;">Your booking for ${eventTitle} has been confirmed. Here are your booking details:</p>
+      
+      <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <p style="margin: 10px 0;"><strong>Event:</strong> ${eventTitle}</p>
+        <p style="margin: 10px 0;"><strong>Date:</strong> ${date}</p>
+        <p style="margin: 10px 0;"><strong>Time:</strong> ${time}</p>
+        <p style="margin: 10px 0;"><strong>Number of Guests:</strong> ${guests}</p>
+      </div>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <p style="color: #666; margin-bottom: 15px;">Please show this QR code at the event:</p>
+        <img src="${qrCode}" alt="Event QR Code" style="max-width: 200px; height: auto;"/>
+      </div>
+
+      <p style="color: #666;">Looking forward to seeing you at the event!</p>
+      
+      <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <p style="color: #999; font-size: 12px;">
+          Sapphire Shisha Lounge<br/>
+          123 Main Street, City<br/>
+          Phone: (555) 123-4567
+        </p>
+      </div>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: `"${SENDER_NAME}" <${BUSINESS_EMAIL}>`,
+    to,
+    subject,
+    html
+  });
+};
+
 export const sendNewsletterConfirmation = async (to: string) => {
   const newsletterDetails = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

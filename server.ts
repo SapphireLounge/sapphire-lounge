@@ -6,8 +6,8 @@ import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import * as net from 'net';
-import reservationRoutes from './src/api/reservations';
-import eventRoutes from './src/api/events';
+import reservationController from './server/src/controllers/reservationController';
+import eventController from './server/src/controllers/eventController';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,39 +40,39 @@ const findAvailablePort = async (startPort: number): Promise<number> => {
 
 const createServer = async () => {
   const app = express();
-  const port = await findAvailablePort(3000);  // Start looking for ports from 3000
+  const port = 3000;
 
   // Middleware
   app.use(cors());
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   // API Routes
-  const apiRouter = express.Router();
-  
-  apiRouter.post('/newsletter', async (req: Request, res: Response): Promise<void> => {
-    const { email } = req.body;
-    if (!email) {
-      res.status(400).json({ 
-        success: false, 
-        message: 'Email is required' 
+  app.post('/api/reservations', (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      await reservationController.createReservation(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }) as express.RequestHandler);
+
+  app.post('/api/events', (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if (!req.body) {
+      res.status(400).json({
+        success: false,
+        error: 'Missing request body'
       });
       return;
     }
-    // In a real app, you would add email to a database or newsletter service
-    res.status(200).json({ 
-      success: true, 
-      message: 'Successfully subscribed to newsletter' 
-    });
-  });
-
-  app.use(reservationRoutes);
-  app.use(eventRoutes);
-
-  // Mount the API router
-  app.use('/api', apiRouter);
+    try {
+      await eventController.registerForEvent(req, res);
+    } catch (err) {
+      next(err);
+    }
+  }) as express.RequestHandler);
 
   // Device detection middleware
-  const deviceDetectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const deviceDetectionMiddleware: express.RequestHandler = (req, res, next) => {
     const userAgent = req.headers['user-agent'] || '';
     const isMobileDevice = isMobile(userAgent);
     res.setHeader('x-device-type', isMobileDevice ? 'mobile' : 'desktop');
@@ -80,6 +80,15 @@ const createServer = async () => {
   };
 
   app.use(deviceDetectionMiddleware);
+
+  // Error handling middleware
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error('Server error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message || 'Internal server error' 
+    });
+  });
 
   // Use vite's connect instance as middleware
   const vite = await createViteServer({
@@ -113,7 +122,8 @@ const startServer = async () => {
   try {
     await createServer();
   } catch (e) {
-    console.error(e);
+    console.error('Error starting server:', e);
+    console.error('Stack trace:', e.stack);
     process.exit(1);
   }
 };
