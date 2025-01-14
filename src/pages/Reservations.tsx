@@ -63,7 +63,7 @@ function Reservations() {
     setValidationError('');
 
     try {
-      const response = await fetch('https://sapphire-lounge-cijifuexn-xl-uk-radios-projects.vercel.app/api/reservations', {
+      const response = await fetch('https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app/api/reservations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

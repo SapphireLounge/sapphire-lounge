@@ -4,14 +4,14 @@ import QRCode from 'qrcode';
 
 // CORS headers
 const allowedOrigins = [
-  'https://sapphire-lounge-940v6oqp7-xl-uk-radios-projects.vercel.app',
-  'https://sapphire-lounge-cijifuexn-xl-uk-radios-projects.vercel.app',
-  'http://localhost:3000'
+  'https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app',
+  'http://localhost:3000',
+  '*'  // Allow all origins temporarily for debugging
 ];
 
 const corsHeaders = (origin: string | undefined) => ({
   'Access-Control-Allow-Credentials': 'true',
-  'Access-Control-Allow-Origin': origin || '*',
+  'Access-Control-Allow-Origin': '*',  // Allow all origins temporarily
   'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
   'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
 });
@@ -41,30 +41,20 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
-  const origin = req.headers.origin;
+  // Set CORS headers for all responses
+  Object.entries(corsHeaders(req.headers.origin)).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    if (origin && allowedOrigins.includes(origin)) {
-      // Set CORS headers
-      Object.entries(corsHeaders(origin)).forEach(([key, value]) => {
-        res.setHeader(key, value);
-      });
-      return res.status(200).end();
-    }
-  }
-
-  // Set CORS headers for all responses
-  if (origin && allowedOrigins.includes(origin)) {
-    Object.entries(corsHeaders(origin)).forEach(([key, value]) => {
-      res.setHeader(key, value);
-    });
+    return res.status(200).end();
   }
 
   // Log request method and headers for debugging
   console.log('Request method:', req.method);
   console.log('Request headers:', req.headers);
-  console.log('Origin:', origin);
+  console.log('Origin:', req.headers.origin);
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
