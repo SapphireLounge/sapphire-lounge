@@ -1,16 +1,15 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendReservationConfirmation } from '../src/services/emailService';
 import QRCode from 'qrcode';
 
-async function generateQRCode(reservationData: any) {
-  // Create a unique reservation code
-  const reservationCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+async function generateQRCode(eventData: any) {
+  // Create a unique event code
+  const eventCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   
-  // Create reservation data
+  // Create event data
   const qrData = {
-    code: reservationCode,
-    type: 'reservation',
-    ...reservationData,
+    code: eventCode,
+    type: 'event',
+    ...eventData,
     timestamp: new Date().toISOString()
   };
 
@@ -36,34 +35,27 @@ export default async function handler(
   }
 
   try {
-    const { date, time, name, email, phone, guests, tablePreference, occasion, specialRequests } = req.body;
+    const { eventTitle, date, time, name, email, phone, guests } = req.body;
 
     // Log received data for debugging
-    console.log('Received reservation data:', {
+    console.log('Received event data:', {
+      eventTitle,
       date,
       time,
       name,
       email,
       phone,
-      guests,
-      tablePreference,
-      occasion,
-      specialRequests
-    });
-
-    // Log environment check
-    console.log('Checking environment variables:', {
-      hasSendGridKey: !!process.env.SENDGRID_API_KEY,
-      nodeEnv: process.env.NODE_ENV
+      guests
     });
 
     // Validate required fields
-    if (!date || !time || !name || !email || !phone || !guests) {
+    if (!eventTitle || !date || !time || !name || !email || !phone || !guests) {
       console.log('Missing required fields');
       return res.status(400).json({ 
         error: 'Missing required fields',
-        required: ['date', 'time', 'name', 'email', 'phone', 'guests'],
+        required: ['eventTitle', 'date', 'time', 'name', 'email', 'phone', 'guests'],
         received: {
+          eventTitle: !!eventTitle,
           date: !!date,
           time: !!time,
           name: !!name,
@@ -76,55 +68,40 @@ export default async function handler(
 
     // Generate QR code
     const qrCodeDataURL = await generateQRCode({
+      eventTitle,
       date,
       time,
       name,
       email,
       phone,
-      guests: parseInt(guests),
-      tablePreference,
-      occasion,
-      specialRequests
+      guests: parseInt(guests)
     });
 
-    // Send confirmation email
-    await sendReservationConfirmation(
-      email,
-      name,
-      new Date(date),
-      time,
-      parseInt(guests),
-      tablePreference || '',
-      phone
-    );
-
-    return res.status(200).json({ 
+    return res.status(200).json({
       success: true,
-      message: 'Reservation confirmed successfully',
+      message: 'Event registration successful',
       data: {
-        reservation: {
+        event: {
+          eventTitle,
           date: new Date(date),
           time,
           name,
           email,
           phone,
-          guests: parseInt(guests),
-          tablePreference,
-          occasion,
-          specialRequests
+          guests: parseInt(guests)
         },
         qrCode: qrCodeDataURL
       }
     });
   } catch (error) {
-    console.error('Reservation error:', {
+    console.error('Event registration error:', {
       message: error.message,
       stack: error.stack,
       name: error.name
     });
     console.error('Error details:', error);
-    return res.status(500).json({ 
-      error: 'Failed to process reservation',
+    return res.status(500).json({
+      error: 'Failed to process event registration',
       details: {
         message: error.message,
         type: error.name
