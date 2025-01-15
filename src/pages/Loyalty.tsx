@@ -378,11 +378,11 @@ const Loyalty: React.FC = () => {
             <ul className="space-y-1.5 md:space-y-2 text-[11px] md:text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
-                <span>Call us at +44 20 1234 5678</span>
+                <span>Call us at 01792 555888</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
-                <span>Email us at support@sapphirelounge.com</span>
+                <span>Email us at info@sapphirelounge.com</span>
               </li>
               <li className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
