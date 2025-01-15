@@ -32,7 +32,7 @@ const MOCK_DELAY = 1000;
 export const api = axios.create({
   baseURL: isDevelopment 
     ? '/api'  // This will be handled by Vite's proxy
-    : 'https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app/api',
+    : process.env.NEXT_PUBLIC_API_URL || 'https://sapphire-lounge-qvfa2r4m6-xl-uk-radios-projects.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
