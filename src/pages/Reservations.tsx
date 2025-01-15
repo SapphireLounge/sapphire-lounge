@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
 import { api } from '../lib/api';
+import { generateReservationQRCode } from '../lib/qrcode';
 import ReservationSuccess from '../components/ReservationSuccess';
 
 interface ReservationData {
@@ -64,44 +65,55 @@ function Reservations() {
     specialRequests: '',
     qrCode: ''
   });
+  const [reservationData, setReservationData] = useState<ReservationData>({
+    date: null,
+    time: '',
+    name: '',
+    phone: '',
+    email: '',
+    guests: 0,
+    tablePreference: '',
+    occasion: '',
+    specialRequests: '',
+    qrCode: ''
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setValidationError('');
 
-    const formattedData = {
-      ...formData,
-      date: formatDate(formData.date),
-    };
-
     try {
-      const response = await api.post<ReservationResponse>('/reservations', formattedData);
+      const qrCodeDataURL = await generateReservationQRCode(formData);
+      
+      // Store the reservation data with QR code
+      const reservationWithQR = {
+        ...formData,
+        qrCode: qrCodeDataURL
+      };
 
-      if (response.data.success && response.data.data && response.data.data.reservation) {
-        const updatedFormData = {
-          ...formData,
-          qrCode: response.data.data.reservation.qrCode
-        };
-        
-        // Debug logging to check reservationData
-        console.log('Reservation Data:', updatedFormData);
-        
-        // Update the form data state with all the information
-        setFormData(updatedFormData);
-        
-        // Show the success modal with a delay
-        setTimeout(() => {
-          setIsSuccessModalOpen(true);
-        }, 500);
-      } else {
-        console.error('Reservation failed:', response.data);
-        setValidationError(response.data.error || 'Failed to create reservation');
-        setIsSubmitting(false);
-      }
+      // Show success modal with the data
+      setReservationData(reservationWithQR);
+      setIsSuccessModalOpen(true);
+      
+      // Clear form
+      setFormData({
+        date: null,
+        time: '',
+        name: '',
+        phone: '',
+        email: '',
+        guests: 0,
+        tablePreference: '',
+        occasion: '',
+        specialRequests: '',
+        qrCode: ''
+      });
+      
     } catch (error) {
       console.error('Reservation error:', error);
       setValidationError('Failed to create reservation. Please try again.');
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -360,8 +372,8 @@ function Reservations() {
           });
         }}
         reservationData={{
-          ...formData,
-          date: formatDate(formData.date)
+          ...reservationData,
+          date: formatDate(reservationData.date)
         }}
       />
     </div>

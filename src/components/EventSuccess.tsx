@@ -18,7 +18,7 @@ interface EventData {
 interface EventSuccessProps {
   isOpen: boolean;
   onClose: () => void;
-  eventData: EventData;
+  eventData?: EventData;
 }
 
 const EventSuccess: React.FC<EventSuccessProps> = ({ isOpen, onClose, eventData }) => {
@@ -129,12 +129,12 @@ const EventSuccess: React.FC<EventSuccessProps> = ({ isOpen, onClose, eventData 
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-white mb-1">Event Registration Successful!</h2>
-                  {eventData.name && <p className="text-sm text-neutral-400">Thank you, {eventData.name}, for registering for the event!</p>}
-                  <p className="text-sm text-neutral-400">You're all set for {eventData.eventTitle}</p>
+                  {eventData?.name && <p className="text-sm text-neutral-400">Thank you, {eventData.name}, for registering for the event!</p>}
+                  <p className="text-sm text-neutral-400">You're all set for {eventData?.eventTitle}</p>
                 </div>
               </div>
 
-              {eventData.qrCode && (
+              {eventData?.qrCode && (
                 <div className="text-center mb-4">
                   <img 
                     src={eventData.qrCode} 
@@ -149,31 +149,31 @@ const EventSuccess: React.FC<EventSuccessProps> = ({ isOpen, onClose, eventData 
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Calendar className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{formatDate(eventData.date)}</span>
+                    <span className="text-sm break-words">{eventData?.date && formatDate(eventData.date)}</span>
                   </div>
                 </div>
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Clock className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{eventData.time}</span>
+                    <span className="text-sm break-words">{eventData?.time}</span>
                   </div>
                 </div>
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Users className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{eventData.guests} {eventData.guests === 1 ? 'Guest' : 'Guests'}</span>
+                    <span className="text-sm break-words">{eventData?.guests} {eventData?.guests === 1 ? 'Guest' : 'Guests'}</span>
                   </div>
                 </div>
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Phone className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{eventData.phone}</span>
+                    <span className="text-sm break-words">{eventData?.phone}</span>
                   </div>
                 </div>
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Mail className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{eventData.email}</span>
+                    <span className="text-sm break-words">{eventData?.email}</span>
                   </div>
                 </div>
               </div>

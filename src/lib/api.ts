@@ -31,12 +31,49 @@ const MOCK_DELAY = 1000;
 
 export const api = axios.create({
   baseURL: isDevelopment 
-    ? '/api'  // This will be handled by Vite's proxy
-    : process.env.NEXT_PUBLIC_API_URL || 'https://sapphire-lounge-qvfa2r4m6-xl-uk-radios-projects.vercel.app/api',
+    ? '/api'
+    : 'https://sapphire-lounge.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Mock data for events
+export const mockEvents = [
+  {
+    id: 1,
+    title: "Jazz Night",
+    date: "2025-01-20",
+    time: "20:00",
+    description: "An evening of smooth jazz and fine dining",
+    capacity: 50,
+    image: "/events/jazz-night.jpg"
+  },
+  {
+    id: 2,
+    title: "Wine Tasting",
+    date: "2025-01-25",
+    time: "19:00",
+    description: "Explore our curated selection of fine wines",
+    capacity: 30,
+    image: "/events/wine-tasting.jpg"
+  },
+  {
+    id: 3,
+    title: "Live Music",
+    date: "2025-01-27",
+    time: "21:00",
+    description: "Local artists performing live",
+    capacity: 40,
+    image: "/events/live-music.jpg"
+  }
+];
+
+// Mock API calls
+export const getEvents = async () => {
+  await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
+  return mockEvents;
+};
 
 // API Functions
 export async function submitReservation(data: ReservationData): Promise<ApiResponse<{ reservation: ReservationData }>> {
