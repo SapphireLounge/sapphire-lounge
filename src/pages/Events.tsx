@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Music, Users, Star } from 'lucide-react';
 import EventSuccess from '../components/EventSuccess';
+import { api } from '../lib/api';
 
 interface EventData {
   eventId: number;
@@ -83,40 +84,25 @@ function Events() {
     }
 
     try {
-      const response = await fetch('https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app/api/events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error('Event registration failed:', data);
-        setValidationError(data.error || 'Failed to register for event');
-        return;
+      const response = await api.post('/events', formData);
+      
+      if (response.data.success) {
+        const updatedFormData = {
+          ...formData,
+          qrCode: response.data.data.qrCode
+        };
+        
+        // Update the form data state with all the information
+        setFormData(updatedFormData);
+        
+        // Show the success modal with a delay
+        setTimeout(() => {
+          setIsSuccessModalOpen(true);
+        }, 500);
+      } else {
+        console.error('Event registration failed:', response.data);
+        setValidationError(response.data.error || 'Failed to register for event');
       }
-
-      // Save form data to localStorage
-      localStorage.setItem('eventName', formData.name);
-      localStorage.setItem('eventEmail', formData.email);
-      localStorage.setItem('eventPhone', formData.phone);
-
-      // Create a new form data object with the QR code
-      const updatedFormData = {
-        ...formData,
-        qrCode: data.data.qrCode
-      };
-      
-      // Update the form data state with all the information
-      setFormData(updatedFormData);
-      
-      // Show the success modal with a delay
-      setTimeout(() => {
-        setIsSuccessModalOpen(true);
-      }, 500);
     } catch (error) {
       console.error('Event registration error:', error);
       setValidationError('Failed to process event registration');

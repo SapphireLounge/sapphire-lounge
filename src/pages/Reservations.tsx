@@ -4,6 +4,7 @@ import { Calendar, Clock, Users } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
+import { api } from '../lib/api';
 import ReservationSuccess from '../components/ReservationSuccess';
 
 interface ReservationData {
@@ -19,6 +20,12 @@ interface ReservationData {
   qrCode?: string;
 }
 
+// Helper function to convert Date to string format
+const formatDate = (date: Date | null): string => {
+  if (!date) return '';
+  return date.toISOString().split('T')[0];
+};
+
 interface ReservationResponse {
   success: boolean;
   message: string;
@@ -32,8 +39,8 @@ interface ReservationResponse {
       tablePreference?: string;
       occasion?: string;
       specialRequests?: string;
+      qrCode: string;
     };
-    qrCode: string;
   };
   error?: string;
   details?: unknown;
@@ -54,7 +61,8 @@ function Reservations() {
     guests: 0,
     tablePreference: '',
     occasion: '',
-    specialRequests: ''
+    specialRequests: '',
+    qrCode: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,41 +70,35 @@ function Reservations() {
     setIsSubmitting(true);
     setValidationError('');
 
+    const formattedData = {
+      ...formData,
+      date: formatDate(formData.date),
+    };
+
     try {
-      const response = await fetch('https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app/api/reservations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await api.post<ReservationResponse>('/reservations', formattedData);
+
+      if (response.data.success && response.data.data && response.data.data.reservation) {
+        const updatedFormData = {
           ...formData,
-          date: formData.date?.toISOString(),
-        }),
-      });
-
-      const data = await response.json() as ReservationResponse;
-
-      if (!response.ok) {
-        console.error('Reservation failed:', data);
-        setValidationError(data.error || 'Failed to create reservation');
+          qrCode: response.data.data.reservation.qrCode
+        };
+        
+        // Debug logging to check reservationData
+        console.log('Reservation Data:', updatedFormData);
+        
+        // Update the form data state with all the information
+        setFormData(updatedFormData);
+        
+        // Show the success modal with a delay
+        setTimeout(() => {
+          setIsSuccessModalOpen(true);
+        }, 500);
+      } else {
+        console.error('Reservation failed:', response.data);
+        setValidationError(response.data.error || 'Failed to create reservation');
         setIsSubmitting(false);
-        return;
       }
-
-      // Check if we have the QR code in the response
-      const qrCode = data.data?.qrCode;
-      if (qrCode) {
-        setFormData(prev => ({
-          ...prev,
-          qrCode
-        }));
-      }
-
-      // Show the success modal with a delay
-      setTimeout(() => {
-        setIsSuccessModalOpen(true);
-      }, 500);
-      setIsSubmitting(false);
     } catch (error) {
       console.error('Reservation error:', error);
       setValidationError('Failed to create reservation. Please try again.');
@@ -342,6 +344,8 @@ function Reservations() {
         isOpen={isSuccessModalOpen}
         onClose={() => {
           setIsSuccessModalOpen(false);
+          // Reset form but keep the last successful reservation data for the success modal
+          const lastReservation = { ...formData };
           setFormData({
             date: null,
             time: '',
@@ -352,11 +356,12 @@ function Reservations() {
             tablePreference: '',
             occasion: '',
             specialRequests: '',
+            qrCode: lastReservation.qrCode // Keep the QR code
           });
         }}
         reservationData={{
           ...formData,
-          date: formData.date ? formData.date.toISOString().split('T')[0] : ''
+          date: formatDate(formData.date)
         }}
       />
     </div>

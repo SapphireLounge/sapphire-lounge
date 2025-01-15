@@ -125,9 +125,9 @@ export async function createReservation(req: Request, res: Response): Promise<Re
             guests: reservation.guests,
             tablePreference: reservation.tablePreference,
             occasion: reservation.occasion ?? '',
-            specialRequests: reservation.specialRequests ?? ''
-          },
-          qrCode: qrCodeDataURL
+            specialRequests: reservation.specialRequests ?? '',
+            qrCode: qrCodeDataURL
+          }
         }
       });
     } catch (error) {

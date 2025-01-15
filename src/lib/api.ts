@@ -10,6 +10,7 @@ export interface ReservationData {
   guests: number;
   tablePreference?: string;
   notes?: string;
+  qrCode?: string;
 }
 
 export interface ContactFormData {
@@ -28,39 +29,19 @@ export interface ApiResponse<T = any> {
 const isDevelopment = import.meta.env.DEV;
 const MOCK_DELAY = 1000;
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+export const api = axios.create({
+  baseURL: isDevelopment 
+    ? '/api'  // This will be handled by Vite's proxy
+    : 'https://sapphire-lounge-hymy3oc1n-xl-uk-radios-projects.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Mock Data
-const mockReservations: ReservationData[] = [
-  {
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '07700 900000',
-    date: '2024-02-01',
-    time: '19:00',
-    guests: 4,
-    tablePreference: 'Window',
-  },
-];
-
 // API Functions
-export async function submitReservation(data: ReservationData): Promise<ApiResponse<ReservationData>> {
-  if (isDevelopment) {
-    await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
-    return {
-      success: true,
-      message: 'Reservation submitted successfully! We will contact you to confirm your booking.',
-      data,
-    };
-  }
-
+export async function submitReservation(data: ReservationData): Promise<ApiResponse<{ reservation: ReservationData }>> {
   try {
-    const response = await api.post<ApiResponse<ReservationData>>('/reservations', data);
+    const response = await api.post<ApiResponse<{ reservation: ReservationData }>>('/reservations', data);
     return response.data;
   } catch (error) {
     return {
@@ -76,7 +57,7 @@ export async function getReservations(date?: string): Promise<ApiResponse<Reserv
     return {
       success: true,
       message: 'Reservations retrieved successfully',
-      data: mockReservations,
+      data: [],
     };
   }
 
@@ -102,7 +83,14 @@ export async function updateReservation(
     return {
       success: true,
       message: 'Reservation updated successfully',
-      data: { ...mockReservations[0], ...data },
+      data: {
+        name: 'Mock User',
+        email: 'mock@example.com',
+        phone: '123-456-7890',
+        date: '2025-01-14',
+        time: '19:00',
+        guests: 2,
+      },
     };
   }
 

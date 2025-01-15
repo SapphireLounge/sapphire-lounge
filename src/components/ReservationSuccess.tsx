@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, X, Calendar, Clock, Users, Phone, Mail, MessageSquare, Download } from 'lucide-react';
+import { CheckCircle2, Calendar, Clock, Users, Phone, Mail, MessageSquare, Download, X } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { ReservationData } from '../types/reservations';
 
@@ -117,10 +117,10 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
             ref={modalRef}
           >
             <button
-              onClick={handleClose}
-              className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
+              onClick={onClose}
+              className="absolute right-4 top-4 text-gray-400 hover:text-white"
             >
-              <X size={20} />
+              <X className="w-5 h-5" />
             </button>
 
             <div className="p-4">
@@ -150,38 +150,43 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Calendar className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{formatDate(reservationData.date)}</span>
+                    <span className="text-sm break-words">{formatDate(reservationData.date?.toString() || '')}</span>
                   </div>
                 </div>
+
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Clock className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
                     <span className="text-sm break-words">{reservationData.time}</span>
                   </div>
                 </div>
+
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Users className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm break-words">{reservationData.guests} {reservationData.guests === 1 ? 'Guest' : 'Guests'}</span>
+                    <span className="text-sm break-words">{reservationData.guests} Guests</span>
                   </div>
                 </div>
+
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Phone className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
                     <span className="text-sm break-words">{reservationData.phone}</span>
                   </div>
                 </div>
+
                 <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
                   <Mail className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                   <div className="flex items-center min-w-0 flex-1">
                     <span className="text-sm break-words">{reservationData.email}</span>
                   </div>
                 </div>
-                {reservationData.specialRequests && (
-                  <div className="flex items-start text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
-                    <MessageSquare className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0 mt-0.5" />
+
+                {reservationData.notes && (
+                  <div className="flex items-center text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                    <MessageSquare className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0" />
                     <div className="flex items-center min-w-0 flex-1">
-                      <span className="text-sm break-words">{reservationData.specialRequests}</span>
+                      <span className="text-sm break-words">{reservationData.notes}</span>
                     </div>
                   </div>
                 )}
@@ -190,16 +195,15 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
               <div className="space-y-2">
                 <button
                   onClick={downloadConfirmation}
-                  className="w-full bg-gradient-to-r from-primary-400 to-accent-400 text-white py-2.5 rounded-lg font-medium
-                    hover:from-primary-500 hover:to-accent-500 flex items-center justify-center space-x-2 text-sm"
+                  className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Save Confirmation</span>
+                  Save Confirmation
                 </button>
 
                 <button
                   onClick={handleClose}
-                  className="w-full bg-neutral-800 text-neutral-300 py-2.5 rounded-lg hover:bg-neutral-700 transition-colors text-sm"
+                  className="w-full py-3 px-4 bg-neutral-800 text-white rounded-lg hover:bg-neutral-700 transition-colors"
                 >
                   Close
                 </button>
