@@ -9,6 +9,7 @@ export interface ReservationData {
   occasion?: string;
   specialRequests?: string;
   qrCode?: string;
+  notes?: string;
 }
 
 export interface ReservationResponse {
