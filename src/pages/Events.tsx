@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Music, Users, Star } from 'lucide-react';
 import EventSuccess from '../components/EventSuccess';
-import { api } from '../lib/api';
+import { generateEventQRCode } from '../lib/qrcode';
 
 interface EventData {
   eventId: number;
@@ -14,6 +14,17 @@ interface EventData {
   phone: string;
   guests: number;
   qrCode?: string;
+}
+
+interface EventFormData {
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  eventTitle: string;
+  date: string;
+  time: string;
+  eventId?: number;
 }
 
 function Events() {
@@ -45,8 +56,7 @@ function Events() {
   ];
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [formData, setFormData] = useState<EventData>({
-    eventId: 0,
+  const [formData, setFormData] = useState<EventFormData>({
     name: localStorage.getItem('eventName') || '',
     email: localStorage.getItem('eventEmail') || '',
     phone: localStorage.getItem('eventPhone') || '',
@@ -56,6 +66,8 @@ function Events() {
     time: '',
   });
   const [validationError, setValidationError] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [eventData, setEventData] = useState<EventData | null>(null);
 
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedEventTitle = e.target.value;
@@ -75,37 +87,51 @@ function Events() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     setValidationError('');
 
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.phone || !formData.guests || !formData.eventTitle || !formData.eventId) {
-      setValidationError('Please fill in all required fields');
-      return;
-    }
-
     try {
-      const response = await api.post('/events', formData);
-      
-      if (response.data.success) {
-        const updatedFormData = {
-          ...formData,
-          qrCode: response.data.data.qrCode
-        };
-        
-        // Update the form data state with all the information
-        setFormData(updatedFormData);
-        
-        // Show the success modal with a delay
-        setTimeout(() => {
-          setIsSuccessModalOpen(true);
-        }, 500);
-      } else {
-        console.error('Event registration failed:', response.data);
-        setValidationError(response.data.error || 'Failed to register for event');
+      const selectedEvent = events.find(event => event.title === formData.eventTitle);
+      if (!selectedEvent) {
+        throw new Error('Selected event not found');
       }
+
+      const qrCodeDataURL = await generateEventQRCode({
+        ...formData,
+        eventId: selectedEvent.id,
+        eventTitle: selectedEvent.title
+      });
+      
+      // Store the event registration data with QR code
+      const eventWithQR: EventData = {
+        ...formData,
+        eventId: selectedEvent.id,
+        eventTitle: selectedEvent.title,
+        date: selectedEvent.date,
+        time: selectedEvent.time,
+        qrCode: qrCodeDataURL
+      };
+
+      // Show success modal with the data
+      setEventData(eventWithQR);
+      setIsSuccessModalOpen(true);
+      
+      // Clear form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        guests: 1,
+        eventTitle: '',
+        date: '',
+        time: '',
+      });
+      
     } catch (error) {
       console.error('Event registration error:', error);
-      setValidationError('Failed to process event registration');
+      setValidationError('Failed to register for event. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -300,34 +326,35 @@ function Events() {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full py-3 px-4 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium
                   hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-300 
                   transition-all duration-300 transform hover:scale-[1.02]"
               >
-                Register for Event
+                {isSubmitting ? 'Processing...' : 'Register for Event'}
               </button>
             </form>
           </div>
         </motion.div>
 
-        <EventSuccess
-          isOpen={isSuccessModalOpen}
-          onClose={() => {
-            setIsSuccessModalOpen(false);
-            // Reset form only after closing the success modal
-            setFormData({
-              eventId: 0,
-              name: localStorage.getItem('eventName') || '',
-              email: localStorage.getItem('eventEmail') || '',
-              phone: localStorage.getItem('eventPhone') || '',
-              guests: 0,
-              eventTitle: '',
-              date: '',
-              time: '',
-            });
-          }}
-          eventData={formData}
-        />
+        {isSuccessModalOpen && (
+          <EventSuccess
+            isOpen={isSuccessModalOpen}
+            onClose={() => {
+              setIsSuccessModalOpen(false);
+              setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                guests: 1,
+                eventTitle: '',
+                date: '',
+                time: '',
+              });
+            }}
+            eventData={eventData || undefined}
+          />
+        )}
       </div>
     </div>
   );
