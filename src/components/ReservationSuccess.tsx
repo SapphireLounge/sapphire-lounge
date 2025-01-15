@@ -190,6 +190,15 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
                     </div>
                   </div>
                 )}
+
+                {reservationData.specialRequests && (
+                  <div className="flex items-start text-neutral-300 bg-neutral-800/50 p-2 rounded-lg">
+                    <MessageSquare className="w-4 h-4 text-primary-400 mr-2 flex-shrink-0 mt-0.5" />
+                    <div className="flex items-center min-w-0 flex-1">
+                      <span className="text-sm break-words">{reservationData.specialRequests}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
