@@ -19,6 +19,7 @@ function Home() {
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
   const [blurComplete, setBlurComplete] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
+  const [buttonText, setButtonText] = useState('Submit Feedback');
   const deviceType = useDeviceType();
   const isMobile = deviceType === 'mobile';
   
@@ -78,6 +79,19 @@ function Home() {
       document.head.removeChild(link);
     };
   }, [heroImageUrl, mobileHeroImageUrl, blurImageUrl, deviceType]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    // Change button text
+    setButtonText('Feedback Submitted');
+    // Reset form
+    form.reset();
+    // Reset button text after 5 seconds
+    setTimeout(() => {
+      setButtonText('Submit Feedback');
+    }, 5000);
+  };
 
   return (
     <>
@@ -250,6 +264,67 @@ function Home() {
         {/* Testimonials Section */}
         <Testimonials />
 
+        {/* Feedback Form */}
+        <section className="py-8 bg-[#090909]">
+          <div className={`container mx-auto ${isMobile ? 'px-4' : 'px-8'}`}>
+            <div className="text-center mb-8">
+              <h2 className={`font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1 ${
+                isMobile ? 'text-xl' : 'text-2xl md:text-3xl'
+              }`}>
+                Share Your Experience
+              </h2>
+              <p className={`text-gray-300 max-w-2xl mx-auto ${
+                isMobile ? 'text-[10px]' : 'text-xs'
+              }`}>
+                We value your feedback and would love to hear about your time at Sapphire Lounge
+              </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto">
+              <div className={`bg-[#0A0A0C] rounded-lg border border-[#1A1A1C] relative shadow-xl ${
+                isMobile ? 'p-4' : 'p-6'
+              }`}>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
+                      required 
+                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      type="email" 
+                      placeholder="Your Email" 
+                      required 
+                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <textarea 
+                      placeholder="Share your experience with us..." 
+                      required 
+                      rows={4}
+                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <button 
+                      type="submit" 
+                      className={`bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-lg transition-all duration-200 hover:from-primary-600 hover:to-accent-600 ${
+                        isMobile ? 'px-4 py-2 text-sm' : 'px-6 py-2.5 text-base'
+                      }`}
+                    >
+                      {buttonText}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Featured Events */}
         <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner size="lg" color="accent" />}>
@@ -281,6 +356,7 @@ function Home() {
         <Newsletter />
       </main>
       <BackToTop />
+      <SEO title="Sapphire Lounge - Your Place for Relaxation" description="Join us at Sapphire Lounge for exclusive events, offers, and testimonials from our valued customers." />
     </>
   );
 }
