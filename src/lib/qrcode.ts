@@ -1,6 +1,5 @@
 import QRCode from 'qrcode';
 import { ReservationData } from '../types/reservations';
-import { EventData } from '../types/events';
 
 export async function generateReservationQRCode(reservation: ReservationData): Promise<string> {
   const reservationCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -21,7 +20,7 @@ export async function generateReservationQRCode(reservation: ReservationData): P
   return await QRCode.toDataURL(JSON.stringify(reservationData));
 }
 
-export async function generateEventQRCode(event: EventData): Promise<string> {
+export async function generateEventQRCode(event: any): Promise<string> {
   const eventCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   
   const eventData = {
