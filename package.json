@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build:frontend": "tsc && vite build",
-    "build": "npm run build:frontend",
+    "build": "npm run build:frontend && tsc -p server/tsconfig.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "generate-pwa-assets": "pwa-assets-generator",
     "generate-icons": "node scripts/generate-pwa-icons.js",
-    "start": "vite"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

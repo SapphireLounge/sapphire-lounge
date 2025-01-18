@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/src/index.ts",
+      "src": "server.ts",
       "use": "@vercel/node",
       "config": {
         "includeFiles": ["server/**/*"]
@@ -19,10 +19,10 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/src/index.ts",
+      "dest": "/server.ts",
       "headers": {
         "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "https://sapphire-lounge-qvfa2r4m6-xl-uk-radios-projects.vercel.app",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
         "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
       }
@@ -33,7 +33,7 @@
       "status": 204,
       "headers": {
         "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "https://sapphire-lounge-qvfa2r4m6-xl-uk-radios-projects.vercel.app",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
         "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
       }
