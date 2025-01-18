@@ -5,7 +5,6 @@ import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
-import { OrderProvider } from './contexts/OrderContext';
 import ErrorBoundary from './components/ErrorBoundary'; 
 
 // Lazy load routes with preload hints
@@ -176,12 +175,10 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <A11yProvider>
-          <OrderProvider>
-            <div className="min-h-screen bg-dark-900">
-              <JsonLd type="Restaurant" data={restaurantJsonLd} />
-              <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
-            </div>
-          </OrderProvider>
+          <div className="min-h-screen bg-dark-950 text-white">
+            <JsonLd type="Restaurant" data={restaurantJsonLd} />
+            <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
+          </div>
         </A11yProvider>
       </HelmetProvider>
     </ErrorBoundary>

@@ -1,11 +1,27 @@
 import { useCallback } from 'react';
 
+export type HapticPattern = 'select' | 'delete' | 'increment' | 'decrement';
+
 export const useHaptics = () => {
-  const triggerHaptic = useCallback(() => {
+  const getPattern = (pattern: HapticPattern): number[] => {
+    switch (pattern) {
+      case 'select':
+        return [50]; // Short vibration for selection
+      case 'delete':
+        return [100, 50, 100]; // Double vibration for deletion
+      case 'increment':
+        return [30]; // Very short vibration for increment
+      case 'decrement':
+        return [40]; // Slightly longer vibration for decrement
+      default:
+        return [50];
+    }
+  };
+
+  const triggerHaptic = useCallback((pattern: HapticPattern = 'select') => {
     // Check if the device supports vibration
     if ('vibrate' in navigator) {
-      // Short vibration for menu selection
-      navigator.vibrate(50);
+      navigator.vibrate(getPattern(pattern));
     }
   }, []);
 

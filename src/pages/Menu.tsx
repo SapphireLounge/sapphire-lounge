@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Star, Coffee, Wine, IceCream, Apple, GlassWater, Beer, ChevronDown } from 'lucide-react';
-import { OrderNotepad } from '../components/OrderNotepad';
 import { useDeviceType } from '../hooks/useDeviceType';
-import { AnimatedMenuItem } from '../components/AnimatedMenuItem';
-import { useOrder } from '../contexts/orderContextDefs';
+import { useHaptics } from '../hooks/useHaptics';
+import OrderNotepad from '../components/OrderNotepad';
 
 interface MenuItem {
   name: string;
   price?: string;
   ingredients?: string;
   description?: string;
-}
-
-interface OrderItem {
-  name: string;
-  // Add other properties if needed
 }
 
 interface BaseMenuCategory {
@@ -40,33 +34,149 @@ interface DessertsCategory extends BaseMenuCategory {
   extras?: MenuItem[];
 }
 
+interface OrderItem {
+  name: string;
+  price: string;
+  quantity: number;
+}
+
 export const Menu = () => {
-  const showNotepad = true;
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const deviceType = useDeviceType();
   const isMobile = deviceType === 'mobile';
-  const { addItem, selectedItems, setSelectedItems } = useOrder();
+  const { triggerHaptic } = useHaptics();
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
-  useEffect(() => {
-    const handleOrderUpdate = (event: CustomEvent) => {
-      const items = event.detail.items.map((item: OrderItem) => item.name);
-      setSelectedItems(items); // Sync selected items with order items
-    };
+  const toggleCategory = (title: string) => {
+    setExpandedCategory(expandedCategory === title ? null : title);
+  };
 
-    window.addEventListener('orderUpdated', handleOrderUpdate as EventListener);
-    return () => {
-      window.removeEventListener('orderUpdated', handleOrderUpdate as EventListener);
-    };
-  }, [setSelectedItems]);
+  const addToOrder = (item: string | MenuItem, basePrice?: string) => {
+    const name = typeof item === 'string' ? item : item.name;
+    const price = typeof item === 'string' ? basePrice || '0' : item.price || '0';
+    
+    if (isMobile) {
+      triggerHaptic('select');
+    }
+    
+    setOrderItems(prevItems => {
+      const existingItemIndex = prevItems.findIndex(i => i.name === name);
+      
+      if (existingItemIndex >= 0) {
+        // Item exists, increment quantity
+        const newItems = [...prevItems];
+        newItems[existingItemIndex] = {
+          ...newItems[existingItemIndex],
+          quantity: newItems[existingItemIndex].quantity + 1
+        };
+        return newItems;
+      } else {
+        // Add new item
+        return [...prevItems, { name, price, quantity: 1 }];
+      }
+    });
+  };
 
-  const categories: ShishaCategory[] = [
-    {
-      title: "",
-      description: "Explore our selection of premium shisha flavours & refreshments",
-      subtitle: "Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session",
-      note: "",
-      items: []
-    },
+  const removeOrderItem = (index: number) => {
+    setOrderItems(prevItems => {
+      const newItems = [...prevItems];
+      newItems.splice(index, 1);
+      return newItems;
+    });
+  };
+
+  const clearOrder = () => {
+    setOrderItems([]);
+  };
+
+  const updateOrderQuantity = (index: number, newQuantity: number) => {
+    setOrderItems(prevItems => {
+      const newItems = [...prevItems];
+      if (newQuantity <= 0) {
+        newItems.splice(index, 1);
+      } else {
+        newItems[index] = {
+          ...newItems[index],
+          quantity: newQuantity
+        };
+      }
+      return newItems;
+    });
+  };
+
+  const renderMenuItem = (item: string | MenuItem, categoryBasePrice?: string) => {
+    const itemName = typeof item === 'string' ? item : item.name;
+    const itemPrice = typeof item === 'string' ? categoryBasePrice : item.price;
+    const isSelected = orderItems.some(orderItem => orderItem.name === itemName);
+
+    if (isMobile) {
+      return (
+        <div
+          key={itemName}
+          className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer ${
+            isSelected 
+              ? 'bg-primary-500/20 border border-primary-500/30' 
+              : 'bg-dark-800/30 hover:bg-dark-800/40'
+          }`}
+          onClick={() => addToOrder(item, categoryBasePrice)}
+        >
+          <div className="flex items-start gap-2">
+            <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+              isSelected ? 'text-primary-300' : 'text-accent-400'
+            }`} />
+            <div>
+              <span className={`${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
+                {itemName}
+              </span>
+              {typeof item !== 'string' && item.description && (
+                <p className="text-gray-500 text-sm mt-0.5">{item.description}</p>
+              )}
+              {typeof item !== 'string' && item.ingredients && (
+                <p className="text-gray-600 text-xs mt-0.5">{item.ingredients}</p>
+              )}
+            </div>
+          </div>
+          {itemPrice && (
+            <span className={`ml-2 whitespace-nowrap ${
+              isSelected ? 'text-primary-300' : 'text-primary-300'
+            }`}>
+              {itemPrice}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={itemName}
+        onClick={() => addToOrder(item, categoryBasePrice)}
+        className={`backdrop-blur-sm rounded-xl p-6 border transition-colors cursor-pointer ${
+          isSelected 
+            ? 'bg-primary-500/20 border-primary-500/30' 
+            : 'bg-black/40 border-white/10 hover:bg-black/50'
+        }`}
+      >
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-2">
+            <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+              isSelected ? 'text-primary-300' : 'text-accent-400'
+            }`} />
+            <span className={`${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
+              {itemName}
+            </span>
+          </div>
+          {itemPrice && (
+            <span className="text-primary-300 ml-4 whitespace-nowrap">
+              {itemPrice}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const categories: (ShishaCategory | DrinksCategory | DessertsCategory)[] = [
     {
       title: "House Flavours",
       subtitle: "Recommended double blends by customers (Any House Flavour Shisha Combo with Drinks - £16)",
@@ -129,10 +239,7 @@ export const Menu = () => {
         { name: "Large Head", price: "£2.00" },
         { name: "Additional Flavour", price: "£6.00" }
       ]
-    }
-  ];
-
-  const drinks: DrinksCategory[] = [
+    },
     {
       title: "Soft Drinks",
       subtitle: "Refreshing Zero Sugar Options",
@@ -239,10 +346,7 @@ export const Menu = () => {
           description: "Peanut butter, banana, oat milk, dates, cinnamon"
         }
       ]
-    }
-  ];
-
-  const desserts: DessertsCategory[] = [
+    },
     {
       title: "Ice-Cream",
       subtitle: "Classic flavours with optional toppings",
@@ -318,386 +422,100 @@ export const Menu = () => {
     }
   ];
 
-  const handleItemSelect = (itemName: string, price?: string, category?: ShishaCategory) => {
-    addItem(itemName, price || category?.basePrice || '£0.00');
-  };
-
-  const renderMenuItem = (item: string | MenuItem, categoryBasePrice?: string, category?: ShishaCategory) => {
-    const itemName = typeof item === 'string' ? item : item.name;
-    const isSelected = selectedItems.includes(itemName);
-
-    if (isMobile) {
-      if (typeof item === 'string') {
-        return (
-          <AnimatedMenuItem
-            key={item}
-            name={item}
-            price={categoryBasePrice}
-            onClick={() => handleItemSelect(item, categoryBasePrice, category)}
-            isSelected={isSelected}
-          />
-        );
-      }
-
-      return (
-        <AnimatedMenuItem
-          key={item.name}
-          name={item.name}
-          price={item.price}
-          description={item.description}
-          ingredients={item.ingredients}
-          onClick={() => handleItemSelect(item.name, item.price)}
-          isSelected={isSelected}
-        />
-      );
-    }
-
-    // Desktop view
-    if (typeof item === 'string') {
-      return (
-        <div 
-          key={item}
-          className="flex items-start justify-between text-gray-300 p-1 rounded-lg hover:bg-dark-800/50 cursor-pointer"
-          onClick={() => handleItemSelect(item, categoryBasePrice, category)}
-        >
-          <div className="flex items-start gap-1 min-w-0">
-            <Star className="text-accent-400 flex-shrink-0 mt-1 w-3 h-3" />
-            <span className="break-words leading-tight">{item}</span>
-          </div>
-          {categoryBasePrice && (
-            <span className="text-primary-300 font-bold ml-2 flex-shrink-0">
-              {categoryBasePrice}
-            </span>
-          )}
-        </div>
-      );
-    }
-
-    return (
-      <div
-        key={item.name}
-        className="group cursor-pointer p-2 rounded-lg hover:bg-dark-800/50"
-        onClick={() => handleItemSelect(item.name, item.price)}
-      >
-        <div className="flex justify-between items-center">
-          <div className="flex items-start gap-1">
-            <Star className="text-accent-400 flex-shrink-0 mt-1 w-3 h-3" />
-            <span className="text-gray-300 group-hover:text-primary-300 transition-colors leading-tight">
-              {item.name}
-            </span>
-          </div>
-          {item.price && (
-            <span className="text-primary-300 font-bold ml-2">
-              {item.price}
-            </span>
-          )}
-        </div>
-        {item.description && (
-          <p className="text-gray-500 mt-0.5 ml-4 text-xs">
-            {item.description}
-          </p>
-        )}
-      </div>
-    );
-  };
-
-  const toggleCategory = (categoryTitle: string) => {
-    if (isMobile) {
-      setSelectedCategory(selectedCategory === categoryTitle ? null : categoryTitle);
-    }
-  };
-
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4 max-w-5xl">
-        {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            Our Menu
-          </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
-            Explore our selection of premium shisha flavours and refreshments.
-          </p>
-        </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-8"
+      >
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          Our Menu
+        </h1>
+        <p className="text-gray-400 text-sm">
+          Explore our selection of premium shisha flavours and refreshments.
+        </p>
+      </motion.div>
 
-        {/* Order Notepad - Fixed bottom on mobile */}
-        <div className={`${
-          isMobile 
-            ? 'fixed bottom-0 left-0 right-0 z-50 px-2 pb-2 pt-1 bg-gradient-to-t from-[#020B18] via-[#020B18]/95 to-transparent' 
-            : 'mb-12'
-        }`}>
-          <AnimatePresence>
-            {showNotepad && (
-              <motion.div
-                initial={{ opacity: 0, y: isMobile ? 20 : 0, x: isMobile ? 0 : -20 }}
-                animate={{ opacity: 1, y: 0, x: 0 }}
-                exit={{ opacity: 0, y: isMobile ? 20 : 0, x: isMobile ? 0 : 20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <OrderNotepad className={`bg-dark-900/50 backdrop-blur-sm border border-accent-700/20 ${
-                  isMobile ? 'rounded-xl shadow-lg max-h-[30vh] overflow-y-auto' : ''
-                }`} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+      <div className="text-center mb-8">
+        <p className="text-gray-400 text-sm italic">
+          - Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session
+        </p>
+      </div>
 
-        {/* Menu Sections with Mobile Accordion */}
-        <div className={`grid gap-6 ${isMobile ? 'mb-8' : 'mb-12'}`}>
-          {/* Shisha Menu */}
-          <div className={`grid gap-2`}>
-            {categories.slice(1).map((category) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: isMobile ? 0.05 : 0.1,
-                  duration: isMobile ? 0.2 : 0.3 
-                }}
-                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
-                  isMobile ? 'p-3' : 'p-6'
-                } ${category.title === 'Shisha Extras' ? 'mb-1' : ''}`}
-              >
-                <section>
-                  <div 
-                    className="flex items-center justify-between mb-2 cursor-pointer"
+      <div className="container mx-auto px-4">
+        <OrderNotepad 
+          className="mb-8" 
+          items={orderItems}
+          onRemoveItem={removeOrderItem}
+          onClearAll={clearOrder}
+          onUpdateQuantity={updateOrderQuantity}
+        />
+
+        <div className="space-y-4">
+          {categories.map((category) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`${
+                isMobile 
+                  ? 'bg-dark-900/30 backdrop-blur-sm rounded-lg overflow-hidden'
+                  : 'bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50'
+              }`}
+            >
+              {isMobile ? (
+                <>
+                  <button
                     onClick={() => toggleCategory(category.title)}
-                    role="button"
-                    aria-expanded={selectedCategory === category.title}
-                    tabIndex={0}
+                    className="w-full px-6 py-4 flex items-center justify-between text-left"
                   >
                     <div className="flex items-center gap-2">
                       {category.icon && (
-                        <category.icon className={`text-primary-300 ${
-                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
-                        }`} 
-                      />
+                        <category.icon className="text-primary-300 w-5 h-5" />
                       )}
-                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
-                        isMobile ? 'text-xl' : 'text-2xl'
-                      }`}>
+                      <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
                         {category.title}
                       </h2>
                     </div>
-                    {isMobile && (
-                      <ChevronDown 
-                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
-                          selectedCategory === category.title ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
-                  </div>
-                  
-                  <AnimatePresence>
-                    {(!isMobile || selectedCategory === category.title) && (
-                      <motion.div
-                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
-                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {category.subtitle && (
-                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                            <span className="text-accent-400">-</span>
-                            <p>{category.subtitle}</p>
-                          </div>
-                        )}
-                        <div className={`${
-                          isMobile 
-                            ? 'space-y-2' 
-                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
-                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
-                              : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
-                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
-                                : category.title.includes('Drinks')
-                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                        }`}>
-                          {category.items.map((item) => renderMenuItem(item, category.basePrice, category))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </section>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Drinks Menu */}
-          <div className={`grid gap-2 mt-6 ${isMobile ? 'mb-10' : ''}`}>
-            {drinks.map((category) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: isMobile ? 0.05 : 0.1,
-                  duration: isMobile ? 0.2 : 0.3 
-                }}
-                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
-                  isMobile ? 'p-3' : 'p-6'
-                } ${category.title === 'Smoothies' ? 'mb-1' : ''}`}
-              >
-                <section>
-                  <div 
-                    className="flex items-center justify-between mb-2 cursor-pointer"
-                    onClick={() => toggleCategory(category.title)}
-                    role="button"
-                    aria-expanded={selectedCategory === category.title}
-                    tabIndex={0}
-                  >
-                    <div className="flex items-center gap-2">
-                      {category.icon && (
-                        <category.icon className={`text-primary-300 ${
-                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
-                        }`} 
-                      />
-                      )}
-                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
-                        isMobile ? 'text-xl' : 'text-2xl'
-                      }`}>
-                        {category.title}
-                      </h2>
-                    </div>
-                    {isMobile && (
-                      <ChevronDown 
-                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
-                          selectedCategory === category.title ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
-                  </div>
+                    <ChevronDown
+                      className={`text-primary-300 w-5 h-5 transition-transform duration-300 ${
+                        expandedCategory === category.title ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
 
                   <AnimatePresence>
-                    {(!isMobile || selectedCategory === category.title) && (
+                    {expandedCategory === category.title && (
                       <motion.div
-                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
-                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        transition={{ duration: 0.2 }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
                       >
-                        {category.subtitle && (
-                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                            <span className="text-accent-400">-</span>
-                            <p>{category.subtitle}</p>
-                          </div>
-                        )}
-                        <div className={`${
-                          isMobile 
-                            ? 'space-y-2' 
-                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
-                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
-                              : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
-                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
-                                : category.title.includes('Drinks')
-                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                        }`}>
-                          {category.items.map((item) => renderMenuItem(item))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </section>
-              </motion.div>
-            ))}
-          </div>
+                        <div className="px-6 pb-6">
+                          {category.subtitle && (
+                            <div className="text-gray-400 text-sm italic mb-4">
+                              <span className="text-accent-400">- </span>
+                              {category.subtitle}
+                            </div>
+                          )}
 
-          {/* Desserts Menu */}
-          <div className={`grid gap-2 ${isMobile ? '-mt-4' : 'mt-6'}`}>
-            {desserts.map((category) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: isMobile ? 0.05 : 0.1,
-                  duration: isMobile ? 0.2 : 0.3 
-                }}
-                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg shadow-lg border border-accent-700/20 ${
-                  isMobile ? 'p-3' : 'p-6'
-                }`}
-              >
-                <section>
-                  <div 
-                    className="flex items-center justify-between mb-2 cursor-pointer"
-                    onClick={() => toggleCategory(category.title)}
-                    role="button"
-                    aria-expanded={selectedCategory === category.title}
-                    tabIndex={0}
-                  >
-                    <div className="flex items-center gap-2">
-                      {category.icon && (
-                        <category.icon className={`text-primary-300 ${
-                          isMobile ? 'w-4 h-4' : 'w-5 h-5'
-                        }`} 
-                      />
-                      )}
-                      <h2 className={`font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
-                        isMobile ? 'text-xl' : 'text-2xl'
-                      }`}>
-                        {category.title}
-                      </h2>
-                    </div>
-                    {isMobile && (
-                      <ChevronDown 
-                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
-                          selectedCategory === category.title ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
-                  </div>
-
-                  <AnimatePresence>
-                    {(!isMobile || selectedCategory === category.title) && (
-                      <motion.div
-                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
-                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {category.subtitle && (
-                          <div className="flex items-center gap-2 text-gray-400 text-xs italic mb-2">
-                            <span className="text-accent-400">-</span>
-                            <p>{category.subtitle}</p>
+                          <div className="space-y-2">
+                            {'basePrice' in category
+                              ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                              : category.items.map((item) => renderMenuItem(item))}
                           </div>
-                        )}
-                        <div className={`${
-                          isMobile 
-                            ? 'space-y-2' 
-                            : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
-                              ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
-                              : category.title === 'Shisha Extras' || category.title === 'House Drinks'
-                                ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
-                                : category.title.includes('Drinks')
-                                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                                  : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                        }`}>
-                          {category.items.map((item) => renderMenuItem(item))}
-                          {category.extras && (
-                            <div className="col-span-full mt-2">
-                              <h3 className={`font-medium text-primary-300 mb-1 ${
-                                isMobile ? 'text-base' : 'text-lg'
-                              }`}>
+
+                          {'extras' in category && category.extras && (
+                            <div className="mt-6">
+                              <h3 className="text-lg font-medium text-primary-300 mb-2">
                                 Extras
                               </h3>
-                              <div className={`${
-                                isMobile 
-                                  ? 'space-y-2' 
-                                  : category.title === 'House Flavours' || category.title === 'Standard Single Flavours' || category.title === 'Premium Flavours'
-                                    ? 'grid grid-cols-2 sm:grid-cols-3 gap-1 auto-rows-min'
-                                    : category.title === 'Shisha Extras' || category.title === 'House Drinks' || category.title === 'Popular Milkshakes'
-                                      ? 'grid grid-cols-1 sm:grid-cols-4 gap-1'
-                                      : category.title.includes('Drinks')
-                                        ? 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                                        : 'grid grid-cols-1 sm:grid-cols-2 gap-1'
-                              }`}>
+                              <div className="space-y-2">
                                 {category.extras.map((extra) => renderMenuItem(extra))}
                               </div>
                             </div>
@@ -706,14 +524,49 @@ export const Menu = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </section>
-              </motion.div>
-            ))}
-          </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-4">
+                    {category.icon && (
+                      <category.icon className="text-primary-300 w-5 h-5" />
+                    )}
+                    <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      {category.title}
+                    </h2>
+                  </div>
+
+                  {category.subtitle && (
+                    <div className="text-gray-400 text-sm italic mb-4">
+                      <span className="text-accent-400">- </span>
+                      {category.subtitle}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {'basePrice' in category
+                      ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                      : category.items.map((item) => renderMenuItem(item))}
+                  </div>
+
+                  {'extras' in category && category.extras && (
+                    <div className="mt-6">
+                      <h3 className="text-lg font-medium text-primary-300 mb-2">
+                        Extras
+                      </h3>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {category.extras.map((extra) => renderMenuItem(extra))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Menu;

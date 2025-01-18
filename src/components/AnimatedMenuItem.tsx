@@ -1,14 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useHaptics } from '../hooks/useHaptics';
 
 interface AnimatedMenuItemProps {
   name: string;
   price?: string;
   description?: string;
   ingredients?: string;
-  onClick?: () => void;
-  isSelected?: boolean;
+  className?: string;
 }
 
 export const AnimatedMenuItem: React.FC<AnimatedMenuItemProps> = ({
@@ -16,27 +14,12 @@ export const AnimatedMenuItem: React.FC<AnimatedMenuItemProps> = ({
   price,
   description,
   ingredients,
-  onClick,
-  isSelected
+  className
 }) => {
-  const { triggerHaptic } = useHaptics();
-
-  const handleClick = () => {
-    if (onClick) onClick();
-    triggerHaptic();
-  };
-
   return (
     <motion.div
-      className={`relative p-4 rounded-lg cursor-pointer ${
-        isSelected ? 'bg-primary-900/20' : 'bg-dark-800/20'
-      }`}
-      onClick={handleClick}
-      whileTap={{ scale: 0.98 }}
-      initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
-      animate={{
-        backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.1)' : 'rgba(0, 0, 0, 0)',
-      }}
+      className={`relative p-4 rounded-lg bg-dark-800/20 ${className || ''}`}
+      whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex justify-between items-start">
@@ -52,7 +35,7 @@ export const AnimatedMenuItem: React.FC<AnimatedMenuItemProps> = ({
           </div>
         </div>
         {price && (
-          <span className="text-primary-300 font-medium whitespace-nowrap">
+          <span className="text-primary-300 font-medium whitespace-nowrap ml-4">
             {price}
           </span>
         )}

@@ -1,136 +1,115 @@
 import React from 'react';
-import { X, Plus, Minus, FileText, Trash2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useOrder } from '../contexts/orderContextDefs';
+import { ClipboardList, X, Plus, Minus, Star } from 'lucide-react';
+import { useDeviceType } from '../hooks/useDeviceType';
 
-interface OrderItem {
+export interface OrderItem {
   name: string;
-  price: string;
+  price?: string;
   quantity: number;
 }
 
 interface OrderNotepadProps {
   className?: string;
+  items: OrderItem[];
+  onRemoveItem: (index: number) => void;
+  onClearAll: () => void;
+  onUpdateQuantity: (index: number, newQuantity: number) => void;
 }
 
-interface AddToNotepadEvent extends CustomEvent {
-  detail: {
-    name: string;
-    price: string;
-  };
-}
-
-interface RemoveFromOrderEvent extends CustomEvent {
-  detail: {
-    index: number;
-  };
-}
-
-interface AddToOrderEvent extends CustomEvent {
-  detail: {
-    name: string;
-    price: string;
-  };
-}
-
-interface OrderUpdatedEvent extends CustomEvent {
-  detail: {
-    items: OrderItem[];
-  };
-}
-
-declare global {
-  interface WindowEventMap {
-    'addToNotepad': AddToNotepadEvent;
-    'removeFromOrder': RemoveFromOrderEvent;
-    'addToOrder': AddToOrderEvent;
-    'orderUpdated': OrderUpdatedEvent;
-  }
-}
-
-export const OrderNotepad: React.FC<OrderNotepadProps> = ({ className = '' }) => {
-  const { orders, removeItem, updateQuantity, clearAll } = useOrder();
-
-  const calculateTotal = () => {
-    return orders.reduce((total: number, item: OrderItem) => {
-      const priceStr = item.price || '£0.00';
-      const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
-      return total + (price * item.quantity);
-    }, 0).toFixed(2);
-  };
+export const OrderNotepad: React.FC<OrderNotepadProps> = ({ 
+  className, 
+  items, 
+  onRemoveItem,
+  onClearAll,
+  onUpdateQuantity
+}) => {
+  const deviceType = useDeviceType();
+  const isMobile = deviceType === 'mobile';
+  const hasItems = items.length > 0;
+  const total = items.reduce((sum, item) => {
+    const price = item.price ? parseFloat(item.price.replace('£', '')) : 0;
+    return sum + (price * item.quantity);
+  }, 0);
 
   return (
-    <motion.div
-      className={`bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-    >
-      <div className="space-y-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-primary-300" />
-            <h2 className="text-lg font-semibold text-primary-300">Order Notepad</h2>
-          </div>
-          {orders.length > 0 && (
-            <button
-              onClick={() => {
-                clearAll();
-                localStorage.removeItem('orderNotepad');
-              }}
-              className="text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1"
-            >
-              <Trash2 className="w-4 h-4" />
-              Clear All
-            </button>
-          )}
+    <div className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 ${className}`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <ClipboardList className="text-primary-300 w-5 h-5" />
+          <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Order Notepad
+          </h2>
         </div>
-        {orders.length === 0 ? (
-          <p className="text-neutral-500 text-sm text-center py-2">Click items from the menu to add them here</p>
-        ) : (
-          <div className="space-y-3">
-            {orders.map((order: OrderItem, index: number) => (
-              <div key={`${order.name}-${index}`} className="flex items-center justify-between gap-2">
-                <div className="flex-1 min-w-0">
-                  <p className="text-gray-300 truncate">{order.name}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => updateQuantity(index, -1)}
-                    className="text-neutral-400 hover:text-primary-300 transition-colors p-1 rounded hover:bg-neutral-800"
-                  >
-                    <Minus className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-primary-200 w-6 text-center">
-                    {order.quantity}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(index, 1)}
-                    className="text-neutral-400 hover:text-primary-300 transition-colors p-1 rounded hover:bg-neutral-800"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <span className="text-primary-200 w-16 text-right">
-                  £{((parseFloat(order.price.replace(/[^0-9.]/g, '')) || 0) * order.quantity).toFixed(2)}
-                </span>
-                <button
-                  onClick={() => removeItem(index)}
-                  className="text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ))}
-            <div className="pt-4 border-t border-neutral-800">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300">Total</span>
-                <span className="text-primary-300 font-bold">£{calculateTotal()}</span>
-              </div>
-            </div>
-          </div>
+        {hasItems && (
+          <button
+            onClick={onClearAll}
+            className="text-red-400 hover:text-red-300 transition-colors"
+          >
+            Clear All
+          </button>
         )}
       </div>
-    </motion.div>
+
+      {!hasItems ? (
+        <p className="text-gray-400 text-sm">
+          Click items from the menu to add them here
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {items.map((item, index) => (
+            <div
+              key={`${item.name}-${index}`}
+              className={`bg-black/20 backdrop-blur-sm rounded-lg border border-white/5 transition-colors hover:bg-black/30 ${
+                isMobile ? 'px-4 py-3 -mx-2' : 'p-3'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-start gap-2 min-w-0">
+                  <Star className="text-accent-400 flex-shrink-0 mt-1 w-3 h-3" />
+                  <span className="text-gray-300 truncate">{item.name}</span>
+                </div>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => onUpdateQuantity(index, item.quantity - 1)}
+                      className="text-gray-400 hover:text-primary-300 transition-colors"
+                      disabled={item.quantity <= 1}
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="text-gray-300 min-w-[1ch] text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => onUpdateQuantity(index, item.quantity + 1)}
+                      className="text-gray-400 hover:text-primary-300 transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {item.price && (
+                    <span className="text-primary-300 min-w-[4.5ch]">
+                      {item.price}
+                    </span>
+                  )}
+                  <button
+                    onClick={() => onRemoveItem(index)}
+                    className="text-gray-500 hover:text-red-400 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+          {hasItems && (
+            <div className="flex justify-between pt-3 border-t border-white/10">
+              <span className="text-gray-300">Total</span>
+              <span className="text-primary-300">£{total.toFixed(2)}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
+
+export default OrderNotepad;
