@@ -40,7 +40,7 @@ const findAvailablePort = async (startPort: number): Promise<number> => {
 
 const createServer = async () => {
   const app = express();
-  const port = 3000;
+  const port = 5173;
 
   // Middleware
   app.use(cors());

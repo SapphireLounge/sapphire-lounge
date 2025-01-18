@@ -1,5 +1,5 @@
 export interface ReservationData {
-  date: string;
+  date: string | null;
   time: string;
   name: string;
   phone: string;
@@ -10,6 +10,7 @@ export interface ReservationData {
   specialRequests?: string;
   qrCode?: string;
   notes?: string;
+  timestamp?: string;
 }
 
 export interface ReservationResponse {

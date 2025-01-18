@@ -4,12 +4,11 @@ import { Calendar, Clock, Users } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
-import { api } from '../lib/api';
-import { generateReservationQRCode } from '../lib/qrcode';
+import { generateReservationQRCode, submitReservation } from '../lib/qrcode';
 import ReservationSuccess from '../components/ReservationSuccess';
 
 interface ReservationData {
-  date: Date | null;
+  date: string | null;
   time: string;
   name: string;
   phone: string;
@@ -26,26 +25,6 @@ const formatDate = (date: Date | null): string => {
   if (!date) return '';
   return date.toISOString().split('T')[0];
 };
-
-interface ReservationResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    reservation: {
-      date: string;
-      time: string;
-      name: string;
-      phone: string;
-      guests: number;
-      tablePreference?: string;
-      occasion?: string;
-      specialRequests?: string;
-      qrCode: string;
-    };
-  };
-  error?: string;
-  details?: unknown;
-}
 
 function Reservations() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -66,7 +45,7 @@ function Reservations() {
     qrCode: ''
   });
   const [reservationData, setReservationData] = useState<ReservationData>({
-    date: null,
+    date: '',
     time: '',
     name: '',
     phone: '',
@@ -77,6 +56,7 @@ function Reservations() {
     specialRequests: '',
     qrCode: ''
   });
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,14 +67,37 @@ function Reservations() {
       const qrCodeDataURL = await generateReservationQRCode(formData);
       
       // Store the reservation data with QR code
-      const reservationWithQR = {
-        ...formData,
+      const reservationWithQR: ReservationData = {
+        date: formData.date || '',
+        time: formData.time,
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        guests: formData.guests,
+        tablePreference: formData.tablePreference,
+        occasion: formData.occasion,
+        specialRequests: formData.specialRequests,
         qrCode: qrCodeDataURL
       };
 
+      // Process the reservation
+      const response = await submitReservation(reservationWithQR);
+      if (typeof response === 'string') {
+        console.error(response);
+        setErrorMessage(response);
+      } else {
+        // Clear any previous error messages on success
+        setErrorMessage('');
+      }
+
       // Show success modal with the data
-      setReservationData(reservationWithQR);
-      setIsSuccessModalOpen(true);
+      if (response && typeof response !== 'string') {
+        setReservationData({
+          ...reservationWithQR,
+          date: reservationWithQR.date !== null ? formatDate(new Date(reservationWithQR.date)) : 'default-date-string'
+        });
+        setIsSuccessModalOpen(true);
+      }
       
       // Clear form
       setFormData({
@@ -187,7 +190,7 @@ function Reservations() {
                   selected={selectedDate}
                   onChange={(date: Date | null) => {
                     setSelectedDate(date);
-                    setFormData(prev => ({ ...prev, date }));
+                    setFormData(prev => ({ ...prev, date: date ? date.toISOString() : '' }));
                     setIsCalendarOpen(false);
                   }}
                   minDate={new Date()}
@@ -342,6 +345,13 @@ function Reservations() {
             />
           </div>
 
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="mt-4 p-3 bg-red-900/50 border border-red-500 rounded-lg text-red-200">
+              {errorMessage}
+            </div>
+          )}
+
           {/* Book Now Button */}
           <button
             className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-lg font-semibold text-white hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all"
@@ -350,32 +360,16 @@ function Reservations() {
             {isSubmitting ? 'Submitting...' : 'Book Now'}
           </button>
         </motion.div>
-      </div>
 
-      <ReservationSuccess
-        isOpen={isSuccessModalOpen}
-        onClose={() => {
-          setIsSuccessModalOpen(false);
-          // Reset form but keep the last successful reservation data for the success modal
-          const lastReservation = { ...formData };
-          setFormData({
-            date: null,
-            time: '',
-            name: '',
-            phone: '',
-            email: '',
-            guests: 0,
-            tablePreference: '',
-            occasion: '',
-            specialRequests: '',
-            qrCode: lastReservation.qrCode // Keep the QR code
-          });
-        }}
-        reservationData={{
-          ...reservationData,
-          date: formatDate(reservationData.date)
-        }}
-      />
+        {/* Success Modal */}
+        {isSuccessModalOpen && (
+          <ReservationSuccess
+            isOpen={isSuccessModalOpen}
+            reservationData={reservationData}
+            onClose={() => setIsSuccessModalOpen(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,40 +1,79 @@
-import QRCode from 'qrcode';
+import QRCode, { QRCodeToDataURLOptions } from 'qrcode';
 import { ReservationData } from '../types/reservations';
 
-export async function generateReservationQRCode(reservation: ReservationData): Promise<string> {
-  const reservationCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  
-  const reservationData = {
-    code: reservationCode,
-    date: reservation.date,
-    time: reservation.time,
-    name: reservation.name,
-    phone: reservation.phone,
-    guests: reservation.guests,
-    tablePreference: reservation.tablePreference,
-    occasion: reservation.occasion,
-    specialRequests: reservation.specialRequests,
-    timestamp: new Date().toISOString()
+interface ReservationResponse {
+  success: boolean;
+  message: string;
+  data: {
+    reservation: ReservationData & { qrCode: string; };
   };
-
-  return await QRCode.toDataURL(JSON.stringify(reservationData));
 }
 
-export async function generateEventQRCode(event: any): Promise<string> {
-  const eventCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+export async function generateReservationQRCode(reservation: ReservationData): Promise<string> {
+  const reservationCode = Math.random().toString(36).substring(2, 8);
   
-  const eventData = {
-    code: eventCode,
-    eventId: event.eventId,
-    eventTitle: event.eventTitle,
-    date: event.date,
-    time: event.time,
-    name: event.name,
-    email: event.email,
-    phone: event.phone,
-    guests: event.guests,
-    timestamp: new Date().toISOString()
+  // Only include essential data in the QR code
+  const qrData = {
+    c: reservationCode,
+    d: reservation.date,
+    t: reservation.time,
+    n: reservation.name,
+    g: reservation.guests,
+    p: reservation.phone,
+    ts: new Date().toISOString().split('T')[0]
   };
 
-  return await QRCode.toDataURL(JSON.stringify(eventData));
+  // Generate QR code with higher error correction level
+  const qrOptions: QRCodeToDataURLOptions = {
+    errorCorrectionLevel: 'M',
+    margin: 2,
+    width: 256
+  };
+
+  return QRCode.toDataURL(JSON.stringify(qrData), qrOptions);
+}
+
+export async function submitReservation(reservation: ReservationData): Promise<ReservationResponse> {
+    try {
+        const qrCode = await generateReservationQRCode(reservation);
+        return {
+            success: true,
+            message: 'Reservation submitted successfully',
+            data: {
+                reservation: {
+                    ...reservation,
+                    qrCode: qrCode
+                }
+            }
+        };
+    } catch (error) {
+        console.error('QR Code generation error:', error);
+        throw new Error('Failed to generate reservation QR code. Please try again.');
+    }
+}
+
+export async function generateEventQRCode(event: { eventId: string; eventTitle: string; date: string; time: string; name: string; email: string; phone: string; guests: number }): Promise<string> {
+  const eventCode = Math.random().toString(36).substring(2, 8);
+  
+  // Only include essential data in the QR code
+  const qrData = {
+    c: eventCode,
+    e: event.eventId,
+    t: event.eventTitle,
+    d: event.date,
+    tm: event.time,
+    n: event.name,
+    g: event.guests,
+    p: event.phone,
+    ts: new Date().toISOString().split('T')[0]
+  };
+
+  // Generate QR code with higher error correction level
+  const qrOptions: QRCodeToDataURLOptions = {
+    errorCorrectionLevel: 'M',
+    margin: 2,
+    width: 256
+  };
+
+  return await QRCode.toDataURL(JSON.stringify(qrData), qrOptions);
 }

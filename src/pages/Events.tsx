@@ -92,23 +92,23 @@ function Events() {
 
     try {
       const selectedEvent = events.find(event => event.title === formData.eventTitle);
-      if (!selectedEvent) {
-        throw new Error('Selected event not found');
+      if (!selectedEvent || typeof selectedEvent.id !== 'number') {
+        throw new Error('Selected event not found or invalid id');
       }
 
       const qrCodeDataURL = await generateEventQRCode({
         ...formData,
-        eventId: selectedEvent.id,
+        eventId: Number(selectedEvent.id).toString(), // Convert eventId to string
         eventTitle: selectedEvent.title
       });
       
       // Store the event registration data with QR code
       const eventWithQR: EventData = {
         ...formData,
-        eventId: selectedEvent.id,
+        eventId: Number(selectedEvent.id),
         eventTitle: selectedEvent.title,
         date: selectedEvent.date,
-        time: selectedEvent.time,
+        time: selectedEvent.time.toString(),
         qrCode: qrCodeDataURL
       };
 
