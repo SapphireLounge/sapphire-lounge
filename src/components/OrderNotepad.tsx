@@ -41,9 +41,14 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
   const handleDragEnd = async (info: PanInfo, index: number) => {
     const threshold = 100; // Pixels to trigger delete
     if (Math.abs(info.offset.x) >= threshold) {
-      triggerHaptic();
+      triggerHaptic('delete');
       onRemoveItem(index);
     }
+  };
+
+  const handleQuantityChange = (index: number, newQuantity: number) => {
+    triggerHaptic(newQuantity > items[index].quantity ? 'increment' : 'decrement');
+    onUpdateQuantity(index, newQuantity);
   };
 
   return (
@@ -145,7 +150,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
                           onClick={(e) => {
                             e.stopPropagation();
                             if (item.quantity > 1) {
-                              onUpdateQuantity(index, item.quantity - 1);
+                              handleQuantityChange(index, item.quantity - 1);
                             }
                           }}
                           className="text-gray-400 hover:text-primary-300 transition-colors"
@@ -157,7 +162,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onUpdateQuantity(index, item.quantity + 1);
+                            handleQuantityChange(index, item.quantity + 1);
                           }}
                           className="text-gray-400 hover:text-primary-300 transition-colors"
                         >

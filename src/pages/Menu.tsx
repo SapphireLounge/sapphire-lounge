@@ -51,57 +51,41 @@ export const Menu = () => {
     setExpandedCategory(expandedCategory === title ? null : title);
   };
 
-  const addToOrder = (item: string | MenuItem, basePrice?: string) => {
-    const name = typeof item === 'string' ? item : item.name;
-    const price = typeof item === 'string' ? basePrice || '0' : item.price || '0';
+  const addToOrder = (name: string, price?: string) => {
+    if (!price) return;
     
-    if (isMobile) {
-      triggerHaptic('select');
+    triggerHaptic('select');
+    
+    const existingItem = orderItems.find(item => item.name === name);
+    if (existingItem) {
+      updateOrderQuantity(
+        orderItems.findIndex(item => item.name === name),
+        existingItem.quantity + 1
+      );
+    } else {
+      setOrderItems([...orderItems, { name, price, quantity: 1 }]);
     }
+  };
+
+  const updateOrderQuantity = (index: number, newQuantity: number) => {
+    if (newQuantity <= 0) return;
     
-    setOrderItems(prevItems => {
-      const existingItemIndex = prevItems.findIndex(i => i.name === name);
-      
-      if (existingItemIndex >= 0) {
-        // Item exists, increment quantity
-        const newItems = [...prevItems];
-        newItems[existingItemIndex] = {
-          ...newItems[existingItemIndex],
-          quantity: newItems[existingItemIndex].quantity + 1
-        };
-        return newItems;
-      } else {
-        // Add new item
-        return [...prevItems, { name, price, quantity: 1 }];
-      }
-    });
+    triggerHaptic(newQuantity > orderItems[index].quantity ? 'increment' : 'decrement');
+    
+    const newItems = [...orderItems];
+    newItems[index] = { ...newItems[index], quantity: newQuantity };
+    setOrderItems(newItems);
   };
 
   const removeOrderItem = (index: number) => {
-    setOrderItems(prevItems => {
-      const newItems = [...prevItems];
-      newItems.splice(index, 1);
-      return newItems;
-    });
+    triggerHaptic('delete');
+    const newItems = [...orderItems];
+    newItems.splice(index, 1);
+    setOrderItems(newItems);
   };
 
   const clearOrder = () => {
     setOrderItems([]);
-  };
-
-  const updateOrderQuantity = (index: number, newQuantity: number) => {
-    setOrderItems(prevItems => {
-      const newItems = [...prevItems];
-      if (newQuantity <= 0) {
-        newItems.splice(index, 1);
-      } else {
-        newItems[index] = {
-          ...newItems[index],
-          quantity: newQuantity
-        };
-      }
-      return newItems;
-    });
   };
 
   const renderMenuItem = (item: string | MenuItem, categoryBasePrice?: string) => {
@@ -118,7 +102,7 @@ export const Menu = () => {
               ? 'bg-primary-500/20 border border-primary-500/30' 
               : 'bg-dark-800/30 hover:bg-dark-800/40'
           }`}
-          onClick={() => addToOrder(item, categoryBasePrice)}
+          onClick={() => addToOrder(itemName, itemPrice)}
         >
           <div className="flex items-start gap-1.5">
             <Star className={`flex-shrink-0 mt-0.5 w-2.5 h-2.5 ${
@@ -150,7 +134,7 @@ export const Menu = () => {
     return (
       <div
         key={itemName}
-        onClick={() => addToOrder(item, categoryBasePrice)}
+        onClick={() => addToOrder(itemName, itemPrice)}
         className={`backdrop-blur-sm rounded-xl p-6 border transition-colors cursor-pointer ${
           isSelected 
             ? 'bg-primary-500/20 border-primary-500/30' 
