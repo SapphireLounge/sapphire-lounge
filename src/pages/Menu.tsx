@@ -433,13 +433,13 @@ export const Menu = () => {
         <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'} font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
           Our Menu
         </h1>
-        <p className="text-gray-400 text-xs px-4">
+        <p className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-lg'} px-4`}>
           Explore our selection of premium shisha flavours and refreshments.
         </p>
       </motion.div>
 
       <div className="text-center mb-6">
-        <p className="text-gray-400 text-xs italic px-4">
+        <p className={`text-gray-400 italic px-4 ${isMobile ? 'text-xs' : 'text-base'}`}>
           - Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session
         </p>
       </div>
@@ -537,7 +537,7 @@ export const Menu = () => {
                   </div>
 
                   {category.subtitle && (
-                    <div className="text-gray-400 text-sm italic mb-4">
+                    <div className="text-gray-400 text-lg italic mb-4">
                       <span className="text-accent-400">- </span>
                       {category.subtitle}
                     </div>
