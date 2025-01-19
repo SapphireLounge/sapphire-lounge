@@ -171,10 +171,14 @@ function Home() {
                 <Link
                   to="/reservations"
                   className={`
-                    w-auto px-8 py-3 rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
+                    w-auto rounded-lg bg-gradient-to-r from-primary-400 to-accent-400
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
-                    min-w-[130px] text-center text-base
+                    min-w-[130px] text-center
+                    ${isMobile 
+                      ? 'px-8 py-3 text-base' 
+                      : 'px-10 py-4 text-lg'
+                    }
                   `}
                 >
                   Book Now
@@ -182,11 +186,15 @@ function Home() {
                 <Link
                   to="/menu"
                   className={`
-                    w-auto px-8 py-3 rounded-lg bg-transparent
+                    w-auto rounded-lg bg-transparent
                     text-white font-semibold shadow-lg hover:shadow-xl
                     transition-all duration-200 hover:-translate-y-0.5
                     border border-primary-400 hover:border-accent-400
-                    min-w-[130px] text-center text-base
+                    min-w-[130px] text-center
+                    ${isMobile 
+                      ? 'px-8 py-3 text-base' 
+                      : 'px-10 py-4 text-lg'
+                    }
                   `}
                 >
                   View Menu

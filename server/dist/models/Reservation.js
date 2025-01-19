@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Reservation = void 0;
+exports.Reservation = exports.ReservationModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const reservationSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true },
@@ -24,7 +24,7 @@ const reservationSchema = new mongoose_1.default.Schema({
                 if (props.value < 0)
                     return 'Number of guests cannot be negative';
                 if (props.value > 8)
-                    return 'For parties larger than 8, please contact us directly';
+                    return 'Maximum number of guests is 8';
                 return 'Invalid number of guests';
             }
         }
@@ -41,4 +41,5 @@ const reservationSchema = new mongoose_1.default.Schema({
 });
 // Index for querying reservations by date
 reservationSchema.index({ date: 1, time: 1 });
-exports.Reservation = mongoose_1.default.model('Reservation', reservationSchema);
+exports.ReservationModel = mongoose_1.default.model('Reservation', reservationSchema);
+exports.Reservation = exports.ReservationModel;

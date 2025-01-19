@@ -33,7 +33,7 @@ app.use(errorHandler_1.errorHandler);
 });
 // For local development
 if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 5000; // Changed to port 5000 to match client expectations
+    const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
         logger_1.logger.info(`Server running on port ${PORT}`);
     });

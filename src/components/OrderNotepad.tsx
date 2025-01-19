@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClipboardList, Plus, Minus, Trash2 } from 'lucide-react';
+import { ClipboardList, Plus, Minus, Trash2, X } from 'lucide-react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { useHaptics } from '../hooks/useHaptics';
@@ -170,9 +170,24 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
                         </button>
                       </div>
                       {item.price && (
-                        <span className={`text-primary-300 min-w-[4ch] ${isMobile ? 'ml-2 text-sm' : 'text-lg font-medium'}`}>
-                          {item.price}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-primary-300 min-w-[4ch] ${isMobile ? 'ml-2 text-sm' : 'text-lg font-medium'}`}>
+                            {item.price}
+                          </span>
+                          {!isMobile && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onRemoveItem(index);
+                                triggerHaptic('delete');
+                              }}
+                              className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-500/10"
+                              aria-label="Remove item"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
