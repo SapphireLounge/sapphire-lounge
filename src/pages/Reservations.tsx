@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Users } from 'lucide-react';
+import { Calendar, Clock, Users, Phone } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
@@ -147,30 +147,31 @@ function Reservations() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4 max-w-2xl">
+    <main className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+      <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Make a Reservation</h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">Make a Reservation</h1>
+          <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
             Reserve your perfect spot at Sapphire Shisha Lounge.
           </p>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto mt-1">
+          <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto mt-1">
             For parties larger than 8, please contact us directly.
           </p>
         </motion.div>
 
         {/* Form Section */}
-        <motion.div
+        <motion.form
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="space-y-6"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-black/60 backdrop-blur-md rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/70"
         >
           {validationError && (
             <div className="p-3 rounded-lg bg-red-900/50 border border-red-500/50 text-red-200 text-sm">
@@ -178,43 +179,43 @@ function Reservations() {
             </div>
           )}
           {/* Date and Time Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Date Selection */}
             <div className="space-y-1">
-              <label htmlFor="reservation-date" className="block text-sm font-medium text-gray-300">Date</label>
+              <label htmlFor="reservation-date" className="block text-base md:text-lg font-medium text-gray-300">Date</label>
               <div className="relative">
-                <Calendar className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none z-10" />
                 <DatePicker
                   id="reservation-date"
-                  name="reservation-date"
                   selected={selectedDate}
                   onChange={(date: Date | null) => {
-                    setSelectedDate(date);
-                    setFormData(prev => ({ ...prev, date: date ? date.toISOString() : '' }));
-                    setIsCalendarOpen(false);
+                    if (date) {
+                      setSelectedDate(date);
+                      setFormData({ ...formData, date: formatDate(date) });
+                    }
                   }}
-                  minDate={new Date()}
-                  maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
                   dateFormat="dd/MM/yyyy"
-                  className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors"
+                  minDate={new Date()}
                   placeholderText="Select date"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg cursor-pointer"
+                  calendarClassName="bg-neutral-800 border-neutral-700"
                   showPopperArrow={false}
                   open={isCalendarOpen}
-                  onInputClick={() => setIsCalendarOpen(!isCalendarOpen)}
                   onClickOutside={() => setIsCalendarOpen(false)}
+                  onInputClick={() => setIsCalendarOpen(!isCalendarOpen)}
                 />
               </div>
             </div>
 
             {/* Time Selection */}
             <div className="space-y-1">
-              <label htmlFor="reservation-time" className="block text-sm font-medium text-gray-300">Time</label>
+              <label htmlFor="reservation-time" className="block text-base md:text-lg font-medium text-gray-300">Time</label>
               <div className="relative">
-                <Clock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <select 
                   id="reservation-time"
                   name="reservation-time"
-                  className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
+                  className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.time}
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                 >
@@ -228,26 +229,26 @@ function Reservations() {
           </div>
 
           {/* Name and Email Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <label htmlFor="reservation-name" className="block text-sm font-medium text-gray-300">Name</label>
+              <label htmlFor="reservation-name" className="block text-base md:text-lg font-medium text-gray-300">Name</label>
               <input
                 id="reservation-name"
                 name="reservation-name"
                 type="text"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                 placeholder="Your name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="reservation-email" className="block text-sm font-medium text-gray-300">Email</label>
+              <label htmlFor="reservation-email" className="block text-base md:text-lg font-medium text-gray-300">Email</label>
               <input
                 id="reservation-email"
                 name="reservation-email"
                 type="email"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                 placeholder="your.email@example.com"
                 value={formData.email}
                 onChange={(e) => {
@@ -260,31 +261,34 @@ function Reservations() {
           </div>
 
           {/* Phone and Number of Guests Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <label htmlFor="reservation-phone" className="block text-sm font-medium text-gray-300">Phone</label>
-              <input
-                id="reservation-phone"
-                name="reservation-phone"
-                type="tel"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                placeholder="Your phone number"
-                value={formData.phone}
-                onChange={(e) => {
-                  const newPhone = e.target.value;
-                  setFormData({ ...formData, phone: newPhone });
-                  localStorage.setItem('reservationPhone', newPhone);
-                }}
-              />
+              <label htmlFor="reservation-phone" className="block text-base md:text-lg font-medium text-gray-300">Phone</label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <input
+                  id="reservation-phone"
+                  name="reservation-phone"
+                  type="tel"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  placeholder="Your phone number"
+                  value={formData.phone}
+                  onChange={(e) => {
+                    const newPhone = e.target.value;
+                    setFormData({ ...formData, phone: newPhone });
+                    localStorage.setItem('reservationPhone', newPhone);
+                  }}
+                />
+              </div>
             </div>
             <div className="space-y-1">
-              <label htmlFor="reservation-guests" className="block text-sm font-medium text-gray-300">Number of Guests</label>
+              <label htmlFor="reservation-guests" className="block text-base md:text-lg font-medium text-gray-300">Number of Guests</label>
               <div className="relative">
-                <Users className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <select 
                   id="reservation-guests"
                   name="reservation-guests"
-                  className="w-full pl-9 pr-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
+                  className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.guests}
                   onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value, 10) })}
                 >
@@ -298,13 +302,13 @@ function Reservations() {
           </div>
 
           {/* Table Preference and Special Occasion Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <label htmlFor="reservation-table-preference" className="block text-sm font-medium text-gray-300">Table Preference (optional)</label>
+              <label htmlFor="reservation-table-preference" className="block text-base md:text-lg font-medium text-gray-300">Table Preference (optional)</label>
               <select 
                 id="reservation-table-preference"
                 name="reservation-table-preference"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                 value={formData.tablePreference}
                 onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
               >
@@ -314,11 +318,11 @@ function Reservations() {
               </select>
             </div>
             <div className="space-y-1">
-              <label htmlFor="reservation-occasion" className="block text-sm font-medium text-gray-300">Special Occasion (optional)</label>
+              <label htmlFor="reservation-occasion" className="block text-base md:text-lg font-medium text-gray-300">Special Occasion (optional)</label>
               <select 
                 id="reservation-occasion"
                 name="reservation-occasion"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                 value={formData.occasion}
                 onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
               >
@@ -333,12 +337,12 @@ function Reservations() {
 
           {/* Special Requests */}
           <div className="space-y-1">
-            <label htmlFor="reservation-special-requests" className="block text-sm font-medium text-gray-300">Special Requests</label>
+            <label htmlFor="reservation-special-requests" className="block text-base md:text-lg font-medium text-gray-300">Special Requests</label>
             <textarea
               id="reservation-special-requests"
               name="reservation-special-requests"
-              className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-              rows={2}
+              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+              rows={4}
               placeholder="Any special requests or requirements?"
               value={formData.specialRequests}
               onChange={(e) => setFormData({ ...formData, specialRequests: e.target.value })}
@@ -359,7 +363,7 @@ function Reservations() {
           >
             {isSubmitting ? 'Submitting...' : 'Book Now'}
           </button>
-        </motion.div>
+        </motion.form>
 
         {/* Success Modal */}
         {isSuccessModalOpen && (
@@ -370,7 +374,7 @@ function Reservations() {
           />
         )}
       </div>
-    </div>
+    </main>
   );
 }
 

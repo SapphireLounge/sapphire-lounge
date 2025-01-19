@@ -90,12 +90,12 @@ const VIPServices: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            Special Services
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            VIP Services
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-400 text-sm md:text-lg">
             Experience luxury and exclusivity with our premium services.
           </p>
         </motion.div>

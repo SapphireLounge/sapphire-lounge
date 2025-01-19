@@ -414,10 +414,10 @@ export const Menu = () => {
         transition={{ duration: 0.5 }}
         className="text-center mb-6"
       >
-        <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'} font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
+        <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
           Our Menu
         </h1>
-        <p className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-lg'} px-4`}>
+        <p className="text-gray-400 text-sm md:text-lg px-4">
           Explore our selection of premium shisha flavours and refreshments.
         </p>
       </motion.div>

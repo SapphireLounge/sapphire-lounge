@@ -144,14 +144,14 @@ function Events() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-            Events
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Upcoming Events
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-400 text-sm md:text-lg">
             Join us for special events and unforgettable experiences. Contact us directly to register for events.
           </p>
-          <p className="text-gray-300 text-sm mt-4">
-            <span className="font-semibold">Phone:</span> 01792 555888 | <span className="font-semibold">Email:</span> info@sapphirelounge.com
+          <p className="text-gray-400 text-sm md:text-lg mt-2">
+            Call us at <a href="tel:01792555888" className="text-primary-300 hover:text-primary-400 transition-colors">01792 555888</a> or email <a href="mailto:info@sapphirelounge.com" className="text-primary-300 hover:text-primary-400 transition-colors">info@sapphirelounge.com</a>
           </p>
         </motion.div>
 
