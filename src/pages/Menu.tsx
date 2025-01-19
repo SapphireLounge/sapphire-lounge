@@ -113,31 +113,31 @@ export const Menu = () => {
       return (
         <div
           key={itemName}
-          className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer ${
+          className={`flex items-center justify-between p-1.5 rounded-lg transition-colors cursor-pointer ${
             isSelected 
               ? 'bg-primary-500/20 border border-primary-500/30' 
               : 'bg-dark-800/30 hover:bg-dark-800/40'
           }`}
           onClick={() => addToOrder(item, categoryBasePrice)}
         >
-          <div className="flex items-start gap-2">
-            <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+          <div className="flex items-start gap-1.5">
+            <Star className={`flex-shrink-0 mt-0.5 w-2.5 h-2.5 ${
               isSelected ? 'text-primary-300' : 'text-accent-400'
             }`} />
             <div>
-              <span className={`${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
+              <span className={`text-sm ${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
                 {itemName}
               </span>
               {typeof item !== 'string' && item.description && (
-                <p className="text-gray-500 text-sm mt-0.5">{item.description}</p>
+                <p className="text-gray-500 text-xs mt-0.5">{item.description}</p>
               )}
               {typeof item !== 'string' && item.ingredients && (
-                <p className="text-gray-600 text-xs mt-0.5">{item.ingredients}</p>
+                <p className="text-gray-600 text-[10px] mt-0.5">{item.ingredients}</p>
               )}
             </div>
           </div>
           {itemPrice && (
-            <span className={`ml-2 whitespace-nowrap ${
+            <span className={`ml-1.5 text-sm whitespace-nowrap ${
               isSelected ? 'text-primary-300' : 'text-primary-300'
             }`}>
               {itemPrice}
@@ -428,18 +428,18 @@ export const Menu = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-8"
+        className="text-center mb-6"
       >
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+        <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'} font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
           Our Menu
         </h1>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-xs px-4">
           Explore our selection of premium shisha flavours and refreshments.
         </p>
       </motion.div>
 
-      <div className="text-center mb-8">
-        <p className="text-gray-400 text-sm italic">
+      <div className="text-center mb-6">
+        <p className="text-gray-400 text-xs italic px-4">
           - Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session
         </p>
       </div>
@@ -470,18 +470,18 @@ export const Menu = () => {
                 <>
                   <button
                     onClick={() => toggleCategory(category.title)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left"
+                    className="w-full px-4 py-2.5 flex items-center justify-between text-left"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       {category.icon && (
-                        <category.icon className="text-primary-300 w-5 h-5" />
+                        <category.icon className="text-primary-300 w-4 h-4" />
                       )}
-                      <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      <h2 className="text-base font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
                         {category.title}
                       </h2>
                     </div>
                     <ChevronDown
-                      className={`text-primary-300 w-5 h-5 transition-transform duration-300 ${
+                      className={`text-primary-300 w-4 h-4 transition-transform duration-300 ${
                         expandedCategory === category.title ? 'rotate-180' : ''
                       }`}
                     />
@@ -496,9 +496,9 @@ export const Menu = () => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6">
+                        <div className="px-4 pb-4">
                           {category.subtitle && (
-                            <div className="text-gray-400 text-sm italic mb-4">
+                            <div className="text-gray-400 text-xs italic mb-3">
                               <span className="text-accent-400">- </span>
                               {category.subtitle}
                             </div>

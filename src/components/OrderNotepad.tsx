@@ -60,44 +60,40 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
             <div
               key={`${item.name}-${index}`}
               className={`bg-black/20 backdrop-blur-sm rounded-lg border border-white/5 transition-colors hover:bg-black/30 ${
-                isMobile ? 'px-4 py-3 -mx-2' : 'p-3'
+                isMobile ? 'px-3 py-2 -mx-2' : 'p-3'
               }`}
             >
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <Star className="text-accent-400 flex-shrink-0 w-3 h-3" />
-                    <span className="text-gray-300 break-words">{item.name}</span>
-                  </div>
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                  <Star className="text-accent-400 flex-shrink-0 w-2.5 h-2.5" />
+                  <span className="text-gray-300 text-sm truncate">{item.name}</span>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    onClick={() => onUpdateQuantity(index, item.quantity - 1)}
+                    className="text-gray-400 hover:text-primary-300 transition-colors"
+                    disabled={item.quantity <= 1}
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-gray-300 text-sm min-w-[1ch] text-center">{item.quantity}</span>
+                  <button
+                    onClick={() => onUpdateQuantity(index, item.quantity + 1)}
+                    className="text-gray-400 hover:text-primary-300 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                  {item.price && (
+                    <span className="text-primary-300 text-sm min-w-[4ch] ml-2">
+                      {item.price}
+                    </span>
+                  )}
                   <button
                     onClick={() => onRemoveItem(index)}
                     className="text-gray-500 hover:text-red-400 transition-colors ml-2 flex-shrink-0"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => onUpdateQuantity(index, item.quantity - 1)}
-                      className="text-gray-400 hover:text-primary-300 transition-colors"
-                      disabled={item.quantity <= 1}
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="text-gray-300 min-w-[1ch] text-center">{item.quantity}</span>
-                    <button
-                      onClick={() => onUpdateQuantity(index, item.quantity + 1)}
-                      className="text-gray-400 hover:text-primary-300 transition-colors"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                  {item.price && (
-                    <span className="text-primary-300 min-w-[4.5ch]">
-                      {item.price}
-                    </span>
-                  )}
                 </div>
               </div>
             </div>
