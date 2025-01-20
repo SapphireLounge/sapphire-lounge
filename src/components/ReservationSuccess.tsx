@@ -140,7 +140,7 @@ const ReservationSuccess: React.FC<ReservationSuccessProps> = ({ isOpen, onClose
                   <img 
                     src={reservationData.qrCode} 
                     alt="Reservation QR Code" 
-                    className="mx-auto w-28 h-28 bg-white p-2 rounded-lg"
+                    className="mx-auto w-48 h-48 bg-white p-2 rounded-lg"
                   />
                   <p className="text-xs text-neutral-400 mt-1">Show this QR code upon arrival</p>
                 </div>

@@ -71,9 +71,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
       </div>
 
       {!hasItems ? (
-        <p className="text-gray-400 text-sm">
-          Click items from the menu to add them here
-        </p>
+        <p className="text-gray-400 text-sm md:text-base">Click items from the menu to add them here</p>
       ) : (
         <div className="space-y-2">
           <AnimatePresence mode="popLayout">

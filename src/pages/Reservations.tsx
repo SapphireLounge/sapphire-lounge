@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Users, Phone } from 'lucide-react';
+import { Calendar, Clock, Users, Phone, Mail, Pen, Table, Star } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
@@ -137,7 +137,7 @@ function Reservations() {
   ];
 
   const occasions = [
-    "Select an occasion (optional)",
+    "Select an occasion",
     "Birthday",
     "Anniversary",
     "Date Night",
@@ -171,7 +171,7 @@ function Reservations() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           onSubmit={handleSubmit}
-          className="space-y-6 bg-black/60 backdrop-blur-md rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/70"
+          className="space-y-6 bg-black/40 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-colors hover:bg-black/50"
         >
           {validationError && (
             <div className="p-3 rounded-lg bg-red-900/50 border border-red-500/50 text-red-200 text-sm">
@@ -187,17 +187,19 @@ function Reservations() {
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none z-10" />
                 <DatePicker
                   id="reservation-date"
+                  name="reservation-date"
                   selected={selectedDate}
                   onChange={(date: Date | null) => {
                     if (date) {
                       setSelectedDate(date);
                       setFormData({ ...formData, date: formatDate(date) });
+                      setIsCalendarOpen(false); // Close the calendar after selecting a date
                     }
                   }}
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                   placeholderText="Select date"
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg cursor-pointer"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-t"
                   calendarClassName="bg-neutral-800 border-neutral-700"
                   showPopperArrow={false}
                   open={isCalendarOpen}
@@ -232,31 +234,38 @@ function Reservations() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label htmlFor="reservation-name" className="block text-base md:text-lg font-medium text-gray-300">Name</label>
-              <input
-                id="reservation-name"
-                name="reservation-name"
-                type="text"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
-                placeholder="Your name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
+              <div className="relative">
+                <Pen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <input
+                  type="text"
+                  id="reservation-name"
+                  name="reservation-name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
             </div>
             <div className="space-y-1">
               <label htmlFor="reservation-email" className="block text-base md:text-lg font-medium text-gray-300">Email</label>
-              <input
-                id="reservation-email"
-                name="reservation-email"
-                type="email"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
-                placeholder="your.email@example.com"
-                value={formData.email}
-                onChange={(e) => {
-                  const newEmail = e.target.value;
-                  setFormData({ ...formData, email: newEmail });
-                  localStorage.setItem('reservationEmail', newEmail);
-                }}
-              />
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <input
+                  type="email"
+                  id="reservation-email"
+                  name="reservation-email"
+                  value={formData.email}
+                  onChange={(e) => {
+                    const newEmail = e.target.value;
+                    setFormData({ ...formData, email: newEmail });
+                    localStorage.setItem('reservationEmail', newEmail);
+                  }}
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  placeholder="your.email@example.com"
+                />
+              </div>
             </div>
           </div>
 
@@ -267,17 +276,18 @@ function Reservations() {
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <input
+                  type="tel"
                   id="reservation-phone"
                   name="reservation-phone"
-                  type="tel"
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
-                  placeholder="Your phone number"
                   value={formData.phone}
                   onChange={(e) => {
                     const newPhone = e.target.value;
                     setFormData({ ...formData, phone: newPhone });
                     localStorage.setItem('reservationPhone', newPhone);
                   }}
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  placeholder="Your phone number"
+                  required
                 />
               </div>
             </div>
@@ -304,34 +314,41 @@ function Reservations() {
           {/* Table Preference and Special Occasion Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <label htmlFor="reservation-table-preference" className="block text-base md:text-lg font-medium text-gray-300">Table Preference (optional)</label>
-              <select 
-                id="reservation-table-preference"
-                name="reservation-table-preference"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
-                value={formData.tablePreference}
-                onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
-              >
-                <option value="">Select table preference</option>
-                <option value="Booth">Booth</option>
-                <option value="Regular">Regular Seating</option>
-              </select>
+              <label htmlFor="reservation-table-preference" className="block text-base md:text-lg font-medium text-gray-300">Table Preference <span className="text-gray-400">(optional)</span></label>
+              <div className="relative">
+                <Table className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <select 
+                  id="reservation-table-preference"
+                  name="reservation-table-preference"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
+                  value={formData.tablePreference}
+                  onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
+                >
+                  <option value="">Select table preference</option>
+                  <option value="Booth">Booth</option>
+                  <option value="Regular">Regular Seating</option>
+                </select>
+              </div>
             </div>
             <div className="space-y-1">
-              <label htmlFor="reservation-occasion" className="block text-base md:text-lg font-medium text-gray-300">Special Occasion (optional)</label>
-              <select 
-                id="reservation-occasion"
-                name="reservation-occasion"
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
-                value={formData.occasion}
-                onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
-              >
-                {occasions.map(occasion => (
-                  <option key={occasion} value={occasion === "Select an occasion (optional)" ? "" : occasion}>
-                    {occasion}
-                  </option>
-                ))}
-              </select>
+              <label htmlFor="reservation-occasion" className="block text-base md:text-lg font-medium text-gray-300">Special Occasion <span className="text-gray-400">(optional)</span></label>
+              <div className="relative">
+                <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <select 
+                  id="reservation-occasion"
+                  name="reservation-occasion"
+                  value={formData.occasion}
+                  onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                  required
+                >
+                  {occasions.map((occasion) => (
+                    <option key={occasion} value={occasion === "Select an occasion" ? "" : occasion}>
+                      {occasion}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 

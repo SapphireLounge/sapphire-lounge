@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote } from 'lucide-react';
 import { useDeviceType } from '../hooks/useDeviceType';
@@ -54,19 +54,19 @@ function Testimonials() {
       <div className={`container mx-auto ${isMobile ? 'px-4' : 'px-8'}`}>
         <div className="text-center mb-8">
           <h2 className={`font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1 ${
-            isMobile ? 'text-xl' : 'text-2xl md:text-3xl'
+            isMobile ? 'text-2xl' : 'text-3xl'
           }`}>
             What Our Guests Say
           </h2>
           <p className={`text-gray-300 max-w-2xl mx-auto ${
-            isMobile ? 'text-[10px]' : 'text-xs'
+            isMobile ? 'text-sm' : 'text-base'
           }`}>
             Hear from our valued customers about their experience at Sapphire Lounge
           </p>
         </div>
 
-        <div className={`max-w-3xl mx-auto relative ${
-          isMobile ? 'h-[145px]' : 'h-[180px]'
+        <div className={`max-w-4xl mx-auto relative ${
+          isMobile ? 'h-[200px]' : 'h-[240px]'
         }`}>
           <AnimatePresence mode="wait">
             <motion.div
@@ -94,21 +94,17 @@ function Testimonials() {
                 </div>
                 
                 <p className={`text-gray-300/90 mb-3 mt-2 italic ${
-                  isMobile ? 'text-xs leading-relaxed' : 'text-sm'
-                }`}>
-                  "{testimonials[currentIndex].text}"
+                  isMobile ? 'text-base' : 'text-lg'
+                }`}>  
+                  "{testimonials[currentIndex].text}"  
                 </p>
                 
                 <div>
-                  <p className={`text-gray-200 font-semibold ${
-                    isMobile ? 'text-[11px]' : 'text-xs'
-                  }`}>
-                    {testimonials[currentIndex].author}
+                  <p className={`text-gray-200 font-semibold ${isMobile ? 'text-lg' : 'text-xl'}`}>  
+                    {testimonials[currentIndex].author}  
                   </p>
-                  <p className={`text-primary-400/90 ${
-                    isMobile ? 'text-[9px]' : 'text-[10px]'
-                  }`}>
-                    {testimonials[currentIndex].role}
+                  <p className={`text-gray-400 ${isMobile ? 'text-sm' : 'text-md'} bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>  
+                    {testimonials[currentIndex].role}  
                   </p>
                 </div>
               </div>

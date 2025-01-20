@@ -145,20 +145,21 @@ export function Newsletter() {
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-6 mx-auto" style={{ maxWidth: "498px" }}>
             <div className="flex-1">
-              <FormInput
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  validateField('email', e.target.value);
-                }}
-                placeholder="Enter your email"
-                icon={<Mail className="w-5 h-5" />}
-                error={errors.email}
-                isLoading={status === 'loading'}
-                disabled={status === 'loading'}
-                required
-              />
+            <FormInput
+  id="newsletter-email"
+  name="newsletter-email"
+  type="email"
+  value={email}
+  onChange={(e) => {
+    setEmail(e.target.value);
+    validateField('email', e.target.value);
+  }}
+  placeholder="Enter your email"
+  icon={<Mail className="w-5 h-5" />}
+  error={errors.email}
+  disabled={status === 'loading'}
+  required
+/>
             </div>
             <button
               type="submit"

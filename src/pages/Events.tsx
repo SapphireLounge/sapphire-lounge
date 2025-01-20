@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Music, Users, Star } from 'lucide-react';
+import { Calendar, Music, Users, Star, Mail, Phone, Pen } from 'lucide-react';
 import EventSuccess from '../components/EventSuccess';
 import { generateEventQRCode } from '../lib/qrcode';
 
@@ -220,101 +220,131 @@ function Events() {
           transition={{ delay: 0.8 }}
           className="max-w-3xl mx-auto"
         >
-          <div className="bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl p-6 md:p-8">
+          <div className="space-y-6 bg-black/40 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-colors hover:bg-black/50">
             <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
               Event Registration
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="mb-6">
-                <label htmlFor="eventTitle" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="event-title" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
                   Select Event *
                 </label>
-                <select
-                  id="eventTitle"
-                  value={formData.eventTitle}
-                  onChange={handleEventSelect}
-                  className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
-                  required
-                  autoComplete="off"
-                >
-                  <option value="">Select an event</option>
-                  {events.map((event) => (
-                    <option key={event.id} value={event.title}>
-                      {event.title} - {event.date}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                  <select
+                    id="event-title"
+                    name="event-title"
+                    value={formData.eventTitle}
+                    onChange={handleEventSelect}
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                    required
+                  >
+                    <option value="">Select an event</option>
+                    {events.map((event) => (
+                      <option key={event.id} value={event.title}>
+                        {event.title} - {event.date}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-name" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
                     Name *
                   </label>
-                  <input
-                    id="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
-                    required
-                    autoComplete="name"
-                  />
+                  <div className="relative">
+                    <Pen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input
+                      type="text"
+                      id="event-name"
+                      name="event-name"
+                      value={formData.name}
+                      onChange={(e) => {
+                        const newName = e.target.value;
+                        setFormData({ ...formData, name: newName });
+                        localStorage.setItem('eventName', newName);
+                      }}
+                      className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      placeholder="Your name"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-email" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
                     Email *
                   </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
-                    required
-                    autoComplete="email"
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input
+                      type="email"
+                      id="event-email"
+                      name="event-email"
+                      value={formData.email}
+                      onChange={(e) => {
+                        const newEmail = e.target.value;
+                        setFormData({ ...formData, email: newEmail });
+                        localStorage.setItem('eventEmail', newEmail);
+                      }}
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      placeholder="Your email"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-phone" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
                     Phone *
                   </label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
-                    required
-                    autoComplete="tel"
-                  />
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <input
+                      type="tel"
+                      id="event-phone"
+                      name="event-phone"
+                      value={formData.phone}
+                      onChange={(e) => {
+                        const newPhone = e.target.value;
+                        setFormData({ ...formData, phone: newPhone });
+                        localStorage.setItem('eventPhone', newPhone);
+                      }}
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      placeholder="Your phone number"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label htmlFor="guests" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="guests" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
                     Number of Guests *
                   </label>
-                  <select
-                    id="guests"
-                    value={formData.guests || ''}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      guests: parseInt(e.target.value) 
-                    }))}
-                    className="w-full px-4 py-2.5 bg-dark-600 border border-accent-700/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 text-gray-200"
-                    required
-                    autoComplete="off"
-                  >
-                    <option value="">Select number of guests</option>
-                    {[...Array(8)].map((_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {i + 1} {i === 0 ? 'Guest' : 'Guests'}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <select
+                      id="guests"
+                      value={formData.guests || ''}
+                      onChange={(e) => setFormData(prev => ({ 
+                        ...prev, 
+                        guests: parseInt(e.target.value) 
+                      }))}
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      required
+                      autoComplete="off"
+                    >
+                      <option value="">Select number of guests</option>
+                      {[...Array(8)].map((_, i) => (
+                        <option key={i + 1} value={i + 1}>
+                          {i + 1} {i === 0 ? 'Guest' : 'Guests'}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
 

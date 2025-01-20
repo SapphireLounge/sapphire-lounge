@@ -41,7 +41,7 @@ function SpecialOffers({ titleClassName, buttonClassName }: SpecialOffersProps) 
         <h2 className={`text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Special Offers
         </h2>
-        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-2xl mx-auto text-sm">
+        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-3xl mx-auto text-base">
           Take advantage of our exclusive deals and make your experience even more special.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

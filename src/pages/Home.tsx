@@ -83,14 +83,11 @@ function Home() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    // Change button text
-    setButtonText('Feedback Submitted');
-    // Reset form
-    form.reset();
-    // Reset button text after 5 seconds
+    // Change button text after a delay
     setTimeout(() => {
-      setButtonText('Submit Feedback');
-    }, 5000);
+        setButtonText('Feedback Submitted!');
+        form.reset();
+    }, 500);
   };
 
   return (
@@ -218,8 +215,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Calendar className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Easy Reservations</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-[10px]' : 'text-xs'}`}>Book your perfect spot instantly.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Easy Reservations</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Book your perfect spot instantly.</p>
                   </div>
                 </motion.article>
 
@@ -232,8 +229,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Users className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Loyalty Scheme</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-[10px]' : 'text-xs'}`}>Unlock premium benefits & discounts.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Loyalty Scheme</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Unlock premium benefits & discounts.</p>
                   </div>
                 </motion.article>
 
@@ -246,8 +243,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Clock className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Extended Hours</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-[10px]' : 'text-xs'}`}>Open late for your convenience.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Extended Hours</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Open late for your convenience.</p>
                   </div>
                 </motion.article>
 
@@ -260,8 +257,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Star className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Menu Choice</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-[10px]' : 'text-xs'}`}>Premium flavours & blends.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Menu Choice</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Premium flavours & blends.</p>
                   </div>
                 </motion.article>
               </div>
@@ -277,12 +274,12 @@ function Home() {
           <div className={`container mx-auto ${isMobile ? 'px-4' : 'px-8'}`}>
             <div className="text-center mb-8">
               <h2 className={`font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1 ${
-                isMobile ? 'text-xl' : 'text-2xl md:text-3xl'
+                isMobile ? 'text-2xl' : 'text-3xl'
               }`}>
                 Share Your Experience
               </h2>
               <p className={`text-gray-300 max-w-2xl mx-auto ${
-                isMobile ? 'text-[10px]' : 'text-xs'
+                isMobile ? 'text-sm' : 'text-base'
               }`}>
                 We value your feedback and would love to hear about your time at Sapphire Lounge
               </p>
@@ -296,33 +293,40 @@ function Home() {
                   <div>
                     <input 
                       type="text" 
+                      id="username" 
+                      name="username" 
                       placeholder="Your Name" 
                       required 
+                      autoComplete="name" 
                       className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                     />
                   </div>
                   <div>
                     <input 
                       type="email" 
+                      id="email" 
+                      name="email" 
                       placeholder="Your Email" 
                       required 
+                      autoComplete="email" 
                       className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                     />
                   </div>
                   <div>
                     <textarea 
+                      id="experience" 
+                      name="experience" 
                       placeholder="Share your experience with us..." 
                       required 
-                      rows={4}
+                      rows={4} 
+                      autoComplete="off" 
                       className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none"
                     />
                   </div>
                   <div className="text-center">
                     <button 
                       type="submit" 
-                      className={`bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-lg transition-all duration-200 hover:from-primary-600 hover:to-accent-600 ${
-                        isMobile ? 'px-4 py-2 text-sm' : 'px-6 py-2.5 text-base'
-                      }`}
+                      className={`w-full rounded-lg bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:from-primary-600 hover:to-accent-600 min-w-[200px] text-center px-10 py-4`}
                     >
                       {buttonText}
                     </button>
@@ -337,7 +341,7 @@ function Home() {
         <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner size="lg" color="accent" />}>
             <FeaturedEvents 
-              titleClassName="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+              titleClassName="text-2xl md:text-3xlfont-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
               buttonClassName="inline-block bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-full text-sm font-semibold hover:from-blue-600 hover:to-purple-700 transition-all"
             />
           </Suspense>

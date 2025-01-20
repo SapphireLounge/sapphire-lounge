@@ -95,21 +95,6 @@ const Loyalty: React.FC = () => {
   const handleSubscribe = async (tier: TierBenefit) => {
     if (subscribedTiers.includes(tier.level)) return;
     
-    // Show coming soon message
-    const message = selectedPaymentMethod === 'stripe' 
-      ? 'Stripe payments coming soon! 💳'
-      : 'PayPal payments coming soon! 💰';
-    
-    toast(message, {
-      icon: '🚀',
-      style: {
-        background: '#1E293B',
-        color: '#fff',
-        borderRadius: '0.5rem',
-        border: '1px solid #334155',
-      },
-    });
-
     // Reset states
     setShowConfetti(false);
     setSuccessTier(null);
@@ -122,6 +107,23 @@ const Loyalty: React.FC = () => {
     setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
     setIsSuccessModalOpen(true);
     setSubscribedTiers([...subscribedTiers, tier.level]);
+
+    // Payment success
+    const handlePaymentSuccess = () => {
+      toast.success('Payment was successful! Thank you for your purchase.');
+    };
+
+    // Payment failure
+    const handlePaymentError = () => {
+      toast.error('Payment failed. Please try again.');
+    };
+
+    // Simulate payment action
+    if (Math.random() < 0.5) {
+      handlePaymentSuccess();
+    } else {
+      handlePaymentError();
+    }
   };
 
   const handleSuccessIconLoad = useCallback((x: number, y: number) => {
