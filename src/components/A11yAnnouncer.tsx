@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback, useState } from 'react';
+import { createContext, useContext, useCallback, useState, memo } from 'react';
 
 interface A11yContextType {
   announce: (message: string, priority?: 'polite' | 'assertive') => void;
@@ -6,7 +6,7 @@ interface A11yContextType {
 
 const A11yContext = createContext<A11yContextType | undefined>(undefined);
 
-export function A11yProvider({ children }: { children: React.ReactNode }) {
+const A11yProvider = memo(function A11yProvider({ children }: { children: React.ReactNode }) {
   const [politeMessage, setPoliteMessage] = useState('');
   const [assertiveMessage, setAssertiveMessage] = useState('');
 
@@ -41,7 +41,11 @@ export function A11yProvider({ children }: { children: React.ReactNode }) {
       </div>
     </A11yContext.Provider>
   );
-}
+});
+
+A11yProvider.displayName = 'A11yProvider';
+
+export { A11yProvider };
 
 export function useA11y() {
   const context = useContext(A11yContext);
@@ -51,13 +55,15 @@ export function useA11y() {
   return context;
 }
 
-export function SkipToContent() {
+export const SkipToContent = memo(function SkipToContent() {
   return (
     <a
       href="#main-content"
-      className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-primary-600 focus:text-white"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-500 focus:text-white focus:rounded-md focus:shadow-lg"
     >
       Skip to main content
     </a>
   );
-}
+});
+
+SkipToContent.displayName = 'SkipToContent';

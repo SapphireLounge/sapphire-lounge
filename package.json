@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build:frontend": "tsc && vite build",
-    "build": "npm run build:frontend && tsc -p server/tsconfig.json",
+    "build": "tsc -p server/tsconfig.json && npm run build:frontend",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "generate-pwa-assets": "pwa-assets-generator",
@@ -26,7 +26,8 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-helmet-async": "^1.0.1",
-    "@vercel/node": "^3.0.0",
+    "@types/ws": "^8.5.13",
+    "@vercel/node": "^4.0.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "class-variance-authority": "^0.7.0",
@@ -45,7 +46,7 @@
     "react": "^18.3.1",
     "react-confetti": "^6.1.0",
     "react-datepicker": "^7.5.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.53.2",
     "react-hot-toast": "^2.4.1",
@@ -55,6 +56,7 @@
     "tailwind-merge": "^2.2.1",
     "ts-node": "^10.9.2",
     "winston": "^3.17.0",
+    "ws": "^8.18.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -67,7 +69,7 @@
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.18",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -76,7 +78,7 @@
     "tailwindcss": "^3.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4",
+    "vite": "^5.4.13",
     "vite-plugin-pwa": "^0.19.2"
   }
 }

@@ -98,38 +98,36 @@ function Events() {
 
       const qrCodeDataURL = await generateEventQRCode({
         ...formData,
-        eventId: Number(selectedEvent.id).toString(), // Convert eventId to string
-        eventTitle: selectedEvent.title
-      });
-      
-      // Store the event registration data with QR code
-      const eventWithQR: EventData = {
-        ...formData,
-        eventId: Number(selectedEvent.id),
+        eventId: Number(selectedEvent.id).toString(),
         eventTitle: selectedEvent.title,
         date: selectedEvent.date,
-        time: selectedEvent.time.toString(),
-        qrCode: qrCodeDataURL
-      };
-
-      // Show success modal with the data
-      setEventData(eventWithQR);
-      setIsSuccessModalOpen(true);
-      
-      // Clear form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        guests: 1,
-        eventTitle: '',
-        date: '',
-        time: '',
+        time: selectedEvent.time
       });
-      
+
+      // Add a 1-second delay before showing success
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Save form data to localStorage
+      localStorage.setItem('eventName', formData.name);
+      localStorage.setItem('eventEmail', formData.email);
+      localStorage.setItem('eventPhone', formData.phone);
+
+      setEventData({
+        eventId: selectedEvent.id,
+        eventTitle: selectedEvent.title,
+        date: selectedEvent.date,
+        time: selectedEvent.time,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        guests: formData.guests,
+        qrCode: qrCodeDataURL
+      });
+
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Event registration error:', error);
-      setValidationError('Failed to register for event. Please try again.');
+      setValidationError('An error occurred while registering for the event. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -137,25 +135,25 @@ function Events() {
 
   return (
     <div className="min-h-screen pt-24 pb-8 bg-[#020B18]">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
             Upcoming Events
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg">
+          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
             Join us for special events and unforgettable experiences. Contact us directly to register for events.
           </p>
-          <p className="text-gray-400 text-sm md:text-lg mt-2">
+          <p className="text-gray-400 text-sm md:text-lg mt-2 max-w-3xl mx-auto">
             Call us at <a href="tel:01792555888" className="text-primary-300 hover:text-primary-400 transition-colors">01792 555888</a> or email <a href="mailto:info@sapphirelounge.com" className="text-primary-300 hover:text-primary-400 transition-colors">info@sapphirelounge.com</a>
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 max-w-[95%] md:max-w-[100%] mx-auto">
           {events.map((event, index) => (
             <motion.article
               key={event.id}
@@ -165,7 +163,7 @@ function Events() {
               whileHover={{ y: -10 }}
               className="bg-dark-500/50 backdrop-blur-sm rounded-xl overflow-hidden border border-accent-700/20 shadow-xl"
             >
-              <div className="relative h-56 md:h-72 overflow-hidden">
+              <div className="relative h-56 md:h-80 overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.4 }}
@@ -174,12 +172,12 @@ function Events() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 pb-2">
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-1">{event.title}</h3>
-                  <p className="text-gray-200 text-xs md:text-sm mb-2">{event.description}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pb-2 md:pb-4">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{event.title}</h3>
+                  <p className="text-gray-200 text-xs md:text-base mb-2 md:mb-3">{event.description}</p>
                   <div className="flex items-center text-primary-300">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    <span className="text-sm font-medium">{event.date} • {event.time}</span>
+                    <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                    <span className="text-sm md:text-base font-medium">{event.date} • {event.time}</span>
                   </div>
                 </div>
               </div>
@@ -192,24 +190,24 @@ function Events() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 max-w-[95%] md:max-w-[100%] mx-auto"
         >
-          <div className="p-4 md:p-6 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Music className="w-6 h-6 md:w-8 md:h-8 text-primary-300 mb-3 md:mb-4" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2">Live Entertainment</h3>
-            <p className="text-gray-300 text-sm">Weekly DJ performances and live music sessions</p>
+          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <Music className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
+            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">Live Entertainment</h3>
+            <p className="text-gray-300 text-sm md:text-base">Weekly DJ performances and live music sessions</p>
           </div>
 
-          <div className="p-4 md:p-6 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Users className="w-6 h-6 md:w-8 md:h-8 text-primary-300 mb-3 md:mb-4" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2">Private Events</h3>
-            <p className="text-gray-300 text-sm">Book our exclusive space for your special occasions</p>
+          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <Users className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
+            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">Private Events</h3>
+            <p className="text-gray-300 text-sm md:text-base">Host your special occasions with us</p>
           </div>
 
-          <div className="p-4 md:p-6 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Star className="w-6 h-6 md:w-8 md:h-8 text-primary-300 mb-3 md:mb-4" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2">VIP Experience</h3>
-            <p className="text-gray-300 text-sm">Enjoy premium service and exclusive benefits</p>
+          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <Star className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
+            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">VIP Experience</h3>
+            <p className="text-gray-300 text-sm md:text-base">Exclusive perks for our VIP guests</p>
           </div>
         </motion.div>
 
@@ -354,15 +352,29 @@ function Events() {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3 px-4 bg-gradient-to-r from-primary-400 to-accent-400 text-white rounded-lg font-medium
-                  hover:from-primary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-primary-300 
-                  transition-all duration-300 transform hover:scale-[1.02]"
-              >
-                {isSubmitting ? 'Processing...' : 'Register for Event'}
-              </button>
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-200 ${
+                    isSubmitting
+                      ? 'bg-primary-600/50 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-primary-400 to-accent-400 hover:from-primary-500 hover:to-accent-500 active:from-primary-600 active:to-accent-600'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </span>
+                  ) : (
+                    'Register for Event'
+                  )}
+                </button>
+              </div>
             </form>
           </div>
         </motion.div>

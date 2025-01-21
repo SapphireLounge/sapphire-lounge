@@ -28,23 +28,23 @@ const Navbar = () => {
 
   return (
     <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 md:px-0">
         <div className="flex justify-between items-center h-14 md:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 md:-ml-8">
             <img 
               src="/images/logo/Sapphire Lounge Circle Logo.png" 
               alt="Sapphire Logo" 
-              className="h-7 w-7 md:h-8 md:w-8"
+              className="h-8 w-8 md:h-10 md:w-10"
             />
-            <span className="text-lg md:text-xl font-semibold text-white">Sapphire Lounge</span>
+            <span className="text-xl md:text-3xl font-semibold text-white">Sapphire Lounge</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden ${isMenuVisible ? 'lg:flex' : ''} items-center space-x-8`}>
+          <div className={`hidden ${isMenuVisible ? 'lg:flex' : ''} items-center space-x-10 md:mr-4`}>
             <NavLink 
               to="/" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
@@ -52,7 +52,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink 
               to="/menu" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
@@ -60,7 +60,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink 
               to="/reservations" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
@@ -68,7 +68,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink 
               to="/events" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
@@ -76,7 +76,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink 
               to="/vip-services" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >
@@ -84,7 +84,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink 
               to="/loyalty" 
-              className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={({ isActive }) => `px-4 py-2 rounded-md text-sm md:text-lg font-medium transition-colors ${
                 isActive ? 'text-white bg-dark-400' : 'text-gray-300 hover:text-white'
               }`}
             >

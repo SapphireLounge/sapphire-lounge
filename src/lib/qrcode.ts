@@ -36,6 +36,10 @@ export async function generateReservationQRCode(reservation: ReservationData): P
 export async function submitReservation(reservation: ReservationData): Promise<ReservationResponse> {
     try {
         const qrCode = await generateReservationQRCode(reservation);
+        
+        // Add a 1-second delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
         return {
             success: true,
             message: 'Reservation submitted successfully',

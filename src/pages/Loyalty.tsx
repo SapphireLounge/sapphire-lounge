@@ -100,29 +100,45 @@ const Loyalty: React.FC = () => {
     setSuccessTier(null);
     setIsSuccessModalOpen(false);
 
-    // Wait for states to reset
-    await new Promise(resolve => setTimeout(resolve, 10));
+    try {
+      // Get the appropriate payment ID based on selected method
+      const paymentId = selectedPaymentMethod === 'stripe' ? tier.stripeId : tier.paypalId;
+      
+      if (!paymentId) {
+        toast.error('Payment method not configured for this tier');
+        return;
+      }
 
-    // Set new states
-    setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
-    setIsSuccessModalOpen(true);
-    setSubscribedTiers([...subscribedTiers, tier.level]);
+      // Show processing state
+      toast.loading('Processing payment...', { id: 'payment-processing' });
 
-    // Payment success
-    const handlePaymentSuccess = () => {
-      toast.success('Payment was successful! Thank you for your purchase.');
-    };
+      // Simulate payment processing with the selected method
+      const paymentResult = await new Promise<boolean>((resolve) => {
+        setTimeout(() => {
+          // Dismiss the loading toast
+          toast.dismiss('payment-processing');
+          resolve(Math.random() < 0.5);
+        }, 2000);
+      });
 
-    // Payment failure
-    const handlePaymentError = () => {
-      toast.error('Payment failed. Please try again.');
-    };
-
-    // Simulate payment action
-    if (Math.random() < 0.5) {
-      handlePaymentSuccess();
-    } else {
-      handlePaymentError();
+      if (paymentResult) {
+        // Payment successful - only show success UI after payment confirms
+        setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
+        setIsSuccessModalOpen(true);
+        setSubscribedTiers([...subscribedTiers, tier.level]);
+        toast.success(`Successfully subscribed to ${tier.level} tier!`);
+      } else {
+        // Payment failed - clear all success states
+        setSuccessTier(null);
+        setIsSuccessModalOpen(false);
+        toast.error(`Payment failed for ${tier.level} tier. Please try again or use a different payment method.`);
+      }
+    } catch (error) {
+      // Error in payment process - clear all success states
+      setSuccessTier(null);
+      setIsSuccessModalOpen(false);
+      console.error('Payment error:', error);
+      toast.error('An error occurred during payment. Please try again later.');
     }
   };
 
@@ -230,7 +246,7 @@ const Loyalty: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
             Loyalty Program
           </h1>
           <p className="text-gray-400 text-sm md:text-lg">
@@ -292,20 +308,20 @@ const Loyalty: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <h3 className="text-lg md:text-2xl font-semibold text-white mt-2 md:mt-3">{tier.level}</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold text-white mt-2 md:mt-3">{tier.level}</h3>
                   <div className="mt-1 md:mt-2 flex flex-col items-center">
-                    <span className="text-lg md:text-2xl font-bold text-primary-400">£{(tier.price / 100).toFixed(2)}</span>
-                    <span className="text-xs text-gray-400">per month</span>
+                    <span className="text-xl md:text-2xl font-bold text-primary-400">£{(tier.price / 100).toFixed(2)}</span>
+                    <span className="text-sm text-gray-400">per month</span>
                   </div>
                 </div>
               </div>
 
               {/* Benefits List */}
-              <ul className="space-y-1.5 md:space-y-2 mb-3 md:mb-4 text-[11px] md:text-sm flex-grow px-2">
+              <ul className="space-y-2 md:space-y-2 mb-3 md:mb-4 text-sm md:text-sm flex-grow px-2">
                 {tier.benefits.map((benefit, idx) => (
                   <li key={idx} className="flex justify-center">
-                    <div className="flex items-start gap-1.5 w-fit">
-                      <Check className="w-3 md:w-4 h-3 md:h-4 text-primary-400 flex-shrink-0 mt-[3px]" />
+                    <div className="flex items-start gap-2 w-fit">
+                      <Check className="w-4 md:w-4 h-4 md:h-4 text-primary-400 flex-shrink-0 mt-[2px]" />
                       <span className="text-gray-300 text-center">{benefit}</span>
                     </div>
                   </li>
@@ -318,7 +334,7 @@ const Loyalty: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleSubscribe(tier)}
                 disabled={subscribedTiers.includes(tier.level)}
-                className={`${getButtonStyles(tier)} text-sm md:text-base py-2.5 md:py-3 mx-auto w-[90%]`}
+                className={`${getButtonStyles(tier)} text-base md:text-base py-2.5 md:py-3 mx-auto w-[90%]`}
               >
                 {getButtonContent(tier)}
               </motion.button>
@@ -344,8 +360,8 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-accent-700/20"
           >
-            <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
-            <ul className="space-y-1.5 md:space-y-2 text-[11px] md:text-sm text-gray-300">
+            <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
+            <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
                 <span>All memberships are billed monthly and can be cancelled at any time</span>
@@ -376,8 +392,8 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.6 }}
             className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-accent-700/20"
           >
-            <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
-            <ul className="space-y-1.5 md:space-y-2 text-[11px] md:text-sm text-gray-300">
+            <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
+            <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
                 <span>Call us at 01792 555888</span>

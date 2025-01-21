@@ -5,7 +5,8 @@ import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
-import ErrorBoundary from './components/ErrorBoundary'; 
+import ErrorBoundary from './components/ErrorBoundary';
+import { LazyMotion, domAnimation, AnimatePresence } from 'framer-motion';
 
 // Lazy load routes with preload hints
 const Home = lazy(() => import('./pages/Home'));
@@ -172,16 +173,20 @@ function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
+    <LazyMotion features={domAnimation}>
       <HelmetProvider>
-        <A11yProvider>
+        <ErrorBoundary>
           <div className="min-h-screen bg-dark-950 text-white">
             <JsonLd type="Restaurant" data={restaurantJsonLd} />
-            <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
+            <A11yProvider>
+              <AnimatePresence mode="wait">
+                <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
+              </AnimatePresence>
+            </A11yProvider>
           </div>
-        </A11yProvider>
+        </ErrorBoundary>
       </HelmetProvider>
-    </ErrorBoundary>
+    </LazyMotion>
   );
 }
 

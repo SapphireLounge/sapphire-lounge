@@ -1,63 +1,111 @@
 const CACHE_NAME = 'sapphire-lounge-v1';
-const urlsToCache = [
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/favicon.svg',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/apple-touch-icon.png'
+  '/android-chrome-192x192.png',
+  '/android-chrome-512x512.png'
 ];
 
+// Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .catch((error) => console.error('Cache installation failed:', error))
+  );
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((name) => name !== CACHE_NAME)
+            .map((name) => caches.delete(name))
+        );
       })
-      .catch(error => {
-        console.error('Cache installation failed:', error);
-      })
+      .then(() => self.clients.claim())
   );
 });
 
+// Helper function to determine if a request should be cached
+function shouldCache(request) {
+  // Don't cache WebSocket connections
+  if (request.url.includes('ws:') || request.url.includes('wss:')) {
+    return false;
+  }
+
+  // Don't cache API requests
+  if (request.url.includes('/api/')) {
+    return false;
+  }
+
+  // Don't cache non-GET requests
+  if (request.method !== 'GET') {
+    return false;
+  }
+
+  return true;
+}
+
+// Fetch event - handle requests
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Skip WebSocket requests
+  if (event.request.url.includes('ws:') || event.request.url.includes('wss:')) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // If we have a cached version, return it
-        if (response) {
-          return response;
+    (async () => {
+      try {
+        // Try to get from cache first
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) {
+          return cachedResponse;
         }
 
-        // Clone the request because it's a one-time-use stream
-        const fetchRequest = event.request.clone();
+        // If not in cache, try network
+        const networkResponse = await fetch(event.request);
+        
+        // Cache valid responses if appropriate
+        if (networkResponse.ok && shouldCache(event.request)) {
+          const cache = await caches.open(CACHE_NAME);
+          cache.put(event.request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+      } catch (error) {
+        // Return cached version if available
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
 
-        return fetch(fetchRequest)
-          .then((response) => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200) {
-              return response;
-            }
+        // Return offline page for navigation requests
+        if (event.request.mode === 'navigate') {
+          const cache = await caches.open(CACHE_NAME);
+          return cache.match('/');
+        }
 
-            // Clone the response because it's a one-time-use stream
-            const responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                // Don't cache if the URL contains certain patterns
-                if (!event.request.url.includes('/api/')) {
-                  cache.put(event.request, responseToCache);
-                }
-              });
-
-            return response;
+        // Return error response for other requests
+        return new Response('Network error occurred', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: new Headers({
+            'Content-Type': 'text/plain',
+            'Cache-Control': 'no-store'
           })
-          .catch((error) => {
-            console.error('Fetch failed:', error);
-            // You might want to return a custom offline page here
-          });
-      })
+        });
+      }
+    })()
   );
 });

@@ -1,11 +1,11 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import path from 'path';
+import { dirname, resolve } from 'path';
 import cors from 'cors';
+import http from 'http';
+import { WebSocketServer } from 'ws';
 import bodyParser from 'body-parser';
-import * as net from 'net';
 import reservationController from './server/src/controllers/reservationController';
 import eventController from './server/src/controllers/eventController';
 
@@ -23,7 +23,7 @@ const findAvailablePort = async (startPort: number): Promise<number> => {
   while (port < startPort + 100) {
     try {
       await new Promise((resolve, reject) => {
-        const server = new net.Server();
+        const server = new http.Server();
         server.unref();
         server.on('error', reject);
         server.listen(port, () => {
@@ -38,17 +38,56 @@ const findAvailablePort = async (startPort: number): Promise<number> => {
   throw new Error('No available ports found');
 };
 
-const createServer = async () => {
+async function startServer() {
   const app = express();
-  const port = 5173;
-
+  const server = http.createServer(app);
+  
   // Middleware
-  app.use(cors());
+  app.use(cors({
+    origin: process.env.NODE_ENV === 'production' 
+      ? 'https://sapphirelounge.com' 
+      : 'http://localhost:5173',
+    credentials: true
+  }));
+  
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  // API Routes
-  app.post('/api/reservations', (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  // Add debugging middleware
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+  });
+
+  // Create Vite server
+  const vite = await createViteServer({
+    server: { 
+      middlewareMode: true 
+    },
+    appType: 'spa'
+  });
+
+  // Use vite's connect instance as middleware
+  app.use(vite.middlewares);
+
+  // Create WebSocket server
+  const wss = new WebSocketServer({ 
+    server,
+    path: '/ws'
+  });
+
+  wss.on('connection', (ws) => {
+    console.log('WebSocket client connected');
+    
+    ws.on('error', console.error);
+    
+    ws.on('close', () => {
+      console.log('WebSocket client disconnected');
+    });
+  });
+
+  // API routes
+  app.post('/api/reservations', (async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
     try {
       await reservationController.createReservation(req, res);
     } catch (err) {
@@ -56,7 +95,7 @@ const createServer = async () => {
     }
   }) as express.RequestHandler);
 
-  app.post('/api/events', (async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  app.post('/api/events', (async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
     if (!req.body) {
       res.status(400).json({
         success: false,
@@ -81,8 +120,31 @@ const createServer = async () => {
 
   app.use(deviceDetectionMiddleware);
 
+  // Serve static files from the dist directory in production
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(resolve(__dirname, 'dist')));
+  }
+
+  // Handle all routes for SPA
+  app.use('*', async (req, res, next) => {
+    const url = req.originalUrl;
+    
+    try {
+      if (process.env.NODE_ENV === 'production') {
+        res.sendFile(resolve(__dirname, 'dist', 'index.html'));
+      } else {
+        let template = await vite.transformIndexHtml(url, '');
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      }
+    } catch (e) {
+      const err = e as Error;
+      vite.ssrFixStacktrace(err);
+      next(err);
+    }
+  });
+
   // Error handling middleware
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error('Server error:', err);
     res.status(500).json({ 
       success: false, 
@@ -90,42 +152,13 @@ const createServer = async () => {
     });
   });
 
-  // Use vite's connect instance as middleware
-  const vite = await createViteServer({
-    server: { 
-      middlewareMode: true,
-      port: port
-    },
-    appType: 'spa'
-  });
-
-  app.use(vite.middlewares);
-
-  // Serve static files
-  app.use(express.static(path.resolve(__dirname, 'dist')));
-
-  // Handle client-side routing
-  app.get('*', (req: Request, res: Response, next: NextFunction) => {
-    if (req.path.startsWith('/api')) {
-      next();
-      return;
-    }
-    res.sendFile(path.resolve(__dirname, 'index.html'));
-  });
-
-  app.listen(port, () => {
+  const port = process.env.PORT || 5173;
+  server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
-};
+}
 
-const startServer = async () => {
-  try {
-    await createServer();
-  } catch (e) {
-    console.error('Error starting server:', e);
-    console.error('Stack trace:', e.stack);
-    process.exit(1);
-  }
-};
-
-startServer();
+startServer().catch((err) => {
+  console.error('Error starting server:', err);
+  process.exit(1);
+});

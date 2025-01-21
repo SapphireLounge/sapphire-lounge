@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Users, Phone, Mail, Pen, Table, Star } from 'lucide-react';
 import DatePicker from 'react-datepicker';
@@ -26,13 +26,15 @@ const formatDate = (date: Date | null): string => {
   return date.toISOString().split('T')[0];
 };
 
-function Reservations() {
+const Reservations = memo(() => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
-  const [formData, setFormData] = useState<ReservationData>({
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const [formData, setFormData] = useState<ReservationData>(() => ({
     date: null,
     time: '',
     name: '',
@@ -43,8 +45,9 @@ function Reservations() {
     occasion: '',
     specialRequests: '',
     qrCode: ''
-  });
-  const [reservationData, setReservationData] = useState<ReservationData>({
+  }));
+
+  const [reservationData, setReservationData] = useState<ReservationData>(() => ({
     date: '',
     time: '',
     name: '',
@@ -55,10 +58,9 @@ function Reservations() {
     occasion: '',
     specialRequests: '',
     qrCode: ''
-  });
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  }));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setValidationError('');
@@ -66,60 +68,31 @@ function Reservations() {
     try {
       const qrCodeDataURL = await generateReservationQRCode(formData);
       
-      // Store the reservation data with QR code
       const reservationWithQR: ReservationData = {
-        date: formData.date || '',
-        time: formData.time,
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        guests: formData.guests,
-        tablePreference: formData.tablePreference,
-        occasion: formData.occasion,
-        specialRequests: formData.specialRequests,
+        ...formData,
         qrCode: qrCodeDataURL
       };
 
-      // Process the reservation
       const response = await submitReservation(reservationWithQR);
+      
       if (typeof response === 'string') {
         console.error(response);
         setErrorMessage(response);
       } else {
-        // Clear any previous error messages on success
         setErrorMessage('');
-      }
-
-      // Show success modal with the data
-      if (response && typeof response !== 'string') {
         setReservationData({
           ...reservationWithQR,
           date: reservationWithQR.date !== null ? formatDate(new Date(reservationWithQR.date)) : 'default-date-string'
         });
         setIsSuccessModalOpen(true);
       }
-      
-      // Clear form
-      setFormData({
-        date: null,
-        time: '',
-        name: '',
-        phone: '',
-        email: '',
-        guests: 0,
-        tablePreference: '',
-        occasion: '',
-        specialRequests: '',
-        qrCode: ''
-      });
-      
     } catch (error) {
-      console.error('Reservation error:', error);
-      setValidationError('Failed to create reservation. Please try again.');
+      console.error('Reservation submission error:', error);
+      setErrorMessage('An error occurred while submitting your reservation.');
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [formData]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -375,10 +348,25 @@ function Reservations() {
 
           {/* Book Now Button */}
           <button
-            className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-lg font-semibold text-white hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all"
-            onClick={handleSubmit}
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-200 ${
+              isSubmitting
+                ? 'bg-primary-600/50 cursor-not-allowed'
+                : 'bg-gradient-to-r from-primary-400 to-accent-400 hover:from-primary-500 hover:to-accent-500 active:from-primary-600 active:to-accent-600'
+            }`}
           >
-            {isSubmitting ? 'Submitting...' : 'Book Now'}
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              'Make Reservation'
+            )}
           </button>
         </motion.form>
 
@@ -393,6 +381,6 @@ function Reservations() {
       </div>
     </main>
   );
-}
+});
 
 export default Reservations;
