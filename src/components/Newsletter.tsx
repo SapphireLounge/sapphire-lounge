@@ -137,10 +137,10 @@ export function Newsletter() {
     <section className="py-6 sm:py-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
             Stay Updated
           </h2>
-          <p className="text-gray-400 mb-8 text-sm sm:text-base">
+          <p className="text-gray-400 mb-8 text-base">
             Subscribe to our newsletter for exclusive offers and updates.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-6 mx-auto" style={{ maxWidth: "498px" }}>
