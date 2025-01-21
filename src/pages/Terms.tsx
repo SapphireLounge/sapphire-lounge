@@ -14,7 +14,7 @@ function Terms() {
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Terms of Service
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
             Our terms and conditions for using Sapphire Lounge services.
           </p>
         </motion.div>

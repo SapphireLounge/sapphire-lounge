@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useDeviceType } from '../hooks/useDeviceType';
@@ -8,6 +8,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const deviceType = useDeviceType();
   const { triggerHaptic } = useHaptics();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   // Close mobile/tablet menu when switching to desktop
   useEffect(() => {
@@ -15,6 +17,23 @@ const Navbar = () => {
       setIsOpen(false);
     }
   }, [deviceType]);
+
+  // Handle click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isOpen && 
+          mobileMenuRef.current && 
+          hamburgerRef.current && 
+          !mobileMenuRef.current.contains(event.target as Node) &&
+          !hamburgerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        triggerHaptic();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, triggerHaptic]);
 
   const isMenuVisible = deviceType === 'desktop';
   const showHamburger = deviceType === 'mobile' || deviceType === 'tablet';
@@ -95,6 +114,7 @@ const Navbar = () => {
           {/* Mobile/Tablet Menu Button */}
           {showHamburger && (
             <button
+              ref={hamburgerRef}
               onClick={() => {
                 triggerHaptic();
                 setIsOpen(!isOpen);
@@ -116,6 +136,7 @@ const Navbar = () => {
         {/* Mobile/Tablet Navigation Menu */}
         {(deviceType === 'mobile' || deviceType === 'tablet') && (
           <div 
+            ref={mobileMenuRef}
             className={`lg:hidden transition-all duration-300 ease-in-out ${
               isOpen 
                 ? 'max-h-screen opacity-100 visible' 

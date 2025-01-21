@@ -355,11 +355,8 @@ function Home() {
         </ErrorBoundary>
 
         {/* Social Media */}
-        <section className={`py-${isMobile ? '4' : '6'} bg-[#090909]`}>
+        <section className={`py-${isMobile ? '12' : '16'} bg-[#090909]`}>
           <div className={`container mx-auto ${isMobile ? 'px-3' : 'px-4'}`}>
-            <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-center ${isMobile ? 'mb-4' : 'mb-6'} bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
-              Connect With Us
-            </h2>
             <SocialShare />
           </div>
         </section>

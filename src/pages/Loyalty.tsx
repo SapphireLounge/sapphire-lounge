@@ -118,7 +118,7 @@ const Loyalty: React.FC = () => {
           // Dismiss the loading toast
           toast.dismiss('payment-processing');
           resolve(Math.random() < 0.5);
-        }, 2000);
+        }, 1000);
       });
 
       if (paymentResult) {

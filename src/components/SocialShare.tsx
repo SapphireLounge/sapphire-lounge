@@ -3,7 +3,7 @@ import { useDeviceType } from '../hooks/useDeviceType';
 
 const TikTokIcon = () => (
   <svg
-    className="w-5 h-5 md:w-6 md:h-6"
+    className="w-5 h-5 md:w-7 md:h-7"
     viewBox="0 0 24 24"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
@@ -19,32 +19,36 @@ const SocialShare = () => {
   const socialLinks = [
     {
       name: 'Instagram',
-      icon: <Instagram className="w-5 h-5 md:w-6 md:h-6" />,
+      icon: <Instagram className="w-5 h-5 md:w-7 md:h-7" />,
       comingSoon: false,
       shareText: 'Share on Instagram',
       style: {
-        background: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCAF45)',
-        borderColor: '#E1306C',
-        minWidth: 'min-w-[160px] md:min-w-[180px]',
+        backgroundColor: '#000000',
+        borderImage: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCAF45) 1',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        minWidth: 'min-w-[160px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
-        background: 'linear-gradient(45deg, #6d2e96, #e41818, #f5a333)'
+        backgroundColor: '#141414'
       }
     },
     {
       name: 'Facebook',
-      icon: <Facebook className="w-5 h-5 md:w-6 md:h-6" />,
+      icon: <Facebook className="w-5 h-5 md:w-7 md:h-7" />,
       comingSoon: false,
       shareText: 'Share on Facebook',
       style: {
-        backgroundColor: '#1877F2',
-        borderColor: '#1877F2',
-        minWidth: 'min-w-[160px] md:min-w-[180px]',
+        backgroundColor: '#000000',
+        borderImage: 'linear-gradient(45deg, #1877F2, #0c5dc7) 1',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        minWidth: 'min-w-[160px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
-        backgroundColor: '#0c5dc7'
+        backgroundColor: '#141414'
       }
     },
     {
@@ -55,9 +59,9 @@ const SocialShare = () => {
       style: {
         backgroundColor: '#000000',
         borderImage: 'linear-gradient(45deg, #25F4EE, #FE2C55) 1',
-        borderWidth: '1px',
+        borderWidth: '2px',
         borderStyle: 'solid',
-        minWidth: 'min-w-[140px] md:min-w-[180px]',
+        minWidth: 'min-w-[160px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
@@ -83,34 +87,42 @@ const SocialShare = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className={`flex ${isMobile ? 'flex-col items-center' : 'justify-center'} gap-${isMobile ? '2' : '6'}`}>
-        {socialLinks.map((social, index) => (
-          <button
-            key={index}
-            onClick={() => handleShare(social.name.toLowerCase())}
-            className={`
-              flex items-center gap-2 rounded-full text-white
-              transition-all duration-300 ease-in-out
-              ${isMobile ? 'px-5 py-2.5 text-base' : 'px-4 py-2 text-base'}
-              ${social.comingSoon ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}
-            `}
-            style={social.style}
-            onMouseEnter={(e) => {
-              if (social.hoverStyle) {
-                Object.assign(e.currentTarget.style, social.hoverStyle);
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (social.style) {
-                Object.assign(e.currentTarget.style, social.style);
-              }
-            }}
-            disabled={social.comingSoon}
-          >
-            {social.icon}
-            <span>Share on {social.name}</span>
-          </button>
-        ))}
+      <div className={isMobile ? 'pt-6 pb-8' : ''}>
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
+          Connect With Us
+        </h2>
+        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-3xl mx-auto text-base">
+          Follow us on social media and stay updated with our latest events and offers.
+        </p>
+        <div className={`flex ${isMobile ? 'flex-col items-center w-full max-w-[300px] mx-auto' : 'justify-center'} gap-${isMobile ? '4' : '6'}`}>
+          {socialLinks.map((social, index) => (
+            <button
+              key={index}
+              onClick={() => handleShare(social.name.toLowerCase())}
+              className={`
+                flex items-center gap-2 rounded-full text-white w-full
+                transition-all duration-300 ease-in-out
+                ${isMobile ? 'px-5 py-3 text-base justify-center' : 'px-6 py-3 text-lg'}
+                ${social.comingSoon ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}
+              `}
+              style={social.style}
+              onMouseEnter={(e) => {
+                if (social.hoverStyle) {
+                  Object.assign(e.currentTarget.style, social.hoverStyle);
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (social.style) {
+                  Object.assign(e.currentTarget.style, social.style);
+                }
+              }}
+              disabled={social.comingSoon}
+            >
+              {social.icon}
+              <span className="flex-1 text-center">Share on {social.name}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

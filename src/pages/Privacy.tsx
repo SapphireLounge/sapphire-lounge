@@ -14,7 +14,7 @@ function Privacy() {
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Privacy Policy
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
             Learn about how we protect and handle your information.
           </p>
         </motion.div>

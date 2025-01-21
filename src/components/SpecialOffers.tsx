@@ -36,7 +36,7 @@ const specialOffers = [
 
 function SpecialOffers({ titleClassName, buttonClassName }: SpecialOffersProps) {
   return (
-    <section className="pt-4 md:pt-8 bg-[#020B18]">
+    <section className="pt-4 pb-8 md:pt-8 md:pb-12 bg-[#020B18]">
       <div className="container mx-auto px-4">
         <h2 className={`text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5 ${titleClassName}`}>
           Special Offers
