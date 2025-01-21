@@ -37,7 +37,7 @@ const swanseaImages = [
 function About() {
   return (
     <div className="min-h-screen pt-24 pb-8 bg-[#020B18]">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 md:px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,12 +87,12 @@ function About() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[1400px] mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[1200px] mx-auto px-0 md:px-4">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-dark-800/50 rounded-lg p-4 border border-dark-700/50"
+            className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50"
           >
             <h2 className="text-xl md:text-2xl font-semibold text-primary-400 mb-2">Our Story</h2>
             <p className="text-gray-300 text-base md:text-lg mb-3">
@@ -110,7 +110,7 @@ function About() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-dark-800/50 rounded-lg p-4 border border-dark-700/50"
+            className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50"
           >
             <h2 className="text-xl md:text-2xl font-semibold text-primary-400 mb-2">Shisha Culture & Heritage</h2>
             <p className="text-gray-300 text-base md:text-lg mb-3">
@@ -129,7 +129,7 @@ function About() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-dark-800/50 rounded-lg p-4 border border-dark-700/50"
+            className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50"
           >
             <h2 className="text-xl md:text-2xl font-semibold text-primary-400 mb-2">Our Health-Conscious Approach</h2>
             <p className="text-gray-300 text-base md:text-lg mb-3">
@@ -147,7 +147,7 @@ function About() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-dark-800/50 rounded-lg p-4 border border-dark-700/50"
+            className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50"
           >
             <h2 className="text-xl md:text-2xl font-semibold text-primary-400 mb-2">The Sapphire Experience</h2>
             <p className="text-gray-300 text-base md:text-lg mb-3">

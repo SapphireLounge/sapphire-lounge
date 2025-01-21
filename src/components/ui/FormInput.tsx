@@ -7,10 +7,11 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   isLoading?: boolean;
   helperText?: string;
+  autocomplete?: string;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ label, error, icon, isLoading, helperText, className = '', ...props }, ref) => {
+  ({ label, error, icon, isLoading, helperText, className = '', autocomplete = 'off', ...props }, ref) => {
     if (isLoading) {
       return <Skeleton className="h-12 w-full" />;
     }
@@ -34,6 +35,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
           <input
             ref={ref}
             {...props}
+            autoComplete={autocomplete}
             className={`
               w-full px-4 py-3 bg-dark-500 border rounded-lg focus:outline-none 
               ${icon ? 'pl-10' : ''}
@@ -49,15 +51,21 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             aria-invalid={error ? 'true' : 'false'}
             aria-describedby={error ? `${props.id}-error` : undefined}
           />
+          {error && (
+            <div
+              id={`${props.id}-error`}
+              className="mt-1 text-sm text-red-500"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
+          {helperText && !error && (
+            <div className="mt-1 text-sm text-gray-400">
+              {helperText}
+            </div>
+          )}
         </div>
-        {(error || helperText) && (
-          <div 
-            className={`mt-1 text-sm ${error ? 'text-red-400' : 'text-gray-400'}`}
-            id={error ? `${props.id}-error` : undefined}
-          >
-            {error || helperText}
-          </div>
-        )}
       </div>
     );
   }
