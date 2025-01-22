@@ -135,12 +135,12 @@ function Events() {
 
   return (
     <div className="min-h-screen pt-24 pb-8 bg-[#020B18]">
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+      <div className="container mx-auto px-2 md:px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-6"
+          className="text-center mb-8"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
             Upcoming Events
@@ -153,7 +153,7 @@ function Events() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 max-w-[95%] md:max-w-[100%] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto">
           {events.map((event, index) => (
             <motion.article
               key={event.id}
@@ -190,24 +190,30 @@ function Events() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 max-w-[95%] md:max-w-[100%] mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto"
         >
-          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Music className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">Live Entertainment</h3>
+          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <Music className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
+              <h3 className="text-lg md:text-xl font-semibold">Live Entertainment</h3>
+            </div>
             <p className="text-gray-300 text-sm md:text-base">Weekly DJ performances and live music sessions</p>
           </div>
 
-          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Users className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">Private Events</h3>
-            <p className="text-gray-300 text-sm md:text-base">Host your special occasions with us</p>
+          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <Users className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
+              <h3 className="text-lg md:text-xl font-semibold">Private Events</h3>
+            </div>
+            <p className="text-gray-300 text-sm md:text-base">Host your special occasions in our exclusive venue</p>
           </div>
 
-          <div className="p-4 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
-            <Star className="w-6 h-6 md:w-10 md:h-10 text-primary-300 mb-3 md:mb-5" />
-            <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">VIP Experience</h3>
-            <p className="text-gray-300 text-sm md:text-base">Exclusive perks for our VIP guests</p>
+          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <Star className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
+              <h3 className="text-lg md:text-xl font-semibold">VIP Experience</h3>
+            </div>
+            <p className="text-gray-300 text-sm md:text-base">Exclusive packages for a premium experience</p>
           </div>
         </motion.div>
 

@@ -46,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50">
+    <nav className="fixed w-full z-50 bg-black border-b border-gray-800/50">
       <div className="container mx-auto px-4 md:px-0">
         <div className="flex justify-between items-center h-14 md:h-16">
           {/* Logo */}
@@ -143,7 +143,7 @@ const Navbar = () => {
                 : 'max-h-0 opacity-0 invisible'
             }`}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-black/95">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-black">
               <NavLink
                 to="/"
                 className={({ isActive }) =>

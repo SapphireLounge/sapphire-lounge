@@ -147,8 +147,9 @@ export function Newsletter() {
             <div className="flex-1">
             <FormInput
   id="newsletter-email"
-  name="newsletter-email"
+  name="email"
   type="email"
+  autocomplete="email"
   value={email}
   onChange={(e) => {
     setEmail(e.target.value);

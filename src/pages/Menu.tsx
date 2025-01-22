@@ -97,36 +97,36 @@ export const Menu = () => {
       return (
         <div
           key={itemName}
-          className={`flex items-center justify-between p-1.5 rounded-lg transition-colors cursor-pointer ${
+          className={`backdrop-blur-sm rounded-lg p-3 border transition-colors cursor-pointer ${
             isSelected 
-              ? 'bg-primary-500/20 border border-primary-500/30' 
-              : 'bg-dark-800/30 hover:bg-dark-800/40'
+              ? 'bg-primary-500/20 border-primary-500/30' 
+              : 'bg-black/40 border-white/10 hover:bg-black/50'
           }`}
           onClick={() => addToOrder(itemName, itemPrice)}
         >
-          <div className="flex items-start gap-1.5">
-            <Star className={`flex-shrink-0 mt-0.5 w-2.5 h-2.5 ${
-              isSelected ? 'text-primary-300' : 'text-accent-400'
-            }`} />
-            <div>
-              <span className={`text-sm ${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
-                {itemName}
-              </span>
-              {typeof item !== 'string' && item.description && (
-                <p className="text-gray-500 text-xs mt-0.5">{item.description}</p>
-              )}
-              {typeof item !== 'string' && item.ingredients && (
-                <p className="text-gray-600 text-[10px] mt-0.5">{item.ingredients}</p>
-              )}
+          <div className="flex items-start justify-between">
+            <div className="flex items-start gap-2">
+              <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+                isSelected ? 'text-primary-300' : 'text-accent-400'
+              }`} />
+              <div>
+                <span className={`${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
+                  {itemName}
+                </span>
+                {typeof item !== 'string' && item.description && (
+                  <p className="text-gray-500 text-sm mt-1">{item.description}</p>
+                )}
+                {typeof item !== 'string' && item.ingredients && (
+                  <p className="text-gray-600 text-xs mt-0.5">{item.ingredients}</p>
+                )}
+              </div>
             </div>
+            {itemPrice && (
+              <span className="text-primary-300 ml-4 whitespace-nowrap">
+                {itemPrice}
+              </span>
+            )}
           </div>
-          {itemPrice && (
-            <span className={`ml-1.5 text-sm whitespace-nowrap ${
-              isSelected ? 'text-primary-300' : 'text-primary-300'
-            }`}>
-              {itemPrice}
-            </span>
-          )}
         </div>
       );
     }
@@ -156,6 +156,16 @@ export const Menu = () => {
             </span>
           )}
         </div>
+        {typeof item !== 'string' && (
+          <>
+            {item.description && (
+              <p className="text-gray-500 mt-2">{item.description}</p>
+            )}
+            {item.ingredients && (
+              <p className="text-gray-600 text-sm mt-1">{item.ingredients}</p>
+            )}
+          </>
+        )}
       </div>
     );
   };
@@ -408,145 +418,144 @@ export const Menu = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-6"
-      >
-        <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-          Our Menu
-        </h1>
-        <p className="text-gray-400 text-sm md:text-lg px-4">
-          Explore our selection of premium shisha flavours and refreshments.
-        </p>
-      </motion.div>
+      <div className="container mx-auto px-2 md:px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6"
+        >
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+            Our Menu
+          </h1>
+          <p className="text-gray-400 text-sm md:text-lg px-4">
+            Explore our selection of refreshments & desserts along with premium shisha flavours that are expertly crafted to give the best shisha experience with non-tobacco and nicotine-free varieties for a healthier session.
+          </p>
+        </motion.div>
 
-      <div className="text-center mb-6">
-        <p className={`text-gray-400 italic px-4 ${isMobile ? 'text-xs' : 'text-base'}`}>
-          - Expertly crafted shisha experience with non-tobacco and nicotine-free flavours for a healthier session
-        </p>
-      </div>
+        <div className="container mx-auto px-2 md:px-4">
+          <OrderNotepad 
+            className="mb-8" 
+            items={orderItems}
+            onRemoveItem={removeOrderItem}
+            onClearAll={clearOrder}
+            onUpdateQuantity={updateOrderQuantity}
+          />
 
-      <div className="container mx-auto px-4">
-        <OrderNotepad 
-          className="mb-8" 
-          items={orderItems}
-          onRemoveItem={removeOrderItem}
-          onClearAll={clearOrder}
-          onUpdateQuantity={updateOrderQuantity}
-        />
+          <div className={`${isMobile ? 'space-y-2' : 'space-y-4'}`}>
+            {categories.map((category) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 overflow-hidden"
+              >
+                {isMobile ? (
+                  <>
+                    <button
+                      onClick={() => toggleCategory(category.title)}
+                      className="w-full px-4 py-4 flex items-center justify-between text-left"
+                    >
+                      <div className="flex items-center gap-3">
+                        {category.icon && (
+                          <div className="w-6 h-6 flex items-center justify-center">
+                            <category.icon className="text-primary-300 w-5 h-5" />
+                          </div>
+                        )}
+                        <div>
+                          <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                            {category.title}
+                          </h2>
+                        </div>
+                      </div>
+                      <div className="w-6 h-6 flex items-center justify-center">
+                        <ChevronDown
+                          className={`text-primary-300 w-5 h-5 transition-transform duration-300 ${
+                            expandedCategory === category.title ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </div>
+                    </button>
 
-        <div className="space-y-4">
-          {categories.map((category) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`${
-                isMobile 
-                  ? 'bg-dark-900/30 backdrop-blur-sm rounded-lg overflow-hidden'
-                  : 'bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50'
-              }`}
-            >
-              {isMobile ? (
-                <>
-                  <button
-                    onClick={() => toggleCategory(category.title)}
-                    className="w-full px-4 py-2.5 flex items-center justify-between text-left"
-                  >
-                    <div className="flex items-center gap-1.5">
-                      {category.icon && (
-                        <category.icon className="text-primary-300 w-4 h-4" />
+                    <AnimatePresence>
+                      {expandedCategory === category.title && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-6">
+                            {category.subtitle && (
+                              <div className="mb-4 text-gray-400 text-sm">
+                                <span className="text-accent-400">- </span>
+                                {category.subtitle}
+                              </div>
+                            )}
+                            <div className="grid gap-3">
+                              {'basePrice' in category
+                                ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                                : category.items.map((item) => renderMenuItem(item))}
+                            </div>
+
+                            {'extras' in category && category.extras && (
+                              <div className="mt-6">
+                                <h3 className="text-lg font-medium text-primary-300 mb-3">
+                                  Extras
+                                </h3>
+                                <div className="grid gap-3">
+                                  {category.extras.map((extra) => renderMenuItem(extra))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
                       )}
-                      <h2 className="text-base font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      {category.icon && (
+                        <div className="w-6 h-6 flex items-center justify-center">
+                          <category.icon className="text-primary-300 w-5 h-5" />
+                        </div>
+                      )}
+                      <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
                         {category.title}
                       </h2>
                     </div>
-                    <ChevronDown
-                      className={`text-primary-300 w-4 h-4 transition-transform duration-300 ${
-                        expandedCategory === category.title ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
 
-                  <AnimatePresence>
-                    {expandedCategory === category.title && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-4 pb-4">
-                          {category.subtitle && (
-                            <div className="text-gray-400 text-xs italic mb-3">
-                              <span className="text-accent-400">- </span>
-                              {category.subtitle}
-                            </div>
-                          )}
-
-                          <div className="space-y-2">
-                            {'basePrice' in category
-                              ? category.items.map((item) => renderMenuItem(item, category.basePrice))
-                              : category.items.map((item) => renderMenuItem(item))}
-                          </div>
-
-                          {'extras' in category && category.extras && (
-                            <div className="mt-6">
-                              <h3 className="text-lg font-medium text-primary-300 mb-2">
-                                Extras
-                              </h3>
-                              <div className="space-y-2">
-                                {category.extras.map((extra) => renderMenuItem(extra))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </>
-              ) : (
-                <>
-                  <div className="flex items-center gap-2 mb-4">
-                    {category.icon && (
-                      <category.icon className="text-primary-300 w-5 h-5" />
-                    )}
-                    <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-                      {category.title}
-                    </h2>
-                  </div>
-
-                  {category.subtitle && (
-                    <div className="text-gray-400 text-lg italic mb-4">
-                      <span className="text-accent-400">- </span>
-                      {category.subtitle}
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {'basePrice' in category
-                      ? category.items.map((item) => renderMenuItem(item, category.basePrice))
-                      : category.items.map((item) => renderMenuItem(item))}
-                  </div>
-
-                  {'extras' in category && category.extras && (
-                    <div className="mt-6">
-                      <h3 className="text-lg font-medium text-primary-300 mb-2">
-                        Extras
-                      </h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        {category.extras.map((extra) => renderMenuItem(extra))}
+                    {category.subtitle && (
+                      <div className="text-gray-400 text-lg mb-4">
+                        <span className="text-accent-400">- </span>
+                        {category.subtitle}
                       </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {'basePrice' in category
+                        ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                        : category.items.map((item) => renderMenuItem(item))}
                     </div>
-                  )}
-                </>
-              )}
-            </motion.div>
-          ))}
+
+                    {'extras' in category && category.extras && (
+                      <div className="mt-6">
+                        <h3 className="text-lg font-medium text-primary-300 mb-2">
+                          Extras
+                        </h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                          {category.extras.map((extra) => renderMenuItem(extra))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

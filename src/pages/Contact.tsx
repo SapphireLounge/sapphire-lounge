@@ -99,6 +99,8 @@ function Contact() {
                 <input
                   type="text"
                   id="name"
+                  name="name"
+                  autoComplete="name"
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
@@ -113,6 +115,8 @@ function Contact() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
@@ -126,6 +130,8 @@ function Contact() {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
+                  autoComplete="off"
                   rows={4}
                   value={formData.message}
                   onChange={handleInputChange}
