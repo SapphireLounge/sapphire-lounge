@@ -37,7 +37,8 @@ const hasVibrationSupport = () => {
 
     // In development, be more permissive
     if (isDevelopment) {
-      return hasVibrate && !prefersReducedMotion && (isMobile || isStandalone || isTouchDevice);
+      // Allow desktop testing in development mode
+      return hasVibrate && !prefersReducedMotion;
     }
 
     // In production, require secure context and proper support

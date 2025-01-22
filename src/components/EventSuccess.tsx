@@ -124,8 +124,8 @@ const EventSuccess: React.FC<EventSuccessProps> = ({ isOpen, onClose, eventData 
 
             <div className="p-4">
               <div className="text-center mb-3">
-                <div className="inline-block p-2 bg-emerald-500/20 rounded-full mb-2">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                <div className="inline-block p-3 bg-emerald-500/20 rounded-full mb-2">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-white mb-1">Event Registration Successful!</h2>

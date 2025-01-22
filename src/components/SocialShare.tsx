@@ -27,7 +27,7 @@ const SocialShare = () => {
         borderImage: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCAF45) 1',
         borderWidth: '2px',
         borderStyle: 'solid',
-        minWidth: 'min-w-[160px] md:min-w-[200px]',
+        minWidth: 'min-w-[140px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
@@ -44,7 +44,7 @@ const SocialShare = () => {
         borderImage: 'linear-gradient(45deg, #1877F2, #0c5dc7) 1',
         borderWidth: '2px',
         borderStyle: 'solid',
-        minWidth: 'min-w-[160px] md:min-w-[200px]',
+        minWidth: 'min-w-[140px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
@@ -61,7 +61,7 @@ const SocialShare = () => {
         borderImage: 'linear-gradient(45deg, #25F4EE, #FE2C55) 1',
         borderWidth: '2px',
         borderStyle: 'solid',
-        minWidth: 'min-w-[160px] md:min-w-[200px]',
+        minWidth: 'min-w-[140px] md:min-w-[200px]',
         justifyContent: 'justify-center'
       },
       hoverStyle: {
@@ -91,10 +91,10 @@ const SocialShare = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-[0.0625rem] bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5">
           Connect With Us
         </h2>
-        <p className="text-gray-400 text-center mt-1.5 mb-2 md:mb-6 max-w-3xl mx-auto text-base">
+        <p className={`text-gray-400 text-center mt-1.5 ${isMobile ? 'mb-6' : 'mb-2 md:mb-6'} max-w-3xl mx-auto text-base`}>
           Follow us on social media and stay updated with our latest events and offers.
         </p>
-        <div className={`flex ${isMobile ? 'flex-col items-center w-full max-w-[300px] mx-auto' : 'justify-center'} gap-${isMobile ? '4' : '6'}`}>
+        <div className={`flex ${isMobile ? 'flex-col items-center w-full max-w-[280px] mx-auto' : 'justify-center'} gap-${isMobile ? '4' : '6'}`}>
           {socialLinks.map((social, index) => (
             <button
               key={index}
