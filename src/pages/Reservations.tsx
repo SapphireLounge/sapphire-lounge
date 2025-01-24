@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Users, Phone, Mail, Pen, Table, Star } from 'lucide-react';
+import { Calendar, Clock, Users, Phone, Mail, Pen, Table, ChevronDown, Gift } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "@/styles/datepicker.css";
@@ -109,16 +109,6 @@ const Reservations = memo(() => {
     '23:00', '23:30', '00:00', '00:30', '01:00', '01:30'
   ];
 
-  const occasions = [
-    "Select an occasion",
-    "Birthday",
-    "Anniversary",
-    "Date Night",
-    "Business Meeting",
-    "Celebration",
-    "Other"
-  ];
-
   return (
     <main className="min-h-screen pt-24 pb-12 bg-[#020B18]">
       <div className="max-w-4xl mx-auto">
@@ -166,19 +156,20 @@ const Reservations = memo(() => {
                     if (date) {
                       setSelectedDate(date);
                       setFormData({ ...formData, date: formatDate(date) });
-                      setIsCalendarOpen(false); // Close the calendar after selecting a date
+                      setIsCalendarOpen(false);
                     }
                   }}
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                   placeholderText="Select date"
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-t"
-                  calendarClassName="bg-neutral-800 border-neutral-700"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-t"
                   showPopperArrow={false}
                   open={isCalendarOpen}
                   onClickOutside={() => setIsCalendarOpen(false)}
                   onInputClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                  calendarClassName="bg-neutral-900 border-neutral-700"
                 />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
 
@@ -190,15 +181,16 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-time"
                   name="reservation-time"
-                  className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
+                  className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.time}
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                 >
-                  <option value="">Select time</option>
+                  <option value="" className="text-gray-400">Select time</option>
                   {timeSlots.map(time => (
                     <option key={time} value={time}>{time}</option>
                   ))}
                 </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -215,7 +207,7 @@ const Reservations = memo(() => {
                   name="reservation-name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                   placeholder="Your name"
                   required
                 />
@@ -235,7 +227,7 @@ const Reservations = memo(() => {
                     setFormData({ ...formData, email: newEmail });
                     localStorage.setItem('reservationEmail', newEmail);
                   }}
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -258,7 +250,7 @@ const Reservations = memo(() => {
                     setFormData({ ...formData, phone: newPhone });
                     localStorage.setItem('reservationPhone', newPhone);
                   }}
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                   placeholder="Your phone number"
                   required
                 />
@@ -271,7 +263,7 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-guests"
                   name="reservation-guests"
-                  className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
+                  className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.guests}
                   onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value, 10) })}
                 >
@@ -280,6 +272,7 @@ const Reservations = memo(() => {
                     <option key={num} value={num}>Table for {num}</option>
                   ))}
                 </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -287,13 +280,13 @@ const Reservations = memo(() => {
           {/* Table Preference and Special Occasion Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
-              <label htmlFor="reservation-table-preference" className="block text-base md:text-lg font-medium text-gray-300">Table Preference <span className="text-gray-400">(optional)</span></label>
+              <label htmlFor="reservation-table-preference" className="block text-base md:text-lg font-medium text-gray-300">Table Preference <span className="text-gray-400 ml-1">(optional)</span></label>
               <div className="relative">
                 <Table className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <select 
                   id="reservation-table-preference"
                   name="reservation-table-preference"
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.tablePreference}
                   onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
                 >
@@ -301,38 +294,41 @@ const Reservations = memo(() => {
                   <option value="Booth">Booth</option>
                   <option value="Regular">Regular Seating</option>
                 </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
             <div className="space-y-1">
-              <label htmlFor="reservation-occasion" className="block text-base md:text-lg font-medium text-gray-300">Special Occasion <span className="text-gray-400">(optional)</span></label>
+              <label htmlFor="reservation-occasion" className="block text-base md:text-lg font-medium text-gray-300">Special Occasion <span className="text-gray-400 ml-1">(optional)</span></label>
               <div className="relative">
-                <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                <Gift className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                 <select 
                   id="reservation-occasion"
                   name="reservation-occasion"
+                  className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                   value={formData.occasion}
                   onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  required
                 >
-                  {occasions.map((occasion) => (
-                    <option key={occasion} value={occasion === "Select an occasion" ? "" : occasion}>
-                      {occasion}
-                    </option>
-                  ))}
+                  <option value="">Select an occasion</option>
+                  <option value="Birthday">Birthday</option>
+                  <option value="Anniversary">Anniversary</option>
+                  <option value="Date Night">Date Night</option>
+                  <option value="Business Meeting">Business Meeting</option>
+                  <option value="Celebration">Celebration</option>
+                  <option value="Other">Other</option>
                 </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
           </div>
 
           {/* Special Requests */}
           <div className="space-y-1">
-            <label htmlFor="reservation-special-requests" className="block text-base md:text-lg font-medium text-gray-300">Special Requests</label>
+            <label htmlFor="reservation-special-requests" className="block text-base md:text-lg font-medium text-gray-300">Special Requests <span className="text-gray-400 ml-1">(optional)</span></label>
             <textarea
               id="reservation-special-requests"
               name="reservation-special-requests"
-              className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
-              rows={4}
+              className="w-full px-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+              rows={3}
               placeholder="Any special requests or requirements?"
               value={formData.specialRequests}
               onChange={(e) => setFormData({ ...formData, specialRequests: e.target.value })}

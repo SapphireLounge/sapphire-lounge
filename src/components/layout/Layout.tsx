@@ -20,7 +20,7 @@ export const Layout = memo(function Layout() {
         </div>
       </main>
       <footer role="contentinfo">
-        <Footer />
+        <Footer className="default-footer-class" />
       </footer>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Music, Users, Star, Mail, Phone, Pen } from 'lucide-react';
+import { Calendar, Music, Users, Star, Mail, Phone, Pen, ChevronDown } from 'lucide-react';
 import EventSuccess from '../components/EventSuccess';
 import { generateEventQRCode } from '../lib/qrcode';
 
@@ -192,7 +192,7 @@ function Events() {
           transition={{ delay: 0.6 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto"
         >
-          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+          <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
             <div className="flex items-center gap-3 mb-4">
               <Music className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
               <h3 className="text-lg md:text-xl font-semibold">Live Entertainment</h3>
@@ -200,7 +200,7 @@ function Events() {
             <p className="text-gray-300 text-sm md:text-base">Weekly DJ performances and live music sessions</p>
           </div>
 
-          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+          <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
             <div className="flex items-center gap-3 mb-4">
               <Users className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
               <h3 className="text-lg md:text-xl font-semibold">Private Events</h3>
@@ -208,7 +208,7 @@ function Events() {
             <p className="text-gray-300 text-sm md:text-base">Host your special occasions in our exclusive venue</p>
           </div>
 
-          <div className="p-6 md:p-8 bg-dark-500/50 backdrop-blur-sm rounded-xl border border-accent-700/20 shadow-xl">
+          <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
             <div className="flex items-center gap-3 mb-4">
               <Star className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
               <h3 className="text-lg md:text-xl font-semibold">VIP Experience</h3>
@@ -232,16 +232,17 @@ function Events() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="mb-6">
                 <label htmlFor="event-title" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
-                  Select Event *
+                  Select Event
                 </label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                   <select
                     id="event-title"
                     name="event-title"
                     value={formData.eventTitle}
                     onChange={handleEventSelect}
-                    className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none"
                     required
                   >
                     <option value="">Select an event</option>
@@ -257,7 +258,7 @@ function Events() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="event-name" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
-                    Name *
+                    Name
                   </label>
                   <div className="relative">
                     <Pen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
@@ -271,7 +272,7 @@ function Events() {
                         setFormData({ ...formData, name: newName });
                         localStorage.setItem('eventName', newName);
                       }}
-                      className="w-full pl-10 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your name"
                       required
                     />
@@ -280,7 +281,7 @@ function Events() {
 
                 <div>
                   <label htmlFor="event-email" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
-                    Email *
+                    Email
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
@@ -294,7 +295,7 @@ function Events() {
                         setFormData({ ...formData, email: newEmail });
                         localStorage.setItem('eventEmail', newEmail);
                       }}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your email"
                       required
                     />
@@ -303,7 +304,7 @@ function Events() {
 
                 <div>
                   <label htmlFor="event-phone" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
-                    Phone *
+                    Phone Number
                   </label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
@@ -317,7 +318,7 @@ function Events() {
                         setFormData({ ...formData, phone: newPhone });
                         localStorage.setItem('eventPhone', newPhone);
                       }}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your phone number"
                       required
                     />
@@ -326,10 +327,11 @@ function Events() {
 
                 <div>
                   <label htmlFor="guests" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
-                    Number of Guests *
+                    Number of Guests
                   </label>
                   <div className="relative">
                     <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                     <select
                       id="guests"
                       value={formData.guests || ''}
@@ -337,7 +339,7 @@ function Events() {
                         ...prev, 
                         guests: parseInt(e.target.value) 
                       }))}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
                       required
                       autoComplete="off"
                     >

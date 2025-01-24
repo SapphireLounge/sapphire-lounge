@@ -263,10 +263,7 @@ const Loyalty: React.FC = () => {
               transition={{ delay: index * 0.2 }}
               className={`
                 relative flex flex-col items-center
-                bg-gray-800/50 backdrop-blur-sm
-                rounded-lg shadow-xl overflow-hidden
-                pt-8 md:pt-8 pb-4 md:pb-6 px-4 md:px-6
-                border border-gray-700/50
+                bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors
               `}
             >
               {/* Tier Header */}
@@ -358,7 +355,7 @@ const Loyalty: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-accent-700/20"
+            className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
             <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
             <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">
@@ -390,7 +387,7 @@ const Loyalty: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-dark-900/50 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-accent-700/20"
+            className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
             <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
             <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">

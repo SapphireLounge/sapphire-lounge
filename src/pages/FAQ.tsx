@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { useDeviceType } from '../hooks/useDeviceType';
@@ -75,72 +75,79 @@ function FAQ() {
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-5xl mx-auto px-4"
+      >
+        <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Frequently Asked Questions
           </h1>
           <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
             Find answers to common questions about Sapphire Lounge
           </p>
-        </motion.div>
-        <div className="max-w-3xl mx-auto">
-          <div className={`space-y-${isMobile ? '3' : '6'}`}>
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: isMobile ? 0.2 : 0.5, 
-                  delay: isMobile ? index * 0.05 : index * 0.1 
-                }}
-                className={`bg-dark-900/50 backdrop-blur-sm rounded-lg border border-accent-700/20 ${
-                  isMobile ? 'p-4' : 'p-6'
-                }`}
-                onClick={() => handleQuestionClick(index)}
-              >
-                <div className="flex justify-between items-start">
-                  <h3 className={`font-semibold text-white ${
-                    isMobile ? 'text-base pr-8' : 'text-lg'
-                  }`}>
-                    {faq.question}
-                  </h3>
-                  {isMobile && (
-                    <ChevronDown 
-                      className={`w-5 h-5 text-gray-400 transform transition-transform ${
-                        expandedIndex === index ? 'rotate-180' : ''
-                      }`}
-                    />
-                  )}
-                </div>
-                
-                {/* Desktop shows answer always, Mobile shows only when expanded */}
-                <AnimatePresence>
-                  {(!isMobile || expandedIndex === index) && (
-                    <motion.p
-                      initial={isMobile ? { height: 0, opacity: 0 } : false}
-                      animate={isMobile ? { height: 'auto', opacity: 1 } : false}
-                      exit={isMobile ? { height: 0, opacity: 0 } : false}
-                      transition={{ duration: 0.2 }}
-                      className={`text-gray-300 ${
-                        isMobile ? 'text-sm mt-2' : 'mt-2'
-                      }`}
-                    >
-                      {faq.answer}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </div>
         </div>
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="max-w-5xl mx-auto">
+            <div className={`space-y-${isMobile ? '3' : '6'}`}>
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: isMobile ? 0.2 : 0.5, 
+                    delay: isMobile ? index * 0.05 : index * 0.1 
+                  }}
+                  className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 ${
+                    isMobile ? 'p-4' : 'p-6'
+                  }`}
+                  onClick={() => handleQuestionClick(index)}
+                >
+                  <div className="flex justify-between items-start">
+                    <h3 className={`font-semibold text-white ${
+                      isMobile ? 'text-base pr-8' : 'text-lg'
+                    }`}>
+                      {faq.question}
+                    </h3>
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          expandedIndex === index ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </div>
+                  
+                  {/* Desktop shows answer always, Mobile shows only when expanded */}
+                  <AnimatePresence>
+                    {(!isMobile || expandedIndex === index) && (
+                      <motion.p
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                        className={`text-gray-300 ${
+                          isMobile ? 'text-sm mt-2' : 'mt-2'
+                        }`}
+                      >
+                        {faq.answer}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

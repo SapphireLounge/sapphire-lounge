@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from 'react';import { motion } from 'framer-motion';
-import { Calendar, Star, Users, Clock } from 'lucide-react';
+import { Calendar, Star, Users, Clock, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
 import SpecialOffers from '../components/SpecialOffers';
@@ -301,16 +301,18 @@ function Home() {
                       className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                     />
                   </div>
-                  <div>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      placeholder="Your Email" 
-                      required 
-                      autoComplete="email" 
-                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                    />
+                  <div className="relative">
+                    <select id="memberType" name="memberType" defaultValue="" className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none">
+                      <option value="" disabled hidden>Member Type</option>
+                      <option>First-Time Visitor</option>
+                      <option>Regular Customer</option>
+                      <option>Silver Member</option>
+                      <option>Gold Member</option>
+                      <option>Sapphire Member</option>
+                    </select>
+                    <div className="absolute right-3 top-3 pointer-events-none">
+                      <ChevronDown className="w-4 h-4 text-gray-300" />
+                    </div>
                   </div>
                   <div>
                     <textarea 
