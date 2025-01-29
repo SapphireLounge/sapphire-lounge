@@ -222,16 +222,16 @@ function Events() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="max-w-3xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
-          <div className="space-y-6 bg-black/40 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-colors hover:bg-black/50">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <div className="space-y-4 bg-black/40 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 transition-colors hover:bg-black/50">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 md:pb-1 md:px-0.5">
               Event Registration
             </h2>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="mb-6">
-                <label htmlFor="event-title" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="mb-4">
+                <label htmlFor="event-title" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                   Select Event
                 </label>
                 <div className="relative">
@@ -242,10 +242,10 @@ function Events() {
                     name="event-title"
                     value={formData.eventTitle}
                     onChange={handleEventSelect}
-                    className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none"
+                    className={`w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none text-base md:text-lg ${!formData.eventTitle ? 'text-gray-400' : 'text-white'}`}
                     required
                   >
-                    <option value="">Select an event</option>
+                    <option value="" disabled>Select an event</option>
                     {events.map((event) => (
                       <option key={event.id} value={event.title}>
                         {event.title} - {event.date}
@@ -255,9 +255,9 @@ function Events() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="event-name" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-name" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                     Name
                   </label>
                   <div className="relative">
@@ -272,7 +272,7 @@ function Events() {
                         setFormData({ ...formData, name: newName });
                         localStorage.setItem('eventName', newName);
                       }}
-                      className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your name"
                       required
                     />
@@ -280,7 +280,7 @@ function Events() {
                 </div>
 
                 <div>
-                  <label htmlFor="event-email" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-email" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                     Email
                   </label>
                   <div className="relative">
@@ -295,7 +295,7 @@ function Events() {
                         setFormData({ ...formData, email: newEmail });
                         localStorage.setItem('eventEmail', newEmail);
                       }}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your email"
                       required
                     />
@@ -303,7 +303,7 @@ function Events() {
                 </div>
 
                 <div>
-                  <label htmlFor="event-phone" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
+                  <label htmlFor="event-phone" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                     Phone Number
                   </label>
                   <div className="relative">
@@ -318,7 +318,7 @@ function Events() {
                         setFormData({ ...formData, phone: newPhone });
                         localStorage.setItem('eventPhone', newPhone);
                       }}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
                       placeholder="Your phone number"
                       required
                     />
@@ -326,7 +326,7 @@ function Events() {
                 </div>
 
                 <div>
-                  <label htmlFor="guests" className="block text-base md:text-lg font-medium text-gray-300 mb-2">
+                  <label htmlFor="guests" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                     Number of Guests
                   </label>
                   <div className="relative">
@@ -339,11 +339,11 @@ function Events() {
                         ...prev, 
                         guests: parseInt(e.target.value) 
                       }))}
-                      className="w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg"
+                      className={`w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${!formData.guests ? 'text-gray-400' : 'text-white'}`}
                       required
                       autoComplete="off"
                     >
-                      <option value="">Select number of guests</option>
+                      <option value="" disabled>Select number of guests</option>
                       {[...Array(8)].map((_, i) => (
                         <option key={i + 1} value={i + 1}>
                           {i + 1} {i === 0 ? 'Guest' : 'Guests'}

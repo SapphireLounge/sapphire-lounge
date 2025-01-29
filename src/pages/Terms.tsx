@@ -1,111 +1,138 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import { useDeviceType } from '../hooks/useDeviceType';
 
 function Terms() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const deviceType = useDeviceType();
+  const isMobile = deviceType === 'mobile';
+
+  const terms = [
+    {
+      title: "1. Acceptance of Terms",
+      content: "By accessing and using Sapphire Lounge's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+    },
+    {
+      title: "2. Age Requirement",
+      content: "You must be at least 18 years of age to use our services. By using our services, you represent and warrant that you are at least 18 years old."
+    },
+    {
+      title: "3. Reservation Policy",
+      content: "Reservations are subject to availability. We reserve the right to cancel or modify reservations at our discretion. No-shows may result in future booking restrictions."
+    },
+    {
+      title: "4. Code of Conduct",
+      content: "Users must maintain appropriate behavior while using our services. We reserve the right to refuse service to anyone displaying disruptive or inappropriate behavior."
+    },
+    {
+      title: "5. Payment Terms",
+      content: "All prices are in local currency and include applicable taxes. Payment is required at the time of service. We accept major credit cards and cash payments."
+    },
+    {
+      title: "6. Cancellation Policy",
+      content: "Cancellations must be made at least 24 hours in advance. Late cancellations may incur charges. Special events may have different cancellation policies."
+    },
+    {
+      title: "7. Health & Safety",
+      content: "Users must comply with all health and safety guidelines. We reserve the right to modify our health protocols based on current regulations and best practices."
+    },
+    {
+      title: "8. Liability",
+      content: "Sapphire Lounge is not liable for any personal injury or property damage occurring on our premises, except where required by law."
+    },
+    {
+      title: "9. Modifications to Terms",
+      content: "We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of modified terms."
+    }
+  ];
+
+  const handleTermClick = (index: number) => {
+    if (isMobile) {
+      setExpandedIndex(expandedIndex === index ? null : index);
+    }
+  };
+
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen pt-24 pb-12 bg-[#020B18]"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-5xl mx-auto px-4"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
+        <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Terms of Service
           </h1>
           <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
-            Our terms and conditions for using Sapphire Lounge services.
+            Please read these terms carefully before using our services
           </p>
-        </motion.div>
-
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto px-4"
+          className="max-w-5xl mx-auto"
         >
-          <div className="space-y-6 text-gray-300">
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Age Requirement and Verification</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>All guests must be 18 years or older to enter the premises and use our services</li>
-                <li>Valid government-issued photo ID is required for entry</li>
-                <li>We reserve the right to refuse service to anyone who cannot provide valid identification</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Reservations and Cancellations</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Reservations are recommended but not always required</li>
-                <li>Cancellations must be made at least 24 hours in advance</li>
-                <li>No-shows may result in a cancellation fee</li>
-                <li>We reserve the right to release reserved tables after 15 minutes of delay without notice</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">House Rules and Conduct</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Casual or Smart dress code is welcomed without any enforcement</li>
-                <li>Respectful behavior towards staff and other guests is required</li>
-                <li>No outside food, drinks, or shisha products allowed</li>
-                <li>Management reserves the right to refuse service or ask guests to leave</li>
-                <li>No smoking of cigarettes or other tobacco products inside the lounge</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Payment and Pricing</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>All prices are inclusive of VAT</li>
-                <li>We accept major credit/debit cards and cash</li>
-                <li>Minimum spend requirements may apply to certain areas or during events</li>
-                <li>No service charges on any of our products or services</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Health and Safety</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Shisha smoking, like any form of smoking, carries health risks</li>
-                <li>Pregnant women and individuals with respiratory conditions should consult their doctor</li>
-                <li>We maintain strict hygiene standards for all equipment</li>
-                <li>Emergency exits and procedures are clearly marked</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Liability</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Sapphire Lounge is not liable for personal belongings</li>
-                <li>Customers are responsible for any damage to lounge property</li>
-                <li>We maintain appropriate insurance coverage for our operations</li>
-                <li>By using our services, customers accept these terms and conditions</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Changes to Terms</h2>
-              <p>
-                We reserve the right to modify these terms at any time. Changes will be posted on our website and in our
-                establishment. Continued use of our services after changes constitutes acceptance of new terms.
-              </p>
-            </section>
-
-            <p className="text-sm text-gray-400 text-center mt-8">
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
+          <div className="max-w-5xl mx-auto">
+            <div className="space-y-4 md:space-y-6">
+              {terms.map((term, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: isMobile ? 0.2 : 0.5, 
+                    delay: isMobile ? index * 0.05 : index * 0.1 
+                  }}
+                  className={`bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 ${
+                    isMobile ? 'p-4 mb-4 min-h-[90px]' : 'p-6 min-h-[90px]'
+                  }`}
+                  onClick={() => handleTermClick(index)}
+                >
+                  <div className="flex justify-between items-start">
+                    <h3 className={`font-semibold text-white ${
+                      isMobile ? 'text-lg pr-8' : 'text-xl'
+                    }`}>
+                      {term.title}
+                    </h3>
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          expandedIndex === index ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </div>
+                  
+                  <AnimatePresence>
+                    {(!isMobile || expandedIndex === index) && (
+                      <motion.p
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                        className={`text-gray-300 ${
+                          isMobile ? 'text-base mt-2' : 'text-lg mt-2'
+                        }`}
+                      >
+                        {term.content}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 

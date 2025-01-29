@@ -6,6 +6,8 @@ interface LazyImageProps {
   className?: string;
   lowQualitySrc?: string;
   blurAmount?: number;
+  priority?: boolean;
+  sizes?: string;
 }
 
 export const LazyImage: React.FC<LazyImageProps> = ({ 
@@ -13,7 +15,9 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   alt, 
   className = '', 
   lowQualitySrc,
-  blurAmount = 20
+  blurAmount = 20,
+  priority = false,
+  sizes = '100vw'
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -24,6 +28,11 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   const placeholderColor = '#1a1a1a'; // Default dark background
 
   useEffect(() => {
+    if (priority) {
+      setIsInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -42,7 +51,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [priority]);
 
   // Preload high-res image
   useEffect(() => {
@@ -51,43 +60,41 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       img.src = src;
       img.onload = () => {
         setShowHighRes(true);
-        setTimeout(() => setIsLoaded(true), 50); // Slight delay for smooth transition
+        setIsLoaded(true);
       };
     }
   }, [isInView, src]);
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      {/* Background color placeholder */}
-      <div 
-        className="absolute inset-0"
-        style={{ backgroundColor: placeholderColor }}
-      />
-
+    <div
+      ref={imgRef}
+      className={`relative overflow-hidden ${className}`}
+      style={{ backgroundColor: placeholderColor }}
+    >
       {/* Low quality placeholder */}
-      {lowQualitySrc && (
+      {lowQualitySrc && !showHighRes && (
         <img
           src={lowQualitySrc}
-          alt=""
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-            showHighRes ? 'opacity-0' : 'opacity-100'
+          alt={alt}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            isLoaded ? 'opacity-0' : 'opacity-100'
           }`}
-          style={{
-            filter: `blur(${blurAmount}px)`,
-            transform: 'scale(1.1)' // Prevent blur from showing edges
-          }}
+          style={{ filter: `blur(${blurAmount}px)` }}
+          loading="lazy"
         />
       )}
 
       {/* High quality image */}
-      {isInView && (
+      {(isInView || priority) && (
         <img
-          ref={imgRef}
           src={src}
           alt={alt}
-          className={`w-full h-full object-cover transition-all duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            showHighRes ? 'opacity-100' : 'opacity-0'
           }`}
+          loading={priority ? 'eager' : 'lazy'}
+          sizes={sizes}
+          onLoad={() => setIsLoaded(true)}
         />
       )}
     </div>

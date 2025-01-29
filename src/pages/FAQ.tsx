@@ -74,7 +74,12 @@ function FAQ() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen pt-24 pb-12 bg-[#020B18]"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -96,7 +101,7 @@ function FAQ() {
           className="max-w-5xl mx-auto"
         >
           <div className="max-w-5xl mx-auto">
-            <div className={`space-y-${isMobile ? '3' : '6'}`}>
+            <div className="space-y-4 md:space-y-6">
               {faqs.map((faq, index) => (
                 <motion.div
                   key={index}
@@ -106,14 +111,14 @@ function FAQ() {
                     duration: isMobile ? 0.2 : 0.5, 
                     delay: isMobile ? index * 0.05 : index * 0.1 
                   }}
-                  className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 ${
-                    isMobile ? 'p-4' : 'p-6'
+                  className={`bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 ${
+                    isMobile ? 'p-4 mb-4 min-h-[90px]' : 'p-6 min-h-[90px]'
                   }`}
                   onClick={() => handleQuestionClick(index)}
                 >
                   <div className="flex justify-between items-start">
                     <h3 className={`font-semibold text-white ${
-                      isMobile ? 'text-base pr-8' : 'text-lg'
+                      isMobile ? 'text-lg pr-8' : 'text-xl'
                     }`}>
                       {faq.question}
                     </h3>
@@ -135,7 +140,7 @@ function FAQ() {
                         exit={isMobile ? { height: 0, opacity: 0 } : undefined}
                         transition={{ duration: 0.2 }}
                         className={`text-gray-300 ${
-                          isMobile ? 'text-sm mt-2' : 'mt-2'
+                          isMobile ? 'text-base mt-2' : 'text-lg mt-2'
                         }`}
                       >
                         {faq.answer}
@@ -148,7 +153,7 @@ function FAQ() {
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 

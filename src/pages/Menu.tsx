@@ -106,7 +106,7 @@ export const Menu = () => {
         >
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-2">
-              <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+              <Star className={`flex-shrink-0 mt-1 w-5 h-5 ${
                 isSelected ? 'text-primary-300' : 'text-accent-400'
               }`} />
               <div>
@@ -143,7 +143,7 @@ export const Menu = () => {
       >
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-2">
-            <Star className={`flex-shrink-0 mt-1 w-3 h-3 ${
+            <Star className={`flex-shrink-0 mt-1 w-5 h-5 ${
               isSelected ? 'text-primary-300' : 'text-accent-400'
             }`} />
             <span className={`${isSelected ? 'text-primary-300' : 'text-gray-300'}`}>
@@ -435,7 +435,7 @@ export const Menu = () => {
 
         <div className="container mx-auto px-2 md:px-4">
           <OrderNotepad 
-            className="mb-8" 
+            className={`max-w-[100%] mb-8 ${isMobile ? '' : 'md:max-w-[65%]'}`} 
             items={orderItems}
             onRemoveItem={removeOrderItem}
             onClearAll={clearOrder}
@@ -460,11 +460,11 @@ export const Menu = () => {
                       <div className="flex items-center gap-3">
                         {category.icon && (
                           <div className="w-6 h-6 flex items-center justify-center">
-                            <category.icon className="text-primary-300 w-5 h-5" />
+                            <category.icon className="text-primary-300 w-6 h-6" />
                           </div>
                         )}
                         <div>
-                          <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                          <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
                             {category.title}
                           </h2>
                         </div>
@@ -520,10 +520,10 @@ export const Menu = () => {
                     <div className="flex items-center gap-3 mb-4">
                       {category.icon && (
                         <div className="w-6 h-6 flex items-center justify-center">
-                          <category.icon className="text-primary-300 w-5 h-5" />
+                          <category.icon className="text-primary-300 w-6 h-6" />
                         </div>
                       )}
-                      <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                      <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
                         {category.title}
                       </h2>
                     </div>

@@ -20,6 +20,7 @@ function Home() {
   const [blurComplete, setBlurComplete] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [buttonText, setButtonText] = useState('Submit Feedback');
+  const [memberType, setMemberType] = useState('');
   const deviceType = useDeviceType();
   const isMobile = deviceType === 'mobile';
   
@@ -104,7 +105,7 @@ function Home() {
           data-section="0"
           className={`
             relative flex items-center justify-center w-full
-            ${isMobile ? 'min-h-screen pt-16 pb-8' : 'min-h-[60vh] pt-24 pb-12'}
+            ${isMobile ? 'min-h-screen pt-16 pb-8' : 'min-h-[75vh] pt-36 pb-20'}
           `}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -139,7 +140,7 @@ function Home() {
                 <OptimizedImage 
                   src="/images/logo/Sapphire Lounge Circle Logo.png" 
                   alt="Sapphire Lounge" 
-                  className={`${isMobile ? 'w-24 h-24 mb-1' : 'w-32 h-32 mb-3'}`}
+                  className={`${isMobile ? 'w-24 h-24 mb-1' : 'w-40 h-40 mb-4'}`}
                 />
               </div>
               <h1 className={`
@@ -163,7 +164,7 @@ function Home() {
               </div>
               <div className={`
                 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4
-                ${isMobile ? 'mt-4 px-6' : 'mt-8'}
+                ${isMobile ? 'mt-4 px-6' : 'mt-12 mb-8'}
               `}>
                 <Link
                   to="/reservations"
@@ -204,19 +205,19 @@ function Home() {
         {/* Features Section */}
         <div className="w-full relative -mx-[50vw] left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-black">
           <section className="w-full bg-black py-6 sm:py-12">
-            <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="max-w-[90rem] mx-auto px-4 md:px-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
                 <motion.article
                   whileHover={{ y: -5 }}
                   className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
                   role="listitem"
                 >
-                  <div className={`p-${isMobile ? '2' : '3'} text-center`}>
+                  <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
                     <div className="flex justify-center">
-                      <Calendar className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
+                      <Calendar className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Easy Reservations</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Book your perfect spot instantly.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Easy Reservations</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Book your perfect spot instantly.</p>
                   </div>
                 </motion.article>
 
@@ -225,12 +226,12 @@ function Home() {
                   className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
                   role="listitem"
                 >
-                  <div className={`p-${isMobile ? '2' : '3'} text-center`}>
+                  <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
                     <div className="flex justify-center">
-                      <Users className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
+                      <Users className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Loyalty Scheme</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Unlock premium benefits & discounts.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Loyalty Scheme</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Unlock premium benefits & discounts.</p>
                   </div>
                 </motion.article>
 
@@ -239,12 +240,12 @@ function Home() {
                   className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
                   role="listitem"
                 >
-                  <div className={`p-${isMobile ? '2' : '3'} text-center`}>
+                  <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
                     <div className="flex justify-center">
-                      <Clock className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
+                      <Clock className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Extended Hours</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Open late for your convenience.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Extended Hours</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Open late for your convenience.</p>
                   </div>
                 </motion.article>
 
@@ -253,12 +254,12 @@ function Home() {
                   className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
                   role="listitem"
                 >
-                  <div className={`p-${isMobile ? '2' : '3'} text-center`}>
+                  <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
                     <div className="flex justify-center">
-                      <Star className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-2'}`} aria-hidden="true" />
+                      <Star className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-base'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-1`}>Menu Choice</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-xs'}`}>Premium flavours & blends.</p>
+                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Menu Choice</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Premium flavours & blends.</p>
                   </div>
                 </motion.article>
               </div>
@@ -298,20 +299,31 @@ function Home() {
                       placeholder="Your Name" 
                       required 
                       autoComplete="name" 
-                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                     />
                   </div>
+                  <style>{`
+                    select[value=""] {
+                      color: #9CA3AF;
+                    }
+                  `}</style>
                   <div className="relative">
-                    <select id="memberType" name="memberType" defaultValue="" className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none">
-                      <option value="" disabled hidden>Member Type</option>
-                      <option>First-Time Visitor</option>
-                      <option>Regular Customer</option>
-                      <option>Silver Member</option>
-                      <option>Gold Member</option>
-                      <option>Sapphire Member</option>
+                    <select 
+                      id="memberType" 
+                      name="memberType" 
+                      value={memberType}
+                      onChange={(e) => setMemberType(e.target.value)}
+                      className={`w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none ${memberType === '' ? 'text-gray-400' : 'text-white'}`}
+                    >
+                      <option value="" disabled>Member Type</option>
+                      <option value="first-time">First-Time Visitor</option>
+                      <option value="regular">Regular Customer</option>
+                      <option value="silver">Silver Member</option>
+                      <option value="gold">Gold Member</option>
+                      <option value="sapphire">Sapphire Member</option>
                     </select>
                     <div className="absolute right-3 top-3 pointer-events-none">
-                      <ChevronDown className="w-4 h-4 text-gray-300" />
+                      <ChevronDown className="h-5 w-5 text-gray-400" />
                     </div>
                   </div>
                   <div>
@@ -321,8 +333,7 @@ function Home() {
                       placeholder="Share your experience with us..." 
                       required 
                       rows={4} 
-                      autoComplete="off" 
-                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none"
+                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none"
                     />
                   </div>
                   <div className="text-center">

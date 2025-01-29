@@ -305,7 +305,7 @@ const Loyalty: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-white mt-2 md:mt-3">{tier.level}</h3>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-white mt-2 md:mt-3">{tier.level}</h3>
                   <div className="mt-1 md:mt-2 flex flex-col items-center">
                     <span className="text-xl md:text-2xl font-bold text-primary-400">£{(tier.price / 100).toFixed(2)}</span>
                     <span className="text-sm text-gray-400">per month</span>
@@ -357,8 +357,8 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
-            <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
-            <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">
+            <h3 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
+            <ul className="space-y-2 md:space-y-2 text-sm md:text-base text-gray-300">
               <li className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
                 <span>All memberships are billed monthly and can be cancelled at any time</span>
@@ -389,8 +389,8 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.6 }}
             className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
-            <h3 className="text-xl md:text-xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
-            <ul className="space-y-2 md:space-y-2 text-sm md:text-sm text-gray-300">
+            <h3 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
+            <ul className="space-y-2 md:space-y-2 text-sm md:text-base text-gray-300">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
                 <span>Call us at 01792 555888</span>

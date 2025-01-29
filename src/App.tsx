@@ -6,9 +6,9 @@ import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
 import { Suspense, lazy, memo } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
-import { LazyMotion, domAnimation, AnimatePresence } from 'framer-motion';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
-// Lazy load routes with preload hints
+// Lazy load routes
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Reservations = lazy(() => import('./pages/Reservations'));
@@ -131,62 +131,90 @@ const router = createBrowserRouter([
             <VIPServices />
           </Suspense>
         )
-      },
-      {
-        path: "*",
-        element: (
-          <Suspense fallback={<LoadingSpinner />}>
-            <NotFound />
-          </Suspense>
-        )
       }
     ]
   }
-], {
-  future: {
-    v7_normalizeFormMethod: true
-  }
-});
+]);
 
-// Preload hints for routes
-const preloadRoutes = () => {
-  // Only preload routes after initial render
-  setTimeout(() => {
+// Preload critical routes
+function preloadRoutes() {
+  // Preload critical routes using dynamic imports
+  const preloadCriticalRoutes = () => {
     import('./pages/Home');
-    import('./pages/About');
     import('./pages/Menu');
-    import('./pages/Contact');
-  }, 2000); // Wait for 2 seconds after initial render
-};
+    import('./pages/Reservations');
+  };
+
+  // Preload other routes after initial load
+  const preloadOtherRoutes = () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        import('./pages/About');
+        import('./pages/Events');
+        import('./pages/Contact');
+        import('./pages/FAQ');
+      });
+    } else {
+      setTimeout(() => {
+        import('./pages/About');
+        import('./pages/Events');
+        import('./pages/Contact');
+        import('./pages/FAQ');
+      }, 2000);
+    }
+  };
+
+  // Execute preloading strategy
+  if (typeof window !== 'undefined') {
+    // Preload critical routes immediately
+    preloadCriticalRoutes();
+
+    // Preload other routes after page load
+    window.addEventListener('load', () => {
+      preloadOtherRoutes();
+    });
+  }
+}
 
 function App() {
   useEffect(() => {
+    // Register service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(error => {
-          console.log('Service worker registration failed:', error);
-        });
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
       });
     }
-    // Preload important routes after initial render
+
+    // Preload routes
     preloadRoutes();
+
+    // Optimize performance with connection-aware loading
+    if ('connection' in navigator) {
+      const connection = (navigator as any).connection;
+      if (connection.saveData) {
+        // Disable preloading if save-data is enabled
+        return;
+      }
+      if (connection.effectiveType === '4g') {
+        // Aggressive preloading for fast connections
+        import('./pages/About');
+        import('./pages/Events');
+        import('./pages/Contact');
+      }
+    }
   }, []);
 
   return (
-    <LazyMotion features={domAnimation}>
+    <ErrorBoundary>
       <HelmetProvider>
-        <ErrorBoundary>
-          <div className="min-h-screen bg-dark-950 text-white">
+        <A11yProvider>
+          <LazyMotion features={domAnimation}>
             <JsonLd type="Restaurant" data={restaurantJsonLd} />
-            <A11yProvider>
-              <AnimatePresence mode="wait">
-                <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
-              </AnimatePresence>
-            </A11yProvider>
-          </div>
-        </ErrorBoundary>
+            <RouterProvider router={router} />
+          </LazyMotion>
+        </A11yProvider>
       </HelmetProvider>
-    </LazyMotion>
+    </ErrorBoundary>
   );
 }
 

@@ -54,19 +54,19 @@ function Testimonials() {
       <div className={`container mx-auto ${isMobile ? 'px-4' : 'px-8'}`}>
         <div className="text-center mb-8">
           <h2 className={`font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1 ${
-            isMobile ? 'text-2xl' : 'text-3xl'
+            isMobile ? 'text-2xl' : 'text-4xl'
           }`}>
             What Our Guests Say
           </h2>
           <p className={`text-gray-300 max-w-2xl mx-auto ${
-            isMobile ? 'text-sm' : 'text-base'
+            isMobile ? 'text-sm' : 'text-lg'
           }`}>
             Hear from our valued customers about their experience at Sapphire Lounge
           </p>
         </div>
 
-        <div className={`max-w-4xl mx-auto relative ${
-          isMobile ? 'h-[200px]' : 'h-[240px]'
+        <div className={`max-w-5xl mx-auto relative ${
+          isMobile ? 'h-[200px]' : 'h-[280px]'
         }`}>
           <AnimatePresence mode="wait">
             <motion.div
@@ -81,20 +81,20 @@ function Testimonials() {
               className="absolute w-full"
             >
               <div className={`bg-[#0A0A0C] rounded-lg border border-[#1A1A1C] text-center relative shadow-xl ${
-                isMobile ? 'p-4' : 'p-5'
+                isMobile ? 'p-4' : 'p-8'
               }`}>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <div className={`bg-gradient-to-r from-primary-500 to-accent-500 rounded-full ${
-                    isMobile ? 'p-1.5' : 'p-2'
+                    isMobile ? 'p-1.5' : 'p-2.5'
                   }`}>
                     <Quote className={`text-white ${
-                      isMobile ? 'w-3 h-3' : 'w-4 h-4'
+                      isMobile ? 'w-3 h-3' : 'w-5 h-5'
                     }`} />
                   </div>
                 </div>
                 
-                <p className={`text-gray-300/90 mb-3 mt-2 italic ${
-                  isMobile ? 'text-base' : 'text-lg'
+                <p className={`text-gray-300/90 mb-4 mt-3 italic ${
+                  isMobile ? 'text-base' : 'text-xl leading-relaxed'
                 }`}>  
                   "{testimonials[currentIndex].text}"  
                 </p>

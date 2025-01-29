@@ -65,16 +65,16 @@ const VIPServices: React.FC = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50"
+      className="bg-black/40 backdrop-blur-sm rounded-xl p-6 md:p-5 border border-white/10 transition-colors hover:bg-black/50"
     >
-      <div className="flex items-center mb-4 md:mb-6">
+      <div className="flex items-center mb-4 md:mb-4">
         <div className="md:scale-125">
           {pkg.icon}
         </div>
         <h3 className="text-xl md:text-2xl font-semibold ml-3 md:ml-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">{pkg.title}</h3>
       </div>
-      <p className="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">{pkg.description}</p>
-      <ul className="space-y-2 md:space-y-3">
+      <p className="text-gray-400 mb-4 text-sm md:text-base">{pkg.description}</p>
+      <ul className="space-y-2">
         {pkg.features.map((feature, index) => (
           <li key={index} className="flex items-center text-gray-300 text-sm md:text-base">
             <Star className="w-4 h-4 md:w-5 md:h-5 text-primary-400 mr-2 md:mr-3 flex-shrink-0" />
@@ -87,7 +87,7 @@ const VIPServices: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+      <div className="container mx-auto px-1 md:px-6 max-w-[98%] md:max-w-[85rem]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -103,13 +103,13 @@ const VIPServices: React.FC = () => {
         </motion.div>
 
         {/* VIP Packages */}
-        <div className="mb-4 md:mb-6 h-full p-2 max-w-[90%] mx-auto">
-          <div className="text-center mb-4 md:mb-6 px-4 md:px-0">
+        <div className="mb-4 md:mb-6 h-full p-0.5 max-w-full md:max-w-[92%] mx-auto">
+          <div className="text-center mb-4 md:mb-5 px-1 md:px-0">
             <h2 className="inline-block text-2xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1 mb-4 mt-2">
               VIP Packages
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {vipPackages.map((pkg, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -124,13 +124,13 @@ const VIPServices: React.FC = () => {
         </div>
 
         {/* Special Occasions */}
-        <div className="mb-4 md:mb-6 h-full p-2 max-w-[90%] mx-auto">
-          <div className="text-center mb-4 md:mb-6 px-4 md:px-0">
-            <h2 className="inline-block text-2xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1 mb-4">
+        <div className="mb-4 md:mb-6 h-full p-0.5 max-w-full md:max-w-[92%] mx-auto">
+          <div className="text-center mb-4 md:mb-5 px-1 md:px-0">
+            <h2 className="inline-block text-2xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1 mb-4 md:mt-4">
               Special Occasions
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {specialOccasions.map((pkg, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -148,7 +148,7 @@ const VIPServices: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 mx-auto mt-2 md:mt-4 max-w-[90%] md:max-w-xl"
+          className="text-center bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 mx-auto mt-2 md:mt-4 max-w-[98%] md:max-w-2xl"
         >
           <h3 className="text-xl md:text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2 md:mb-4">
             Ready to elevate your experience?
@@ -158,7 +158,7 @@ const VIPServices: React.FC = () => {
           </p>
           <Link
             to="/contact"
-            className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-2 px-6 md:py-3 md:px-10 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm md:text-lg"
+            className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-2 px-8 md:py-3 md:px-12 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm md:text-lg"
           >
             Get in Touch
           </Link>

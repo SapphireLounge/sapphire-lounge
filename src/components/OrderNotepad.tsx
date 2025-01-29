@@ -52,11 +52,11 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
   };
 
   return (
-    <div className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 ${className}`}>
+    <div className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 max-w-[${isMobile ? '100%' : '90%'}] mx-auto ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <ClipboardList className="text-primary-300 w-4 h-4" />
-          <h2 className={`${isMobile ? 'text-base' : 'text-xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
+          <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
             Order Notepad
           </h2>
         </div>

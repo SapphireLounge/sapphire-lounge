@@ -1,114 +1,138 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import { useDeviceType } from '../hooks/useDeviceType';
 
 function Privacy() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const deviceType = useDeviceType();
+  const isMobile = deviceType === 'mobile';
+
+  const privacyPolicies = [
+    {
+      title: "1. Information We Collect",
+      content: "We collect personal information such as name, contact details, and payment information when you make reservations or use our services. We also collect usage data to improve our services."
+    },
+    {
+      title: "2. How We Use Your Information",
+      content: "Your information is used to process reservations, provide services, send updates about bookings, and improve our customer experience. We may also use it for marketing purposes with your consent."
+    },
+    {
+      title: "3. Data Protection",
+      content: "We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or disclosure. Your data is stored securely and accessed only by authorized personnel."
+    },
+    {
+      title: "4. Cookies and Tracking",
+      content: "Our website uses cookies to enhance your browsing experience. These help us analyze website traffic and customize content based on your preferences."
+    },
+    {
+      title: "5. Third-Party Services",
+      content: "We may use third-party services for payment processing and analytics. These providers have their own privacy policies and data handling practices."
+    },
+    {
+      title: "6. Marketing Communications",
+      content: "With your consent, we may send you marketing communications about our services and special offers. You can opt out of these communications at any time."
+    },
+    {
+      title: "7. Your Rights",
+      content: "You have the right to access, correct, or delete your personal information. You can also request a copy of your data or withdraw consent for its use."
+    },
+    {
+      title: "8. Data Retention",
+      content: "We retain your personal information only for as long as necessary to provide our services and comply with legal obligations."
+    },
+    {
+      title: "9. Updates to Privacy Policy",
+      content: "We may update this privacy policy periodically. We will notify you of any significant changes through our website or email."
+    }
+  ];
+
+  const handlePolicyClick = (index: number) => {
+    if (isMobile) {
+      setExpandedIndex(expandedIndex === index ? null : index);
+    }
+  };
+
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen pt-24 pb-12 bg-[#020B18]"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-5xl mx-auto px-4"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
+        <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Privacy Policy
           </h1>
           <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
-            Learn about how we protect and handle your information.
+            How we collect, use, and protect your information
           </p>
-        </motion.div>
-
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto px-4"
+          className="max-w-5xl mx-auto"
         >
-          <div className="space-y-6 text-gray-300">
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Information We Collect</h2>
-              <p className="mb-3">When you visit Sapphire Lounge or use our services, we may collect:</p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Personal identification information (name, phone number, email address)</li>
-                <li>Contact information for reservations and membership</li>
-                <li>Payment information for transactions</li>
-                <li>Preferences and feedback about our services</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">How We Use Your Information</h2>
-              <p className="mb-3">We use the collected information to:</p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Process and confirm your reservations</li>
-                <li>Verify your age and identity as required by law</li>
-                <li>Send you promotional offers and updates (with your consent)</li>
-                <li>Improve our services and customer experience</li>
-                <li>Comply with legal obligations</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Data Security</h2>
-              <p className="mb-3">
-                We implement appropriate security measures to protect your personal information from unauthorized access,
-                alteration, disclosure, or destruction. This includes:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Secure storage of personal data</li>
-                <li>Encrypted payment processing</li>
-                <li>Regular security assessments</li>
-                <li>Staff training on data protection</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Marketing Communications</h2>
-              <p className="mb-3">
-                With your permission, we may send you marketing communications about our services, events, and special offers.
-                You can opt out of these communications at any time through:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Unsubscribe links in our emails</li>
-                <li>Contacting our customer service</li>
-                <li>Updating your preferences in your account settings</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Your Rights</h2>
-              <p className="mb-3">You have the right to:</p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Access your personal data</li>
-                <li>Correct inaccurate information</li>
-                <li>Request deletion of your data</li>
-                <li>Withdraw consent for marketing communications</li>
-                <li>Request a copy of your data</li>
-              </ul>
-            </section>
-
-            <section className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
-              <h2 className="text-xl font-semibold text-white mb-4">Contact Us</h2>
-              <p>
-                If you have any questions about this Privacy Policy or how we handle your information, please contact us at:
-              </p>
-              <p className="mt-2">Email: info@sapphirelounge.com</p>
-              <p>Phone: [Your Phone Number]</p>
-            </section>
-
-            <p className="text-sm text-gray-400 text-center mt-8">
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
+          <div className="max-w-5xl mx-auto">
+            <div className="space-y-4 md:space-y-6">
+              {privacyPolicies.map((policy, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: isMobile ? 0.2 : 0.5, 
+                    delay: isMobile ? index * 0.05 : index * 0.1 
+                  }}
+                  className={`bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 ${
+                    isMobile ? 'p-4 mb-4 min-h-[90px]' : 'p-6 min-h-[90px]'
+                  }`}
+                  onClick={() => handlePolicyClick(index)}
+                >
+                  <div className="flex justify-between items-start">
+                    <h3 className={`font-semibold text-white ${
+                      isMobile ? 'text-lg pr-8' : 'text-xl'
+                    }`}>
+                      {policy.title}
+                    </h3>
+                    {isMobile && (
+                      <ChevronDown 
+                        className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                          expandedIndex === index ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </div>
+                  
+                  <AnimatePresence>
+                    {(!isMobile || expandedIndex === index) && (
+                      <motion.p
+                        initial={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
+                        exit={isMobile ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.2 }}
+                        className={`text-gray-300 ${
+                          isMobile ? 'text-base mt-2' : 'text-lg mt-2'
+                        }`}
+                      >
+                        {policy.content}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
