@@ -442,119 +442,128 @@ export const Menu = () => {
             onUpdateQuantity={updateOrderQuantity}
           />
 
-          <div className={`${isMobile ? 'space-y-2' : 'space-y-4'}`}>
-            {categories.map((category) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 overflow-hidden"
-              >
-                {isMobile ? (
-                  <>
-                    <button
-                      onClick={() => toggleCategory(category.title)}
-                      className="w-full px-4 py-4 flex items-center justify-between text-left"
-                    >
-                      <div className="flex items-center gap-3">
+          <div className={`px-4 ${isMobile ? 'pb-0' : 'pb-8'}`}>
+            <div className="space-y-2">
+              {categories.map((category) => (
+                <motion.div
+                  key={category.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 overflow-hidden"
+                >
+                  {isMobile ? (
+                    <>
+                      <button
+                        onClick={() => toggleCategory(category.title)}
+                        className="w-full px-4 py-4 flex items-center justify-between text-left"
+                      >
+                        <div className="flex items-center gap-3">
+                          {category.icon && (
+                            <div className="w-6 h-6 flex items-center justify-center">
+                              <category.icon className="text-primary-300 w-6 h-6" />
+                            </div>
+                          )}
+                          <div>
+                            <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
+                              {category.title}
+                            </h2>
+                          </div>
+                        </div>
+                        <div className="w-6 h-6 flex items-center justify-center">
+                          <ChevronDown
+                            className={`text-primary-300 w-5 h-5 transition-transform duration-300 ${
+                              expandedCategory === category.title ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </div>
+                      </button>
+
+                      <AnimatePresence>
+                        {expandedCategory === category.title && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-4 pb-6">
+                              {category.subtitle && (
+                                <div className="mb-4 text-gray-400 text-sm">
+                                  <span className="text-accent-400">- </span>
+                                  {category.subtitle}
+                                </div>
+                              )}
+                              <div className="grid gap-3">
+                                {'basePrice' in category
+                                  ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                                  : category.items.map((item) => renderMenuItem(item))}
+                              </div>
+
+                              {'extras' in category && category.extras && (
+                                <div className="mt-6">
+                                  <h3 className="text-lg font-medium text-primary-300 mb-3">
+                                    Extras
+                                  </h3>
+                                  <div className="grid gap-3">
+                                    {category.extras.map((extra) => renderMenuItem(extra))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <div className="p-6">
+                      <div className="flex items-center gap-3 mb-4">
                         {category.icon && (
                           <div className="w-6 h-6 flex items-center justify-center">
                             <category.icon className="text-primary-300 w-6 h-6" />
                           </div>
                         )}
-                        <div>
-                          <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
-                            {category.title}
-                          </h2>
+                        <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
+                          {category.title}
+                        </h2>
+                      </div>
+
+                      {category.subtitle && (
+                        <div className="text-gray-400 text-lg mb-4">
+                          <span className="text-accent-400">- </span>
+                          {category.subtitle}
                         </div>
-                      </div>
-                      <div className="w-6 h-6 flex items-center justify-center">
-                        <ChevronDown
-                          className={`text-primary-300 w-5 h-5 transition-transform duration-300 ${
-                            expandedCategory === category.title ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </div>
-                    </button>
+                      )}
 
-                    <AnimatePresence>
-                      {expandedCategory === category.title && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-4 pb-6">
-                            {category.subtitle && (
-                              <div className="mb-4 text-gray-400 text-sm">
-                                <span className="text-accent-400">- </span>
-                                {category.subtitle}
-                              </div>
-                            )}
-                            <div className="grid gap-3">
-                              {'basePrice' in category
-                                ? category.items.map((item) => renderMenuItem(item, category.basePrice))
-                                : category.items.map((item) => renderMenuItem(item))}
-                            </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {'basePrice' in category
+                          ? category.items.map((item) => renderMenuItem(item, category.basePrice))
+                          : category.items.map((item) => renderMenuItem(item))}
+                      </div>
 
-                            {'extras' in category && category.extras && (
-                              <div className="mt-6">
-                                <h3 className="text-lg font-medium text-primary-300 mb-3">
-                                  Extras
-                                </h3>
-                                <div className="grid gap-3">
-                                  {category.extras.map((extra) => renderMenuItem(extra))}
-                                </div>
-                              </div>
-                            )}
+                      {'extras' in category && category.extras && (
+                        <div className="mt-6">
+                          <h3 className="text-lg font-medium text-primary-300 mb-2">
+                            Extras
+                          </h3>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {category.extras.map((extra) => renderMenuItem(extra))}
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                ) : (
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      {category.icon && (
-                        <div className="w-6 h-6 flex items-center justify-center">
-                          <category.icon className="text-primary-300 w-6 h-6" />
                         </div>
                       )}
-                      <h2 className={`${isMobile ? 'text-lg' : 'text-2xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
-                        {category.title}
-                      </h2>
                     </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
 
-                    {category.subtitle && (
-                      <div className="text-gray-400 text-lg mb-4">
-                        <span className="text-accent-400">- </span>
-                        {category.subtitle}
-                      </div>
-                    )}
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {'basePrice' in category
-                        ? category.items.map((item) => renderMenuItem(item, category.basePrice))
-                        : category.items.map((item) => renderMenuItem(item))}
-                    </div>
-
-                    {'extras' in category && category.extras && (
-                      <div className="mt-6">
-                        <h3 className="text-lg font-medium text-primary-300 mb-2">
-                          Extras
-                        </h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                          {category.extras.map((extra) => renderMenuItem(extra))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </motion.div>
-            ))}
+            <div className={`text-center ${isMobile ? 'mt-8 text-sm' : 'mt-12 text-lg'}`}>
+              <p className="text-gray-400">
+                * Please inform our staff of any allergies or dietary requirements before ordering. 
+                Full allergen information is available upon request.
+              </p>
+            </div>
           </div>
         </div>
       </div>

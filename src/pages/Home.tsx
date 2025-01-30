@@ -1,4 +1,5 @@
-import { Suspense, useEffect, useState } from 'react';import { motion } from 'framer-motion';
+import { Suspense, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Calendar, Star, Users, Clock, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
@@ -19,8 +20,6 @@ function Home() {
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
   const [blurComplete, setBlurComplete] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
-  const [buttonText, setButtonText] = useState('Submit Feedback');
-  const [memberType, setMemberType] = useState('');
   const deviceType = useDeviceType();
   const isMobile = deviceType === 'mobile';
   
@@ -80,16 +79,6 @@ function Home() {
       document.head.removeChild(link);
     };
   }, [heroImageUrl, mobileHeroImageUrl, blurImageUrl, deviceType]);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    // Change button text after a delay
-    setTimeout(() => {
-        setButtonText('Feedback Submitted!');
-        form.reset();
-    }, 500);
-  };
 
   return (
     <>
@@ -216,8 +205,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Calendar className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Easy Reservations</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Book your perfect spot instantly.</p>
+                    <h3 className={`${isMobile ? 'text-lg' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Easy Reservations</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-base' : 'text-base'}`}>Book your perfect spot instantly.</p>
                   </div>
                 </motion.article>
 
@@ -230,8 +219,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Users className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Loyalty Scheme</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Unlock premium benefits & discounts.</p>
+                    <h3 className={`${isMobile ? 'text-lg' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Loyalty Scheme</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-base' : 'text-base'}`}>Unlock premium benefits & discounts.</p>
                   </div>
                 </motion.article>
 
@@ -244,8 +233,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Clock className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Extended Hours</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Open late for your convenience.</p>
+                    <h3 className={`${isMobile ? 'text-lg' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Extended Hours</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-base' : 'text-base'}`}>Open late for your convenience.</p>
                   </div>
                 </motion.article>
 
@@ -258,8 +247,8 @@ function Home() {
                     <div className="flex justify-center">
                       <Star className={`${isMobile ? 'w-6 h-6' : 'w-8 h-8'} text-primary-300 ${isMobile ? 'mb-1' : 'mb-3'}`} aria-hidden="true" />
                     </div>
-                    <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Menu Choice</h3>
-                    <p className={`text-gray-200 ${isMobile ? 'text-sm' : 'text-base'}`}>Premium flavours & blends.</p>
+                    <h3 className={`${isMobile ? 'text-lg' : 'text-lg'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2`}>Menu Choice</h3>
+                    <p className={`text-gray-200 ${isMobile ? 'text-base' : 'text-base'}`}>Premium flavours & blends.</p>
                   </div>
                 </motion.article>
               </div>
@@ -269,86 +258,6 @@ function Home() {
 
         {/* Testimonials Section */}
         <Testimonials />
-
-        {/* Feedback Form */}
-        <section className="py-8 bg-[#090909]">
-          <div className={`container mx-auto ${isMobile ? 'px-4' : 'px-8'}`}>
-            <div className="text-center mb-8">
-              <h2 className={`font-bold mb-1.5 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1 ${
-                isMobile ? 'text-2xl' : 'text-3xl'
-              }`}>
-                Share Your Experience
-              </h2>
-              <p className={`text-gray-300 max-w-2xl mx-auto ${
-                isMobile ? 'text-sm' : 'text-base'
-              }`}>
-                We value your feedback and would love to hear about your time at Sapphire Lounge
-              </p>
-            </div>
-
-            <div className="max-w-3xl mx-auto">
-              <div className={`bg-[#0A0A0C] rounded-lg border border-[#1A1A1C] relative shadow-xl ${
-                isMobile ? 'p-4' : 'p-6'
-              }`}>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <input 
-                      type="text" 
-                      id="username" 
-                      name="username" 
-                      placeholder="Your Name" 
-                      required 
-                      autoComplete="name" 
-                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                    />
-                  </div>
-                  <style>{`
-                    select[value=""] {
-                      color: #9CA3AF;
-                    }
-                  `}</style>
-                  <div className="relative">
-                    <select 
-                      id="memberType" 
-                      name="memberType" 
-                      value={memberType}
-                      onChange={(e) => setMemberType(e.target.value)}
-                      className={`w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none ${memberType === '' ? 'text-gray-400' : 'text-white'}`}
-                    >
-                      <option value="" disabled>Member Type</option>
-                      <option value="first-time">First-Time Visitor</option>
-                      <option value="regular">Regular Customer</option>
-                      <option value="silver">Silver Member</option>
-                      <option value="gold">Gold Member</option>
-                      <option value="sapphire">Sapphire Member</option>
-                    </select>
-                    <div className="absolute right-3 top-3 pointer-events-none">
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
-                    </div>
-                  </div>
-                  <div>
-                    <textarea 
-                      id="experience" 
-                      name="experience" 
-                      placeholder="Share your experience with us..." 
-                      required 
-                      rows={4} 
-                      className="w-full bg-[#121214] border border-[#1A1A1C] rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none"
-                    />
-                  </div>
-                  <div className="text-center">
-                    <button 
-                      type="submit" 
-                      className={`w-full rounded-lg bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:from-primary-600 hover:to-accent-600 min-w-[200px] text-center px-10 py-4`}
-                    >
-                      {buttonText}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Featured Events */}
         <ErrorBoundary>
