@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Star, Users, Clock, ChevronDown } from 'lucide-react';
+import { Calendar, Star, Users, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FeaturedEvents from '../components/FeaturedEvents';
 import SpecialOffers from '../components/SpecialOffers';
@@ -260,7 +260,7 @@ function Home() {
         <Testimonials />
 
         {/* Featured Events */}
-        <ErrorBoundary>
+        <ErrorBoundary fallback={<div className="text-center p-4">Something went wrong loading the events. Please try again later.</div>}>
           <Suspense fallback={<LoadingSpinner size="lg" color="accent" />}>
             <FeaturedEvents 
               titleClassName="text-2xl md:text-3xlfont-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
@@ -270,7 +270,7 @@ function Home() {
         </ErrorBoundary>
 
         {/* Special Offers */}
-        <ErrorBoundary>
+        <ErrorBoundary fallback={<div className="text-center p-4">Something went wrong loading the offers. Please try again later.</div>}>
           <Suspense fallback={<LoadingSpinner size="lg" color="accent" />}>
             <SpecialOffers />
           </Suspense>

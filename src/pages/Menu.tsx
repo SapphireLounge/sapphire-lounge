@@ -443,7 +443,7 @@ export const Menu = () => {
           />
 
           <div className={`px-4 ${isMobile ? 'pb-0' : 'pb-8'}`}>
-            <div className="space-y-2">
+            <div className="space-y-2 md:space-y-6">
               {categories.map((category) => (
                 <motion.div
                   key={category.title}

@@ -1,8 +1,18 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, lazy, Suspense, useEffect } from 'react';
 import { Calendar, Music, Users, Star, Mail, Phone, Pen, ChevronDown } from 'lucide-react';
-import EventSuccess from '../components/EventSuccess';
 import { generateEventQRCode } from '../lib/qrcode';
+import { motion } from 'framer-motion';
+
+// Preload EventSuccess component
+const EventSuccess = lazy(() => import('../components/EventSuccess'));
+// Preload the component in a hidden Suspense boundary
+const PreloadedEventSuccess = () => (
+  <div style={{ display: 'none' }}>
+    <Suspense fallback={null}>
+      <EventSuccess isOpen={false} onClose={() => {}} eventData={undefined} />
+    </Suspense>
+  </div>
+);
 
 interface EventData {
   eventId: number;
@@ -28,6 +38,29 @@ interface EventFormData {
 }
 
 function Events() {
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [formData, setFormData] = useState<EventFormData>({
+    name: localStorage.getItem('eventName') || '',
+    email: localStorage.getItem('eventEmail') || '',
+    phone: localStorage.getItem('eventPhone') || '',
+    guests: 0,
+    eventTitle: '',
+    date: '',
+    time: ''
+  });
+  const [validationError, setValidationError] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [eventData, setEventData] = useState<EventData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
   const events = [
     {
       id: 1,
@@ -54,36 +87,6 @@ function Events() {
       description: "Special discounts and offers for students. Valid student ID required."
     }
   ];
-
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [formData, setFormData] = useState<EventFormData>({
-    name: localStorage.getItem('eventName') || '',
-    email: localStorage.getItem('eventEmail') || '',
-    phone: localStorage.getItem('eventPhone') || '',
-    guests: 0,
-    eventTitle: '',
-    date: '',
-    time: '',
-  });
-  const [validationError, setValidationError] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [eventData, setEventData] = useState<EventData | null>(null);
-
-  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedEventTitle = e.target.value;
-    const selectedEvent = events.find(event => event.title === selectedEventTitle);
-    
-    if (selectedEvent) {
-      setFormData(prev => ({
-        ...prev,
-        eventId: selectedEvent.id,
-        eventTitle: selectedEvent.title,
-        date: selectedEvent.date,
-        time: selectedEvent.time,
-        guests: prev.guests || 0
-      }));
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,43 +136,63 @@ function Events() {
     }
   };
 
+  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedEventTitle = e.target.value;
+    const selectedEvent = events.find(event => event.title === selectedEventTitle);
+    
+    if (selectedEvent) {
+      setFormData(prev => ({
+        ...prev,
+        eventId: selectedEvent.id,
+        eventTitle: selectedEvent.title,
+        date: selectedEvent.date,
+        time: selectedEvent.time,
+        guests: prev.guests || 0
+      }));
+    }
+  };
+
   return (
-    <div className="min-h-screen pt-24 pb-8 bg-[#020B18]">
+    <motion.main
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        type: 'spring',
+        stiffness: 100,
+        damping: 20,
+        mass: 0.5
+      }}
+      className="min-h-screen pt-24 pb-8 bg-[#020B18]"
+    >
       <div className="container mx-auto px-2 md:px-6 max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          transition={{ delay: 0.2 }}
+          className="text-center"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Upcoming Events
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
-            Join us for special events and unforgettable experiences. Contact us directly to register for events.
-          </p>
-          <p className="text-gray-400 text-sm md:text-lg mt-2 max-w-3xl mx-auto">
-            Call us at <a href="tel:01792555888" className="text-primary-300 hover:text-primary-400 transition-colors">01792 555888</a> or email <a href="mailto:info@sapphirelounge.com" className="text-primary-300 hover:text-primary-400 transition-colors">info@sapphirelounge.com</a>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            Join us for an unforgettable evening of entertainment and luxury
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto">
-          {events.map((event, index) => (
-            <motion.article
-              key={event.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              whileHover={{ y: -10 }}
-              className="bg-dark-500/50 backdrop-blur-sm rounded-xl overflow-hidden border border-accent-700/20 shadow-xl"
-            >
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          {events.map(event => (
+            <div key={event.id} className="bg-dark-500/50 backdrop-blur-sm rounded-xl overflow-hidden border border-accent-700/20 shadow-xl hover:translate-y-[-10px] transition-transform duration-300">
               <div className="relative h-56 md:h-80 overflow-hidden">
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.4 }}
+                <img
+                  className="w-full h-full object-cover transition-transform duration-400 hover:scale-105"
                   src={event.image}
                   alt={`${event.title} at Sapphire Lounge`}
-                  className="w-full h-full object-cover"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pb-2 md:pb-4">
@@ -181,17 +204,11 @@ function Events() {
                   </div>
                 </div>
               </div>
-            </motion.article>
+            </div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Feature Containers */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-10 max-w-[98%] md:max-w-[100%] mx-auto">
           <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50">
             <div className="flex items-center gap-3 mb-4">
               <Music className="w-6 h-6 md:w-10 md:h-10 text-primary-300" />
@@ -215,21 +232,15 @@ function Events() {
             </div>
             <p className="text-gray-300 text-sm md:text-base">Exclusive packages for a premium experience</p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Event Registration Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="max-w-4xl mx-auto"
-        >
+        <div className="max-w-4xl mx-auto">
           <div className="space-y-4 bg-black/40 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 transition-colors hover:bg-black/50">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 md:pb-1 md:px-0.5">
               Event Registration
             </h2>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="mb-4">
                 <label htmlFor="event-title" className="block text-base md:text-lg font-medium text-gray-300 mb-1.5">
                   Select Event
@@ -246,7 +257,7 @@ function Events() {
                     required
                   >
                     <option value="" disabled>Select an event</option>
-                    {events.map((event) => (
+                    {events.map(event => (
                       <option key={event.id} value={event.title}>
                         {event.title} - {event.date}
                       </option>
@@ -355,7 +366,7 @@ function Events() {
               </div>
 
               {validationError && (
-                <div className="text-red-400 text-sm mt-2 bg-red-900/20 p-3 rounded-lg">
+                <div className="p-3 rounded-lg bg-red-900/50 border border-red-500/50 text-red-200 text-sm">
                   {validationError}
                 </div>
               )}
@@ -385,28 +396,33 @@ function Events() {
               </div>
             </form>
           </div>
-        </motion.div>
+        </div>
 
         {isSuccessModalOpen && (
-          <EventSuccess
-            isOpen={isSuccessModalOpen}
-            onClose={() => {
-              setIsSuccessModalOpen(false);
-              setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                guests: 1,
-                eventTitle: '',
-                date: '',
-                time: '',
-              });
-            }}
-            eventData={eventData || undefined}
-          />
+          <Suspense fallback={<div className="fixed inset-0 flex items-center justify-center bg-black/50">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>}>
+            <EventSuccess
+              isOpen={isSuccessModalOpen}
+              onClose={() => {
+                setIsSuccessModalOpen(false);
+                setFormData({
+                  name: '',
+                  email: '',
+                  phone: '',
+                  guests: 1,
+                  eventTitle: '',
+                  date: '',
+                  time: '',
+                });
+              }}
+              eventData={eventData || undefined}
+            />
+          </Suspense>
         )}
+        <PreloadedEventSuccess />
       </div>
-    </div>
+    </motion.main>
   );
 }
 
