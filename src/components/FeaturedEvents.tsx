@@ -12,21 +12,21 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
     {
       id: 1,
       title: "Flavour Tasting Night",
-      date: "January 15, 2025",
+      date: "February 15, 2025",
       image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
       description: "Join us for an exclusive tasting of our newest premium flavours."
     },
     {
       id: 2,
       title: "DJ Night",
-      date: "January 20, 2025",
+      date: "February 20, 2025",
       image: "/images/events/DJ Night.jpg",
       description: "Experience the perfect blend of music and atmosphere with our resident DJ."
     },
     {
       id: 3,
       title: "Student Night",
-      date: "January 25, 2025",
+      date: "February 25, 2025",
       image: "/images/events/Student Night.avif",
       description: "Special discounts and offers for students. Valid student ID required."
     }
@@ -57,7 +57,7 @@ function FeaturedEvents({ titleClassName, buttonClassName }: FeaturedEventsProps
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-dark-500/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 pb-2">
                   <h3 className="text-xl font-bold text-white mb-1">{event.title}</h3>
                   <p className="text-gray-200 text-sm">{event.description}</p>

@@ -118,7 +118,7 @@ function Terms() {
                         animate={isMobile ? { height: 'auto', opacity: 1 } : undefined}
                         exit={isMobile ? { height: 0, opacity: 0 } : undefined}
                         transition={{ duration: 0.2 }}
-                        className={`text-gray-300 ${
+                        className={`text-primary-300 ${
                           isMobile ? 'text-base mt-2' : 'text-lg mt-2'
                         }`}
                       >

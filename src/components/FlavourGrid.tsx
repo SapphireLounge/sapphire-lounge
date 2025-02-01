@@ -1,4 +1,3 @@
-import React from 'react';
 import { FlavourCard } from './FlavourCard';
 
 const flavours = [

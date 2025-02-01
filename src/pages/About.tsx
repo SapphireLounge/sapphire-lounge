@@ -77,7 +77,7 @@ function About() {
                   }`}
                   style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-dark-500/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <p className="text-white text-base md:text-lg font-medium">{image.title}</p>
                   </div>

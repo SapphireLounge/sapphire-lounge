@@ -181,13 +181,13 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-time"
                   name="reservation-time"
-                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${!formData.time ? 'text-gray-400' : 'text-white'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                   value={formData.time}
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                 >
-                  <option value="" disabled>Select time</option>
+                  <option value="" disabled hidden>Select time</option>
                   {timeSlots.map(time => (
-                    <option key={time} value={time}>{time}</option>
+                    <option key={time} value={time} className="text-gray-400">{time}</option>
                   ))}
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
@@ -263,13 +263,13 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-guests"
                   name="reservation-guests"
-                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${formData.guests === 0 ? 'text-gray-400' : 'text-white'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                   value={formData.guests}
                   onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value, 10) })}
                 >
-                  <option value={0} disabled>Select number of guests</option>
+                  <option value={0} disabled hidden>Select number of guests</option>
                   {Array.from({ length: 8 }, (_, i) => i + 1).map(num => (
-                    <option key={num} value={num}>Table for {num}</option>
+                    <option key={num} value={num} className="text-gray-400">Table for {num}</option>
                   ))}
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
@@ -286,13 +286,13 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-table-preference"
                   name="reservation-table-preference"
-                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${!formData.tablePreference ? 'text-gray-400' : 'text-white'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                   value={formData.tablePreference}
                   onChange={(e) => setFormData({ ...formData, tablePreference: e.target.value })}
                 >
-                  <option value="" disabled>Select table preference</option>
-                  <option value="Booth">Booth</option>
-                  <option value="Regular">Regular Seating</option>
+                  <option value="" disabled hidden>Select table preference</option>
+                  <option value="Booth" className="text-gray-400">Booth</option>
+                  <option value="Regular" className="text-gray-400">Regular Seating</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
@@ -304,17 +304,17 @@ const Reservations = memo(() => {
                 <select 
                   id="reservation-occasion"
                   name="reservation-occasion"
-                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${!formData.occasion ? 'text-gray-400' : 'text-white'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                   value={formData.occasion}
                   onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
                 >
-                  <option value="" disabled>Select an occasion</option>
-                  <option value="Birthday">Birthday</option>
-                  <option value="Anniversary">Anniversary</option>
-                  <option value="Date Night">Date Night</option>
-                  <option value="Business Meeting">Business Meeting</option>
-                  <option value="Celebration">Celebration</option>
-                  <option value="Other">Other</option>
+                  <option value="" disabled hidden>Select an occasion</option>
+                  <option value="Birthday" className="text-gray-400">Birthday</option>
+                  <option value="Anniversary" className="text-gray-400">Anniversary</option>
+                  <option value="Date Night" className="text-gray-400">Date Night</option>
+                  <option value="Business Meeting" className="text-gray-400">Business Meeting</option>
+                  <option value="Celebration" className="text-gray-400">Celebration</option>
+                  <option value="Other" className="text-gray-400">Other</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>

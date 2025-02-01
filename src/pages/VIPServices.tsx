@@ -125,7 +125,7 @@ const VIPServices: React.FC = () => {
 
         {/* Special Occasions */}
         <div className="mb-4 md:mb-6 h-full p-0.5 max-w-full md:max-w-[92%] mx-auto">
-          <div className="text-center mb-4 md:mb-5 px-1 md:px-0">
+          <div className="text-center mb-4 md:mb-5 px-1 md:px-0 pt-4 md:pt-0">
             <h2 className="inline-block text-2xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1 mb-4 md:mt-4">
               Special Occasions
             </h2>
@@ -158,7 +158,7 @@ const VIPServices: React.FC = () => {
           </p>
           <Link
             to="/contact"
-            className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-2 px-8 md:py-3 md:px-12 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm md:text-lg"
+            className="inline-block bg-gradient-to-r from-primary-400 to-accent-500 py-3 px-10 md:py-3 md:px-12 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-base md:text-lg"
           >
             Get in Touch
           </Link>

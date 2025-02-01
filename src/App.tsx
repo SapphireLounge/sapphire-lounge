@@ -4,7 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { A11yProvider } from './components/A11yAnnouncer';
 import { JsonLd, restaurantJsonLd } from './components/JsonLd';
 import { Layout } from './components/layout/Layout';
-import { Suspense, lazy, memo } from 'react';
+import { Suspense, lazy } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import { LazyMotion, domAnimation } from 'framer-motion';
 
@@ -22,21 +22,28 @@ const Terms = lazy(() => import('./pages/Terms'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const VIPServices = lazy(() => import('./pages/VIPServices'));
 
-// Enhanced loading component with ARIA
-const LoadingSpinner = memo(() => (
-  <div 
-    className="min-h-screen flex items-center justify-center"
-    role="status"
-    aria-label="Loading content"
-  >
-    <div 
-      className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"
-      aria-hidden="true"
-    />
-  </div>
-));
+// Preload all routes immediately
+const preloadRoutes = () => {
+  const routes = [
+    import('./pages/Home'),
+    import('./pages/About'),
+    import('./pages/Reservations'),
+    import('./pages/Menu'),
+    import('./pages/Events'),
+    import('./pages/Loyalty'),
+    import('./pages/Contact'),
+    import('./pages/FAQ'),
+    import('./pages/Privacy'),
+    import('./pages/Terms'),
+    import('./pages/NotFound'),
+    import('./pages/VIPServices')
+  ];
+  
+  Promise.all(routes).catch(console.error);
+};
 
-LoadingSpinner.displayName = 'LoadingSpinner';
+// Start preloading immediately
+preloadRoutes();
 
 const router = createBrowserRouter([
   {
@@ -47,7 +54,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Home />
           </Suspense>
         )
@@ -55,7 +62,7 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <About />
           </Suspense>
         )
@@ -63,7 +70,7 @@ const router = createBrowserRouter([
       {
         path: "/reservations",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Reservations />
           </Suspense>
         )
@@ -71,7 +78,7 @@ const router = createBrowserRouter([
       {
         path: "/menu",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Menu />
           </Suspense>
         )
@@ -79,7 +86,7 @@ const router = createBrowserRouter([
       {
         path: "/events",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Events />
           </Suspense>
         )
@@ -87,7 +94,7 @@ const router = createBrowserRouter([
       {
         path: "/loyalty",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Loyalty />
           </Suspense>
         )
@@ -95,7 +102,7 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Contact />
           </Suspense>
         )
@@ -103,7 +110,7 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <FAQ />
           </Suspense>
         )
@@ -111,7 +118,7 @@ const router = createBrowserRouter([
       {
         path: "/privacy",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Privacy />
           </Suspense>
         )
@@ -119,7 +126,7 @@ const router = createBrowserRouter([
       {
         path: "/terms",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <Terms />
           </Suspense>
         )
@@ -127,7 +134,7 @@ const router = createBrowserRouter([
       {
         path: "/vip-services",
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={null}>
             <VIPServices />
           </Suspense>
         )
@@ -135,46 +142,6 @@ const router = createBrowserRouter([
     ]
   }
 ]);
-
-// Preload critical routes
-function preloadRoutes() {
-  // Preload critical routes using dynamic imports
-  const preloadCriticalRoutes = () => {
-    import('./pages/Home');
-    import('./pages/Menu');
-    import('./pages/Reservations');
-  };
-
-  // Preload other routes after initial load
-  const preloadOtherRoutes = () => {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        import('./pages/About');
-        import('./pages/Events');
-        import('./pages/Contact');
-        import('./pages/FAQ');
-      });
-    } else {
-      setTimeout(() => {
-        import('./pages/About');
-        import('./pages/Events');
-        import('./pages/Contact');
-        import('./pages/FAQ');
-      }, 2000);
-    }
-  };
-
-  // Execute preloading strategy
-  if (typeof window !== 'undefined') {
-    // Preload critical routes immediately
-    preloadCriticalRoutes();
-
-    // Preload other routes after page load
-    window.addEventListener('load', () => {
-      preloadOtherRoutes();
-    });
-  }
-}
 
 function App() {
   useEffect(() => {
@@ -184,9 +151,6 @@ function App() {
         navigator.serviceWorker.register('/sw.js').catch(console.error);
       });
     }
-
-    // Preload routes
-    preloadRoutes();
 
     // Optimize performance with connection-aware loading
     if ('connection' in navigator) {

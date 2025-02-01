@@ -107,30 +107,36 @@ function Testimonials() {
                       </div>
                     </div>
                     
-                    <p className={`text-gray-200 mb-6 text-center ${
-                      isMobile ? 'text-base mt-10 pt-4' : 'text-2xl leading-relaxed'
-                    }`}>
-                      "{testimonials[currentIndex].text}"  
-                    </p>
-                    
-                    <div className="text-center">
-                      <p className={`${
-                        isMobile ? 'text-lg font-semibold' : 'text-2xl font-semibold'
-                      }`}>
-                        {testimonials[currentIndex].author}
+                    <div className="relative flex flex-col justify-center min-h-[300px] md:min-h-[350px] pt-12 md:pt-16">
+                      <p className={`text-gray-300 text-base md:text-2xl italic mb-8 md:mb-10 pt-4 md:pt-0`}>
+                        "{testimonials[currentIndex].text}"  
                       </p>
-                      <p className={`${
-                        isMobile ? 'text-lg bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500' : 'text-xl bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500'
-                      }`}>
-                        {testimonials[currentIndex].role}
-                      </p>
-                    </div>
-                    <div className={`flex justify-center ${isMobile ? 'mt-8 mb-2' : 'mt-10'}`}>
-                      {testimonials.map((_, index) => (
-                        <div key={index} className={`w-2 h-2 rounded-full mx-1 ${
-                          index === currentIndex ? 'bg-primary-500' : 'bg-gray-400'
-                        }`} />
-                      ))}
+                      
+                      <div className="relative">
+                        <div className="flex flex-col items-center justify-center text-center">
+                          <h3 className="text-[1.15rem] md:text-[1.35rem] font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+                            {testimonials[currentIndex].author}
+                          </h3>
+                          <p className="text-[1.05rem] md:text-[1.15rem] text-primary-300">
+                            {testimonials[currentIndex].role}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-center mt-6 md:mt-12">
+                        {testimonials.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            className={`w-2.5 h-2.5 rounded-full mx-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                              index === currentIndex
+                                ? 'bg-primary-500'
+                                : 'bg-gray-600 hover:bg-gray-500'
+                            }`}
+                            aria-label={`Go to testimonial ${index + 1}`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -173,13 +179,14 @@ function Testimonials() {
                         autoComplete="off"
                         className={`w-full bg-[#1A1A1C] rounded-lg px-4 ${
                           isMobile ? 'py-2.5' : 'py-2'
-                        } text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none`}
+                        } [&:not(:focus)]:text-gray-400 focus:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none`}
                       >
-                        <option value="" disabled>Member Type</option>
-                        <option value="first" className="text-white">First-Time Visitor</option>
-                        <option value="regular" className="text-white">Regular Member</option>
-                        <option value="gold" className="text-white">Gold Member</option>
-                        <option value="sapphire" className="text-white">Sapphire Member</option>
+                        <option value="" disabled hidden>Member Type</option>
+                        <option value="first" className="text-gray-400">First-Time Visitor</option>
+                        <option value="regular" className="text-gray-400">Regular Member</option>
+                        <option value="silver" className="text-gray-400">Silver Member</option>
+                        <option value="gold" className="text-gray-400">Gold Member</option>
+                        <option value="sapphire" className="text-gray-400">Sapphire Member</option>
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                         <ChevronDown className="h-5 w-5 text-gray-400" />

@@ -65,7 +65,7 @@ function Events() {
     {
       id: 1,
       title: "Flavour Tasting Night",
-      date: "January 15, 2025",
+      date: "February 15, 2025",
       time: "7 PM - 10 PM",
       image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
       description: "Join us for an exclusive tasting of our newest premium flavours."
@@ -73,7 +73,7 @@ function Events() {
     {
       id: 2,
       title: "DJ Night",
-      date: "January 20, 2025",
+      date: "February 20, 2025",
       time: "8 PM - 2 AM",
       image: "/images/events/DJ Night.jpg",
       description: "Experience the perfect blend of music and atmosphere with our resident DJ."
@@ -81,7 +81,7 @@ function Events() {
     {
       id: 3,
       title: "Student Night",
-      date: "January 25, 2025",
+      date: "February 25, 2025",
       time: "6 PM - 11 PM",
       image: "/images/events/Student Night.avif",
       description: "Special discounts and offers for students. Valid student ID required."
@@ -194,7 +194,7 @@ function Events() {
                   alt={`${event.title} at Sapphire Lounge`}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-dark-500/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pb-2 md:pb-4">
                   <h3 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{event.title}</h3>
                   <p className="text-gray-200 text-xs md:text-base mb-2 md:mb-3">{event.description}</p>
@@ -253,12 +253,12 @@ function Events() {
                     name="event-title"
                     value={formData.eventTitle}
                     onChange={handleEventSelect}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none text-base md:text-lg ${!formData.eventTitle ? 'text-gray-400' : 'text-white'}`}
+                    className={`w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                     required
                   >
-                    <option value="" disabled>Select an event</option>
+                    <option value="" disabled hidden>Select an event</option>
                     {events.map(event => (
-                      <option key={event.id} value={event.title}>
+                      <option key={event.id} value={event.title} className="text-gray-400">
                         {event.title} - {event.date}
                       </option>
                     ))}
@@ -350,13 +350,13 @@ function Events() {
                         ...prev, 
                         guests: parseInt(e.target.value) 
                       }))}
-                      className={`w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${!formData.guests ? 'text-gray-400' : 'text-white'}`}
+                      className={`w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                       required
                       autoComplete="off"
                     >
-                      <option value="" disabled>Select number of guests</option>
+                      <option value="" disabled hidden>Select number of guests</option>
                       {[...Array(8)].map((_, i) => (
-                        <option key={i + 1} value={i + 1}>
+                        <option key={i + 1} value={i + 1} className="text-gray-400">
                           {i + 1} {i === 0 ? 'Guest' : 'Guests'}
                         </option>
                       ))}
