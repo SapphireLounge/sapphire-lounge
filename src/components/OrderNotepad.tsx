@@ -55,7 +55,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
     <div className={`bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors hover:bg-black/50 max-w-[${isMobile ? '100%' : '90%'}] mx-auto ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <ClipboardList className="text-primary-300 w-4 h-4" />
+          <ClipboardList className="text-primary-300 w-6 h-6" />
           <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400`}>
             Order Notepad
           </h2>
@@ -88,7 +88,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
                   }
                 }}
                 layout
-                className="relative overflow-hidden rounded-lg -mx-3"
+                className="relative overflow-hidden rounded-lg -mx-4"
               >
                 {/* Delete Background */}
                 <motion.div 
@@ -135,7 +135,7 @@ export const OrderNotepad: React.FC<OrderNotepadProps> = ({
                   }}
                   onDragEnd={(_, info) => handleDragEnd(info, index)}
                   className={`relative bg-black/80 rounded-lg border border-white/5 transition-all duration-200 ${
-                    isMobile ? 'px-4 py-2' : 'px-4 py-3'
+                    isMobile ? 'px-5 py-2.5' : 'px-4 py-3'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full gap-3">

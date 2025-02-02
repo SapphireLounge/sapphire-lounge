@@ -7,26 +7,22 @@ export const useHaptics = () => {
 
   useEffect(() => {
     // Check for vibration support
-    const hasVibration = 'vibrate' in navigator;
-    
-    // Check for iOS haptics support
-    const hasIOSHaptics = 'Haptics' in window;
-    
-    setHasHaptics(hasVibration || hasIOSHaptics);
+    const hasVibration = typeof navigator !== 'undefined' && 'vibrate' in navigator;
+    setHasHaptics(hasVibration);
   }, []);
 
   const getPattern = (pattern: HapticPattern): number[] => {
     switch (pattern) {
       case 'select':
-        return [40]; // Short vibration for selection
+        return [50]; // Increased duration for better feel
       case 'delete':
-        return [80, 40, 80]; // Double vibration for deletion
+        return [100, 50, 100]; // Increased duration for better feel
       case 'increment':
-        return [25]; // Very short vibration for increment
+        return [35]; // Increased duration for better feel
       case 'decrement':
-        return [35]; // Slightly longer vibration for decrement
+        return [45]; // Increased duration for better feel
       default:
-        return [40];
+        return [50];
     }
   };
 
@@ -34,20 +30,8 @@ export const useHaptics = () => {
     if (!hasHaptics) return;
 
     try {
-      // Try iOS haptics first if available
-      if ('Haptics' in window) {
-        const impact = { 
-          select: 'light',
-          delete: 'medium',
-          increment: 'light',
-          decrement: 'light'
-        }[pattern] as 'light' | 'medium' | 'heavy';
-
-        // @ts-ignore - iOS haptics
-        window.Haptics.impact({ style: impact });
-      } 
-      // Fallback to standard vibration API
-      else if ('vibrate' in navigator) {
+      // Use standard vibration API
+      if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
         navigator.vibrate(getPattern(pattern));
       }
     } catch (error) {
@@ -57,3 +41,5 @@ export const useHaptics = () => {
 
   return { triggerHaptic, hasHaptics };
 };
+
+export default useHaptics;

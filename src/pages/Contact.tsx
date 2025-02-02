@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Clock, Loader2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { useDeviceType } from '../hooks/useDeviceType';
 
 // Fix Leaflet default icon issue
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -28,6 +29,8 @@ function Contact() {
   const [isMounted, setIsMounted] = React.useState(false);
   const [buttonText, setButtonText] = React.useState('Send Message');
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const deviceType = useDeviceType();
+  const isMobile = deviceType === 'mobile';
   const [formData, setFormData] = React.useState({
     name: '',
     email: '',
@@ -86,74 +89,73 @@ function Contact() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-dark-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-accent-700/20"
+            className={`bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 ${
+              isMobile ? 'p-4 w-[99vw] -mx-4' : 'p-6'
+            }`}
           >
-            <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
-              Send us a message
-            </h2>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  autoComplete="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  placeholder="Your name"
-                  required
-                />
+            <form onSubmit={handleSubmit} className={isMobile ? 'w-[98%] mx-auto' : ''}>
+              <div className="space-y-4">
+                <div>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                    className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
+                      isMobile ? 'py-2.5' : 'py-2'
+                    } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                    value={formData.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                    className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
+                      isMobile ? 'py-2.5' : 'py-2'
+                    } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Your Message"
+                    required
+                    rows={4}
+                    className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
+                      isMobile ? 'py-2.5' : 'py-2'
+                    } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none`}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={isProcessing}
+                    className={`w-[102%] -ml-[1%] bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-lg transition-all duration-200 ${
+                      isMobile ? 'py-3' : 'py-2'
+                    } hover:from-primary-600 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-black`}
+                  >
+                    {isProcessing ? (
+                      <span className="flex items-center justify-center">
+                        <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                        {buttonText}
+                      </span>
+                    ) : (
+                      buttonText
+                    )}
+                  </button>
+                </div>
               </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  placeholder="your.email@example.com"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  autoComplete="off"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent"
-                  placeholder="Your message..."
-                  required
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                disabled={isProcessing}
-                className="w-full bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-lg font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isProcessing ? (
-                  <span className="flex items-center justify-center">
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                    {buttonText}
-                  </span>
-                ) : (
-                  buttonText
-                )}
-              </button>
             </form>
           </motion.div>
 

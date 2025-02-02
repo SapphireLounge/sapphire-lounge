@@ -194,11 +194,11 @@ function Home() {
         {/* Features Section */}
         <div className="w-full relative -mx-[50vw] left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-black">
           <section className="w-full bg-black py-6 sm:py-12">
-            <div className="max-w-[90rem] mx-auto px-4 md:px-8">
+            <div className="max-w-[90rem] mx-auto px-2 md:px-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
                 <motion.article
                   whileHover={{ y: -5 }}
-                  className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
+                  className={`bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg ${isMobile ? 'mx-1' : ''}`}
                   role="listitem"
                 >
                   <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
@@ -212,7 +212,7 @@ function Home() {
 
                 <motion.article
                   whileHover={{ y: -5 }}
-                  className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
+                  className={`bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg ${isMobile ? 'mx-1' : ''}`}
                   role="listitem"
                 >
                   <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
@@ -226,7 +226,7 @@ function Home() {
 
                 <motion.article
                   whileHover={{ y: -5 }}
-                  className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
+                  className={`bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg ${isMobile ? 'mx-1' : ''}`}
                   role="listitem"
                 >
                   <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>
@@ -240,7 +240,7 @@ function Home() {
 
                 <motion.article
                   whileHover={{ y: -5 }}
-                  className="bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg"
+                  className={`bg-black/90 rounded-lg overflow-hidden border border-accent-700/20 shadow-lg ${isMobile ? 'mx-1' : ''}`}
                   role="listitem"
                 >
                   <div className={`${isMobile ? 'p-2' : 'p-6'} text-center`}>

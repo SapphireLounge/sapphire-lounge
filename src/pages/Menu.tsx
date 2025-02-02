@@ -97,7 +97,7 @@ export const Menu = () => {
       return (
         <div
           key={itemName}
-          className={`backdrop-blur-sm rounded-lg p-3 border transition-colors cursor-pointer ${
+          className={`backdrop-blur-sm rounded-lg p-5 -mx-5 border transition-colors cursor-pointer ${
             isSelected 
               ? 'bg-primary-500/20 border-primary-500/30' 
               : 'bg-black/40 border-white/10 hover:bg-black/50'
@@ -418,7 +418,7 @@ export const Menu = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-[#020B18]">
-      <div className="container mx-auto px-2 md:px-4">
+      <div className="container mx-auto px-0 md:px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -433,16 +433,16 @@ export const Menu = () => {
           </p>
         </motion.div>
 
-        <div className="container mx-auto px-2 md:px-4">
+        <div className="container mx-auto px-0 md:px-4">
           <OrderNotepad 
-            className={`max-w-[100%] mb-8 ${isMobile ? '' : 'md:max-w-[65%]'}`} 
+            className={`max-w-[96%] mb-8 ${isMobile ? '' : 'md:max-w-[65%]'}`} 
             items={orderItems}
             onRemoveItem={removeOrderItem}
             onClearAll={clearOrder}
             onUpdateQuantity={updateOrderQuantity}
           />
 
-          <div className={`px-4 ${isMobile ? 'pb-0' : 'pb-8'}`}>
+          <div className={`px-0 ${isMobile ? 'pb-0' : 'pb-8'}`}>
             <div className="space-y-2 md:space-y-6">
               {categories.map((category) => (
                 <motion.div
@@ -450,13 +450,13 @@ export const Menu = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 overflow-hidden"
+                  className={`bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 transition-colors hover:bg-black/50 overflow-hidden ${isMobile ? 'w-[96%] mx-auto' : ''}`}
                 >
                   {isMobile ? (
                     <>
                       <button
                         onClick={() => toggleCategory(category.title)}
-                        className="w-full px-4 py-4 flex items-center justify-between text-left"
+                        className="w-full px-5 py-4 flex items-center justify-between text-left"
                       >
                         <div className="flex items-center gap-3">
                           {category.icon && (
@@ -488,7 +488,7 @@ export const Menu = () => {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="px-4 pb-6">
+                            <div className="px-6 pb-6">
                               {category.subtitle && (
                                 <div className="mb-4 text-gray-400 text-sm">
                                   <span className="text-accent-400">- </span>

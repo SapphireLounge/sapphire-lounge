@@ -80,7 +80,7 @@ function Testimonials() {
           {/* Testimonials Section */}
           <div className={`${isMobile ? 'mb-8' : 'flex-1'}`}>
             <div className={`relative ${
-              isMobile ? 'h-[250px]' : 'h-[350px]'
+              isMobile ? 'h-[250px] -mx-2' : 'h-[350px]'
             }`}>
               <AnimatePresence mode="wait">
                 <motion.div
@@ -95,7 +95,7 @@ function Testimonials() {
                   className="absolute w-full h-full"
                 >
                   <div className={`bg-[#0A0A0C] rounded-lg border border-[#1A1A1C] text-center relative shadow-xl h-full flex flex-col justify-center ${
-                    isMobile ? 'p-4 pb-12' : 'p-6'
+                    isMobile ? 'p-4 pb-12 w-[102%] -ml-[1%]' : 'p-6'
                   }`}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
                       <div className={`bg-gradient-to-r from-primary-500 to-accent-500 rounded-full ${
@@ -147,12 +147,12 @@ function Testimonials() {
           {/* Feedback Form Section */}
           <div className={`${isMobile ? 'mt-12 -mx-4 flex justify-center' : 'flex-1'}`}>
             <div className={`bg-[#0A0A0C] rounded-lg border border-[#1A1A1C] relative shadow-xl ${
-              isMobile ? 'p-4 w-[98vw]' : 'h-[350px] p-6'
+              isMobile ? 'p-4 w-[99vw]' : 'h-[350px] p-6'
             }`}>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={isMobile ? 'w-[98%] mx-auto' : ''}>
                 <div className="flex flex-col h-full">
                   <div className="space-y-5">
-                    <h3 className={`font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 ${
+                    <h3 className={`font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 text-center ${
                       isMobile ? 'text-xl' : 'text-2xl'
                     }`}>
                       Share Your Experience
@@ -165,7 +165,7 @@ function Testimonials() {
                       placeholder="Your Name" 
                       required 
                       autoComplete="name"
-                      className={`w-full bg-[#1A1A1C] rounded-lg px-4 ${
+                      className={`w-[102%] -ml-[1%] bg-[#1A1A1C] rounded-lg px-4 ${
                         isMobile ? 'py-2.5' : 'py-2'
                       } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
                     />
@@ -177,7 +177,7 @@ function Testimonials() {
                         required 
                         defaultValue=""
                         autoComplete="off"
-                        className={`w-full bg-[#1A1A1C] rounded-lg px-4 ${
+                        className={`w-[102%] -ml-[1%] bg-[#1A1A1C] rounded-lg px-4 ${
                           isMobile ? 'py-2.5' : 'py-2'
                         } [&:not(:focus)]:text-gray-400 focus:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 appearance-none`}
                       >
@@ -199,19 +199,16 @@ function Testimonials() {
                       placeholder="Share your experience with us..." 
                       required 
                       rows={2}
-                      autoComplete="off"
-                      className={`w-full bg-[#1A1A1C] rounded-lg px-4 ${
+                      className={`w-[102%] -ml-[1%] bg-[#1A1A1C] rounded-lg px-4 ${
                         isMobile ? 'py-2.5' : 'py-2'
                       } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none`}
                     />
-                  </div>
 
-                  <div className="mt-5">
                     <button 
-                      type="submit" 
-                      className={`w-full rounded-lg bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:from-primary-600 hover:to-accent-600 text-center ${
-                        isMobile ? 'py-2.5 text-base' : 'py-2 text-base'
-                      }`}
+                      type="submit"
+                      className={`w-[102%] -ml-[1%] bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-lg transition-all duration-200 ${
+                        isMobile ? 'py-3' : 'py-2'
+                      } hover:from-primary-600 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-[#0A0A0C]`}
                     >
                       {buttonText}
                     </button>
