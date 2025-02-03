@@ -67,11 +67,11 @@ function Privacy() {
         className="max-w-5xl mx-auto px-4"
       >
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-2 md:px-6 py-1 md:py-2">
             Privacy Policy
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
-            How we collect, use, and protect your information
+          <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
+            Learn how we collect, use, and protect your personal information
           </p>
         </div>
         <motion.div

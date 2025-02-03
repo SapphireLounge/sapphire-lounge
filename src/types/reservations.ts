@@ -3,13 +3,13 @@ export interface ReservationData {
   time: string;
   name: string;
   phone: string;
-  email?: string;
+  email: string;
   guests: number;
-  tablePreference?: string;
-  occasion?: string;
+  tablePreference: string;
+  occasion: string;
   specialRequests?: string;
-  qrCode?: string;
   notes?: string;
+  qrCode?: string;
   timestamp?: string;
 }
 

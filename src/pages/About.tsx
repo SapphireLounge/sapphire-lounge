@@ -44,10 +44,10 @@ function About() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             About Sapphire Lounge
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
+          <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
             Your premier destination for an authentic and refined shisha experience in Swansea
           </p>
         </motion.div>

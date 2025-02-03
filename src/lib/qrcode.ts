@@ -56,20 +56,30 @@ export async function submitReservation(reservation: ReservationData): Promise<R
     }
 }
 
-export async function generateEventQRCode(event: { eventId: string; eventTitle: string; date: string; time: string; name: string; email: string; phone: string; guests: number }): Promise<string> {
-  const eventCode = Math.random().toString(36).substring(2, 8);
-  
-  // Only include essential data in the QR code
+interface EventQRData {
+  eventId: string;
+  eventTitle: string;
+  date: string;
+  time: string;
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  specialRequests?: string;
+}
+
+export const generateEventQRCode = async (data: EventQRData): Promise<string> => {
   const qrData = {
-    c: eventCode,
-    e: event.eventId,
-    t: event.eventTitle,
-    d: event.date,
-    tm: event.time,
-    n: event.name,
-    g: event.guests,
-    p: event.phone,
-    ts: new Date().toISOString().split('T')[0]
+    type: 'event',
+    eventId: data.eventId,
+    eventTitle: data.eventTitle,
+    date: data.date,
+    time: data.time,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    guests: data.guests,
+    specialRequests: data.specialRequests
   };
 
   // Generate QR code with higher error correction level

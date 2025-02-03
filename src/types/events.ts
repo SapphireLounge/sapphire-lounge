@@ -15,3 +15,16 @@ export interface SystemEvent extends Event {
     systemId: string;
     severity: 'info' | 'warning' | 'error';
 }
+
+export interface EventData {
+    eventId: string;
+    eventTitle: string;
+    date: string;
+    time: string;
+    name: string;
+    email: string;
+    phone: string;
+    guests: number;
+    specialRequests?: string;
+    qrCode?: string;
+}

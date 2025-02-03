@@ -97,8 +97,8 @@ const VIPServices: React.FC = () => {
           <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             VIP Services
           </h1>
-          <p className="text-gray-400 text-sm md:text-xl max-w-2xl mx-auto">
-            Experience luxury and exclusivity with our premium services.
+          <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
+            Experience luxury and exclusivity with our premium VIP packages designed for those who desire the extraordinary
           </p>
         </motion.div>
 
@@ -129,6 +129,9 @@ const VIPServices: React.FC = () => {
             <h2 className="inline-block text-2xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-1 mb-4 md:mt-4">
               Special Occasions
             </h2>
+            <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
+              Make your special occasions truly memorable with our curated celebration packages
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {specialOccasions.map((pkg, index) => (

@@ -244,13 +244,13 @@ const Loyalty: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-6"
+          className="text-center mb-2 md:mb-4"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-4 py-2">
             Loyalty Program
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg">
-            Join our loyalty program and enjoy exclusive benefits
+          <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
+            Join our exclusive membership program and unlock premium benefits tailored for our valued guests
           </p>
         </motion.div>
 
@@ -357,7 +357,9 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
-            <h3 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">Additional Information</h3>
+            <h3 className="text-white text-lg md:text-xl max-w-3xl mx-auto mb-6">
+              Additional Information
+            </h3>
             <ul className="space-y-2 md:space-y-2 text-sm md:text-base text-gray-300">
               <li className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
@@ -389,7 +391,9 @@ const Loyalty: React.FC = () => {
             transition={{ delay: 0.6 }}
             className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10 transition-colors"
           >
-            <h3 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">Need Help?</h3>
+            <h3 className="text-white text-lg md:text-xl max-w-3xl mx-auto mb-6">
+              Need Help?
+            </h3>
             <ul className="space-y-2 md:space-y-2 text-sm md:text-base text-gray-300">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />

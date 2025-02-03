@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense, useEffect } from 'react';
-import { Calendar, Music, Users, Star, Mail, Phone, Pen, ChevronDown } from 'lucide-react';
+import { Calendar, Music, Users, Star, Mail, Phone, Pen, ChevronDown, MessageSquare } from 'lucide-react';
 import { generateEventQRCode } from '../lib/qrcode';
 import { motion } from 'framer-motion';
 
@@ -24,6 +24,7 @@ interface EventData {
   phone: string;
   guests: number;
   qrCode?: string;
+  specialRequests?: string;
 }
 
 interface EventFormData {
@@ -35,6 +36,7 @@ interface EventFormData {
   date: string;
   time: string;
   eventId?: number;
+  specialRequests?: string;
 }
 
 function Events() {
@@ -46,7 +48,8 @@ function Events() {
     guests: 0,
     eventTitle: '',
     date: '',
-    time: ''
+    time: '',
+    specialRequests: ''
   });
   const [validationError, setValidationError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,7 +107,8 @@ function Events() {
         eventId: Number(selectedEvent.id).toString(),
         eventTitle: selectedEvent.title,
         date: selectedEvent.date,
-        time: selectedEvent.time
+        time: selectedEvent.time,
+        specialRequests: formData.specialRequests
       });
 
       // Add a 1-second delay before showing success
@@ -124,7 +128,8 @@ function Events() {
         email: formData.email,
         phone: formData.phone,
         guests: formData.guests,
-        qrCode: qrCodeDataURL
+        qrCode: qrCodeDataURL,
+        specialRequests: formData.specialRequests || ''
       });
 
       setIsSuccessModalOpen(true);
@@ -169,12 +174,12 @@ function Events() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-center"
+          className="text-center mb-2 md:mb-4"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 mb-2 md:mb-4 pb-1 md:pb-2">
             Upcoming Events
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="text-white text-base md:text-xl max-w-2xl mx-auto mb-12">
             Join us for an unforgettable evening of entertainment and luxury
           </p>
         </motion.div>
@@ -253,12 +258,12 @@ function Events() {
                     name="event-title"
                     value={formData.eventTitle}
                     onChange={handleEventSelect}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
+                    className={`w-full pl-10 pr-10 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${formData.eventTitle ? 'text-white' : 'text-neutral-400'}`}
                     required
                   >
-                    <option value="" disabled hidden>Select an event</option>
+                    <option value="" disabled hidden className="text-gray-400">Select an event</option>
                     {events.map(event => (
-                      <option key={event.id} value={event.title} className="text-gray-400">
+                      <option key={event.id} value={event.title} className="text-white bg-neutral-900">
                         {event.title} - {event.date}
                       </option>
                     ))}
@@ -283,7 +288,7 @@ function Events() {
                         setFormData({ ...formData, name: newName });
                         localStorage.setItem('eventName', newName);
                       }}
-                      className="w-full pl-10 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400"
                       placeholder="Your name"
                       required
                     />
@@ -306,7 +311,7 @@ function Events() {
                         setFormData({ ...formData, email: newEmail });
                         localStorage.setItem('eventEmail', newEmail);
                       }}
-                      className="w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400"
                       placeholder="Your email"
                       required
                     />
@@ -329,7 +334,7 @@ function Events() {
                         setFormData({ ...formData, phone: newPhone });
                         localStorage.setItem('eventPhone', newPhone);
                       }}
-                      className="w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg"
+                      className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400"
                       placeholder="Your phone number"
                       required
                     />
@@ -343,25 +348,42 @@ function Events() {
                   <div className="relative">
                     <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                     <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
-                    <select
+                    <select 
                       id="guests"
+                      name="guests"
+                      className={`w-full pl-10 pr-10 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg ${formData.guests ? 'text-white' : 'text-neutral-400'}`}
                       value={formData.guests || ''}
                       onChange={(e) => setFormData(prev => ({ 
                         ...prev, 
                         guests: parseInt(e.target.value) 
                       }))}
-                      className={`w-full pl-11 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent cursor-pointer hover:border-neutral-600 transition-colors appearance-none text-base md:text-lg [&:not(:focus)]:text-gray-400 focus:text-white`}
                       required
                       autoComplete="off"
                     >
                       <option value="" disabled hidden>Select number of guests</option>
-                      {[...Array(8)].map((_, i) => (
-                        <option key={i + 1} value={i + 1} className="text-gray-400">
-                          {i + 1} {i === 0 ? 'Guest' : 'Guests'}
-                        </option>
+                      {[1,2,3,4,5,6,7,8].map(num => (
+                        <option key={num} value={num} className="text-white bg-neutral-900">{num} {num === 1 ? 'Guest' : 'Guests'}</option>
                       ))}
                     </select>
                   </div>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="event-special-requests" className="block text-base md:text-lg font-medium text-gray-300">
+                  Special Requests <span className="text-gray-400 ml-1">(optional)</span>
+                </label>
+                <div className="relative">
+                  <textarea
+                    id="event-special-requests"
+                    name="event-special-requests"
+                    placeholder="Any special requests or notes..."
+                    rows={2}
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400 resize-none"
+                    value={formData.specialRequests}
+                    onChange={(e) => setFormData({ ...formData, specialRequests: e.target.value })}
+                  />
+                  <MessageSquare className="absolute left-3 top-[1.1rem] text-gray-400 w-5 h-5 pointer-events-none" />
                 </div>
               </div>
 
@@ -414,6 +436,7 @@ function Events() {
                   eventTitle: '',
                   date: '',
                   time: '',
+                  specialRequests: ''
                 });
               }}
               eventData={eventData || undefined}

@@ -114,7 +114,7 @@ export const Menu = () => {
                   {itemName}
                 </span>
                 {typeof item !== 'string' && item.description && (
-                  <p className="text-gray-500 text-sm mt-1">{item.description}</p>
+                  <p className="text-white text-lg md:text-xl mt-1">{item.description}</p>
                 )}
                 {typeof item !== 'string' && item.ingredients && (
                   <p className="text-gray-600 text-xs mt-0.5">{item.ingredients}</p>
@@ -159,7 +159,7 @@ export const Menu = () => {
         {typeof item !== 'string' && (
           <>
             {item.description && (
-              <p className="text-gray-500 mt-2">{item.description}</p>
+              <p className="text-white text-lg md:text-xl mt-2">{item.description}</p>
             )}
             {item.ingredients && (
               <p className="text-gray-600 text-sm mt-1">{item.ingredients}</p>
@@ -423,13 +423,17 @@ export const Menu = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-6"
+          className="text-center mb-2 md:mb-4"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
             Our Menu
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg px-4">
+          <p className="text-white text-base md:text-xl px-4 mb-12 block md:hidden">
             Explore our selection of refreshments & desserts along with premium shisha flavours that are expertly crafted to give the best shisha experience with non-tobacco and nicotine-free varieties for a healthier session.
+          </p>
+          <p className="text-white text-base md:text-xl px-4 mb-12 hidden md:block">
+            Explore our selection of refreshments & desserts along with premium shisha flavours that are expertly crafted<br />
+            to give the best shisha experience with non-tobacco and nicotine-free varieties for a healthier session.
           </p>
         </motion.div>
 
@@ -490,7 +494,7 @@ export const Menu = () => {
                           >
                             <div className="px-6 pb-6">
                               {category.subtitle && (
-                                <div className="mb-4 text-gray-400 text-sm">
+                                <div className="mb-4 text-white text-lg md:text-xl">
                                   <span className="text-accent-400">- </span>
                                   {category.subtitle}
                                 </div>
@@ -530,7 +534,7 @@ export const Menu = () => {
                       </div>
 
                       {category.subtitle && (
-                        <div className="text-gray-400 text-lg mb-4">
+                        <div className="text-white text-lg md:text-xl mb-4">
                           <span className="text-accent-400">- </span>
                           {category.subtitle}
                         </div>
@@ -559,7 +563,7 @@ export const Menu = () => {
             </div>
 
             <div className={`text-center ${isMobile ? 'mt-8 text-sm' : 'mt-12 text-lg'}`}>
-              <p className="text-gray-400">
+              <p className="text-white">
                 * Please inform our staff of any allergies or dietary requirements before ordering. 
                 Full allergen information is available upon request.
               </p>

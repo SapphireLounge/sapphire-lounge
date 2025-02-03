@@ -67,10 +67,10 @@ function Terms() {
         className="max-w-5xl mx-auto px-4"
       >
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 px-2 md:px-6 py-1 md:py-2">
             Terms of Service
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
+          <p className="text-white text-base md:text-xl max-w-3xl mx-auto mb-12">
             Please read these terms carefully before using our services
           </p>
         </div>
