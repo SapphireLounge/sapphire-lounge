@@ -1,0 +1,222 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { motion } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+import { Calendar } from "/node_modules/.vite/deps/lucide-react.js?v=770d4ef7";
+function FeaturedEvents() {
+  const events = [
+    {
+      id: 1,
+      title: "Flavour Tasting Night",
+      date: "March 15, 2024",
+      image: "/images/events/cachimberos-o7A76QuFT00-unsplash.jpg",
+      description: "Join us for an exclusive tasting of our newest premium flavours."
+    },
+    {
+      id: 2,
+      title: "DJ Night",
+      date: "March 16, 2024",
+      image: "/images/events/DJ Night.jpg",
+      description: "Experience the perfect blend of music and atmosphere with our resident DJ."
+    },
+    {
+      id: 3,
+      title: "Student Night",
+      date: "March 20, 2024",
+      image: "/images/events/Student Night.avif",
+      description: "Special discounts and offers for students. Valid student ID required."
+    }
+  ];
+  return /* @__PURE__ */ jsxDEV("section", { className: "py-8 bg-gradient-to-b from-dark-500 to-dark-400", children: /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4", children: [
+    /* @__PURE__ */ jsxDEV("h2", { className: "text-2xl md:text-3xl font-bold text-center mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5", children: "Upcoming Events" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+      lineNumber: 33,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "text-gray-400 text-center mb-8 max-w-2xl mx-auto text-sm", children: "Join us for our specially curated events, designed to enhance your Sapphire Lounge experience." }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+      lineNumber: 36,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: events.map(
+      (event) => /* @__PURE__ */ jsxDEV(
+        motion.article,
+        {
+          whileHover: { y: -5 },
+          className: "bg-dark-500/50 backdrop-blur-sm rounded-lg overflow-hidden border border-accent-700/20 shadow-lg",
+          children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "relative h-64 overflow-hidden", children: [
+              /* @__PURE__ */ jsxDEV(
+                motion.img,
+                {
+                  whileHover: { scale: 1.05 },
+                  transition: { duration: 0.4 },
+                  src: event.image,
+                  alt: `${event.title} event at Sapphire Lounge`,
+                  loading: "lazy",
+                  className: "w-full h-full object-cover"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 47,
+                  columnNumber: 17
+                },
+                this
+              ),
+              /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/20 to-transparent" }, void 0, false, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                lineNumber: 55,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "absolute bottom-0 left-0 right-0 p-3", children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "flex items-center text-primary-300 mb-1", children: [
+                  /* @__PURE__ */ jsxDEV(Calendar, { className: "w-4 h-4 mr-2" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                    lineNumber: 58,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { className: "text-sm font-medium", children: event.date }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                    lineNumber: 59,
+                    columnNumber: 21
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 57,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("h3", { className: "text-lg font-bold text-white mb-1", children: event.title }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 61,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-gray-200 text-xs", children: event.description }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 62,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                lineNumber: 56,
+                columnNumber: 17
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+              lineNumber: 46,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "p-3", children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "flex items-center text-primary-300 mb-2", children: [
+                /* @__PURE__ */ jsxDEV(Calendar, { className: "w-4 h-4 mr-2" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 67,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("span", { className: "text-sm font-medium", children: event.date }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 68,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                lineNumber: 66,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                motion.button,
+                {
+                  whileHover: { scale: 1.02 },
+                  whileTap: { scale: 0.98 },
+                  className: "w-full bg-gradient-to-r from-primary-400 to-accent-500 py-2 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg text-sm",
+                  children: "RSVP Now"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+                  lineNumber: 70,
+                  columnNumber: 17
+                },
+                this
+              )
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+              lineNumber: 65,
+              columnNumber: 15
+            }, this)
+          ]
+        },
+        event.id,
+        true,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+          lineNumber: 41,
+          columnNumber: 11
+        },
+        this
+      )
+    ) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+    lineNumber: 32,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx",
+    lineNumber: 31,
+    columnNumber: 5
+  }, this);
+}
+_c = FeaturedEvents;
+export default FeaturedEvents;
+var _c;
+$RefreshReg$(_c, "FeaturedEvents");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FeaturedEvents.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QSx1QkFBa0Q7QUFBQSxtQkFGcEQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxxQkFHQTtBQUFBLGNBQ0E7QUFBQSxnQkFBQyxPQUFPO0FBQUEsZ0JBQVA7QUFBQSxrQkFDQyxZQUFZLEVBQUVNLE9BQU8sS0FBSztBQUFBLGtCQUMxQixVQUFVLEVBQUVBLE9BQU8sS0FBSztBQUFBLGtCQUN4QixXQUFVO0FBQUEsa0JBQXdQO0FBQUE7QUFBQSxnQkFIcFE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLGNBTUE7QUFBQSxpQkFYRjtBQUFBO0FBQUE7QUFBQTtBQUFBLG1CQVlBO0FBQUE7QUFBQTtBQUFBLFFBbkNLRixNQUFNTjtBQUFBQSxRQURiO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsTUFxQ0E7QUFBQSxJQUNELEtBeENIO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0F5Q0E7QUFBQSxPQWhERjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBaURBLEtBbERGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FtREE7QUFFSjtBQUFDVSxLQS9FUVo7QUFpRlQsZUFBZUE7QUFBZSxJQUFBWTtBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsiUmVhY3QiLCJtb3Rpb24iLCJDYWxlbmRhciIsIkZlYXR1cmVkRXZlbnRzIiwiZXZlbnRzIiwiaWQiLCJ0aXRsZSIsImRhdGUiLCJpbWFnZSIsImRlc2NyaXB0aW9uIiwibWFwIiwiZXZlbnQiLCJ5Iiwic2NhbGUiLCJkdXJhdGlvbiIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkZlYXR1cmVkRXZlbnRzLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgbW90aW9uIH0gZnJvbSAnZnJhbWVyLW1vdGlvbic7XG5pbXBvcnQgeyBDYWxlbmRhciB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XG5cbmZ1bmN0aW9uIEZlYXR1cmVkRXZlbnRzKCkge1xuICBjb25zdCBldmVudHMgPSBbXG4gICAge1xuICAgICAgaWQ6IDEsXG4gICAgICB0aXRsZTogXCJGbGF2b3VyIFRhc3RpbmcgTmlnaHRcIixcbiAgICAgIGRhdGU6IFwiTWFyY2ggMTUsIDIwMjRcIixcbiAgICAgIGltYWdlOiBcIi9pbWFnZXMvZXZlbnRzL2NhY2hpbWJlcm9zLW83QTc2UXVGVDAwLXVuc3BsYXNoLmpwZ1wiLFxuICAgICAgZGVzY3JpcHRpb246IFwiSm9pbiB1cyBmb3IgYW4gZXhjbHVzaXZlIHRhc3Rpbmcgb2Ygb3VyIG5ld2VzdCBwcmVtaXVtIGZsYXZvdXJzLlwiXG4gICAgfSxcbiAgICB7XG4gICAgICBpZDogMixcbiAgICAgIHRpdGxlOiBcIkRKIE5pZ2h0XCIsXG4gICAgICBkYXRlOiBcIk1hcmNoIDE2LCAyMDI0XCIsXG4gICAgICBpbWFnZTogXCIvaW1hZ2VzL2V2ZW50cy9ESiBOaWdodC5qcGdcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkV4cGVyaWVuY2UgdGhlIHBlcmZlY3QgYmxlbmQgb2YgbXVzaWMgYW5kIGF0bW9zcGhlcmUgd2l0aCBvdXIgcmVzaWRlbnQgREouXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIGlkOiAzLFxuICAgICAgdGl0bGU6IFwiU3R1ZGVudCBOaWdodFwiLFxuICAgICAgZGF0ZTogXCJNYXJjaCAyMCwgMjAyNFwiLFxuICAgICAgaW1hZ2U6IFwiL2ltYWdlcy9ldmVudHMvU3R1ZGVudCBOaWdodC5hdmlmXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJTcGVjaWFsIGRpc2NvdW50cyBhbmQgb2ZmZXJzIGZvciBzdHVkZW50cy4gVmFsaWQgc3R1ZGVudCBJRCByZXF1aXJlZC5cIlxuICAgIH1cbiAgXTtcblxuICByZXR1cm4gKFxuICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cInB5LTggYmctZ3JhZGllbnQtdG8tYiBmcm9tLWRhcmstNTAwIHRvLWRhcmstNDAwXCI+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImNvbnRhaW5lciBteC1hdXRvIHB4LTRcIj5cbiAgICAgICAgPGgyIGNsYXNzTmFtZT1cInRleHQtMnhsIG1kOnRleHQtM3hsIGZvbnQtYm9sZCB0ZXh0LWNlbnRlciBtYi0zIGJnLWNsaXAtdGV4dCB0ZXh0LXRyYW5zcGFyZW50IGJnLWdyYWRpZW50LXRvLXIgZnJvbS1wcmltYXJ5LTMwMCB0by1hY2NlbnQtNDAwIHBiLTAuNVwiPlxuICAgICAgICAgIFVwY29taW5nIEV2ZW50c1xuICAgICAgICA8L2gyPlxuICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LWdyYXktNDAwIHRleHQtY2VudGVyIG1iLTggbWF4LXctMnhsIG14LWF1dG8gdGV4dC1zbVwiPlxuICAgICAgICAgIEpvaW4gdXMgZm9yIG91ciBzcGVjaWFsbHkgY3VyYXRlZCBldmVudHMsIGRlc2lnbmVkIHRvIGVuaGFuY2UgeW91ciBTYXBwaGlyZSBMb3VuZ2UgZXhwZXJpZW5jZS5cbiAgICAgICAgPC9wPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdyaWQgZ3JpZC1jb2xzLTEgbWQ6Z3JpZC1jb2xzLTMgZ2FwLTZcIj5cbiAgICAgICAgICB7ZXZlbnRzLm1hcCgoZXZlbnQpID0+IChcbiAgICAgICAgICAgIDxtb3Rpb24uYXJ0aWNsZVxuICAgICAgICAgICAgICBrZXk9e2V2ZW50LmlkfVxuICAgICAgICAgICAgICB3aGlsZUhvdmVyPXt7IHk6IC01IH19XG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cImJnLWRhcmstNTAwLzUwIGJhY2tkcm9wLWJsdXItc20gcm91bmRlZC1sZyBvdmVyZmxvdy1oaWRkZW4gYm9yZGVyIGJvcmRlci1hY2NlbnQtNzAwLzIwIHNoYWRvdy1sZ1wiXG4gICAgICAgICAgICA+XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicmVsYXRpdmUgaC02NCBvdmVyZmxvdy1oaWRkZW5cIj5cbiAgICAgICAgICAgICAgICA8bW90aW9uLmltZ1xuICAgICAgICAgICAgICAgICAgd2hpbGVIb3Zlcj17eyBzY2FsZTogMS4wNSB9fVxuICAgICAgICAgICAgICAgICAgdHJhbnNpdGlvbj17eyBkdXJhdGlvbjogMC40IH19XG4gICAgICAgICAgICAgICAgICBzcmM9e2V2ZW50LmltYWdlfVxuICAgICAgICAgICAgICAgICAgYWx0PXtgJHtldmVudC50aXRsZX0gZXZlbnQgYXQgU2FwcGhpcmUgTG91bmdlYH1cbiAgICAgICAgICAgICAgICAgIGxvYWRpbmc9XCJsYXp5XCJcbiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBoLWZ1bGwgb2JqZWN0LWNvdmVyXCJcbiAgICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaW5zZXQtMCBiZy1ncmFkaWVudC10by10IGZyb20tZGFyay01MDAgdmlhLWRhcmstNTAwLzIwIHRvLXRyYW5zcGFyZW50XCIgLz5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGJvdHRvbS0wIGxlZnQtMCByaWdodC0wIHAtM1wiPlxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciB0ZXh0LXByaW1hcnktMzAwIG1iLTFcIj5cbiAgICAgICAgICAgICAgICAgICAgPENhbGVuZGFyIGNsYXNzTmFtZT1cInctNCBoLTQgbXItMlwiIC8+XG4gICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtc20gZm9udC1tZWRpdW1cIj57ZXZlbnQuZGF0ZX08L3NwYW4+XG4gICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9XCJ0ZXh0LWxnIGZvbnQtYm9sZCB0ZXh0LXdoaXRlIG1iLTFcIj57ZXZlbnQudGl0bGV9PC9oMz5cbiAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtZ3JheS0yMDAgdGV4dC14c1wiPntldmVudC5kZXNjcmlwdGlvbn08L3A+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInAtM1wiPlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgdGV4dC1wcmltYXJ5LTMwMCBtYi0yXCI+XG4gICAgICAgICAgICAgICAgICA8Q2FsZW5kYXIgY2xhc3NOYW1lPVwidy00IGgtNCBtci0yXCIgLz5cbiAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtc20gZm9udC1tZWRpdW1cIj57ZXZlbnQuZGF0ZX08L3NwYW4+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgPG1vdGlvbi5idXR0b25cbiAgICAgICAgICAgICAgICAgIHdoaWxlSG92ZXI9e3sgc2NhbGU6IDEuMDIgfX1cbiAgICAgICAgICAgICAgICAgIHdoaWxlVGFwPXt7IHNjYWxlOiAwLjk4IH19XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgYmctZ3JhZGllbnQtdG8tciBmcm9tLXByaW1hcnktNDAwIHRvLWFjY2VudC01MDAgcHktMiByb3VuZGVkLW1kIGZvbnQtc2VtaWJvbGQgaG92ZXI6ZnJvbS1wcmltYXJ5LTUwMCBob3Zlcjp0by1hY2NlbnQtNjAwIGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy1vZmZzZXQtMiBmb2N1czpyaW5nLXByaW1hcnktNDAwIHRyYW5zaXRpb24tYWxsIHRleHQtd2hpdGUgc2hhZG93LWxnIHRleHQtc21cIlxuICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgIFJTVlAgTm93XG4gICAgICAgICAgICAgICAgPC9tb3Rpb24uYnV0dG9uPlxuICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgIDwvbW90aW9uLmFydGljbGU+XG4gICAgICAgICAgKSl9XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgPC9zZWN0aW9uPlxuICApO1xufVxuXG5leHBvcnQgZGVmYXVsdCBGZWF0dXJlZEV2ZW50czsiXSwiZmlsZSI6IkM6L1VzZXJzL2FiaWRfL0Rlc2t0b3AvU2FwcGhpcmUgTG91bmdlL3NyYy9jb21wb25lbnRzL0ZlYXR1cmVkRXZlbnRzLnRzeCJ9Ë›ð&‘      gCø¤gCø¤G”î½       ¢    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/FeaturedEvents.tsx?t=1732507776803 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"2878-bAiv4PrgQHYWev2xya6BMZ8xKtM"
+Content-Length: 18983
+Access-Control-Allow-Origin: *
+Date: Mon, 25 Nov 2024 04:10:12 GMT
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"2878-bAiv4PrgQHYWev2xya6BMZ8xKtM"
+Date: Mon, 25 Nov 2024 04:09:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 18983
+ ctid 2 uncompressed-len 0 net-response-time-onstart 18 net-response-time-onstop 18   J'

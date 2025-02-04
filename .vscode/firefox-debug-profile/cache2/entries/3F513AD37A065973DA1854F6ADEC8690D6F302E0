@@ -1,0 +1,621 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Reservations.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=770d4ef7"; const useEffect = __vite__cjsImport3_react["useEffect"]; const useState = __vite__cjsImport3_react["useState"];
+import { motion } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+import { useForm } from "/node_modules/.vite/deps/react-hook-form.js?v=770d4ef7";
+import { zodResolver } from "/node_modules/.vite/deps/@hookform_resolvers_zod.js?v=770d4ef7";
+import { Calendar, Clock, Users } from "/node_modules/.vite/deps/lucide-react.js?v=770d4ef7";
+import { format, addDays } from "/node_modules/.vite/deps/date-fns.js?v=770d4ef7";
+import { Toaster } from "/node_modules/.vite/deps/react-hot-toast.js?v=770d4ef7";
+import { reservationSchema } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/lib/validations.ts";
+import { handleFormSubmission } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/lib/form-handler.ts";
+import { LoadingSpinner } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/LoadingSpinner.tsx";
+import ReservationSuccess from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ReservationSuccess.tsx";
+function Reservations() {
+  _s();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue
+  } = useForm({
+    resolver: zodResolver(reservationSchema)
+  });
+  useEffect(() => {
+    const savedData = localStorage.getItem("reservationFormData");
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        if (parsedData.name) setValue("name", parsedData.name);
+        if (parsedData.email) setValue("email", parsedData.email);
+        if (parsedData.phone) setValue("phone", parsedData.phone);
+      } catch (error) {
+        console.error("Error parsing saved form data:", error);
+        localStorage.removeItem("reservationFormData");
+      }
+    }
+  }, [setValue]);
+  const onSubmit = async (data) => {
+    const dataToSave = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone
+    };
+    localStorage.setItem("reservationFormData", JSON.stringify(dataToSave));
+    const result = await handleFormSubmission("reservations", data);
+    if (result.success) {
+      reset();
+    }
+  };
+  const timeSlots = [
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+    "21:30",
+    "22:00",
+    "22:30",
+    "23:00",
+    "23:30",
+    "00:00",
+    "00:30",
+    "01:00",
+    "01:30"
+  ];
+  const tableOptions = [
+    { id: "regular", name: "Regular Seating", displayName: "Regular Seating" },
+    { id: "booth", name: "Booth", displayName: "Booth Seating" }
+  ];
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [guests, setGuests] = useState(2);
+  const [tableType, setTableType] = useState("Regular Seating");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  const handleTimeChange = (time) => {
+    setSelectedTime(time);
+  };
+  const handleGuestsChange = (guests2) => {
+    setGuests(guests2);
+  };
+  const handleTableTypeChange = (tableType2) => {
+    const selectedOption = tableOptions.find((option) => option.id === tableType2);
+    setTableType(selectedOption?.displayName || "Regular Seating");
+  };
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen pt-24 pb-12 bg-[#020B18]", children: [
+    /* @__PURE__ */ jsxDEV(Toaster, { position: "top-center" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+      lineNumber: 96,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4 max-w-4xl", children: [
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          className: "text-center mb-8",
+          children: [
+            /* @__PURE__ */ jsxDEV("h1", { className: "text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400", children: "Make a Reservation" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 104,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "text-gray-400 text-sm max-w-2xl mx-auto mb-2", children: "Reserve your perfect spot at Sapphire Shisha Lounge. For parties larger than 8, please contact us directly." }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 105,
+              columnNumber: 11
+            }, this)
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+          lineNumber: 99,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          className: "bg-dark-900/50 backdrop-blur-sm p-4 rounded-lg shadow-lg mb-6 border border-accent-700/20 max-w-3xl mx-auto",
+          children: /* @__PURE__ */ jsxDEV("form", { onSubmit: handleSubmit(onSubmit), className: "space-y-4", children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Name" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 121,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "input",
+                  {
+                    type: "text",
+                    ...register("name"),
+                    className: "w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                    placeholder: "Your name"
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 122,
+                    columnNumber: 17
+                  },
+                  this
+                ),
+                errors.name && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.name.message }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 129,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 120,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Email" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 135,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "input",
+                  {
+                    type: "email",
+                    ...register("email"),
+                    className: "w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                    placeholder: "your@email.com"
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 136,
+                    columnNumber: 17
+                  },
+                  this
+                ),
+                errors.email && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.email.message }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 143,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 134,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Phone" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 149,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "input",
+                  {
+                    type: "tel",
+                    ...register("phone"),
+                    className: "w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                    placeholder: "Your phone number"
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 150,
+                    columnNumber: 17
+                  },
+                  this
+                ),
+                errors.phone && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.phone.message }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 157,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 148,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Select Date" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 163,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "relative", children: [
+                  /* @__PURE__ */ jsxDEV(Calendar, { className: "absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 165,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    "input",
+                    {
+                      type: "date",
+                      ...register("date"),
+                      min: format(/* @__PURE__ */ new Date(), "yyyy-MM-dd"),
+                      max: format(addDays(/* @__PURE__ */ new Date(), 30), "yyyy-MM-dd"),
+                      className: "w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                      onChange: (e) => handleDateChange(new Date(e.target.value))
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                      lineNumber: 166,
+                      columnNumber: 19
+                    },
+                    this
+                  ),
+                  errors.date && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.date.message }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 175,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 164,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 162,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Select Time" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 182,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "relative", children: [
+                  /* @__PURE__ */ jsxDEV(Clock, { className: "absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 184,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    "select",
+                    {
+                      ...register("time"),
+                      className: "w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent appearance-none",
+                      onChange: (e) => handleTimeChange(e.target.value),
+                      children: [
+                        /* @__PURE__ */ jsxDEV("option", { value: "", children: "Select time" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                          lineNumber: 190,
+                          columnNumber: 21
+                        }, this),
+                        timeSlots.map(
+                          (time) => /* @__PURE__ */ jsxDEV("option", { value: time, children: time }, time, false, {
+                            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                            lineNumber: 192,
+                            columnNumber: 21
+                          }, this)
+                        )
+                      ]
+                    },
+                    void 0,
+                    true,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                      lineNumber: 185,
+                      columnNumber: 19
+                    },
+                    this
+                  ),
+                  errors.time && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.time.message }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 196,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 183,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 181,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Number of Guests" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 203,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "relative", children: [
+                  /* @__PURE__ */ jsxDEV(Users, { className: "absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 205,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    "input",
+                    {
+                      type: "number",
+                      ...register("guests", { valueAsNumber: true }),
+                      min: "1",
+                      max: "8",
+                      className: "w-full pl-8 pr-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                      onChange: (e) => handleGuestsChange(parseInt(e.target.value))
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                      lineNumber: 206,
+                      columnNumber: 19
+                    },
+                    this
+                  ),
+                  errors.guests && /* @__PURE__ */ jsxDEV("p", { className: "text-red-400 text-xs", children: errors.guests.message }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 215,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 204,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 202,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Table Preference" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 222,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "select",
+                  {
+                    ...register("tablePreference"),
+                    className: "w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent",
+                    onChange: (e) => handleTableTypeChange(e.target.value),
+                    children: [
+                      /* @__PURE__ */ jsxDEV("option", { value: "", children: "Select preference" }, void 0, false, {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                        lineNumber: 228,
+                        columnNumber: 19
+                      }, this),
+                      tableOptions.map(
+                        (option) => /* @__PURE__ */ jsxDEV("option", { value: option.id, children: option.name }, option.id, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                          lineNumber: 230,
+                          columnNumber: 19
+                        }, this)
+                      )
+                    ]
+                  },
+                  void 0,
+                  true,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                    lineNumber: 223,
+                    columnNumber: 17
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 221,
+                columnNumber: 15
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 118,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "space-y-1", children: [
+              /* @__PURE__ */ jsxDEV("label", { className: "block text-sm font-medium", children: "Special Requests" }, void 0, false, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 240,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                "textarea",
+                {
+                  ...register("notes"),
+                  rows: 3,
+                  className: "w-full px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-sm",
+                  placeholder: "Any special requests or notes..."
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 241,
+                  columnNumber: 15
+                },
+                this
+              )
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 239,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "flex justify-center pt-2", children: /* @__PURE__ */ jsxDEV(
+              "button",
+              {
+                type: "submit",
+                disabled: isSubmitting,
+                className: "w-1/2 bg-gradient-to-r from-primary-400 to-accent-500 py-3 rounded-md font-semibold hover:from-primary-500 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 transition-all text-white shadow-lg",
+                onClick: (e) => {
+                  e.preventDefault();
+                  if (selectedDate && selectedTime) {
+                    setShowSuccess(true);
+                  }
+                },
+                children: isSubmitting ? /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                  lineNumber: 262,
+                  columnNumber: 33
+                }, this) : "Book Now"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+                lineNumber: 251,
+                columnNumber: 15
+              },
+              this
+            ) }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 250,
+              columnNumber: 13
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+            lineNumber: 117,
+            columnNumber: 11
+          }, this)
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+          lineNumber: 112,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: { opacity: 0 },
+          animate: { opacity: 1 },
+          transition: { delay: 0.2 },
+          className: "flex justify-center mt-12",
+          children: /* @__PURE__ */ jsxDEV(
+            "img",
+            {
+              src: "/images/logo/Sapphire Lounge Circle Logo.png",
+              alt: "Sapphire Lounge",
+              className: "w-32 h-32"
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+              lineNumber: 275,
+              columnNumber: 11
+            },
+            this
+          )
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+          lineNumber: 269,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+      lineNumber: 97,
+      columnNumber: 7
+    }, this),
+    showSuccess && selectedDate && selectedTime && /* @__PURE__ */ jsxDEV(
+      ReservationSuccess,
+      {
+        isOpen: true,
+        onClose: () => setShowSuccess(false),
+        reservationDetails: {
+          date: format(selectedDate, "EEEE, MMMM do, yyyy"),
+          time: selectedTime,
+          guests,
+          tableType
+        }
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+        lineNumber: 283,
+        columnNumber: 7
+      },
+      this
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx",
+    lineNumber: 95,
+    columnNumber: 5
+  }, this);
+}
+_s(Reservations, "daGQ6hYqABpzOQl1TUNgFJN2Kfo=", false, function() {
+  return [useForm];
+});
+_c = Reservations;
+export default Reservations;
+var _c;
+$RefreshReg$(_c, "Reservations");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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RCxJQUFBIiwibmFtZXMiOlsidXNlU3RhdGUiLCJtb3Rpb24iLCJ1c2VGb3JtIiwiem9kUmVzb2x2ZXIiLCJDYWxlbmRhciIsIkNsb2NrIiwiVXNlcnMiLCJmb3JtYXQiLCJhZGREYXlzIiwiVG9hc3RlciIsInJlc2VydmF0aW9uU2NoZW1hIiwiaGFuZGxlRm9ybVN1Ym1pc3Npb24iLCJMb2FkaW5nU3Bpbm5lciIsIlJlc2VydmF0aW9uU3VjY2VzcyIsIlJlc2VydmF0aW9ucyIsIl9zIiwicmVnaXN0ZXIiLCJoYW5kbGVTdWJtaXQiLCJmb3JtU3RhdGUiLCJlcnJvcnMiLCJpc1N1Ym1pdHRpbmciLCJyZXNldCIsInNldFZhbHVlIiwicmVzb2x2ZXIiLCJ1c2VFZmZlY3QiLCJzYXZlZERhdGEiLCJsb2NhbFN0b3JhZ2UiLCJnZXRJdGVtIiwicGFyc2VkRGF0YSIsIkpTT04iLCJwYXJzZSIsIm5hbWUiLCJlbWFpbCIsInBob25lIiwiZXJyb3IiLCJjb25zb2xlIiwicmVtb3ZlSXRlbSIsIm9uU3VibWl0IiwiZGF0YSIsImRhdGFUb1NhdmUiLCJzZXRJdGVtIiwic3RyaW5naWZ5IiwicmVzdWx0Iiwic3VjY2VzcyIsInRpbWVTbG90cyIsInRhYmxlT3B0aW9ucyIsImlkIiwiZGlzcGxheU5hbWUiLCJzZWxlY3RlZERhdGUiLCJzZXRTZWxlY3RlZERhdGUiLCJzZWxlY3RlZFRpbWUiLCJzZXRTZWxlY3RlZFRpbWUiLCJndWVzdHMiLCJzZXRHdWVzdHMiLCJ0YWJsZVR5cGUiLCJzZXRUYWJsZVR5cGUiLCJzaG93U3VjY2VzcyIsInNldFNob3dTdWNjZXNzIiwiaGFuZGxlRGF0ZUNoYW5nZSIsImRhdGUiLCJoYW5kbGVUaW1lQ2hhbmdlIiwidGltZSIsImhhbmRsZUd1ZXN0c0NoYW5nZSIsImhhbmRsZVRhYmxlVHlwZUNoYW5nZSIsInNlbGVjdGVkT3B0aW9uIiwiZmluZCIsIm9wdGlvbiIsIm9wYWNpdHkiLCJ5IiwibWVzc2FnZSIsIkRhdGUiLCJlIiwidGFyZ2V0IiwidmFsdWUiLCJtYXAiLCJ2YWx1ZUFzTnVtYmVyIiwicGFyc2VJbnQiLCJwcmV2ZW50RGVmYXVsdCIsImRlbGF5IiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUmVzZXJ2YXRpb25zLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZmZlY3QsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgbW90aW9uIH0gZnJvbSAnZnJhbWVyLW1vdGlvbic7XG5pbXBvcnQgeyB1c2VGb3JtIH0gZnJvbSAncmVhY3QtaG9vay1mb3JtJztcbmltcG9ydCB7IHpvZFJlc29sdmVyIH0gZnJvbSAnQGhvb2tmb3JtL3Jlc29sdmVycy96b2QnO1xuaW1wb3J0IHsgQ2FsZW5kYXIsIENsb2NrLCBVc2VycyB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XG5pbXBvcnQgeyBmb3JtYXQsIGFkZERheXMgfSBmcm9tICdkYXRlLWZucyc7XG5pbXBvcnQgeyBUb2FzdGVyIH0gZnJvbSAncmVhY3QtaG90LXRvYXN0JztcblxuaW1wb3J0IHsgcmVzZXJ2YXRpb25TY2hlbWEsIHR5cGUgUmVzZXJ2YXRpb25Gb3JtRGF0YSB9IGZyb20gJ0AvbGliL3ZhbGlkYXRpb25zJztcbmltcG9ydCB7IGhhbmRsZUZvcm1TdWJtaXNzaW9uIH0gZnJvbSAnQC9saWIvZm9ybS1oYW5kbGVyJztcbmltcG9ydCB7IExvYWRpbmdTcGlubmVyIH0gZnJvbSAnQC9jb21wb25lbnRzL3VpL0xvYWRpbmdTcGlubmVyJztcbmltcG9ydCBSZXNlcnZhdGlvblN1Y2Nlc3MgZnJvbSAnLi4vY29tcG9uZW50cy9SZXNlcnZhdGlvblN1Y2Nlc3MnO1xuXG5mdW5jdGlvbiBSZXNlcnZhdGlvbnMoKSB7XG4gIGNvbnN0IHtcbiAgICByZWdpc3RlcixcbiAgICBoYW5kbGVTdWJtaXQsXG4gICAgZm9ybVN0YXRlOiB7IGVycm9ycywgaXNTdWJtaXR0aW5nIH0sXG4gICAgcmVzZXQsXG4gICAgc2V0VmFsdWVcbiAgfSA9IHVzZUZvcm08UmVzZXJ2YXRpb25Gb3JtRGF0YT4oe1xuICAgIHJlc29sdmVyOiB6b2RSZXNvbHZlcihyZXNlcnZhdGlvblNjaGVtYSksXG4gIH0pO1xuXG4gIC8vIERlZmluZSB0eXBlIGZvciBzYXZlZCBmb3JtIGRhdGFcbiAgdHlwZSBTYXZlZEZvcm1EYXRhID0gUGljazxSZXNlcnZhdGlvbkZvcm1EYXRhLCAnbmFtZScgfCAnZW1haWwnIHwgJ3Bob25lJz47XG5cbiAgLy8gTG9hZCBzYXZlZCBmb3JtIGRhdGEgb24gY29tcG9uZW50IG1vdW50XG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgY29uc3Qgc2F2ZWREYXRhID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3Jlc2VydmF0aW9uRm9ybURhdGEnKTtcbiAgICBpZiAoc2F2ZWREYXRhKSB7XG4gICAgICB0cnkge1xuICAgICAgICBjb25zdCBwYXJzZWREYXRhID0gSlNPTi5wYXJzZShzYXZlZERhdGEpIGFzIFNhdmVkRm9ybURhdGE7XG4gICAgICAgIC8vIE9ubHkgc2V0IHRoZSBmaWVsZHMgd2Uga25vdyBhcmUgc3RyaW5ncyBhbmQgc2F2ZWRcbiAgICAgICAgaWYgKHBhcnNlZERhdGEubmFtZSkgc2V0VmFsdWUoJ25hbWUnLCBwYXJzZWREYXRhLm5hbWUpO1xuICAgICAgICBpZiAocGFyc2VkRGF0YS5lbWFpbCkgc2V0VmFsdWUoJ2VtYWlsJywgcGFyc2VkRGF0YS5lbWFpbCk7XG4gICAgICAgIGlmIChwYXJzZWREYXRhLnBob25lKSBzZXRWYWx1ZSgncGhvbmUnLCBwYXJzZWREYXRhLnBob25lKTtcbiAgICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICAgIGNvbnNvbGUuZXJyb3IoJ0Vycm9yIHBhcnNpbmcgc2F2ZWQgZm9ybSBkYXRhOicsIGVycm9yKTtcbiAgICAgICAgbG9jYWxTdG9yYWdlLnJlbW92ZUl0ZW0oJ3Jlc2VydmF0aW9uRm9ybURhdGEnKTtcbiAgICAgIH1cbiAgICB9XG4gIH0sIFtzZXRWYWx1ZV0pO1xuXG4gIGNvbnN0IG9uU3VibWl0ID0gYXN5bmMgKGRhdGE6IFJlc2VydmF0aW9uRm9ybURhdGEpID0+IHtcbiAgICAvLyBTYXZlIGJhc2ljIGNvbnRhY3QgaW5mb3JtYXRpb24gdG8gbG9jYWxTdG9yYWdlXG4gICAgY29uc3QgZGF0YVRvU2F2ZSA9IHtcbiAgICAgIG5hbWU6IGRhdGEubmFtZSxcbiAgICAgIGVtYWlsOiBkYXRhLmVtYWlsLFxuICAgICAgcGhvbmU6IGRhdGEucGhvbmUsXG4gICAgfTtcbiAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgncmVzZXJ2YXRpb25Gb3JtRGF0YScsIEpTT04uc3RyaW5naWZ5KGRhdGFUb1NhdmUpKTtcblxuICAgIGNvbnN0IHJlc3VsdCA9IGF3YWl0IGhhbmRsZUZvcm1TdWJtaXNzaW9uKCdyZXNlcnZhdGlvbnMnLCBkYXRhKTtcbiAgICBpZiAocmVzdWx0LnN1Y2Nlc3MpIHtcbiAgICAgIHJlc2V0KCk7XG4gICAgfVxuICB9O1xuXG4gIGNvbnN0IHRpbWVTbG90cyA9IFtcbiAgICAnMTc6MDAnLCAnMTc6MzAnLCAnMTg6MDAnLCAnMTg6MzAnLCAnMTk6MDAnLCAnMTk6MzAnLCBcbiAgICAnMjA6MDAnLCAnMjA6MzAnLCAnMjE6MDAnLCAnMjE6MzAnLCAnMjI6MDAnLCAnMjI6MzAnLCBcbiAgICAnMjM6MDAnLCAnMjM6MzAnLCAnMDA6MDAnLCAnMDA6MzAnLCAnMDE6MDAnLCAnMDE6MzAnXG4gIF07XG5cbiAgY29uc3QgdGFibGVPcHRpb25zID0gW1xuICAgIHsgaWQ6ICdyZWd1bGFyJywgbmFtZTogJ1JlZ3VsYXIgU2VhdGluZycsIGRpc3BsYXlOYW1lOiAnUmVndWxhciBTZWF0aW5nJyB9LFxuICAgIHsgaWQ6ICdib290aCcsIG5hbWU6ICdCb290aCcsIGRpc3BsYXlOYW1lOiAnQm9vdGggU2VhdGluZycgfVxuICBdO1xuXG4gIGNvbnN0IFtzZWxlY3RlZERhdGUsIHNldFNlbGVjdGVkRGF0ZV0gPSB1c2VTdGF0ZTxEYXRlIHwgbnVsbD4obnVsbCk7XG4gIGNvbnN0IFtzZWxlY3RlZFRpbWUsIHNldFNlbGVjdGVkVGltZV0gPSB1c2VTdGF0ZTxzdHJpbmc+KCcnKTtcbiAgY29uc3QgW2d1ZXN0cywgc2V0R3Vlc3RzXSA9IHVzZVN0YXRlPG51bWJlcj4oMik7XG4gIGNvbnN0IFt0YWJsZVR5cGUsIHNldFRhYmxlVHlwZV0gPSB1c2VTdGF0ZTxzdHJpbmc+KCdSZWd1bGFyIFNlYXRpbmcnKTtcbiAgY29uc3QgW3Nob3dTdWNjZXNzLCBzZXRTaG93U3VjY2Vzc10gPSB1c2VTdGF0ZShmYWxzZSk7XG5cbiAgY29uc3QgaGFuZGxlRGF0ZUNoYW5nZSA9IChkYXRlOiBEYXRlKSA9PiB7XG4gICAgc2V0U2VsZWN0ZWREYXRlKGRhdGUpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZVRpbWVDaGFuZ2UgPSAodGltZTogc3RyaW5nKSA9PiB7XG4gICAgc2V0U2VsZWN0ZWRUaW1lKHRpbWUpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZUd1ZXN0c0NoYW5nZSA9IChndWVzdHM6IG51bWJlcikgPT4ge1xuICAgIHNldEd1ZXN0cyhndWVzdHMpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZVRhYmxlVHlwZUNoYW5nZSA9ICh0YWJsZVR5cGU6IHN0cmluZykgPT4ge1xuICAgIGNvbnN0IHNlbGVjdGVkT3B0aW9uID0gdGFibGVPcHRpb25zLmZpbmQob3B0aW9uID0+IG9wdGlvbi5pZCA9PT0gdGFibGVUeXBlKTtcbiAgICBzZXRUYWJsZVR5cGUoc2VsZWN0ZWRPcHRpb24/LmRpc3BsYXlOYW1lIHx8ICdSZWd1bGFyIFNlYXRpbmcnKTtcbiAgfTtcblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwibWluLWgtc2NyZWVuIHB0LTI0IHBiLTEyIGJnLVsjMDIwQjE4XVwiPlxuICAgICAgPFRvYXN0ZXIgcG9zaXRpb249XCJ0b3AtY2VudGVyXCIgLz5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29udGFpbmVyIG14LWF1dG8gcHgtNCBtYXgtdy00eGxcIj5cbiAgICAgICAgey8qIEhlYWRlciBTZWN0aW9uICovfVxuICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCwgeTogMjAgfX1cbiAgICAgICAgICBhbmltYXRlPXt7IG9wYWNpdHk6IDEsIHk6IDAgfX1cbiAgICAgICAgICBjbGFzc05hbWU9XCJ0ZXh0LWNlbnRlciBtYi04XCJcbiAgICAgICAgPlxuICAgICAgICAgIDxoMSBjbGFzc05hbWU9XCJ0ZXh0LTN4bCBtZDp0ZXh0LTR4bCBmb250LWJvbGQgbWItMyBiZy1jbGlwLXRleHQgdGV4dC10cmFuc3BhcmVudCBiZy1ncmFkaWVudC10by1yIGZyb20tcHJpbWFyeS0zMDAgdG8tYWNjZW50LTQwMFwiPk1ha2UgYSBSZXNlcnZhdGlvbjwvaDE+XG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1ncmF5LTQwMCB0ZXh0LXNtIG1heC13LTJ4bCBteC1hdXRvIG1iLTJcIj5cbiAgICAgICAgICAgIFJlc2VydmUgeW91ciBwZXJmZWN0IHNwb3QgYXQgU2FwcGhpcmUgU2hpc2hhIExvdW5nZS4gRm9yIHBhcnRpZXMgbGFyZ2VyIHRoYW4gOCxcbiAgICAgICAgICAgIHBsZWFzZSBjb250YWN0IHVzIGRpcmVjdGx5LlxuICAgICAgICAgIDwvcD5cbiAgICAgICAgPC9tb3Rpb24uZGl2PlxuXG4gICAgICAgIHsvKiBNYWluIENvbnRlbnQgKi99XG4gICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgaW5pdGlhbD17eyBvcGFjaXR5OiAwLCB5OiAyMCB9fVxuICAgICAgICAgIGFuaW1hdGU9e3sgb3BhY2l0eTogMSwgeTogMCB9fVxuICAgICAgICAgIGNsYXNzTmFtZT1cImJnLWRhcmstOTAwLzUwIGJhY2tkcm9wLWJsdXItc20gcC00IHJvdW5kZWQtbGcgc2hhZG93LWxnIG1iLTYgYm9yZGVyIGJvcmRlci1hY2NlbnQtNzAwLzIwIG1heC13LTN4bCBteC1hdXRvXCJcbiAgICAgICAgPlxuICAgICAgICAgIDxmb3JtIG9uU3VibWl0PXtoYW5kbGVTdWJtaXQob25TdWJtaXQpfSBjbGFzc05hbWU9XCJzcGFjZS15LTRcIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBncmlkLWNvbHMtMSBtZDpncmlkLWNvbHMtMiBnYXAtNFwiPlxuICAgICAgICAgICAgICB7LyogTmFtZSBGaWVsZCAqL31cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTFcIj5cbiAgICAgICAgICAgICAgICA8bGFiZWwgY2xhc3NOYW1lPVwiYmxvY2sgdGV4dC1zbSBmb250LW1lZGl1bVwiPk5hbWU8L2xhYmVsPlxuICAgICAgICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICAgICAgICAgICAgey4uLnJlZ2lzdGVyKCduYW1lJyl9XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcHgtMyBweS0xLjUgYmctbmV1dHJhbC04MDAgYm9yZGVyIGJvcmRlci1uZXV0cmFsLTcwMCByb3VuZGVkLWxnIGZvY3VzOnJpbmctMiBmb2N1czpyaW5nLXByaW1hcnktNDAwIGZvY3VzOmJvcmRlci10cmFuc3BhcmVudFwiXG4gICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIllvdXIgbmFtZVwiXG4gICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICB7ZXJyb3JzLm5hbWUgJiYgKFxuICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1yZWQtNDAwIHRleHQteHNcIj57ZXJyb3JzLm5hbWUubWVzc2FnZX08L3A+XG4gICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgICAgey8qIEVtYWlsIEZpZWxkICovfVxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInNwYWNlLXktMVwiPlxuICAgICAgICAgICAgICAgIDxsYWJlbCBjbGFzc05hbWU9XCJibG9jayB0ZXh0LXNtIGZvbnQtbWVkaXVtXCI+RW1haWw8L2xhYmVsPlxuICAgICAgICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgICAgICAgdHlwZT1cImVtYWlsXCJcbiAgICAgICAgICAgICAgICAgIHsuLi5yZWdpc3RlcignZW1haWwnKX1cbiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBweC0zIHB5LTEuNSBiZy1uZXV0cmFsLTgwMCBib3JkZXIgYm9yZGVyLW5ldXRyYWwtNzAwIHJvdW5kZWQtbGcgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctcHJpbWFyeS00MDAgZm9jdXM6Ym9yZGVyLXRyYW5zcGFyZW50XCJcbiAgICAgICAgICAgICAgICAgIHBsYWNlaG9sZGVyPVwieW91ckBlbWFpbC5jb21cIlxuICAgICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICAgICAge2Vycm9ycy5lbWFpbCAmJiAoXG4gICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LXJlZC00MDAgdGV4dC14c1wiPntlcnJvcnMuZW1haWwubWVzc2FnZX08L3A+XG4gICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgICAgey8qIFBob25lIEZpZWxkICovfVxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInNwYWNlLXktMVwiPlxuICAgICAgICAgICAgICAgIDxsYWJlbCBjbGFzc05hbWU9XCJibG9jayB0ZXh0LXNtIGZvbnQtbWVkaXVtXCI+UGhvbmU8L2xhYmVsPlxuICAgICAgICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgICAgICAgdHlwZT1cInRlbFwiXG4gICAgICAgICAgICAgICAgICB7Li4ucmVnaXN0ZXIoJ3Bob25lJyl9XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcHgtMyBweS0xLjUgYmctbmV1dHJhbC04MDAgYm9yZGVyIGJvcmRlci1uZXV0cmFsLTcwMCByb3VuZGVkLWxnIGZvY3VzOnJpbmctMiBmb2N1czpyaW5nLXByaW1hcnktNDAwIGZvY3VzOmJvcmRlci10cmFuc3BhcmVudFwiXG4gICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIllvdXIgcGhvbmUgbnVtYmVyXCJcbiAgICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICAgIHtlcnJvcnMucGhvbmUgJiYgKFxuICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1yZWQtNDAwIHRleHQteHNcIj57ZXJyb3JzLnBob25lLm1lc3NhZ2V9PC9wPlxuICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICAgIHsvKiBEYXRlIFNlbGVjdGlvbiAqL31cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTFcIj5cbiAgICAgICAgICAgICAgICA8bGFiZWwgY2xhc3NOYW1lPVwiYmxvY2sgdGV4dC1zbSBmb250LW1lZGl1bVwiPlNlbGVjdCBEYXRlPC9sYWJlbD5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlbGF0aXZlXCI+XG4gICAgICAgICAgICAgICAgICA8Q2FsZW5kYXIgY2xhc3NOYW1lPVwiYWJzb2x1dGUgbGVmdC0yLjUgdG9wLTEvMiB0cmFuc2Zvcm0gLXRyYW5zbGF0ZS15LTEvMiB0ZXh0LWdyYXktNDAwIHctNCBoLTRcIiAvPlxuICAgICAgICAgICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICAgICAgICAgIHR5cGU9XCJkYXRlXCJcbiAgICAgICAgICAgICAgICAgICAgey4uLnJlZ2lzdGVyKCdkYXRlJyl9XG4gICAgICAgICAgICAgICAgICAgIG1pbj17Zm9ybWF0KG5ldyBEYXRlKCksICd5eXl5LU1NLWRkJyl9XG4gICAgICAgICAgICAgICAgICAgIG1heD17Zm9ybWF0KGFkZERheXMobmV3IERhdGUoKSwgMzApLCAneXl5eS1NTS1kZCcpfVxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcGwtOCBwci0zIHB5LTEuNSBiZy1uZXV0cmFsLTgwMCBib3JkZXIgYm9yZGVyLW5ldXRyYWwtNzAwIHJvdW5kZWQtbGcgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctcHJpbWFyeS00MDAgZm9jdXM6Ym9yZGVyLXRyYW5zcGFyZW50XCJcbiAgICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBoYW5kbGVEYXRlQ2hhbmdlKG5ldyBEYXRlKGUudGFyZ2V0LnZhbHVlKSl9XG4gICAgICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICAgICAge2Vycm9ycy5kYXRlICYmIChcbiAgICAgICAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1yZWQtNDAwIHRleHQteHNcIj57ZXJyb3JzLmRhdGUubWVzc2FnZX08L3A+XG4gICAgICAgICAgICAgICAgICApfVxuICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgICB7LyogVGltZSBTZWxlY3Rpb24gKi99XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS0xXCI+XG4gICAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQtc20gZm9udC1tZWRpdW1cIj5TZWxlY3QgVGltZTwvbGFiZWw+XG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyZWxhdGl2ZVwiPlxuICAgICAgICAgICAgICAgICAgPENsb2NrIGNsYXNzTmFtZT1cImFic29sdXRlIGxlZnQtMi41IHRvcC0xLzIgdHJhbnNmb3JtIC10cmFuc2xhdGUteS0xLzIgdGV4dC1ncmF5LTQwMCB3LTQgaC00XCIgLz5cbiAgICAgICAgICAgICAgICAgIDxzZWxlY3RcbiAgICAgICAgICAgICAgICAgICAgey4uLnJlZ2lzdGVyKCd0aW1lJyl9XG4gICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBwbC04IHByLTMgcHktMS41IGJnLW5ldXRyYWwtODAwIGJvcmRlciBib3JkZXItbmV1dHJhbC03MDAgcm91bmRlZC1sZyBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy1wcmltYXJ5LTQwMCBmb2N1czpib3JkZXItdHJhbnNwYXJlbnQgYXBwZWFyYW5jZS1ub25lXCJcbiAgICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBoYW5kbGVUaW1lQ2hhbmdlKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgPG9wdGlvbiB2YWx1ZT1cIlwiPlNlbGVjdCB0aW1lPC9vcHRpb24+XG4gICAgICAgICAgICAgICAgICAgIHt0aW1lU2xvdHMubWFwKCh0aW1lKSA9PiAoXG4gICAgICAgICAgICAgICAgICAgICAgPG9wdGlvbiBrZXk9e3RpbWV9IHZhbHVlPXt0aW1lfT57dGltZX08L29wdGlvbj5cbiAgICAgICAgICAgICAgICAgICAgKSl9XG4gICAgICAgICAgICAgICAgICA8L3NlbGVjdD5cbiAgICAgICAgICAgICAgICAgIHtlcnJvcnMudGltZSAmJiAoXG4gICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtcmVkLTQwMCB0ZXh0LXhzXCI+e2Vycm9ycy50aW1lLm1lc3NhZ2V9PC9wPlxuICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgICAgey8qIE51bWJlciBvZiBHdWVzdHMgKi99XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS0xXCI+XG4gICAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQtc20gZm9udC1tZWRpdW1cIj5OdW1iZXIgb2YgR3Vlc3RzPC9sYWJlbD5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlbGF0aXZlXCI+XG4gICAgICAgICAgICAgICAgICA8VXNlcnMgY2xhc3NOYW1lPVwiYWJzb2x1dGUgbGVmdC0yLjUgdG9wLTEvMiB0cmFuc2Zvcm0gLXRyYW5zbGF0ZS15LTEvMiB0ZXh0LWdyYXktNDAwIHctNCBoLTRcIiAvPlxuICAgICAgICAgICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICAgICAgICAgIHR5cGU9XCJudW1iZXJcIlxuICAgICAgICAgICAgICAgICAgICB7Li4ucmVnaXN0ZXIoJ2d1ZXN0cycsIHsgdmFsdWVBc051bWJlcjogdHJ1ZSB9KX1cbiAgICAgICAgICAgICAgICAgICAgbWluPVwiMVwiXG4gICAgICAgICAgICAgICAgICAgIG1heD1cIjhcIlxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcGwtOCBwci0zIHB5LTEuNSBiZy1uZXV0cmFsLTgwMCBib3JkZXIgYm9yZGVyLW5ldXRyYWwtNzAwIHJvdW5kZWQtbGcgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctcHJpbWFyeS00MDAgZm9jdXM6Ym9yZGVyLXRyYW5zcGFyZW50XCJcbiAgICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBoYW5kbGVHdWVzdHNDaGFuZ2UocGFyc2VJbnQoZS50YXJnZXQudmFsdWUpKX1cbiAgICAgICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICAgICAgICB7ZXJyb3JzLmd1ZXN0cyAmJiAoXG4gICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtcmVkLTQwMCB0ZXh0LXhzXCI+e2Vycm9ycy5ndWVzdHMubWVzc2FnZX08L3A+XG4gICAgICAgICAgICAgICAgICApfVxuICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgICB7LyogVGFibGUgUHJlZmVyZW5jZSAqL31cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTFcIj5cbiAgICAgICAgICAgICAgICA8bGFiZWwgY2xhc3NOYW1lPVwiYmxvY2sgdGV4dC1zbSBmb250LW1lZGl1bVwiPlRhYmxlIFByZWZlcmVuY2U8L2xhYmVsPlxuICAgICAgICAgICAgICAgIDxzZWxlY3RcbiAgICAgICAgICAgICAgICAgIHsuLi5yZWdpc3RlcigndGFibGVQcmVmZXJlbmNlJyl9XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcHgtMyBweS0xLjUgYmctbmV1dHJhbC04MDAgYm9yZGVyIGJvcmRlci1uZXV0cmFsLTcwMCByb3VuZGVkLWxnIGZvY3VzOnJpbmctMiBmb2N1czpyaW5nLXByaW1hcnktNDAwIGZvY3VzOmJvcmRlci10cmFuc3BhcmVudFwiXG4gICAgICAgICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IGhhbmRsZVRhYmxlVHlwZUNoYW5nZShlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgPG9wdGlvbiB2YWx1ZT1cIlwiPlNlbGVjdCBwcmVmZXJlbmNlPC9vcHRpb24+XG4gICAgICAgICAgICAgICAgICB7dGFibGVPcHRpb25zLm1hcCgob3B0aW9uKSA9PiAoXG4gICAgICAgICAgICAgICAgICAgIDxvcHRpb24ga2V5PXtvcHRpb24uaWR9IHZhbHVlPXtvcHRpb24uaWR9PlxuICAgICAgICAgICAgICAgICAgICAgIHtvcHRpb24ubmFtZX1cbiAgICAgICAgICAgICAgICAgICAgPC9vcHRpb24+XG4gICAgICAgICAgICAgICAgICApKX1cbiAgICAgICAgICAgICAgICA8L3NlbGVjdD5cbiAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgey8qIE5vdGVzICovfVxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTFcIj5cbiAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQtc20gZm9udC1tZWRpdW1cIj5TcGVjaWFsIFJlcXVlc3RzPC9sYWJlbD5cbiAgICAgICAgICAgICAgPHRleHRhcmVhXG4gICAgICAgICAgICAgICAgey4uLnJlZ2lzdGVyKCdub3RlcycpfVxuICAgICAgICAgICAgICAgIHJvd3M9ezN9XG4gICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwidy1mdWxsIHB4LTMgcHktMS41IGJnLW5ldXRyYWwtODAwIGJvcmRlciBib3JkZXItbmV1dHJhbC03MDAgcm91bmRlZC1sZyBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy1wcmltYXJ5LTQwMCBmb2N1czpib3JkZXItdHJhbnNwYXJlbnQgdGV4dC1zbVwiXG4gICAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9XCJBbnkgc3BlY2lhbCByZXF1ZXN0cyBvciBub3Rlcy4uLlwiXG4gICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgey8qIFN1Ym1pdCBCdXR0b24gKi99XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXgganVzdGlmeS1jZW50ZXIgcHQtMlwiPlxuICAgICAgICAgICAgICA8YnV0dG9uXG4gICAgICAgICAgICAgICAgdHlwZT1cInN1Ym1pdFwiXG4gICAgICAgICAgICAgICAgZGlzYWJsZWQ9e2lzU3VibWl0dGluZ31cbiAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LTEvMiBiZy1ncmFkaWVudC10by1yIGZyb20tcHJpbWFyeS00MDAgdG8tYWNjZW50LTUwMCBweS0zIHJvdW5kZWQtbWQgZm9udC1zZW1pYm9sZCBob3Zlcjpmcm9tLXByaW1hcnktNTAwIGhvdmVyOnRvLWFjY2VudC02MDAgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOnJpbmctMiBmb2N1czpyaW5nLW9mZnNldC0yIGZvY3VzOnJpbmctcHJpbWFyeS00MDAgdHJhbnNpdGlvbi1hbGwgdGV4dC13aGl0ZSBzaGFkb3ctbGdcIlxuICAgICAgICAgICAgICAgIG9uQ2xpY2s9eyhlKSA9PiB7XG4gICAgICAgICAgICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7XG4gICAgICAgICAgICAgICAgICBpZiAoc2VsZWN0ZWREYXRlICYmIHNlbGVjdGVkVGltZSkge1xuICAgICAgICAgICAgICAgICAgICBzZXRTaG93U3VjY2Vzcyh0cnVlKTtcbiAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAge2lzU3VibWl0dGluZyA/IDxMb2FkaW5nU3Bpbm5lciAvPiA6ICdCb29rIE5vdyd9XG4gICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgPC9mb3JtPlxuICAgICAgICA8L21vdGlvbi5kaXY+XG5cbiAgICAgICAgey8qIENpcmNsZSBMb2dvICovfVxuICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCB9fVxuICAgICAgICAgIGFuaW1hdGU9e3sgb3BhY2l0eTogMSB9fVxuICAgICAgICAgIHRyYW5zaXRpb249e3sgZGVsYXk6IDAuMiB9fVxuICAgICAgICAgIGNsYXNzTmFtZT1cImZsZXgganVzdGlmeS1jZW50ZXIgbXQtMTJcIlxuICAgICAgICA+XG4gICAgICAgICAgPGltZyBcbiAgICAgICAgICAgIHNyYz1cIi9pbWFnZXMvbG9nby9TYXBwaGlyZSBMb3VuZ2UgQ2lyY2xlIExvZ28ucG5nXCJcbiAgICAgICAgICAgIGFsdD1cIlNhcHBoaXJlIExvdW5nZVwiIFxuICAgICAgICAgICAgY2xhc3NOYW1lPVwidy0zMiBoLTMyXCJcbiAgICAgICAgICAvPlxuICAgICAgICA8L21vdGlvbi5kaXY+XG4gICAgICA8L2Rpdj5cbiAgICAgIHtzaG93U3VjY2VzcyAmJiBzZWxlY3RlZERhdGUgJiYgc2VsZWN0ZWRUaW1lICYmIChcbiAgICAgICAgPFJlc2VydmF0aW9uU3VjY2Vzc1xuICAgICAgICAgIGlzT3Blbj17dHJ1ZX1cbiAgICAgICAgICBvbkNsb3NlPXsoKSA9PiBzZXRTaG93U3VjY2VzcyhmYWxzZSl9XG4gICAgICAgICAgcmVzZXJ2YXRpb25EZXRhaWxzPXt7XG4gICAgICAgICAgICBkYXRlOiBmb3JtYXQoc2VsZWN0ZWREYXRlLCAnRUVFRSwgTU1NTSBkbywgeXl5eScpLFxuICAgICAgICAgICAgdGltZTogc2VsZWN0ZWRUaW1lLFxuICAgICAgICAgICAgZ3Vlc3RzOiBndWVzdHMsXG4gICAgICAgICAgICB0YWJsZVR5cGU6IHRhYmxlVHlwZVxuICAgICAgICAgIH19XG4gICAgICAgIC8+XG4gICAgICApfVxuICAgIDwvZGl2PlxuICApO1xufVxuXG5leHBvcnQgZGVmYXVsdCBSZXNlcnZhdGlvbnM7Il0sImZpbGUiOiJDOi9Vc2Vycy9hYmlkXy9EZXNrdG9wL1NhcHBoaXJlIExvdW5nZS9zcmMvcGFnZXMvUmVzZXJ2YXRpb25zLnRzeCJ9é%Z~      gFì¨gFì¨Gï”3       n    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/src/pages/Reservations.tsx?t=1732678572351 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"6ea8-gHnGp1qzR6fufltxoXJtqMHU/cg"
+Date: Wed, 27 Nov 2024 03:36:12 GMT
+Content-Length: 57567
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"6ea8-gHnGp1qzR6fufltxoXJtqMHU/cg"
+Date: Wed, 27 Nov 2024 03:36:12 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 57567
+ ctid 2 uncompressed-len 0 net-response-time-onstart 71 net-response-time-onstop 72   ‡ﬂ

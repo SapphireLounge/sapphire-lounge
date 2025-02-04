@@ -1,0 +1,158 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=770d4ef7"; const useState = __vite__cjsImport3_react["useState"];
+import { motion } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+import { Mail } from "/node_modules/.vite/deps/lucide-react.js?v=770d4ef7";
+import { handleFormSubmission } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/lib/form-handler.ts?t=1732581209193";
+export function Newsletter() {
+  _s();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const response = await handleFormSubmission("newsletter", { email });
+      if (response.success) {
+        setStatus("success");
+        setEmail("");
+        setTimeout(() => setStatus("idle"), 3e3);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 3e3);
+      }
+    } catch (error) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3e3);
+    }
+  };
+  return /* @__PURE__ */ jsxDEV("section", { className: "py-12 bg-[#020B18]", children: /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4", children: /* @__PURE__ */ jsxDEV("div", { className: "max-w-2xl mx-auto text-center", children: [
+    /* @__PURE__ */ jsxDEV("h2", { className: "text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 pb-0.5", children: "Stay Updated" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+      lineNumber: 34,
+      columnNumber: 11
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "text-gray-400 mb-8", children: "Subscribe to our newsletter for exclusive offers and updates." }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+      lineNumber: 37,
+      columnNumber: 11
+    }, this),
+    /* @__PURE__ */ jsxDEV("form", { onSubmit: handleSubmit, className: "flex flex-col sm:flex-row gap-4 max-w-md mx-auto", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "flex-1 relative", children: [
+        /* @__PURE__ */ jsxDEV(Mail, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+          lineNumber: 42,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          "input",
+          {
+            type: "email",
+            value: email,
+            onChange: (e) => setEmail(e.target.value),
+            placeholder: "Enter your email",
+            className: "w-full pl-10 pr-4 py-3 bg-dark-500 border border-accent-700/20 rounded-lg focus:outline-none focus:border-primary-300 text-gray-200 placeholder-gray-500",
+            required: true
+          },
+          void 0,
+          false,
+          {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+            lineNumber: 43,
+            columnNumber: 15
+          },
+          this
+        )
+      ] }, void 0, true, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+        lineNumber: 41,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        motion.button,
+        {
+          whileHover: { scale: 1.02 },
+          whileTap: { scale: 0.98 },
+          type: "submit",
+          disabled: status === "loading",
+          className: `px-6 py-3 rounded-lg font-semibold transition-colors ${status === "loading" ? "bg-primary-400/50 cursor-wait" : status === "success" ? "bg-green-500" : status === "error" ? "bg-red-500" : "bg-primary-400 hover:bg-primary-500"}`,
+          children: status === "loading" ? "Subscribing..." : status === "success" ? "Subscribed!" : status === "error" ? "Try Again" : "Subscribe"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+          lineNumber: 52,
+          columnNumber: 13
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+      lineNumber: 40,
+      columnNumber: 11
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+    lineNumber: 33,
+    columnNumber: 9
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+    lineNumber: 32,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx",
+    lineNumber: 31,
+    columnNumber: 5
+  }, this);
+}
+_s(Newsletter, "4e7CyTvSIXKg0XJWYe8bTLqSzlM=");
+_c = Newsletter;
+var _c;
+$RefreshReg$(_c, "Newsletter");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/Newsletter.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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LElBQUFnQjtBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsidXNlU3RhdGUiLCJtb3Rpb24iLCJNYWlsIiwiaGFuZGxlRm9ybVN1Ym1pc3Npb24iLCJOZXdzbGV0dGVyIiwiX3MiLCJlbWFpbCIsInNldEVtYWlsIiwic3RhdHVzIiwic2V0U3RhdHVzIiwiaGFuZGxlU3VibWl0IiwiZSIsInByZXZlbnREZWZhdWx0IiwicmVzcG9uc2UiLCJzdWNjZXNzIiwic2V0VGltZW91dCIsImVycm9yIiwidGFyZ2V0IiwidmFsdWUiLCJzY2FsZSIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIk5ld3NsZXR0ZXIudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IG1vdGlvbiB9IGZyb20gJ2ZyYW1lci1tb3Rpb24nO1xuaW1wb3J0IHsgTWFpbCB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XG5pbXBvcnQgeyBoYW5kbGVGb3JtU3VibWlzc2lvbiB9IGZyb20gJy4uL2xpYi9mb3JtLWhhbmRsZXInO1xuXG5leHBvcnQgZnVuY3Rpb24gTmV3c2xldHRlcigpIHtcbiAgY29uc3QgW2VtYWlsLCBzZXRFbWFpbF0gPSB1c2VTdGF0ZSgnJyk7XG4gIGNvbnN0IFtzdGF0dXMsIHNldFN0YXR1c10gPSB1c2VTdGF0ZTwnaWRsZScgfCAnbG9hZGluZycgfCAnc3VjY2VzcycgfCAnZXJyb3InPignaWRsZScpO1xuXG4gIGNvbnN0IGhhbmRsZVN1Ym1pdCA9IGFzeW5jIChlOiBSZWFjdC5Gb3JtRXZlbnQpID0+IHtcbiAgICBlLnByZXZlbnREZWZhdWx0KCk7XG4gICAgc2V0U3RhdHVzKCdsb2FkaW5nJyk7XG5cbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBoYW5kbGVGb3JtU3VibWlzc2lvbignbmV3c2xldHRlcicsIHsgZW1haWwgfSk7XG4gICAgICBpZiAocmVzcG9uc2Uuc3VjY2Vzcykge1xuICAgICAgICBzZXRTdGF0dXMoJ3N1Y2Nlc3MnKTtcbiAgICAgICAgc2V0RW1haWwoJycpO1xuICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHNldFN0YXR1cygnaWRsZScpLCAzMDAwKTtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIHNldFN0YXR1cygnZXJyb3InKTtcbiAgICAgICAgc2V0VGltZW91dCgoKSA9PiBzZXRTdGF0dXMoJ2lkbGUnKSwgMzAwMCk7XG4gICAgICB9XG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgIHNldFN0YXR1cygnZXJyb3InKTtcbiAgICAgIHNldFRpbWVvdXQoKCkgPT4gc2V0U3RhdHVzKCdpZGxlJyksIDMwMDApO1xuICAgIH1cbiAgfTtcblxuICByZXR1cm4gKFxuICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cInB5LTEyIGJnLVsjMDIwQjE4XVwiPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJjb250YWluZXIgbXgtYXV0byBweC00XCI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibWF4LXctMnhsIG14LWF1dG8gdGV4dC1jZW50ZXJcIj5cbiAgICAgICAgICA8aDIgY2xhc3NOYW1lPVwidGV4dC0zeGwgZm9udC1ib2xkIG1iLTQgYmctY2xpcC10ZXh0IHRleHQtdHJhbnNwYXJlbnQgYmctZ3JhZGllbnQtdG8tciBmcm9tLXByaW1hcnktMzAwIHRvLWFjY2VudC00MDAgcGItMC41XCI+XG4gICAgICAgICAgICBTdGF5IFVwZGF0ZWRcbiAgICAgICAgICA8L2gyPlxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtZ3JheS00MDAgbWItOFwiPlxuICAgICAgICAgICAgU3Vic2NyaWJlIHRvIG91ciBuZXdzbGV0dGVyIGZvciBleGNsdXNpdmUgb2ZmZXJzIGFuZCB1cGRhdGVzLlxuICAgICAgICAgIDwvcD5cbiAgICAgICAgICA8Zm9ybSBvblN1Ym1pdD17aGFuZGxlU3VibWl0fSBjbGFzc05hbWU9XCJmbGV4IGZsZXgtY29sIHNtOmZsZXgtcm93IGdhcC00IG1heC13LW1kIG14LWF1dG9cIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleC0xIHJlbGF0aXZlXCI+XG4gICAgICAgICAgICAgIDxNYWlsIGNsYXNzTmFtZT1cImFic29sdXRlIGxlZnQtMyB0b3AtMS8yIC10cmFuc2xhdGUteS0xLzIgdy01IGgtNSB0ZXh0LWdyYXktNDAwXCIgLz5cbiAgICAgICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICAgICAgdHlwZT1cImVtYWlsXCJcbiAgICAgICAgICAgICAgICB2YWx1ZT17ZW1haWx9XG4gICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRFbWFpbChlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9XCJFbnRlciB5b3VyIGVtYWlsXCJcbiAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgcGwtMTAgcHItNCBweS0zIGJnLWRhcmstNTAwIGJvcmRlciBib3JkZXItYWNjZW50LTcwMC8yMCByb3VuZGVkLWxnIGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpib3JkZXItcHJpbWFyeS0zMDAgdGV4dC1ncmF5LTIwMCBwbGFjZWhvbGRlci1ncmF5LTUwMFwiXG4gICAgICAgICAgICAgICAgcmVxdWlyZWRcbiAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPG1vdGlvbi5idXR0b25cbiAgICAgICAgICAgICAgd2hpbGVIb3Zlcj17eyBzY2FsZTogMS4wMiB9fVxuICAgICAgICAgICAgICB3aGlsZVRhcD17eyBzY2FsZTogMC45OCB9fVxuICAgICAgICAgICAgICB0eXBlPVwic3VibWl0XCJcbiAgICAgICAgICAgICAgZGlzYWJsZWQ9e3N0YXR1cyA9PT0gJ2xvYWRpbmcnfVxuICAgICAgICAgICAgICBjbGFzc05hbWU9e2BweC02IHB5LTMgcm91bmRlZC1sZyBmb250LXNlbWlib2xkIHRyYW5zaXRpb24tY29sb3JzICR7XG4gICAgICAgICAgICAgICAgc3RhdHVzID09PSAnbG9hZGluZydcbiAgICAgICAgICAgICAgICAgID8gJ2JnLXByaW1hcnktNDAwLzUwIGN1cnNvci13YWl0J1xuICAgICAgICAgICAgICAgICAgOiBzdGF0dXMgPT09ICdzdWNjZXNzJ1xuICAgICAgICAgICAgICAgICAgPyAnYmctZ3JlZW4tNTAwJ1xuICAgICAgICAgICAgICAgICAgOiBzdGF0dXMgPT09ICdlcnJvcidcbiAgICAgICAgICAgICAgICAgID8gJ2JnLXJlZC01MDAnXG4gICAgICAgICAgICAgICAgICA6ICdiZy1wcmltYXJ5LTQwMCBob3ZlcjpiZy1wcmltYXJ5LTUwMCdcbiAgICAgICAgICAgICAgfWB9XG4gICAgICAgICAgICA+XG4gICAgICAgICAgICAgIHtzdGF0dXMgPT09ICdsb2FkaW5nJyA/ICdTdWJzY3JpYmluZy4uLicgOiBcbiAgICAgICAgICAgICAgIHN0YXR1cyA9PT0gJ3N1Y2Nlc3MnID8gJ1N1YnNjcmliZWQhJyA6IFxuICAgICAgICAgICAgICAgc3RhdHVzID09PSAnZXJyb3InID8gJ1RyeSBBZ2FpbicgOlxuICAgICAgICAgICAgICAgJ1N1YnNjcmliZSd9XG4gICAgICAgICAgICA8L21vdGlvbi5idXR0b24+XG4gICAgICAgICAgPC9mb3JtPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvc2VjdGlvbj5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL2NvbXBvbmVudHMvTmV3c2xldHRlci50c3gifQ==goÜ°‰î           gEÏG”Ëæ       ž    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/Newsletter.tsx?t=1732581234876 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1ab0-3V+m+oxn20nnEyfurvJrjlboBh8"
+Date: Tue, 26 Nov 2024 00:35:27 GMT
+Content-Length: 13843
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1ab0-3V+m+oxn20nnEyfurvJrjlboBh8"
+Date: Tue, 26 Nov 2024 00:35:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 13843
+ ctid 2 uncompressed-len 0 net-response-time-onstart 364 net-response-time-onstop 364   6

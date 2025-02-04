@@ -1,0 +1,626 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b694899f"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=b694899f"; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"]; const useCallback = __vite__cjsImport3_react["useCallback"];
+import { motion } from "/node_modules/.vite/deps/framer-motion.js?v=b694899f";
+import { Award, Crown, Zap, Check } from "/node_modules/.vite/deps/lucide-react.js?v=b694899f";
+import { usePayment } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/hooks/usePayment.ts";
+import __vite__cjsImport7_reactConfetti from "/node_modules/.vite/deps/react-confetti.js?v=b694899f"; const ReactConfetti = __vite__cjsImport7_reactConfetti.__esModule ? __vite__cjsImport7_reactConfetti.default : __vite__cjsImport7_reactConfetti;
+import SubscriptionSuccess from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SubscriptionSuccess.tsx";
+const Loyalty = () => {
+  _s();
+  const { processPayment, error } = usePayment();
+  const [processingTier, setProcessingTier] = useState(null);
+  const [errorTier, setErrorTier] = useState(null);
+  const [successTier, setSuccessTier] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiPosition, setConfettiPosition] = useState({ x: 0, y: 0 });
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const tiers = [
+    {
+      level: "Silver",
+      price: 1e3,
+      // Â£10.00
+      iconClass: "from-gray-500 to-gray-300",
+      benefits: [
+        "10% off the total bill",
+        "One free drink per month",
+        "Free dessert in birthday month",
+        "Half price on one Standard shisha per month"
+      ]
+    },
+    {
+      level: "Gold",
+      price: 2e3,
+      // Â£20.00
+      iconClass: "from-yellow-600 to-yellow-400",
+      benefits: [
+        "20% off the total bill",
+        "Priority reservations",
+        "VIP seating when available",
+        "Exclusive flavour access",
+        "Half price entry to exclusive events",
+        "One free drink per month",
+        "Birthday Package: Free shisha & dessert",
+        "Half price on one Premium shisha per month"
+      ]
+    },
+    {
+      level: "Sapphire",
+      price: 3e3,
+      // Â£30.00
+      iconClass: "from-blue-600 to-blue-400",
+      benefits: [
+        "30% off the total bill",
+        "Guaranteed VIP seating",
+        "Skip-the-queue privilege",
+        "Exclusive flavours & premium lines",
+        "Half price entry to exclusive events",
+        "Bring a friend for free (once per month)",
+        "One free drink per month",
+        "Birthday Package: Free shisha & dessert",
+        "Half price on two Premium shishas per month"
+      ]
+    }
+  ];
+  const handleSubscription = async (tier) => {
+    setProcessingTier(tier.level);
+    setErrorTier(null);
+    const result = await processPayment(tier.price);
+    if (result.success) {
+      setSuccessTier({ level: tier.level, iconClass: tier.iconClass });
+    } else {
+      setErrorTier(tier.level);
+    }
+    setProcessingTier(null);
+  };
+  const handleSuccessIconLoad = useCallback((x, y) => {
+    setConfettiPosition({ x, y });
+    setShowConfetti(true);
+  }, []);
+  useEffect(() => {
+    let timer;
+    if (showConfetti) {
+      timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 5e3);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [showConfetti]);
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen bg-[#020B18] pt-24 pb-12", children: [
+    showConfetti && successTier && /* @__PURE__ */ jsxDEV("div", { className: "fixed inset-0 pointer-events-none", style: { zIndex: 1e3 }, children: /* @__PURE__ */ jsxDEV(
+      ReactConfetti,
+      {
+        width: windowSize.width,
+        height: windowSize.height,
+        colors: [
+          successTier.level === "Silver" ? "#C0C0C0" : successTier.level === "Gold" ? "#FFD700" : "#4169E1",
+          // Sapphire blue
+          "#FFFFFF",
+          successTier.level === "Silver" ? "#A9A9A9" : successTier.level === "Gold" ? "#DAA520" : "#1E90FF",
+          successTier.level === "Silver" ? "#E8E8E8" : successTier.level === "Gold" ? "#FFF8DC" : "#87CEEB"
+        ],
+        recycle: false,
+        numberOfPieces: 300,
+        confettiSource: {
+          x: confettiPosition.x,
+          y: confettiPosition.y,
+          w: 0,
+          h: 0
+        },
+        initialVelocityX: 12,
+        initialVelocityY: 40,
+        gravity: 0.2,
+        tweenDuration: 100,
+        spread: 70,
+        wind: 0.01,
+        friction: 0.97
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+        lineNumber: 117,
+        columnNumber: 11
+      },
+      this
+    ) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+      lineNumber: 116,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4", children: [
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          className: "text-center mb-14",
+          children: [
+            /* @__PURE__ */ jsxDEV("h1", { className: "text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400 leading-normal pb-1", children: "Loyalty Scheme" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+              lineNumber: 157,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "text-gray-300 max-w-2xl mx-auto text-base mb-2", children: "Join our exclusive membership scheme and enjoy premium benefits every month" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+              lineNumber: 160,
+              columnNumber: 11
+            }, this)
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+          lineNumber: 152,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8 mb-12", children: tiers.map(
+        (tier, index) => /* @__PURE__ */ jsxDEV(
+          motion.div,
+          {
+            initial: { opacity: 0, y: 20 },
+            animate: { opacity: 1, y: 0 },
+            transition: { delay: index * 0.2 },
+            className: "bg-dark-800/50 rounded-xl p-4 border border-dark-700/50 hover:border-primary-500/50 transition-colors flex flex-col h-full",
+            children: [
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col items-center mb-6", children: [
+                  /* @__PURE__ */ jsxDEV(
+                    "div",
+                    {
+                      className: `flex items-center justify-center w-20 h-20 rounded-full shadow-lg ring-2 ring-opacity-50 ${tier.level === "Silver" ? "ring-gray-400 bg-gradient-to-br from-gray-400 via-gray-200 to-gray-600" : tier.level === "Gold" ? "ring-yellow-500 bg-gradient-to-br from-yellow-600 via-yellow-300 to-yellow-800" : "ring-blue-500 bg-gradient-to-br from-blue-500 via-sky-400 to-blue-800"} relative overflow-hidden`,
+                      children: [
+                        /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                          lineNumber: 183,
+                          columnNumber: 21
+                        }, this),
+                        /* @__PURE__ */ jsxDEV(
+                          "div",
+                          {
+                            className: "absolute inset-0 animate-shimmer",
+                            style: {
+                              background: `linear-gradient(90deg, 
+                          transparent 0%,
+                          rgba(255, 255, 255, 0.95) 10%,
+                          transparent 30%
+                        )`,
+                              width: "150%",
+                              height: "150%",
+                              top: "-25%",
+                              left: "-25%",
+                              zIndex: 2,
+                              transformOrigin: "center center"
+                            }
+                          },
+                          void 0,
+                          false,
+                          {
+                            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                            lineNumber: 184,
+                            columnNumber: 21
+                          },
+                          this
+                        ),
+                        /* @__PURE__ */ jsxDEV("div", { className: "relative z-10", children: [
+                          tier.level === "Silver" && /* @__PURE__ */ jsxDEV(Award, { className: "w-10 h-10 text-gray-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" }, void 0, false, {
+                            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                            lineNumber: 202,
+                            columnNumber: 21
+                          }, this),
+                          tier.level === "Gold" && /* @__PURE__ */ jsxDEV(Zap, { className: "w-10 h-10 text-yellow-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" }, void 0, false, {
+                            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                            lineNumber: 205,
+                            columnNumber: 21
+                          }, this),
+                          tier.level === "Sapphire" && /* @__PURE__ */ jsxDEV(Crown, { className: "w-10 h-10 text-sky-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]" }, void 0, false, {
+                            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                            lineNumber: 208,
+                            columnNumber: 21
+                          }, this)
+                        ] }, void 0, true, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                          lineNumber: 200,
+                          columnNumber: 21
+                        }, this)
+                      ]
+                    },
+                    void 0,
+                    true,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 176,
+                      columnNumber: 19
+                    },
+                    this
+                  ),
+                  /* @__PURE__ */ jsxDEV("h3", { className: "text-2xl font-semibold text-white mt-4", children: tier.level }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 212,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "mt-2 flex flex-col items-center", children: [
+                    /* @__PURE__ */ jsxDEV("span", { className: "text-2xl font-bold text-primary-400", children: [
+                      "Â£",
+                      (tier.price / 100).toFixed(2)
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 214,
+                      columnNumber: 21
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("span", { className: "text-sm text-gray-400", children: "per month" }, void 0, false, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 215,
+                      columnNumber: 21
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 213,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 175,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "h-px bg-dark-700/50 mb-3" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 218,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("ul", { className: "space-y-2", children: tier.benefits.map(
+                  (benefit, i) => /* @__PURE__ */ jsxDEV("li", { className: "flex items-start text-gray-300 text-sm", children: [
+                    /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-0.5" }, void 0, false, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 222,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("span", { children: benefit }, void 0, false, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 223,
+                      columnNumber: 23
+                    }, this)
+                  ] }, i, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 221,
+                    columnNumber: 17
+                  }, this)
+                ) }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 219,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 174,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "mt-auto pt-6", children: [
+                /* @__PURE__ */ jsxDEV(
+                  motion.button,
+                  {
+                    whileHover: { scale: 1.02 },
+                    whileTap: { scale: 0.98 },
+                    onClick: () => handleSubscription(tier),
+                    disabled: processingTier === tier.level,
+                    className: `w-full py-3 rounded-lg font-semibold transition-all text-white shadow-lg ${processingTier === tier.level ? "bg-gray-600 cursor-not-allowed" : `bg-gradient-to-r from-primary-400 to-accent-500 hover:from-primary-500 hover:to-accent-600`}`,
+                    children: processingTier === tier.level ? /* @__PURE__ */ jsxDEV("span", { className: "flex items-center justify-center", children: [
+                      /* @__PURE__ */ jsxDEV(
+                        motion.div,
+                        {
+                          animate: { rotate: 360 },
+                          transition: { duration: 1, repeat: Infinity, ease: "linear" },
+                          className: "w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                        },
+                        void 0,
+                        false,
+                        {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                          lineNumber: 243,
+                          columnNumber: 23
+                        },
+                        this
+                      ),
+                      "Processing..."
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                      lineNumber: 242,
+                      columnNumber: 17
+                    }, this) : "Subscribe Now"
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 230,
+                    columnNumber: 17
+                  },
+                  this
+                ),
+                errorTier === tier.level && /* @__PURE__ */ jsxDEV(
+                  motion.p,
+                  {
+                    initial: { opacity: 0 },
+                    animate: { opacity: 1 },
+                    className: "text-red-500 text-sm mt-2",
+                    children: "Payment failed. Please try again."
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 255,
+                    columnNumber: 15
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 229,
+                columnNumber: 15
+              }, this)
+            ]
+          },
+          tier.level,
+          true,
+          {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+            lineNumber: 167,
+            columnNumber: 11
+          },
+          this
+        )
+      ) }, void 0, false, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+        lineNumber: 165,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "max-w-3xl mx-auto mt-16", children: /* @__PURE__ */ jsxDEV("div", { className: "space-y-8", children: [
+        /* @__PURE__ */ jsxDEV(
+          motion.div,
+          {
+            initial: { opacity: 0, y: 20 },
+            animate: { opacity: 1, y: 0 },
+            className: "bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20",
+            children: [
+              /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold text-white mb-4", children: "Additional Information" }, void 0, false, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 275,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("ul", { className: "space-y-3 text-gray-300", children: [
+                /* @__PURE__ */ jsxDEV("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 278,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: "All memberships are billed monthly and can be cancelled at any time" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 279,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 277,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 282,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: "Benefits reset at the beginning of each month" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 283,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 281,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 286,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: "Birthday benefits must be claimed within your birthday month" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 287,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 285,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 290,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: "Discounts cannot be combined with other promotional offers" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 291,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 289,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsxDEV(Check, { className: "w-4 h-4 mr-2 text-primary-400 flex-shrink-0 mt-1" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 294,
+                    columnNumber: 19
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: "Benefits are non-transferable and cannot be carried over to the next month" }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                    lineNumber: 295,
+                    columnNumber: 19
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                  lineNumber: 293,
+                  columnNumber: 17
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 276,
+                columnNumber: 15
+              }, this)
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+            lineNumber: 270,
+            columnNumber: 13
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          motion.div,
+          {
+            initial: { opacity: 0, y: 20 },
+            animate: { opacity: 1, y: 0 },
+            className: "bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20",
+            children: [
+              /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-semibold text-white mb-4", children: "Need Help?" }, void 0, false, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 305,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "text-gray-300", children: "If you have any questions about our loyalty scheme or need assistance, please don't hesitate to contact our team. We're here to help you make the most of your membership benefits." }, void 0, false, {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+                lineNumber: 306,
+                columnNumber: 15
+              }, this)
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+            lineNumber: 300,
+            columnNumber: 13
+          },
+          this
+        )
+      ] }, void 0, true, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+        lineNumber: 269,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+        lineNumber: 268,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+      lineNumber: 151,
+      columnNumber: 7
+    }, this),
+    successTier && /* @__PURE__ */ jsxDEV(
+      SubscriptionSuccess,
+      {
+        isOpen: true,
+        onClose: () => {
+          setSuccessTier(null);
+          setShowConfetti(false);
+        },
+        tier: successTier,
+        onSuccessIconLoad: handleSuccessIconLoad
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+        lineNumber: 315,
+        columnNumber: 7
+      },
+      this
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx",
+    lineNumber: 114,
+    columnNumber: 5
+  }, this);
+};
+_s(Loyalty, "wcZwOQNBE437xObWu7f+bbTN2Gs=", false, function() {
+  return [usePayment];
+});
+_c = Loyalty;
+export default Loyalty;
+var _c;
+$RefreshReg$(_c, "Loyalty");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QVU7QUFBQTtBQUFBOEQsS0FEeEMzRDtBQTBUTixlQUFlQTtBQUFRLElBQUEyRDtBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsidXNlU3RhdGUiLCJ1c2VFZmZlY3QiLCJ1c2VDYWxsYmFjayIsIm1vdGlvbiIsIkF3YXJkIiwiQ3Jvd24iLCJaYXAiLCJDaGVjayIsInVzZVBheW1lbnQiLCJSZWFjdENvbmZldHRpIiwiU3Vic2NyaXB0aW9uU3VjY2VzcyIsIkxveWFsdHkiLCJfcyIsInByb2Nlc3NQYXltZW50IiwiZXJyb3IiLCJwcm9jZXNzaW5nVGllciIsInNldFByb2Nlc3NpbmdUaWVyIiwiZXJyb3JUaWVyIiwic2V0RXJyb3JUaWVyIiwic3VjY2Vzc1RpZXIiLCJzZXRTdWNjZXNzVGllciIsInNob3dDb25mZXR0aSIsInNldFNob3dDb25mZXR0aSIsImNvbmZldHRpUG9zaXRpb24iLCJzZXRDb25mZXR0aVBvc2l0aW9uIiwieCIsInkiLCJ3aW5kb3dTaXplIiwic2V0V2luZG93U2l6ZSIsIndpZHRoIiwid2luZG93IiwiaW5uZXJXaWR0aCIsImhlaWdodCIsImlubmVySGVpZ2h0IiwiaGFuZGxlUmVzaXplIiwiYWRkRXZlbnRMaXN0ZW5lciIsInJlbW92ZUV2ZW50TGlzdGVuZXIiLCJ0aWVycyIsImxldmVsIiwicHJpY2UiLCJpY29uQ2xhc3MiLCJiZW5lZml0cyIsImhhbmRsZVN1YnNjcmlwdGlvbiIsInRpZXIiLCJyZXN1bHQiLCJzdWNjZXNzIiwiaGFuZGxlU3VjY2Vzc0ljb25Mb2FkIiwidGltZXIiLCJzZXRUaW1lb3V0IiwiY2xlYXJUaW1lb3V0IiwiekluZGV4IiwidyIsImgiLCJvcGFjaXR5IiwibWFwIiwiaW5kZXgiLCJkZWxheSIsImJhY2tncm91bmQiLCJ0b3AiLCJsZWZ0IiwidHJhbnNmb3JtT3JpZ2luIiwidG9GaXhlZCIsImJlbmVmaXQiLCJpIiwic2NhbGUiLCJyb3RhdGUiLCJkdXJhdGlvbiIsInJlcGVhdCIsIkluZmluaXR5IiwiZWFzZSIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkxveWFsdHkudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0LCB1c2VDYWxsYmFjayB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IG1vdGlvbiwgQW5pbWF0ZVByZXNlbmNlIH0gZnJvbSAnZnJhbWVyLW1vdGlvbic7XG5pbXBvcnQgeyBBd2FyZCwgQ3Jvd24sIFphcCwgQ2hlY2sgfSBmcm9tICdsdWNpZGUtcmVhY3QnO1xuaW1wb3J0IHsgdXNlUGF5bWVudCB9IGZyb20gJy4uL2hvb2tzL3VzZVBheW1lbnQnO1xuaW1wb3J0IFJlYWN0Q29uZmV0dGkgZnJvbSAncmVhY3QtY29uZmV0dGknO1xuaW1wb3J0IFN1YnNjcmlwdGlvblN1Y2Nlc3MgZnJvbSAnLi4vY29tcG9uZW50cy9TdWJzY3JpcHRpb25TdWNjZXNzJztcblxuaW50ZXJmYWNlIFRpZXJCZW5lZml0IHtcbiAgbGV2ZWw6IHN0cmluZztcbiAgcHJpY2U6IG51bWJlcjtcbiAgaWNvbkNsYXNzOiBzdHJpbmc7XG4gIGJlbmVmaXRzOiBzdHJpbmdbXTtcbn1cblxuY29uc3QgTG95YWx0eTogUmVhY3QuRkMgPSAoKSA9PiB7XG4gIGNvbnN0IHsgcHJvY2Vzc1BheW1lbnQsIGVycm9yIH0gPSB1c2VQYXltZW50KCk7XG4gIGNvbnN0IFtwcm9jZXNzaW5nVGllciwgc2V0UHJvY2Vzc2luZ1RpZXJdID0gdXNlU3RhdGU8c3RyaW5nIHwgbnVsbD4obnVsbCk7XG4gIGNvbnN0IFtlcnJvclRpZXIsIHNldEVycm9yVGllcl0gPSB1c2VTdGF0ZTxzdHJpbmcgfCBudWxsPihudWxsKTtcbiAgY29uc3QgW3N1Y2Nlc3NUaWVyLCBzZXRTdWNjZXNzVGllcl0gPSB1c2VTdGF0ZTx7IGxldmVsOiBzdHJpbmc7IGljb25DbGFzczogc3RyaW5nIH0gfCBudWxsPihudWxsKTtcbiAgY29uc3QgW3Nob3dDb25mZXR0aSwgc2V0U2hvd0NvbmZldHRpXSA9IHVzZVN0YXRlKGZhbHNlKTtcbiAgY29uc3QgW2NvbmZldHRpUG9zaXRpb24sIHNldENvbmZldHRpUG9zaXRpb25dID0gdXNlU3RhdGUoeyB4OiAwLCB5OiAwIH0pO1xuICBjb25zdCBbd2luZG93U2l6ZSwgc2V0V2luZG93U2l6ZV0gPSB1c2VTdGF0ZSh7XG4gICAgd2lkdGg6IHdpbmRvdy5pbm5lcldpZHRoLFxuICAgIGhlaWdodDogd2luZG93LmlubmVySGVpZ2h0LFxuICB9KTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGNvbnN0IGhhbmRsZVJlc2l6ZSA9ICgpID0+IHtcbiAgICAgIHNldFdpbmRvd1NpemUoe1xuICAgICAgICB3aWR0aDogd2luZG93LmlubmVyV2lkdGgsXG4gICAgICAgIGhlaWdodDogd2luZG93LmlubmVySGVpZ2h0LFxuICAgICAgfSk7XG4gICAgfTtcblxuICAgIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdyZXNpemUnLCBoYW5kbGVSZXNpemUpO1xuICAgIHJldHVybiAoKSA9PiB3aW5kb3cucmVtb3ZlRXZlbnRMaXN0ZW5lcigncmVzaXplJywgaGFuZGxlUmVzaXplKTtcbiAgfSwgW10pO1xuXG4gIGNvbnN0IHRpZXJzOiBUaWVyQmVuZWZpdFtdID0gW1xuICAgIHtcbiAgICAgIGxldmVsOiAnU2lsdmVyJyxcbiAgICAgIHByaWNlOiAxMDAwLCAvLyDCozEwLjAwXG4gICAgICBpY29uQ2xhc3M6ICdmcm9tLWdyYXktNTAwIHRvLWdyYXktMzAwJyxcbiAgICAgIGJlbmVmaXRzOiBbXG4gICAgICAgICcxMCUgb2ZmIHRoZSB0b3RhbCBiaWxsJyxcbiAgICAgICAgJ09uZSBmcmVlIGRyaW5rIHBlciBtb250aCcsXG4gICAgICAgICdGcmVlIGRlc3NlcnQgaW4gYmlydGhkYXkgbW9udGgnLFxuICAgICAgICAnSGFsZiBwcmljZSBvbiBvbmUgU3RhbmRhcmQgc2hpc2hhIHBlciBtb250aCdcbiAgICAgIF1cbiAgICB9LFxuICAgIHtcbiAgICAgIGxldmVsOiAnR29sZCcsXG4gICAgICBwcmljZTogMjAwMCwgLy8gwqMyMC4wMFxuICAgICAgaWNvbkNsYXNzOiAnZnJvbS15ZWxsb3ctNjAwIHRvLXllbGxvdy00MDAnLFxuICAgICAgYmVuZWZpdHM6IFtcbiAgICAgICAgJzIwJSBvZmYgdGhlIHRvdGFsIGJpbGwnLFxuICAgICAgICAnUHJpb3JpdHkgcmVzZXJ2YXRpb25zJyxcbiAgICAgICAgJ1ZJUCBzZWF0aW5nIHdoZW4gYXZhaWxhYmxlJyxcbiAgICAgICAgJ0V4Y2x1c2l2ZSBmbGF2b3VyIGFjY2VzcycsXG4gICAgICAgICdIYWxmIHByaWNlIGVudHJ5IHRvIGV4Y2x1c2l2ZSBldmVudHMnLFxuICAgICAgICAnT25lIGZyZWUgZHJpbmsgcGVyIG1vbnRoJyxcbiAgICAgICAgJ0JpcnRoZGF5IFBhY2thZ2U6IEZyZWUgc2hpc2hhICYgZGVzc2VydCcsXG4gICAgICAgICdIYWxmIHByaWNlIG9uIG9uZSBQcmVtaXVtIHNoaXNoYSBwZXIgbW9udGgnXG4gICAgICBdXG4gICAgfSxcbiAgICB7XG4gICAgICBsZXZlbDogJ1NhcHBoaXJlJyxcbiAgICAgIHByaWNlOiAzMDAwLCAvLyDCozMwLjAwXG4gICAgICBpY29uQ2xhc3M6ICdmcm9tLWJsdWUtNjAwIHRvLWJsdWUtNDAwJyxcbiAgICAgIGJlbmVmaXRzOiBbXG4gICAgICAgICczMCUgb2ZmIHRoZSB0b3RhbCBiaWxsJyxcbiAgICAgICAgJ0d1YXJhbnRlZWQgVklQIHNlYXRpbmcnLFxuICAgICAgICAnU2tpcC10aGUtcXVldWUgcHJpdmlsZWdlJyxcbiAgICAgICAgJ0V4Y2x1c2l2ZSBmbGF2b3VycyAmIHByZW1pdW0gbGluZXMnLFxuICAgICAgICAnSGFsZiBwcmljZSBlbnRyeSB0byBleGNsdXNpdmUgZXZlbnRzJyxcbiAgICAgICAgJ0JyaW5nIGEgZnJpZW5kIGZvciBmcmVlIChvbmNlIHBlciBtb250aCknLFxuICAgICAgICAnT25lIGZyZWUgZHJpbmsgcGVyIG1vbnRoJyxcbiAgICAgICAgJ0JpcnRoZGF5IFBhY2thZ2U6IEZyZWUgc2hpc2hhICYgZGVzc2VydCcsXG4gICAgICAgICdIYWxmIHByaWNlIG9uIHR3byBQcmVtaXVtIHNoaXNoYXMgcGVyIG1vbnRoJ1xuICAgICAgXVxuICAgIH1cbiAgXTtcblxuICBjb25zdCBoYW5kbGVTdWJzY3JpcHRpb24gPSBhc3luYyAodGllcjogVGllckJlbmVmaXQpID0+IHtcbiAgICBzZXRQcm9jZXNzaW5nVGllcih0aWVyLmxldmVsKTtcbiAgICBzZXRFcnJvclRpZXIobnVsbCk7XG4gICAgY29uc3QgcmVzdWx0ID0gYXdhaXQgcHJvY2Vzc1BheW1lbnQodGllci5wcmljZSk7XG4gICAgaWYgKHJlc3VsdC5zdWNjZXNzKSB7XG4gICAgICBzZXRTdWNjZXNzVGllcih7IGxldmVsOiB0aWVyLmxldmVsLCBpY29uQ2xhc3M6IHRpZXIuaWNvbkNsYXNzIH0pO1xuICAgIH0gZWxzZSB7XG4gICAgICBzZXRFcnJvclRpZXIodGllci5sZXZlbCk7XG4gICAgfVxuICAgIHNldFByb2Nlc3NpbmdUaWVyKG51bGwpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZVN1Y2Nlc3NJY29uTG9hZCA9IHVzZUNhbGxiYWNrKCh4OiBudW1iZXIsIHk6IG51bWJlcikgPT4ge1xuICAgIHNldENvbmZldHRpUG9zaXRpb24oeyB4LCB5IH0pO1xuICAgIHNldFNob3dDb25mZXR0aSh0cnVlKTtcbiAgfSwgW10pO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgbGV0IHRpbWVyOiBOb2RlSlMuVGltZW91dDtcbiAgICBpZiAoc2hvd0NvbmZldHRpKSB7XG4gICAgICB0aW1lciA9IHNldFRpbWVvdXQoKCkgPT4ge1xuICAgICAgICBzZXRTaG93Q29uZmV0dGkoZmFsc2UpO1xuICAgICAgfSwgNTAwMCk7XG4gICAgfVxuICAgIHJldHVybiAoKSA9PiB7XG4gICAgICBpZiAodGltZXIpIGNsZWFyVGltZW91dCh0aW1lcik7XG4gICAgfTtcbiAgfSwgW3Nob3dDb25mZXR0aV0pO1xuXG4gIHJldHVybiAoXG4gICAgPGRpdiBjbGFzc05hbWU9XCJtaW4taC1zY3JlZW4gYmctWyMwMjBCMThdIHB0LTI0IHBiLTEyXCI+XG4gICAgICB7c2hvd0NvbmZldHRpICYmIHN1Y2Nlc3NUaWVyICYmIChcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmaXhlZCBpbnNldC0wIHBvaW50ZXItZXZlbnRzLW5vbmVcIiBzdHlsZT17eyB6SW5kZXg6IDEwMDAgfX0+XG4gICAgICAgICAgPFJlYWN0Q29uZmV0dGlcbiAgICAgICAgICAgIHdpZHRoPXt3aW5kb3dTaXplLndpZHRofVxuICAgICAgICAgICAgaGVpZ2h0PXt3aW5kb3dTaXplLmhlaWdodH1cbiAgICAgICAgICAgIGNvbG9ycz17W1xuICAgICAgICAgICAgICBzdWNjZXNzVGllci5sZXZlbCA9PT0gJ1NpbHZlcicgPyAnI0MwQzBDMCcgOiBcbiAgICAgICAgICAgICAgc3VjY2Vzc1RpZXIubGV2ZWwgPT09ICdHb2xkJyA/ICcjRkZENzAwJyA6IFxuICAgICAgICAgICAgICAnIzQxNjlFMScsIC8vIFNhcHBoaXJlIGJsdWVcbiAgICAgICAgICAgICAgJyNGRkZGRkYnLFxuICAgICAgICAgICAgICBzdWNjZXNzVGllci5sZXZlbCA9PT0gJ1NpbHZlcicgPyAnI0E5QTlBOScgOlxuICAgICAgICAgICAgICBzdWNjZXNzVGllci5sZXZlbCA9PT0gJ0dvbGQnID8gJyNEQUE1MjAnIDpcbiAgICAgICAgICAgICAgJyMxRTkwRkYnLFxuICAgICAgICAgICAgICBzdWNjZXNzVGllci5sZXZlbCA9PT0gJ1NpbHZlcicgPyAnI0U4RThFOCcgOlxuICAgICAgICAgICAgICBzdWNjZXNzVGllci5sZXZlbCA9PT0gJ0dvbGQnID8gJyNGRkY4REMnIDpcbiAgICAgICAgICAgICAgJyM4N0NFRUInXG4gICAgICAgICAgICBdfVxuICAgICAgICAgICAgcmVjeWNsZT17ZmFsc2V9XG4gICAgICAgICAgICBudW1iZXJPZlBpZWNlcz17MzAwfVxuICAgICAgICAgICAgY29uZmV0dGlTb3VyY2U9e3tcbiAgICAgICAgICAgICAgeDogY29uZmV0dGlQb3NpdGlvbi54LFxuICAgICAgICAgICAgICB5OiBjb25mZXR0aVBvc2l0aW9uLnksXG4gICAgICAgICAgICAgIHc6IDAsXG4gICAgICAgICAgICAgIGg6IDBcbiAgICAgICAgICAgIH19XG4gICAgICAgICAgICBpbml0aWFsVmVsb2NpdHlYPXsxMn1cbiAgICAgICAgICAgIGluaXRpYWxWZWxvY2l0eVk9ezQwfVxuICAgICAgICAgICAgZ3Jhdml0eT17MC4yfVxuICAgICAgICAgICAgdHdlZW5EdXJhdGlvbj17MTAwfVxuICAgICAgICAgICAgc3ByZWFkPXs3MH1cbiAgICAgICAgICAgIHdpbmQ9ezAuMDF9XG4gICAgICAgICAgICBmcmljdGlvbj17MC45N31cbiAgICAgICAgICAvPlxuICAgICAgICA8L2Rpdj5cbiAgICAgICl9XG4gICAgICBcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29udGFpbmVyIG14LWF1dG8gcHgtNFwiPlxuICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCwgeTogMjAgfX1cbiAgICAgICAgICBhbmltYXRlPXt7IG9wYWNpdHk6IDEsIHk6IDAgfX1cbiAgICAgICAgICBjbGFzc05hbWU9XCJ0ZXh0LWNlbnRlciBtYi0xNFwiXG4gICAgICAgID5cbiAgICAgICAgICA8aDEgY2xhc3NOYW1lPVwidGV4dC0zeGwgbWQ6dGV4dC00eGwgZm9udC1ib2xkIG1iLTMgYmctY2xpcC10ZXh0IHRleHQtdHJhbnNwYXJlbnQgYmctZ3JhZGllbnQtdG8tciBmcm9tLXByaW1hcnktMzAwIHRvLWFjY2VudC00MDAgbGVhZGluZy1ub3JtYWwgcGItMVwiPlxuICAgICAgICAgICAgTG95YWx0eSBTY2hlbWVcbiAgICAgICAgICA8L2gxPlxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtZ3JheS0zMDAgbWF4LXctMnhsIG14LWF1dG8gdGV4dC1iYXNlIG1iLTJcIj5cbiAgICAgICAgICAgIEpvaW4gb3VyIGV4Y2x1c2l2ZSBtZW1iZXJzaGlwIHNjaGVtZSBhbmQgZW5qb3kgcHJlbWl1bSBiZW5lZml0cyBldmVyeSBtb250aFxuICAgICAgICAgIDwvcD5cbiAgICAgICAgPC9tb3Rpb24uZGl2PlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBncmlkLWNvbHMtMSBtZDpncmlkLWNvbHMtMyBnYXAtOCBtYi0xMlwiPlxuICAgICAgICAgIHt0aWVycy5tYXAoKHRpZXIsIGluZGV4KSA9PiAoXG4gICAgICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgICAgICBrZXk9e3RpZXIubGV2ZWx9XG4gICAgICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCwgeTogMjAgfX1cbiAgICAgICAgICAgICAgYW5pbWF0ZT17eyBvcGFjaXR5OiAxLCB5OiAwIH19XG4gICAgICAgICAgICAgIHRyYW5zaXRpb249e3sgZGVsYXk6IGluZGV4ICogMC4yIH19XG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cImJnLWRhcmstODAwLzUwIHJvdW5kZWQteGwgcC00IGJvcmRlciBib3JkZXItZGFyay03MDAvNTAgaG92ZXI6Ym9yZGVyLXByaW1hcnktNTAwLzUwIHRyYW5zaXRpb24tY29sb3JzIGZsZXggZmxleC1jb2wgaC1mdWxsXCJcbiAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgPGRpdj5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIG1iLTZcIj5cbiAgICAgICAgICAgICAgICAgIDxkaXZcbiAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPXtgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdy0yMCBoLTIwIHJvdW5kZWQtZnVsbCBzaGFkb3ctbGcgcmluZy0yIHJpbmctb3BhY2l0eS01MCAke1xuICAgICAgICAgICAgICAgICAgICAgIHRpZXIubGV2ZWwgPT09ICdTaWx2ZXInID8gJ3JpbmctZ3JheS00MDAgYmctZ3JhZGllbnQtdG8tYnIgZnJvbS1ncmF5LTQwMCB2aWEtZ3JheS0yMDAgdG8tZ3JheS02MDAnIDogXG4gICAgICAgICAgICAgICAgICAgICAgdGllci5sZXZlbCA9PT0gJ0dvbGQnID8gJ3JpbmcteWVsbG93LTUwMCBiZy1ncmFkaWVudC10by1iciBmcm9tLXllbGxvdy02MDAgdmlhLXllbGxvdy0zMDAgdG8teWVsbG93LTgwMCcgOiBcbiAgICAgICAgICAgICAgICAgICAgICAncmluZy1ibHVlLTUwMCBiZy1ncmFkaWVudC10by1iciBmcm9tLWJsdWUtNTAwIHZpYS1za3ktNDAwIHRvLWJsdWUtODAwJ1xuICAgICAgICAgICAgICAgICAgICB9IHJlbGF0aXZlIG92ZXJmbG93LWhpZGRlbmB9XG4gICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaW5zZXQtMCBiZy1ncmFkaWVudC10by1iciBmcm9tLXdoaXRlLzEwIHZpYS10cmFuc3BhcmVudCB0by1ibGFjay8zMFwiPjwvZGl2PlxuICAgICAgICAgICAgICAgICAgICA8ZGl2IFxuICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImFic29sdXRlIGluc2V0LTAgYW5pbWF0ZS1zaGltbWVyXCJcbiAgICAgICAgICAgICAgICAgICAgICBzdHlsZT17e1xuICAgICAgICAgICAgICAgICAgICAgICAgYmFja2dyb3VuZDogYGxpbmVhci1ncmFkaWVudCg5MGRlZywgXG4gICAgICAgICAgICAgICAgICAgICAgICAgIHRyYW5zcGFyZW50IDAlLFxuICAgICAgICAgICAgICAgICAgICAgICAgICByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuOTUpIDEwJSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgdHJhbnNwYXJlbnQgMzAlXG4gICAgICAgICAgICAgICAgICAgICAgICApYCxcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiAnMTUwJScsXG4gICAgICAgICAgICAgICAgICAgICAgICBoZWlnaHQ6ICcxNTAlJyxcbiAgICAgICAgICAgICAgICAgICAgICAgIHRvcDogJy0yNSUnLFxuICAgICAgICAgICAgICAgICAgICAgICAgbGVmdDogJy0yNSUnLFxuICAgICAgICAgICAgICAgICAgICAgICAgekluZGV4OiAyLFxuICAgICAgICAgICAgICAgICAgICAgICAgdHJhbnNmb3JtT3JpZ2luOiAnY2VudGVyIGNlbnRlcidcbiAgICAgICAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlbGF0aXZlIHotMTBcIj5cbiAgICAgICAgICAgICAgICAgICAgICB7dGllci5sZXZlbCA9PT0gJ1NpbHZlcicgJiYgKFxuICAgICAgICAgICAgICAgICAgICAgICAgPEF3YXJkIGNsYXNzTmFtZT1cInctMTAgaC0xMCB0ZXh0LWdyYXktMjAwIGRyb3Atc2hhZG93LVswXzJweF8zcHhfcmdiYSgwLDAsMCwwLjQpXVwiIC8+XG4gICAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICAgICAgICB7dGllci5sZXZlbCA9PT0gJ0dvbGQnICYmIChcbiAgICAgICAgICAgICAgICAgICAgICAgIDxaYXAgY2xhc3NOYW1lPVwidy0xMCBoLTEwIHRleHQteWVsbG93LTIwMCBkcm9wLXNoYWRvdy1bMF8ycHhfM3B4X3JnYmEoMCwwLDAsMC40KV1cIiAvPlxuICAgICAgICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICAgICAgICAgICAge3RpZXIubGV2ZWwgPT09ICdTYXBwaGlyZScgJiYgKFxuICAgICAgICAgICAgICAgICAgICAgICAgPENyb3duIGNsYXNzTmFtZT1cInctMTAgaC0xMCB0ZXh0LXNreS0yMDAgZHJvcC1zaGFkb3ctWzBfMnB4XzNweF9yZ2JhKDAsMCwwLDAuNCldXCIgLz5cbiAgICAgICAgICAgICAgICAgICAgICApfVxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtc2VtaWJvbGQgdGV4dC13aGl0ZSBtdC00XCI+e3RpZXIubGV2ZWx9PC9oMz5cbiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtMiBmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlclwiPlxuICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LTJ4bCBmb250LWJvbGQgdGV4dC1wcmltYXJ5LTQwMFwiPsKjeyh0aWVyLnByaWNlIC8gMTAwKS50b0ZpeGVkKDIpfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1zbSB0ZXh0LWdyYXktNDAwXCI+cGVyIG1vbnRoPC9zcGFuPlxuICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJoLXB4IGJnLWRhcmstNzAwLzUwIG1iLTNcIj48L2Rpdj5cbiAgICAgICAgICAgICAgICA8dWwgY2xhc3NOYW1lPVwic3BhY2UteS0yXCI+XG4gICAgICAgICAgICAgICAgICB7dGllci5iZW5lZml0cy5tYXAoKGJlbmVmaXQsIGkpID0+IChcbiAgICAgICAgICAgICAgICAgICAgPGxpIGtleT17aX0gY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1zdGFydCB0ZXh0LWdyYXktMzAwIHRleHQtc21cIj5cbiAgICAgICAgICAgICAgICAgICAgICA8Q2hlY2sgY2xhc3NOYW1lPVwidy00IGgtNCBtci0yIHRleHQtcHJpbWFyeS00MDAgZmxleC1zaHJpbmstMCBtdC0wLjVcIiAvPlxuICAgICAgICAgICAgICAgICAgICAgIDxzcGFuPntiZW5lZml0fTwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgPC9saT5cbiAgICAgICAgICAgICAgICAgICkpfVxuICAgICAgICAgICAgICAgIDwvdWw+XG4gICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtYXV0byBwdC02XCI+XG4gICAgICAgICAgICAgICAgPG1vdGlvbi5idXR0b25cbiAgICAgICAgICAgICAgICAgIHdoaWxlSG92ZXI9e3sgc2NhbGU6IDEuMDIgfX1cbiAgICAgICAgICAgICAgICAgIHdoaWxlVGFwPXt7IHNjYWxlOiAwLjk4IH19XG4gICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiBoYW5kbGVTdWJzY3JpcHRpb24odGllcil9XG4gICAgICAgICAgICAgICAgICBkaXNhYmxlZD17cHJvY2Vzc2luZ1RpZXIgPT09IHRpZXIubGV2ZWx9XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9e2B3LWZ1bGwgcHktMyByb3VuZGVkLWxnIGZvbnQtc2VtaWJvbGQgdHJhbnNpdGlvbi1hbGwgdGV4dC13aGl0ZSBzaGFkb3ctbGcgJHtcbiAgICAgICAgICAgICAgICAgICAgcHJvY2Vzc2luZ1RpZXIgPT09IHRpZXIubGV2ZWxcbiAgICAgICAgICAgICAgICAgICAgICA/ICdiZy1ncmF5LTYwMCBjdXJzb3Itbm90LWFsbG93ZWQnXG4gICAgICAgICAgICAgICAgICAgICAgOiBgYmctZ3JhZGllbnQtdG8tciBmcm9tLXByaW1hcnktNDAwIHRvLWFjY2VudC01MDAgaG92ZXI6ZnJvbS1wcmltYXJ5LTUwMCBob3Zlcjp0by1hY2NlbnQtNjAwYFxuICAgICAgICAgICAgICAgICAgfWB9XG4gICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAge3Byb2Nlc3NpbmdUaWVyID09PSB0aWVyLmxldmVsID8gKFxuICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlclwiPlxuICAgICAgICAgICAgICAgICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgICAgICAgICAgICAgICBhbmltYXRlPXt7IHJvdGF0ZTogMzYwIH19XG4gICAgICAgICAgICAgICAgICAgICAgICB0cmFuc2l0aW9uPXt7IGR1cmF0aW9uOiAxLCByZXBlYXQ6IEluZmluaXR5LCBlYXNlOiBcImxpbmVhclwiIH19XG4gICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LTUgaC01IGJvcmRlci0yIGJvcmRlci13aGl0ZSBib3JkZXItdC10cmFuc3BhcmVudCByb3VuZGVkLWZ1bGwgbXItMlwiXG4gICAgICAgICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICAgICAgICBQcm9jZXNzaW5nLi4uXG4gICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICkgOiAoXG4gICAgICAgICAgICAgICAgICAgICdTdWJzY3JpYmUgTm93J1xuICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICA8L21vdGlvbi5idXR0b24+XG4gICAgICAgICAgICAgICAge2Vycm9yVGllciA9PT0gdGllci5sZXZlbCAmJiAoXG4gICAgICAgICAgICAgICAgICA8bW90aW9uLnBcbiAgICAgICAgICAgICAgICAgICAgaW5pdGlhbD17eyBvcGFjaXR5OiAwIH19XG4gICAgICAgICAgICAgICAgICAgIGFuaW1hdGU9e3sgb3BhY2l0eTogMSB9fVxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ0ZXh0LXJlZC01MDAgdGV4dC1zbSBtdC0yXCJcbiAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgUGF5bWVudCBmYWlsZWQuIFBsZWFzZSB0cnkgYWdhaW4uXG4gICAgICAgICAgICAgICAgICA8L21vdGlvbi5wPlxuICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPC9tb3Rpb24uZGl2PlxuICAgICAgICAgICkpfVxuICAgICAgICA8L2Rpdj5cblxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm1heC13LTN4bCBteC1hdXRvIG10LTE2XCI+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LThcIj5cbiAgICAgICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCwgeTogMjAgfX1cbiAgICAgICAgICAgICAgYW5pbWF0ZT17eyBvcGFjaXR5OiAxLCB5OiAwIH19XG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cImJnLWRhcmstOTAwLzUwIGJhY2tkcm9wLWJsdXItc20gcm91bmRlZC1sZyBwLTYgYm9yZGVyIGJvcmRlci1hY2NlbnQtNzAwLzIwXCJcbiAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgPGgyIGNsYXNzTmFtZT1cInRleHQteGwgZm9udC1zZW1pYm9sZCB0ZXh0LXdoaXRlIG1iLTRcIj5BZGRpdGlvbmFsIEluZm9ybWF0aW9uPC9oMj5cbiAgICAgICAgICAgICAgPHVsIGNsYXNzTmFtZT1cInNwYWNlLXktMyB0ZXh0LWdyYXktMzAwXCI+XG4gICAgICAgICAgICAgICAgPGxpIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtc3RhcnRcIj5cbiAgICAgICAgICAgICAgICAgIDxDaGVjayBjbGFzc05hbWU9XCJ3LTQgaC00IG1yLTIgdGV4dC1wcmltYXJ5LTQwMCBmbGV4LXNocmluay0wIG10LTFcIiAvPlxuICAgICAgICAgICAgICAgICAgPHNwYW4+QWxsIG1lbWJlcnNoaXBzIGFyZSBiaWxsZWQgbW9udGhseSBhbmQgY2FuIGJlIGNhbmNlbGxlZCBhdCBhbnkgdGltZTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8L2xpPlxuICAgICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLXN0YXJ0XCI+XG4gICAgICAgICAgICAgICAgICA8Q2hlY2sgY2xhc3NOYW1lPVwidy00IGgtNCBtci0yIHRleHQtcHJpbWFyeS00MDAgZmxleC1zaHJpbmstMCBtdC0xXCIgLz5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkJlbmVmaXRzIHJlc2V0IGF0IHRoZSBiZWdpbm5pbmcgb2YgZWFjaCBtb250aDwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8L2xpPlxuICAgICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLXN0YXJ0XCI+XG4gICAgICAgICAgICAgICAgICA8Q2hlY2sgY2xhc3NOYW1lPVwidy00IGgtNCBtci0yIHRleHQtcHJpbWFyeS00MDAgZmxleC1zaHJpbmstMCBtdC0xXCIgLz5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkJpcnRoZGF5IGJlbmVmaXRzIG11c3QgYmUgY2xhaW1lZCB3aXRoaW4geW91ciBiaXJ0aGRheSBtb250aDwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8L2xpPlxuICAgICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLXN0YXJ0XCI+XG4gICAgICAgICAgICAgICAgICA8Q2hlY2sgY2xhc3NOYW1lPVwidy00IGgtNCBtci0yIHRleHQtcHJpbWFyeS00MDAgZmxleC1zaHJpbmstMCBtdC0xXCIgLz5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkRpc2NvdW50cyBjYW5ub3QgYmUgY29tYmluZWQgd2l0aCBvdGhlciBwcm9tb3Rpb25hbCBvZmZlcnM8L3NwYW4+XG4gICAgICAgICAgICAgICAgPC9saT5cbiAgICAgICAgICAgICAgICA8bGkgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1zdGFydFwiPlxuICAgICAgICAgICAgICAgICAgPENoZWNrIGNsYXNzTmFtZT1cInctNCBoLTQgbXItMiB0ZXh0LXByaW1hcnktNDAwIGZsZXgtc2hyaW5rLTAgbXQtMVwiIC8+XG4gICAgICAgICAgICAgICAgICA8c3Bhbj5CZW5lZml0cyBhcmUgbm9uLXRyYW5zZmVyYWJsZSBhbmQgY2Fubm90IGJlIGNhcnJpZWQgb3ZlciB0byB0aGUgbmV4dCBtb250aDwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8L2xpPlxuICAgICAgICAgICAgICA8L3VsPlxuICAgICAgICAgICAgPC9tb3Rpb24uZGl2PlxuXG4gICAgICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAsIHk6IDIwIH19XG4gICAgICAgICAgICAgIGFuaW1hdGU9e3sgb3BhY2l0eTogMSwgeTogMCB9fVxuICAgICAgICAgICAgICBjbGFzc05hbWU9XCJiZy1kYXJrLTkwMC81MCBiYWNrZHJvcC1ibHVyLXNtIHJvdW5kZWQtbGcgcC02IGJvcmRlciBib3JkZXItYWNjZW50LTcwMC8yMFwiXG4gICAgICAgICAgICA+XG4gICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJ0ZXh0LXhsIGZvbnQtc2VtaWJvbGQgdGV4dC13aGl0ZSBtYi00XCI+TmVlZCBIZWxwPzwvaDI+XG4gICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtZ3JheS0zMDBcIj5cbiAgICAgICAgICAgICAgICBJZiB5b3UgaGF2ZSBhbnkgcXVlc3Rpb25zIGFib3V0IG91ciBsb3lhbHR5IHNjaGVtZSBvciBuZWVkIGFzc2lzdGFuY2UsIHBsZWFzZSBkb24ndCBoZXNpdGF0ZSB0byBjb250YWN0IG91ciB0ZWFtLiBcbiAgICAgICAgICAgICAgICBXZSdyZSBoZXJlIHRvIGhlbHAgeW91IG1ha2UgdGhlIG1vc3Qgb2YgeW91ciBtZW1iZXJzaGlwIGJlbmVmaXRzLlxuICAgICAgICAgICAgICA8L3A+XG4gICAgICAgICAgICA8L21vdGlvbi5kaXY+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgICB7c3VjY2Vzc1RpZXIgJiYgKFxuICAgICAgICA8U3Vic2NyaXB0aW9uU3VjY2Vzc1xuICAgICAgICAgIGlzT3Blbj17dHJ1ZX1cbiAgICAgICAgICBvbkNsb3NlPXsoKSA9PiB7XG4gICAgICAgICAgICBzZXRTdWNjZXNzVGllcihudWxsKTtcbiAgICAgICAgICAgIHNldFNob3dDb25mZXR0aShmYWxzZSk7XG4gICAgICAgICAgfX1cbiAgICAgICAgICB0aWVyPXtzdWNjZXNzVGllcn1cbiAgICAgICAgICBvblN1Y2Nlc3NJY29uTG9hZD17aGFuZGxlU3VjY2Vzc0ljb25Mb2FkfVxuICAgICAgICAvPlxuICAgICAgKX1cbiAgICA8L2Rpdj5cbiAgKTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IExveWFsdHk7Il0sImZpbGUiOiJDOi9Vc2Vycy9hYmlkXy9EZXNrdG9wL1NhcHBoaXJlIExvdW5nZS9zcmMvcGFnZXMvTG95YWx0eS50c3gifQ==TÚ„1<       gg~7gg~8G¬¤       –    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/pages/Loyalty.tsx?t=1734835339275 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"715a-UIFyPlr4j5rYHy4o5ubUeRR9A0o"
+Date: Sun, 22 Dec 2024 02:49:28 GMT
+Content-Length: 59381
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"715a-UIFyPlr4j5rYHy4o5ubUeRR9A0o"
+Date: Sun, 22 Dec 2024 02:49:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 59381
+ ctid 2 uncompressed-len 0 net-response-time-onstart 905 net-response-time-onstop 906   çõ

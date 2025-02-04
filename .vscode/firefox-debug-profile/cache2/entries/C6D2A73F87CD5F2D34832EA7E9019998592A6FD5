@@ -1,0 +1,140 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b694899f"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$(), _s2 = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=b694899f"; const createContext = __vite__cjsImport3_react["createContext"]; const useContext = __vite__cjsImport3_react["useContext"]; const useCallback = __vite__cjsImport3_react["useCallback"]; const useState = __vite__cjsImport3_react["useState"];
+const A11yContext = createContext(void 0);
+export function A11yProvider({ children }) {
+  _s();
+  const [politeMessage, setPoliteMessage] = useState("");
+  const [assertiveMessage, setAssertiveMessage] = useState("");
+  const announce = useCallback((message, priority = "polite") => {
+    if (priority === "assertive") {
+      setAssertiveMessage("");
+      setTimeout(() => setAssertiveMessage(message), 100);
+    } else {
+      setPoliteMessage("");
+      setTimeout(() => setPoliteMessage(message), 100);
+    }
+  }, []);
+  return /* @__PURE__ */ jsxDEV(A11yContext.Provider, { value: { announce }, children: [
+    children,
+    /* @__PURE__ */ jsxDEV(
+      "div",
+      {
+        role: "status",
+        "aria-live": "polite",
+        "aria-atomic": "true",
+        className: "sr-only",
+        children: politeMessage
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx",
+        lineNumber: 26,
+        columnNumber: 7
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      "div",
+      {
+        role: "alert",
+        "aria-live": "assertive",
+        "aria-atomic": "true",
+        className: "sr-only",
+        children: assertiveMessage
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx",
+        lineNumber: 34,
+        columnNumber: 7
+      },
+      this
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx",
+    lineNumber: 24,
+    columnNumber: 5
+  }, this);
+}
+_s(A11yProvider, "Jx2xgKnQmGzzkg7CmD2188iCIjU=");
+_c = A11yProvider;
+export function useA11y() {
+  _s2();
+  const context = useContext(A11yContext);
+  if (context === void 0) {
+    throw new Error("useA11y must be used within an A11yProvider");
+  }
+  return context;
+}
+_s2(useA11y, "b9L3QQ+jgeyIrH0NfHrJ8nn7VMU=");
+export function SkipToContent() {
+  return /* @__PURE__ */ jsxDEV(
+    "a",
+    {
+      href: "#main-content",
+      className: "sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-primary-600 focus:text-white",
+      children: "Skip to main content"
+    },
+    void 0,
+    false,
+    {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx",
+      lineNumber: 56,
+      columnNumber: 5
+    },
+    this
+  );
+}
+_c2 = SkipToContent;
+var _c, _c2;
+$RefreshReg$(_c, "A11yProvider");
+$RefreshReg$(_c2, "SkipToContent");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBeUJNOztBQXpCTixvQkFBU0EsT0FBZUMsc0JBQXlCQyxlQUFRLGdCQUFlO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBTXhFLE1BQU1DLGNBQWNILGNBQTJDSSxNQUFTO0FBRWpFLGdCQUFTQyxhQUFhLEVBQUVDLFNBQXdDLEdBQUc7QUFBQUMsS0FBQTtBQUN4RSxRQUFNLENBQUNDLGVBQWVDLGdCQUFnQixJQUFJUCxTQUFTLEVBQUU7QUFDckQsUUFBTSxDQUFDUSxrQkFBa0JDLG1CQUFtQixJQUFJVCxTQUFTLEVBQUU7QUFFM0QsUUFBTVUsV0FBV0MsWUFBWSxDQUFDQyxTQUFpQkMsV0FBbUMsYUFBYTtBQUM3RixRQUFJQSxhQUFhLGFBQWE7QUFDNUJKLDBCQUFvQixFQUFFO0FBQ3RCSyxpQkFBVyxNQUFNTCxvQkFBb0JHLE9BQU8sR0FBRyxHQUFHO0FBQUEsSUFDcEQsT0FBTztBQUNMTCx1QkFBaUIsRUFBRTtBQUNuQk8saUJBQVcsTUFBTVAsaUJBQWlCSyxPQUFPLEdBQUcsR0FBRztBQUFBLElBQ2pEO0FBQUEsRUFDRixHQUFHLEVBQUU7QUFFTCxTQUNFLHVCQUFDLFlBQVksVUFBWixFQUFxQixPQUFPLEVBQUVGLFNBQVMsR0FDckNOO0FBQUFBO0FBQUFBLElBQ0Q7QUFBQSxNQUFDO0FBQUE7QUFBQSxRQUNDLE1BQUs7QUFBQSxRQUNMLGFBQVU7QUFBQSxRQUNWLGVBQVk7QUFBQSxRQUNaLFdBQVU7QUFBQSxRQUVURTtBQUFBQTtBQUFBQSxNQU5IO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxJQU9BO0FBQUEsSUFDQTtBQUFBLE1BQUM7QUFBQTtBQUFBLFFBQ0MsTUFBSztBQUFBLFFBQ0wsYUFBVTtBQUFBLFFBQ1YsZUFBWTtBQUFBLFFBQ1osV0FBVTtBQUFBLFFBRVRFO0FBQUFBO0FBQUFBLE1BTkg7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLElBT0E7QUFBQSxPQWpCRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBa0JBO0FBRUo7QUFBQ0gsR0FuQ2VGLGNBQVk7QUFBQVksS0FBWlo7QUFxQ1QsZ0JBQVNhLFVBQVU7QUFBQUMsTUFBQTtBQUN4QixRQUFNQyxVQUFVbkIsV0FBV0UsV0FBVztBQUN0QyxNQUFJaUIsWUFBWWhCLFFBQVc7QUFDekIsVUFBTSxJQUFJaUIsTUFBTSw2Q0FBNkM7QUFBQSxFQUMvRDtBQUNBLFNBQU9EO0FBQ1Q7QUFBQ0QsSUFOZUQsU0FBTztBQVFoQixnQkFBU0ksZ0JBQWdCO0FBQzlCLFNBQ0U7QUFBQSxJQUFDO0FBQUE7QUFBQSxNQUNDLE1BQUs7QUFBQSxNQUNMLFdBQVU7QUFBQSxNQUEySDtBQUFBO0FBQUEsSUFGdkk7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLEVBS0E7QUFFSjtBQUFDQyxNQVRlRDtBQUFhLElBQUFMLElBQUFNO0FBQUFDLGFBQUFQLElBQUE7QUFBQU8sYUFBQUQsS0FBQSIsIm5hbWVzIjpbImNyZWF0ZUNvbnRleHQiLCJ1c2VDb250ZXh0IiwidXNlU3RhdGUiLCJBMTF5Q29udGV4dCIsInVuZGVmaW5lZCIsIkExMXlQcm92aWRlciIsImNoaWxkcmVuIiwiX3MiLCJwb2xpdGVNZXNzYWdlIiwic2V0UG9saXRlTWVzc2FnZSIsImFzc2VydGl2ZU1lc3NhZ2UiLCJzZXRBc3NlcnRpdmVNZXNzYWdlIiwiYW5ub3VuY2UiLCJ1c2VDYWxsYmFjayIsIm1lc3NhZ2UiLCJwcmlvcml0eSIsInNldFRpbWVvdXQiLCJfYyIsInVzZUExMXkiLCJfczIiLCJjb250ZXh0IiwiRXJyb3IiLCJTa2lwVG9Db250ZW50IiwiX2MyIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkExMXlBbm5vdW5jZXIudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZUNvbnRleHQsIHVzZUNvbnRleHQsIHVzZUNhbGxiYWNrLCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcblxuaW50ZXJmYWNlIEExMXlDb250ZXh0VHlwZSB7XG4gIGFubm91bmNlOiAobWVzc2FnZTogc3RyaW5nLCBwcmlvcml0eT86ICdwb2xpdGUnIHwgJ2Fzc2VydGl2ZScpID0+IHZvaWQ7XG59XG5cbmNvbnN0IEExMXlDb250ZXh0ID0gY3JlYXRlQ29udGV4dDxBMTF5Q29udGV4dFR5cGUgfCB1bmRlZmluZWQ+KHVuZGVmaW5lZCk7XG5cbmV4cG9ydCBmdW5jdGlvbiBBMTF5UHJvdmlkZXIoeyBjaGlsZHJlbiB9OiB7IGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGUgfSkge1xuICBjb25zdCBbcG9saXRlTWVzc2FnZSwgc2V0UG9saXRlTWVzc2FnZV0gPSB1c2VTdGF0ZSgnJyk7XG4gIGNvbnN0IFthc3NlcnRpdmVNZXNzYWdlLCBzZXRBc3NlcnRpdmVNZXNzYWdlXSA9IHVzZVN0YXRlKCcnKTtcblxuICBjb25zdCBhbm5vdW5jZSA9IHVzZUNhbGxiYWNrKChtZXNzYWdlOiBzdHJpbmcsIHByaW9yaXR5OiAncG9saXRlJyB8ICdhc3NlcnRpdmUnID0gJ3BvbGl0ZScpID0+IHtcbiAgICBpZiAocHJpb3JpdHkgPT09ICdhc3NlcnRpdmUnKSB7XG4gICAgICBzZXRBc3NlcnRpdmVNZXNzYWdlKCcnKTtcbiAgICAgIHNldFRpbWVvdXQoKCkgPT4gc2V0QXNzZXJ0aXZlTWVzc2FnZShtZXNzYWdlKSwgMTAwKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc2V0UG9saXRlTWVzc2FnZSgnJyk7XG4gICAgICBzZXRUaW1lb3V0KCgpID0+IHNldFBvbGl0ZU1lc3NhZ2UobWVzc2FnZSksIDEwMCk7XG4gICAgfVxuICB9LCBbXSk7XG5cbiAgcmV0dXJuIChcbiAgICA8QTExeUNvbnRleHQuUHJvdmlkZXIgdmFsdWU9e3sgYW5ub3VuY2UgfX0+XG4gICAgICB7Y2hpbGRyZW59XG4gICAgICA8ZGl2XG4gICAgICAgIHJvbGU9XCJzdGF0dXNcIlxuICAgICAgICBhcmlhLWxpdmU9XCJwb2xpdGVcIlxuICAgICAgICBhcmlhLWF0b21pYz1cInRydWVcIlxuICAgICAgICBjbGFzc05hbWU9XCJzci1vbmx5XCJcbiAgICAgID5cbiAgICAgICAge3BvbGl0ZU1lc3NhZ2V9XG4gICAgICA8L2Rpdj5cbiAgICAgIDxkaXZcbiAgICAgICAgcm9sZT1cImFsZXJ0XCJcbiAgICAgICAgYXJpYS1saXZlPVwiYXNzZXJ0aXZlXCJcbiAgICAgICAgYXJpYS1hdG9taWM9XCJ0cnVlXCJcbiAgICAgICAgY2xhc3NOYW1lPVwic3Itb25seVwiXG4gICAgICA+XG4gICAgICAgIHthc3NlcnRpdmVNZXNzYWdlfVxuICAgICAgPC9kaXY+XG4gICAgPC9BMTF5Q29udGV4dC5Qcm92aWRlcj5cbiAgKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIHVzZUExMXkoKSB7XG4gIGNvbnN0IGNvbnRleHQgPSB1c2VDb250ZXh0KEExMXlDb250ZXh0KTtcbiAgaWYgKGNvbnRleHQgPT09IHVuZGVmaW5lZCkge1xuICAgIHRocm93IG5ldyBFcnJvcigndXNlQTExeSBtdXN0IGJlIHVzZWQgd2l0aGluIGFuIEExMXlQcm92aWRlcicpO1xuICB9XG4gIHJldHVybiBjb250ZXh0O1xufVxuXG5leHBvcnQgZnVuY3Rpb24gU2tpcFRvQ29udGVudCgpIHtcbiAgcmV0dXJuIChcbiAgICA8YVxuICAgICAgaHJlZj1cIiNtYWluLWNvbnRlbnRcIlxuICAgICAgY2xhc3NOYW1lPVwic3Itb25seSBmb2N1czpub3Qtc3Itb25seSBmb2N1czpmaXhlZCBmb2N1czp0b3AtMCBmb2N1czpsZWZ0LTAgZm9jdXM6ei01MCBmb2N1czpwLTQgZm9jdXM6YmctcHJpbWFyeS02MDAgZm9jdXM6dGV4dC13aGl0ZVwiXG4gICAgPlxuICAgICAgU2tpcCB0byBtYWluIGNvbnRlbnRcbiAgICA8L2E+XG4gICk7XG59XG4iXSwiZmlsZSI6IkM6L1VzZXJzL2FiaWRfL0Rlc2t0b3AvU2FwcGhpcmUgTG91bmdlL3NyYy9jb21wb25lbnRzL0ExMXlBbm5vdW5jZXIudHN4In0=¬Œrw!i           gg~5G¬¤       ‘    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/A11yAnnouncer.tsx strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"12ad-EVcvILcfyC5GC/Tlo1xHcTKVqkM"
+Date: Sun, 22 Dec 2024 02:49:25 GMT
+Content-Length: 9664
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"12ad-EVcvILcfyC5GC/Tlo1xHcTKVqkM"
+Date: Sun, 22 Dec 2024 02:49:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 9664
+ ctid 2 uncompressed-len 0 net-response-time-onstart 831 net-response-time-onstop 831   %À

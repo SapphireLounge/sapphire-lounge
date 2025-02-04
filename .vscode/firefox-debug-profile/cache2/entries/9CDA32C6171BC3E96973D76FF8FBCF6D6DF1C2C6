@@ -1,0 +1,108 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/ui/OptimizedImage.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b694899f"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { LoadingSpinner } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/LoadingSpinner.tsx";
+import { useImageCache } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/hooks/useImageCache.ts";
+export function OptimizedImage({ src, alt, className = "", placeholder, ...props }) {
+  _s();
+  const { cachedSrc, isLoading, error } = useImageCache(src);
+  if (error) {
+    return /* @__PURE__ */ jsxDEV("div", { className: `relative ${className}`, children: /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 flex items-center justify-center bg-dark-500/20", children: /* @__PURE__ */ jsxDEV("span", { className: "text-sm text-gray-400", children: "Failed to load image" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+      lineNumber: 19,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+      lineNumber: 18,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+      lineNumber: 17,
+      columnNumber: 7
+    }, this);
+  }
+  return /* @__PURE__ */ jsxDEV("div", { className: `relative ${className}`, children: [
+    /* @__PURE__ */ jsxDEV(
+      "img",
+      {
+        src: cachedSrc || placeholder,
+        alt,
+        loading: "lazy",
+        className: `${className} ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`,
+        ...props
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+        lineNumber: 27,
+        columnNumber: 7
+      },
+      this
+    ),
+    isLoading && /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 flex items-center justify-center bg-dark-500/20", children: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+      lineNumber: 36,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+      lineNumber: 35,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx",
+    lineNumber: 26,
+    columnNumber: 5
+  }, this);
+}
+_s(OptimizedImage, "JoQa/Pw2Ruy6oau0nC7ICNT5Z04=", false, function() {
+  return [useImageCache];
+});
+_c = OptimizedImage;
+var _c;
+$RefreshReg$(_c, "OptimizedImage");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/ui/OptimizedImage.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBa0JVOzJCQWxCVjtBQUFtQkEsb0JBQWlCLE9BQU87QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQzNDLFNBQVNDLHNCQUFzQjtBQUMvQixTQUFTQyxxQkFBcUI7QUFTdkIsZ0JBQVNDLGVBQWUsRUFBRUMsS0FBS0MsS0FBS0MsWUFBWSxJQUFJQyxhQUFhLEdBQUdDLE1BQTJCLEdBQUc7QUFBQUMsS0FBQTtBQUN2RyxRQUFNLEVBQUVDLFdBQVdDLFdBQVdDLE1BQU0sSUFBSVYsY0FBY0UsR0FBRztBQUV6RCxNQUFJUSxPQUFPO0FBQ1QsV0FDRSx1QkFBQyxTQUFJLFdBQVcsWUFBWU4sU0FBUyxJQUNuQyxpQ0FBQyxTQUFJLFdBQVUsb0VBQ2IsaUNBQUMsVUFBSyxXQUFVLHlCQUF3QixvQ0FBeEM7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUE0RCxLQUQ5RDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUEsS0FIRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBSUE7QUFBQSxFQUVKO0FBRUEsU0FDRSx1QkFBQyxTQUFJLFdBQVcsWUFBWUEsU0FBUyxJQUNuQztBQUFBO0FBQUEsTUFBQztBQUFBO0FBQUEsUUFDQyxLQUFLSSxhQUFhSDtBQUFBQSxRQUNsQjtBQUFBLFFBQ0EsU0FBUTtBQUFBLFFBQ1IsV0FBVyxHQUFHRCxTQUFTLElBQUlLLFlBQVksY0FBYyxhQUFhO0FBQUEsUUFDbEUsR0FBSUg7QUFBQUE7QUFBQUEsTUFMTjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsSUFLWTtBQUFBLElBRVhHLGFBQ0MsdUJBQUMsU0FBSSxXQUFVLG9FQUNiLGlDQUFDLG9CQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FBZSxLQURqQjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUE7QUFBQSxPQVhKO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FhQTtBQUVKO0FBQUNGLEdBN0JlTixnQkFBYztBQUFBLFVBQ1lELGFBQWE7QUFBQTtBQUFBVyxLQUR2Q1Y7QUFBYyxJQUFBVTtBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsidXNlRWZmZWN0IiwiTG9hZGluZ1NwaW5uZXIiLCJ1c2VJbWFnZUNhY2hlIiwiT3B0aW1pemVkSW1hZ2UiLCJzcmMiLCJhbHQiLCJjbGFzc05hbWUiLCJwbGFjZWhvbGRlciIsInByb3BzIiwiX3MiLCJjYWNoZWRTcmMiLCJpc0xvYWRpbmciLCJlcnJvciIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIk9wdGltaXplZEltYWdlLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgTG9hZGluZ1NwaW5uZXIgfSBmcm9tICcuL0xvYWRpbmdTcGlubmVyJztcbmltcG9ydCB7IHVzZUltYWdlQ2FjaGUgfSBmcm9tICcuLi8uLi9ob29rcy91c2VJbWFnZUNhY2hlJztcblxuaW50ZXJmYWNlIE9wdGltaXplZEltYWdlUHJvcHMgZXh0ZW5kcyBSZWFjdC5JbWdIVE1MQXR0cmlidXRlczxIVE1MSW1hZ2VFbGVtZW50PiB7XG4gIHNyYzogc3RyaW5nO1xuICBhbHQ6IHN0cmluZztcbiAgY2xhc3NOYW1lPzogc3RyaW5nO1xuICBwbGFjZWhvbGRlcj86IHN0cmluZztcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIE9wdGltaXplZEltYWdlKHsgc3JjLCBhbHQsIGNsYXNzTmFtZSA9ICcnLCBwbGFjZWhvbGRlciwgLi4ucHJvcHMgfTogT3B0aW1pemVkSW1hZ2VQcm9wcykge1xuICBjb25zdCB7IGNhY2hlZFNyYywgaXNMb2FkaW5nLCBlcnJvciB9ID0gdXNlSW1hZ2VDYWNoZShzcmMpO1xuXG4gIGlmIChlcnJvcikge1xuICAgIHJldHVybiAoXG4gICAgICA8ZGl2IGNsYXNzTmFtZT17YHJlbGF0aXZlICR7Y2xhc3NOYW1lfWB9PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGluc2V0LTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgYmctZGFyay01MDAvMjBcIj5cbiAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXNtIHRleHQtZ3JheS00MDBcIj5GYWlsZWQgdG8gbG9hZCBpbWFnZTwvc3Bhbj5cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG5cbiAgcmV0dXJuIChcbiAgICA8ZGl2IGNsYXNzTmFtZT17YHJlbGF0aXZlICR7Y2xhc3NOYW1lfWB9PlxuICAgICAgPGltZ1xuICAgICAgICBzcmM9e2NhY2hlZFNyYyB8fCBwbGFjZWhvbGRlcn1cbiAgICAgICAgYWx0PXthbHR9XG4gICAgICAgIGxvYWRpbmc9XCJsYXp5XCJcbiAgICAgICAgY2xhc3NOYW1lPXtgJHtjbGFzc05hbWV9ICR7aXNMb2FkaW5nID8gJ29wYWNpdHktMCcgOiAnb3BhY2l0eS0xMDAnfSB0cmFuc2l0aW9uLW9wYWNpdHkgZHVyYXRpb24tMzAwYH1cbiAgICAgICAgey4uLnByb3BzfVxuICAgICAgLz5cbiAgICAgIHtpc0xvYWRpbmcgJiYgKFxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGluc2V0LTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgYmctZGFyay01MDAvMjBcIj5cbiAgICAgICAgICA8TG9hZGluZ1NwaW5uZXIgLz5cbiAgICAgICAgPC9kaXY+XG4gICAgICApfVxuICAgIDwvZGl2PlxuICApO1xufVxuIl0sImZpbGUiOiJDOi9Vc2Vycy9hYmlkXy9EZXNrdG9wL1NhcHBoaXJlIExvdW5nZS9zcmMvY29tcG9uZW50cy91aS9PcHRpbWl6ZWRJbWFnZS50c3gifQ==9Rª      gg~7gg~8G­†M       •    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/ui/OptimizedImage.tsx necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"11b0-KVqgrKOAuqlLJ0JiRTX8lxyXxw4"
+Content-Length: 8039
+Access-Control-Allow-Origin: *
+Date: Sun, 22 Dec 2024 02:49:28 GMT
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"11b0-KVqgrKOAuqlLJ0JiRTX8lxyXxw4"
+Date: Sun, 22 Dec 2024 01:13:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 8039
+ ctid 2 uncompressed-len 0 net-response-time-onstart 295 net-response-time-onstop 295   g

@@ -1,0 +1,796 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=770d4ef7"; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"];
+import { Plus, Minus, Trash2, ShoppingCart } from "/node_modules/.vite/deps/lucide-react.js?v=770d4ef7";
+import { motion, AnimatePresence } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+export const OrderNotepad = ({ className = "" }) => {
+  _s();
+  const [orders, setOrders] = useState(() => {
+    const saved = localStorage.getItem("orderNotepad");
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("orderNotepad", JSON.stringify(orders));
+  }, [orders]);
+  useEffect(() => {
+    const handleAddItem = (event) => {
+      const { name, price } = event.detail;
+      const existingItem = orders.find((item) => item.name === name);
+      if (existingItem) {
+        setOrders(orders.map(
+          (item) => item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+        ));
+      } else {
+        setOrders([...orders, { name, price, quantity: 1 }]);
+      }
+    };
+    window.addEventListener("addToNotepad", handleAddItem);
+    return () => window.removeEventListener("addToNotepad", handleAddItem);
+  }, [orders]);
+  const removeItem = (index) => {
+    setOrders(orders.filter((_, i) => i !== index));
+  };
+  const updateQuantity = (index, delta) => {
+    setOrders(orders.map((item, i) => {
+      if (i === index) {
+        const newQuantity = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    }));
+  };
+  const clearAll = () => {
+    setOrders([]);
+    localStorage.removeItem("orderNotepad");
+  };
+  const calculateTotal = () => {
+    return orders.reduce((total, item) => {
+      const price = parseFloat(item.price.replace("¬£", ""));
+      return total + price * item.quantity;
+    }, 0).toFixed(2);
+  };
+  return /* @__PURE__ */ jsxDEV(
+    "div",
+    {
+      className: `bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 ${className}`,
+      children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between mb-4", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDEV(ShoppingCart, { className: "w-5 h-5 text-primary-300" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 89,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("h2", { className: "text-lg font-semibold text-primary-300", children: "Your Order" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 90,
+              columnNumber: 11
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 88,
+            columnNumber: 9
+          }, this),
+          orders.length > 0 && /* @__PURE__ */ jsxDEV(
+            "button",
+            {
+              onClick: clearAll,
+              className: "text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1",
+              children: [
+                /* @__PURE__ */ jsxDEV(Trash2, { className: "w-4 h-4" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                  lineNumber: 97,
+                  columnNumber: 13
+                }, this),
+                "Clear All"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 93,
+              columnNumber: 9
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 87,
+          columnNumber: 7
+        }, this),
+        orders.length === 0 ? /* @__PURE__ */ jsxDEV("p", { className: "text-neutral-500 text-sm text-center py-2", children: "Click items from the menu to add them here" }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 104,
+          columnNumber: 7
+        }, this) : /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col", children: [
+          /* @__PURE__ */ jsxDEV(AnimatePresence, { mode: "sync", children: orders.map(
+            (order, index) => /* @__PURE__ */ jsxDEV(
+              motion.div,
+              {
+                initial: { opacity: 0, scale: 0.95, y: -10 },
+                animate: {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: {
+                    opacity: { duration: 0.15, ease: "linear" },
+                    scale: { duration: 0.25, ease: [0.4, 0.1, 0.3, 1] },
+                    y: { duration: 0.25, ease: [0.33, 1, 0.68, 1] }
+                  }
+                },
+                exit: {
+                  opacity: 0,
+                  scale: 0.95,
+                  y: -10,
+                  transition: {
+                    opacity: { duration: 0.1, ease: "linear" },
+                    scale: { duration: 0.15, ease: [0.4, 0.1, 0.3, 1] },
+                    y: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+                  }
+                },
+                layout: true,
+                layoutId: order.name,
+                style: {
+                  overflow: "hidden",
+                  willChange: "transform, opacity",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
+                  WebkitFontSmoothing: "subpixel-antialiased",
+                  perspective: 1e3
+                },
+                className: "flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0",
+                children: [
+                  /* @__PURE__ */ jsxDEV("span", { className: "flex-1 text-primary-100", children: order.name }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 144,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2 bg-neutral-800 rounded-md px-1", children: [
+                    /* @__PURE__ */ jsxDEV(
+                      "button",
+                      {
+                        onClick: () => updateQuantity(index, -1),
+                        className: "p-1 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50",
+                        disabled: order.quantity <= 1,
+                        children: /* @__PURE__ */ jsxDEV(Minus, { className: "w-3.5 h-3.5 text-primary-300" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                          lineNumber: 151,
+                          columnNumber: 21
+                        }, this)
+                      },
+                      void 0,
+                      false,
+                      {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 146,
+                        columnNumber: 19
+                      },
+                      this
+                    ),
+                    /* @__PURE__ */ jsxDEV("span", { className: "w-6 text-center text-primary-200", children: order.quantity }, void 0, false, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                      lineNumber: 153,
+                      columnNumber: 19
+                    }, this),
+                    /* @__PURE__ */ jsxDEV(
+                      "button",
+                      {
+                        onClick: () => updateQuantity(index, 1),
+                        className: "p-1 hover:bg-neutral-700 rounded transition-colors",
+                        children: /* @__PURE__ */ jsxDEV(Plus, { className: "w-3.5 h-3.5 text-primary-300" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                          lineNumber: 158,
+                          columnNumber: 21
+                        }, this)
+                      },
+                      void 0,
+                      false,
+                      {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 154,
+                        columnNumber: 19
+                      },
+                      this
+                    )
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 145,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { className: "text-primary-200 w-16 text-right", children: [
+                    "¬£",
+                    (parseFloat(order.price.replace("¬£", "")) * order.quantity).toFixed(2)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 161,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    "button",
+                    {
+                      onClick: () => removeItem(index),
+                      className: "text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800",
+                      title: "Remove item",
+                      children: /* @__PURE__ */ jsxDEV(Trash2, { className: "w-3.5 h-3.5" }, void 0, false, {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 167,
+                        columnNumber: 19
+                      }, this)
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                      lineNumber: 162,
+                      columnNumber: 17
+                    },
+                    this
+                  )
+                ]
+              },
+              order.name,
+              true,
+              {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                lineNumber: 109,
+                columnNumber: 11
+              },
+              this
+            )
+          ) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 107,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "pt-3 border-t border-neutral-800", children: /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between items-center text-sm", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: "font-medium text-primary-300", children: "Total:" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 174,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "font-semibold text-primary-200", children: [
+              "¬£",
+              calculateTotal()
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 175,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 173,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 172,
+            columnNumber: 11
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 106,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+      lineNumber: 84,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s(OrderNotepad, "nSYyW0WpbENqGd02I/94i889UXc=");
+_c = OrderNotepad;
+export const addItemToNotepad = (name, price) => {
+  const event = new CustomEvent("addToNotepad", { detail: { name, price } });
+  window.dispatchEvent(event);
+};
+var _c;
+$RefreshReg$(_c, "OrderNotepad");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBd0ZVOzJCQXhGVjtBQUFnQkEsTUFBVUMsY0FBUyxPQUFRLHNCQUFPO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ2xELFNBQVNDLE1BQU1DLE9BQU9DLFFBQVFDLG9CQUFvQjtBQUNsRCxTQUFTQyxRQUFRQyx1QkFBdUI7QUF5QmpDLGFBQU1DLGVBQTRDQSxDQUFDLEVBQUVDLFlBQVksR0FBRyxNQUFNO0FBQUFDLEtBQUE7QUFDL0UsUUFBTSxDQUFDQyxRQUFRQyxTQUFTLElBQUlaLFNBQXNCLE1BQU07QUFDdEQsVUFBTWEsUUFBUUMsYUFBYUMsUUFBUSxjQUFjO0FBQ2pELFdBQU9GLFFBQVFHLEtBQUtDLE1BQU1KLEtBQUssSUFBSTtBQUFBLEVBQ3JDLENBQUM7QUFFRFosWUFBVSxNQUFNO0FBQ2RhLGlCQUFhSSxRQUFRLGdCQUFnQkYsS0FBS0csVUFBVVIsTUFBTSxDQUFDO0FBQUEsRUFDN0QsR0FBRyxDQUFDQSxNQUFNLENBQUM7QUFFWFYsWUFBVSxNQUFNO0FBQ2QsVUFBTW1CLGdCQUFnQkEsQ0FBQ0MsVUFBNkI7QUFDbEQsWUFBTSxFQUFFQyxNQUFNQyxNQUFNLElBQUlGLE1BQU1HO0FBQzlCLFlBQU1DLGVBQWVkLE9BQU9lLEtBQUssQ0FBQUMsU0FBUUEsS0FBS0wsU0FBU0EsSUFBSTtBQUMzRCxVQUFJRyxjQUFjO0FBQ2hCYixrQkFBVUQsT0FBT2lCO0FBQUFBLFVBQUksQ0FBQUQsU0FDbkJBLEtBQUtMLFNBQVNBLE9BQ1YsRUFBRSxHQUFHSyxNQUFNRSxVQUFVRixLQUFLRSxXQUFXLEVBQUUsSUFDdkNGO0FBQUFBLFFBQ04sQ0FBQztBQUFBLE1BQ0gsT0FBTztBQUNMZixrQkFBVSxDQUFDLEdBQUdELFFBQVEsRUFBRVcsTUFBTUMsT0FBT00sVUFBVSxFQUFFLENBQUMsQ0FBQztBQUFBLE1BQ3JEO0FBQUEsSUFDRjtBQUVBQyxXQUFPQyxpQkFBaUIsZ0JBQWdCWCxhQUFhO0FBQ3JELFdBQU8sTUFBTVUsT0FBT0Usb0JBQW9CLGdCQUFnQlosYUFBYTtBQUFBLEVBQ3ZFLEdBQUcsQ0FBQ1QsTUFBTSxDQUFDO0FBRVgsUUFBTXNCLGFBQWFBLENBQUNDLFVBQWtCO0FBQ3BDdEIsY0FBVUQsT0FBT3dCLE9BQU8sQ0FBQ0MsR0FBR0MsTUFBTUEsTUFBTUgsS0FBSyxDQUFDO0FBQUEsRUFDaEQ7QUFFQSxRQUFNSSxpQkFBaUJBLENBQUNKLE9BQWVLLFVBQWtCO0FBQ3ZEM0IsY0FBVUQsT0FBT2lCLElBQUksQ0FBQ0QsTUFBTVUsTUFBTTtBQUNoQyxVQUFJQSxNQUFNSCxPQUFPO0FBQ2YsY0FBTU0sY0FBY0MsS0FBS0MsSUFBSSxHQUFHZixLQUFLRSxXQUFXVSxLQUFLO0FBQ3JELGVBQU8sRUFBRSxHQUFHWixNQUFNRSxVQUFVVyxZQUFZO0FBQUEsTUFDMUM7QUFDQSxhQUFPYjtBQUFBQSxJQUNULENBQUMsQ0FBQztBQUFBLEVBQ0o7QUFFQSxRQUFNZ0IsV0FBV0EsTUFBTTtBQUNyQi9CLGNBQVUsRUFBRTtBQUNaRSxpQkFBYW1CLFdBQVcsY0FBYztBQUFBLEVBQ3hDO0FBRUEsUUFBTVcsaUJBQWlCQSxNQUFNO0FBQzNCLFdBQU9qQyxPQUFPa0MsT0FBTyxDQUFDQyxPQUFPbkIsU0FBUztBQUNwQyxZQUFNSixRQUFRd0IsV0FBV3BCLEtBQUtKLE1BQU15QixRQUFRLEtBQUssRUFBRSxDQUFDO0FBQ3BELGFBQU9GLFFBQVN2QixRQUFRSSxLQUFLRTtBQUFBQSxJQUMvQixHQUFHLENBQUMsRUFBRW9CLFFBQVEsQ0FBQztBQUFBLEVBQ2pCO0FBRUEsU0FDRTtBQUFBLElBQUM7QUFBQTtBQUFBLE1BQ0MsV0FBVyxnRkFBZ0Z4QyxTQUFTO0FBQUEsTUFFcEc7QUFBQSwrQkFBQyxTQUFJLFdBQVUsMENBQ2I7QUFBQSxpQ0FBQyxTQUFJLFdBQVUsMkJBQ2I7QUFBQSxtQ0FBQyxnQkFBYSxXQUFVLDhCQUF4QjtBQUFBO0FBQUE7QUFBQTtBQUFBLG1CQUFrRDtBQUFBLFlBQ2xELHVCQUFDLFFBQUcsV0FBVSwwQ0FBeUMsMEJBQXZEO0FBQUE7QUFBQTtBQUFBO0FBQUEsbUJBQWlFO0FBQUEsZUFGbkU7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFHQTtBQUFBLFVBQ0NFLE9BQU91QyxTQUFTLEtBQ2Y7QUFBQSxZQUFDO0FBQUE7QUFBQSxjQUNDLFNBQVNQO0FBQUFBLGNBQ1QsV0FBVTtBQUFBLGNBRVY7QUFBQSx1Q0FBQyxVQUFPLFdBQVUsYUFBbEI7QUFBQTtBQUFBO0FBQUE7QUFBQSx1QkFBMkI7QUFBQTtBQUFBO0FBQUE7QUFBQSxZQUo3QjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsVUFNQTtBQUFBLGFBWko7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQWNBO0FBQUEsUUFFQ2hDLE9BQU91QyxXQUFXLElBQ2pCLHVCQUFDLE9BQUUsV0FBVSw2Q0FBNEMsMERBQXpEO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBbUcsSUFFbkcsdUJBQUMsU0FBSSxXQUFVLGlCQUNiO0FBQUEsaUNBQUMsbUJBQWdCLE1BQUssUUFDbkJ2QyxpQkFBT2lCO0FBQUFBLFlBQUksQ0FBQ3VCLE9BQU9qQixVQUNsQjtBQUFBLGNBQUMsT0FBTztBQUFBLGNBQVA7QUFBQSxnQkFFQyxTQUFTLEVBQUVrQixTQUFTLEdBQUdDLE9BQU8sTUFBTUMsR0FBRyxJQUFJO0FBQUEsZ0JBQzNDLFNBQVM7QUFBQSxrQkFDUEYsU0FBUztBQUFBLGtCQUNUQyxPQUFPO0FBQUEsa0JBQ1BDLEdBQUc7QUFBQSxrQkFDSEMsWUFBWTtBQUFBLG9CQUNWSCxTQUFTLEVBQUVJLFVBQVUsTUFBTUMsTUFBTSxTQUFTO0FBQUEsb0JBQzFDSixPQUFPLEVBQUVHLFVBQVUsTUFBTUMsTUFBTSxDQUFDLEtBQUssS0FBSyxLQUFLLENBQUMsRUFBRTtBQUFBLG9CQUNsREgsR0FBRyxFQUFFRSxVQUFVLE1BQU1DLE1BQU0sQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDLEVBQUU7QUFBQSxrQkFDaEQ7QUFBQSxnQkFDRjtBQUFBLGdCQUNBLE1BQU07QUFBQSxrQkFDSkwsU0FBUztBQUFBLGtCQUNUQyxPQUFPO0FBQUEsa0JBQ1BDLEdBQUc7QUFBQSxrQkFDSEMsWUFBWTtBQUFBLG9CQUNWSCxTQUFTLEVBQUVJLFVBQVUsS0FBS0MsTUFBTSxTQUFTO0FBQUEsb0JBQ3pDSixPQUFPLEVBQUVHLFVBQVUsTUFBTUMsTUFBTSxDQUFDLEtBQUssS0FBSyxLQUFLLENBQUMsRUFBRTtBQUFBLG9CQUNsREgsR0FBRyxFQUFFRSxVQUFVLE1BQU1DLE1BQU0sQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDLEVBQUU7QUFBQSxrQkFDaEQ7QUFBQSxnQkFDRjtBQUFBLGdCQUNBO0FBQUEsZ0JBQ0EsVUFBVU4sTUFBTTdCO0FBQUFBLGdCQUNoQixPQUFPO0FBQUEsa0JBQ0xvQyxVQUFVO0FBQUEsa0JBQ1ZDLFlBQVk7QUFBQSxrQkFDWkMsV0FBVztBQUFBLGtCQUNYQyxvQkFBb0I7QUFBQSxrQkFDcEJDLHFCQUFxQjtBQUFBLGtCQUNyQkMsYUFBYTtBQUFBLGdCQUNmO0FBQUEsZ0JBQ0EsV0FBVTtBQUFBLGdCQUVWO0FBQUEseUNBQUMsVUFBSyxXQUFVLDJCQUEyQlosZ0JBQU03QixRQUFqRDtBQUFBO0FBQUE7QUFBQTtBQUFBLHlCQUFzRDtBQUFBLGtCQUN0RCx1QkFBQyxTQUFJLFdBQVUsMERBQ2I7QUFBQTtBQUFBLHNCQUFDO0FBQUE7QUFBQSx3QkFDQyxTQUFTLE1BQU1nQixlQUFlSixPQUFPLEVBQUU7QUFBQSx3QkFDdkMsV0FBVTtBQUFBLHdCQUNWLFVBQVVpQixNQUFNdEIsWUFBWTtBQUFBLHdCQUU1QixpQ0FBQyxTQUFNLFdBQVUsa0NBQWpCO0FBQUE7QUFBQTtBQUFBO0FBQUEsK0JBQStDO0FBQUE7QUFBQSxzQkFMakQ7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLG9CQU1BO0FBQUEsb0JBQ0EsdUJBQUMsVUFBSyxXQUFVLG9DQUFvQ3NCLGdCQUFNdEIsWUFBMUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSwyQkFBbUU7QUFBQSxvQkFDbkU7QUFBQSxzQkFBQztBQUFBO0FBQUEsd0JBQ0MsU0FBUyxNQUFNUyxlQUFlSixPQUFPLENBQUM7QUFBQSx3QkFDdEMsV0FBVTtBQUFBLHdCQUVWLGlDQUFDLFFBQUssV0FBVSxrQ0FBaEI7QUFBQTtBQUFBO0FBQUE7QUFBQSwrQkFBOEM7QUFBQTtBQUFBLHNCQUpoRDtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsb0JBS0E7QUFBQSx1QkFkRjtBQUFBO0FBQUE7QUFBQTtBQUFBLHlCQWVBO0FBQUEsa0JBQ0EsdUJBQUMsVUFBSyxXQUFVLG9DQUFtQztBQUFBO0FBQUEscUJBQUdhLFdBQVdJLE1BQU01QixNQUFNeUIsUUFBUSxLQUFLLEVBQUUsQ0FBQyxJQUFJRyxNQUFNdEIsVUFBVW9CLFFBQVEsQ0FBQztBQUFBLHVCQUExSDtBQUFBO0FBQUE7QUFBQTtBQUFBLHlCQUE0SDtBQUFBLGtCQUM1SDtBQUFBLG9CQUFDO0FBQUE7QUFBQSxzQkFDQyxTQUFTLE1BQU1oQixXQUFXQyxLQUFLO0FBQUEsc0JBQy9CLFdBQVU7QUFBQSxzQkFDVixPQUFNO0FBQUEsc0JBRU4saUNBQUMsVUFBTyxXQUFVLGlCQUFsQjtBQUFBO0FBQUE7QUFBQTtBQUFBLDZCQUErQjtBQUFBO0FBQUEsb0JBTGpDO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxrQkFNQTtBQUFBO0FBQUE7QUFBQSxjQTFES2lCLE1BQU03QjtBQUFBQSxjQURiO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsWUE0REE7QUFBQSxVQUNELEtBL0RIO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBZ0VBO0FBQUEsVUFDQSx1QkFBQyxTQUFJLFdBQVUsb0NBQ2IsaUNBQUMsU0FBSSxXQUFVLDZDQUNiO0FBQUEsbUNBQUMsVUFBSyxXQUFVLGdDQUErQixzQkFBL0M7QUFBQTtBQUFBO0FBQUE7QUFBQSxtQkFBcUQ7QUFBQSxZQUNyRCx1QkFBQyxVQUFLLFdBQVUsa0NBQWlDO0FBQUE7QUFBQSxjQUFFc0IsZUFBZTtBQUFBLGlCQUFsRTtBQUFBO0FBQUE7QUFBQTtBQUFBLG1CQUFvRTtBQUFBLGVBRnRFO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBR0EsS0FKRjtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUtBO0FBQUEsYUF2RUY7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQXdFQTtBQUFBO0FBQUE7QUFBQSxJQTlGSjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsRUFnR0E7QUFFSjtBQUFFbEMsR0ExSldGLGNBQXlDO0FBQUF3RCxLQUF6Q3hEO0FBNEpOLGFBQU15RCxtQkFBbUJBLENBQUMzQyxNQUFjQyxVQUFrQjtBQUMvRCxRQUFNRixRQUFRLElBQUk2QyxZQUFZLGdCQUFnQixFQUFFMUMsUUFBUSxFQUFFRixNQUFNQyxNQUFNLEVBQUUsQ0FBQztBQUN6RU8sU0FBT3FDLGNBQWM5QyxLQUFLO0FBQzVCO0FBQUUsSUFBQTJDO0FBQUFJLGFBQUFKLElBQUEiLCJuYW1lcyI6WyJ1c2VTdGF0ZSIsInVzZUVmZmVjdCIsIlBsdXMiLCJNaW51cyIsIlRyYXNoMiIsIlNob3BwaW5nQ2FydCIsIm1vdGlvbiIsIkFuaW1hdGVQcmVzZW5jZSIsIk9yZGVyTm90ZXBhZCIsImNsYXNzTmFtZSIsIl9zIiwib3JkZXJzIiwic2V0T3JkZXJzIiwic2F2ZWQiLCJsb2NhbFN0b3JhZ2UiLCJnZXRJdGVtIiwiSlNPTiIsInBhcnNlIiwic2V0SXRlbSIsInN0cmluZ2lmeSIsImhhbmRsZUFkZEl0ZW0iLCJldmVudCIsIm5hbWUiLCJwcmljZSIsImRldGFpbCIsImV4aXN0aW5nSXRlbSIsImZpbmQiLCJpdGVtIiwibWFwIiwicXVhbnRpdHkiLCJ3aW5kb3ciLCJhZGRFdmVudExpc3RlbmVyIiwicmVtb3ZlRXZlbnRMaXN0ZW5lciIsInJlbW92ZUl0ZW0iLCJpbmRleCIsImZpbHRlciIsIl8iLCJpIiwidXBkYXRlUXVhbnRpdHkiLCJkZWx0YSIsIm5ld1F1YW50aXR5IiwiTWF0aCIsIm1heCIsImNsZWFyQWxsIiwiY2FsY3VsYXRlVG90YWwiLCJyZWR1Y2UiLCJ0b3RhbCIsInBhcnNlRmxvYXQiLCJyZXBsYWNlIiwidG9GaXhlZCIsImxlbmd0aCIsIm9yZGVyIiwib3BhY2l0eSIsInNjYWxlIiwieSIsInRyYW5zaXRpb24iLCJkdXJhdGlvbiIsImVhc2UiLCJvdmVyZmxvdyIsIndpbGxDaGFuZ2UiLCJ0cmFuc2Zvcm0iLCJiYWNrZmFjZVZpc2liaWxpdHkiLCJXZWJraXRGb250U21vb3RoaW5nIiwicGVyc3BlY3RpdmUiLCJfYyIsImFkZEl0ZW1Ub05vdGVwYWQiLCJDdXN0b21FdmVudCIsImRpc3BhdGNoRXZlbnQiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiT3JkZXJOb3RlcGFkLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IFBsdXMsIE1pbnVzLCBUcmFzaDIsIFNob3BwaW5nQ2FydCB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XG5pbXBvcnQgeyBtb3Rpb24sIEFuaW1hdGVQcmVzZW5jZSB9IGZyb20gJ2ZyYW1lci1tb3Rpb24nO1xuXG5pbnRlcmZhY2UgT3JkZXJJdGVtIHtcbiAgbmFtZTogc3RyaW5nO1xuICBwcmljZTogc3RyaW5nO1xuICBxdWFudGl0eTogbnVtYmVyO1xufVxuXG5pbnRlcmZhY2UgT3JkZXJOb3RlcGFkUHJvcHMge1xuICBjbGFzc05hbWU/OiBzdHJpbmc7XG59XG5cbmludGVyZmFjZSBBZGRUb05vdGVwYWRFdmVudCBleHRlbmRzIEN1c3RvbUV2ZW50IHtcbiAgZGV0YWlsOiB7XG4gICAgbmFtZTogc3RyaW5nO1xuICAgIHByaWNlOiBzdHJpbmc7XG4gIH07XG59XG5cbmRlY2xhcmUgZ2xvYmFsIHtcbiAgaW50ZXJmYWNlIFdpbmRvd0V2ZW50TWFwIHtcbiAgICAnYWRkVG9Ob3RlcGFkJzogQWRkVG9Ob3RlcGFkRXZlbnQ7XG4gIH1cbn1cblxuZXhwb3J0IGNvbnN0IE9yZGVyTm90ZXBhZDogUmVhY3QuRkM8T3JkZXJOb3RlcGFkUHJvcHM+ID0gKHsgY2xhc3NOYW1lID0gJycgfSkgPT4ge1xuICBjb25zdCBbb3JkZXJzLCBzZXRPcmRlcnNdID0gdXNlU3RhdGU8T3JkZXJJdGVtW10+KCgpID0+IHtcbiAgICBjb25zdCBzYXZlZCA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdvcmRlck5vdGVwYWQnKTtcbiAgICByZXR1cm4gc2F2ZWQgPyBKU09OLnBhcnNlKHNhdmVkKSA6IFtdO1xuICB9KTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdvcmRlck5vdGVwYWQnLCBKU09OLnN0cmluZ2lmeShvcmRlcnMpKTtcbiAgfSwgW29yZGVyc10pO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgY29uc3QgaGFuZGxlQWRkSXRlbSA9IChldmVudDogQWRkVG9Ob3RlcGFkRXZlbnQpID0+IHtcbiAgICAgIGNvbnN0IHsgbmFtZSwgcHJpY2UgfSA9IGV2ZW50LmRldGFpbDtcbiAgICAgIGNvbnN0IGV4aXN0aW5nSXRlbSA9IG9yZGVycy5maW5kKGl0ZW0gPT4gaXRlbS5uYW1lID09PSBuYW1lKTtcbiAgICAgIGlmIChleGlzdGluZ0l0ZW0pIHtcbiAgICAgICAgc2V0T3JkZXJzKG9yZGVycy5tYXAoaXRlbSA9PlxuICAgICAgICAgIGl0ZW0ubmFtZSA9PT0gbmFtZVxuICAgICAgICAgICAgPyB7IC4uLml0ZW0sIHF1YW50aXR5OiBpdGVtLnF1YW50aXR5ICsgMSB9XG4gICAgICAgICAgICA6IGl0ZW1cbiAgICAgICAgKSk7XG4gICAgICB9IGVsc2Uge1xuICAgICAgICBzZXRPcmRlcnMoWy4uLm9yZGVycywgeyBuYW1lLCBwcmljZSwgcXVhbnRpdHk6IDEgfV0pO1xuICAgICAgfVxuICAgIH07XG5cbiAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignYWRkVG9Ob3RlcGFkJywgaGFuZGxlQWRkSXRlbSk7XG4gICAgcmV0dXJuICgpID0+IHdpbmRvdy5yZW1vdmVFdmVudExpc3RlbmVyKCdhZGRUb05vdGVwYWQnLCBoYW5kbGVBZGRJdGVtKTtcbiAgfSwgW29yZGVyc10pO1xuXG4gIGNvbnN0IHJlbW92ZUl0ZW0gPSAoaW5kZXg6IG51bWJlcikgPT4ge1xuICAgIHNldE9yZGVycyhvcmRlcnMuZmlsdGVyKChfLCBpKSA9PiBpICE9PSBpbmRleCkpO1xuICB9O1xuXG4gIGNvbnN0IHVwZGF0ZVF1YW50aXR5ID0gKGluZGV4OiBudW1iZXIsIGRlbHRhOiBudW1iZXIpID0+IHtcbiAgICBzZXRPcmRlcnMob3JkZXJzLm1hcCgoaXRlbSwgaSkgPT4ge1xuICAgICAgaWYgKGkgPT09IGluZGV4KSB7XG4gICAgICAgIGNvbnN0IG5ld1F1YW50aXR5ID0gTWF0aC5tYXgoMSwgaXRlbS5xdWFudGl0eSArIGRlbHRhKTtcbiAgICAgICAgcmV0dXJuIHsgLi4uaXRlbSwgcXVhbnRpdHk6IG5ld1F1YW50aXR5IH07XG4gICAgICB9XG4gICAgICByZXR1cm4gaXRlbTtcbiAgICB9KSk7XG4gIH07XG5cbiAgY29uc3QgY2xlYXJBbGwgPSAoKSA9PiB7XG4gICAgc2V0T3JkZXJzKFtdKTtcbiAgICBsb2NhbFN0b3JhZ2UucmVtb3ZlSXRlbSgnb3JkZXJOb3RlcGFkJyk7XG4gIH07XG5cbiAgY29uc3QgY2FsY3VsYXRlVG90YWwgPSAoKSA9PiB7XG4gICAgcmV0dXJuIG9yZGVycy5yZWR1Y2UoKHRvdGFsLCBpdGVtKSA9PiB7XG4gICAgICBjb25zdCBwcmljZSA9IHBhcnNlRmxvYXQoaXRlbS5wcmljZS5yZXBsYWNlKCfCoycsICcnKSk7XG4gICAgICByZXR1cm4gdG90YWwgKyAocHJpY2UgKiBpdGVtLnF1YW50aXR5KTtcbiAgICB9LCAwKS50b0ZpeGVkKDIpO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPGRpdiBcbiAgICAgIGNsYXNzTmFtZT17YGJnLWJsYWNrIHJvdW5kZWQtbGcgcC00IG1heC13LW1kIG14LWF1dG8gc2hhZG93LWxnIGJvcmRlciBib3JkZXItbmV1dHJhbC05MDAgJHtjbGFzc05hbWV9YH1cbiAgICA+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBtYi00XCI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cbiAgICAgICAgICA8U2hvcHBpbmdDYXJ0IGNsYXNzTmFtZT1cInctNSBoLTUgdGV4dC1wcmltYXJ5LTMwMFwiIC8+XG4gICAgICAgICAgPGgyIGNsYXNzTmFtZT1cInRleHQtbGcgZm9udC1zZW1pYm9sZCB0ZXh0LXByaW1hcnktMzAwXCI+WW91ciBPcmRlcjwvaDI+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICB7b3JkZXJzLmxlbmd0aCA+IDAgJiYgKFxuICAgICAgICAgIDxidXR0b25cbiAgICAgICAgICAgIG9uQ2xpY2s9e2NsZWFyQWxsfVxuICAgICAgICAgICAgY2xhc3NOYW1lPVwidGV4dC1zbSB0ZXh0LXJlZC00MDAgaG92ZXI6dGV4dC1yZWQtMzAwIHRyYW5zaXRpb24tY29sb3JzIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xXCJcbiAgICAgICAgICA+XG4gICAgICAgICAgICA8VHJhc2gyIGNsYXNzTmFtZT1cInctNCBoLTRcIiAvPlxuICAgICAgICAgICAgQ2xlYXIgQWxsXG4gICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICl9XG4gICAgICA8L2Rpdj5cblxuICAgICAge29yZGVycy5sZW5ndGggPT09IDAgPyAoXG4gICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtbmV1dHJhbC01MDAgdGV4dC1zbSB0ZXh0LWNlbnRlciBweS0yXCI+Q2xpY2sgaXRlbXMgZnJvbSB0aGUgbWVudSB0byBhZGQgdGhlbSBoZXJlPC9wPlxuICAgICAgKSA6IChcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtY29sXCI+XG4gICAgICAgICAgPEFuaW1hdGVQcmVzZW5jZSBtb2RlPVwic3luY1wiPlxuICAgICAgICAgICAge29yZGVycy5tYXAoKG9yZGVyLCBpbmRleCkgPT4gKFxuICAgICAgICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgICAgICAgIGtleT17b3JkZXIubmFtZX1cbiAgICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAsIHNjYWxlOiAwLjk1LCB5OiAtMTAgfX1cbiAgICAgICAgICAgICAgICBhbmltYXRlPXt7IFxuICAgICAgICAgICAgICAgICAgb3BhY2l0eTogMSwgXG4gICAgICAgICAgICAgICAgICBzY2FsZTogMSwgXG4gICAgICAgICAgICAgICAgICB5OiAwLFxuICAgICAgICAgICAgICAgICAgdHJhbnNpdGlvbjoge1xuICAgICAgICAgICAgICAgICAgICBvcGFjaXR5OiB7IGR1cmF0aW9uOiAwLjE1LCBlYXNlOiBcImxpbmVhclwiIH0sXG4gICAgICAgICAgICAgICAgICAgIHNjYWxlOiB7IGR1cmF0aW9uOiAwLjI1LCBlYXNlOiBbMC40LCAwLjEsIDAuMywgMV0gfSxcbiAgICAgICAgICAgICAgICAgICAgeTogeyBkdXJhdGlvbjogMC4yNSwgZWFzZTogWzAuMzMsIDEsIDAuNjgsIDFdIH1cbiAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGV4aXQ9e3sgXG4gICAgICAgICAgICAgICAgICBvcGFjaXR5OiAwLCBcbiAgICAgICAgICAgICAgICAgIHNjYWxlOiAwLjk1LCBcbiAgICAgICAgICAgICAgICAgIHk6IC0xMCxcbiAgICAgICAgICAgICAgICAgIHRyYW5zaXRpb246IHtcbiAgICAgICAgICAgICAgICAgICAgb3BhY2l0eTogeyBkdXJhdGlvbjogMC4xLCBlYXNlOiBcImxpbmVhclwiIH0sXG4gICAgICAgICAgICAgICAgICAgIHNjYWxlOiB7IGR1cmF0aW9uOiAwLjE1LCBlYXNlOiBbMC40LCAwLjEsIDAuMywgMV0gfSxcbiAgICAgICAgICAgICAgICAgICAgeTogeyBkdXJhdGlvbjogMC4xNSwgZWFzZTogWzAuMzMsIDEsIDAuNjgsIDFdIH1cbiAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGxheW91dFxuICAgICAgICAgICAgICAgIGxheW91dElkPXtvcmRlci5uYW1lfVxuICAgICAgICAgICAgICAgIHN0eWxlPXt7IFxuICAgICAgICAgICAgICAgICAgb3ZlcmZsb3c6ICdoaWRkZW4nLFxuICAgICAgICAgICAgICAgICAgd2lsbENoYW5nZTogJ3RyYW5zZm9ybSwgb3BhY2l0eScsXG4gICAgICAgICAgICAgICAgICB0cmFuc2Zvcm06ICd0cmFuc2xhdGVaKDApJyxcbiAgICAgICAgICAgICAgICAgIGJhY2tmYWNlVmlzaWJpbGl0eTogJ2hpZGRlbicsXG4gICAgICAgICAgICAgICAgICBXZWJraXRGb250U21vb3RoaW5nOiAnc3VicGl4ZWwtYW50aWFsaWFzZWQnLFxuICAgICAgICAgICAgICAgICAgcGVyc3BlY3RpdmU6IDEwMDBcbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0zIHRleHQtc20gYmctbmV1dHJhbC05MDAgcC0yIHJvdW5kZWQtbGcgYm9yZGVyIGJvcmRlci1uZXV0cmFsLTgwMCBtYi0zIGxhc3Q6bWItMFwiXG4gICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJmbGV4LTEgdGV4dC1wcmltYXJ5LTEwMFwiPntvcmRlci5uYW1lfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIGJnLW5ldXRyYWwtODAwIHJvdW5kZWQtbWQgcHgtMVwiPlxuICAgICAgICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiB1cGRhdGVRdWFudGl0eShpbmRleCwgLTEpfVxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJwLTEgaG92ZXI6YmctbmV1dHJhbC03MDAgcm91bmRlZCB0cmFuc2l0aW9uLWNvbG9ycyBkaXNhYmxlZDpvcGFjaXR5LTUwXCJcbiAgICAgICAgICAgICAgICAgICAgZGlzYWJsZWQ9e29yZGVyLnF1YW50aXR5IDw9IDF9XG4gICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgIDxNaW51cyBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNSB0ZXh0LXByaW1hcnktMzAwXCIgLz5cbiAgICAgICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidy02IHRleHQtY2VudGVyIHRleHQtcHJpbWFyeS0yMDBcIj57b3JkZXIucXVhbnRpdHl9PC9zcGFuPlxuICAgICAgICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiB1cGRhdGVRdWFudGl0eShpbmRleCwgMSl9XG4gICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInAtMSBob3ZlcjpiZy1uZXV0cmFsLTcwMCByb3VuZGVkIHRyYW5zaXRpb24tY29sb3JzXCJcbiAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgPFBsdXMgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgdGV4dC1wcmltYXJ5LTMwMFwiIC8+XG4gICAgICAgICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXByaW1hcnktMjAwIHctMTYgdGV4dC1yaWdodFwiPsKjeyhwYXJzZUZsb2F0KG9yZGVyLnByaWNlLnJlcGxhY2UoJ8KjJywgJycpKSAqIG9yZGVyLnF1YW50aXR5KS50b0ZpeGVkKDIpfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8YnV0dG9uXG4gICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiByZW1vdmVJdGVtKGluZGV4KX1cbiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInRleHQtbmV1dHJhbC00MDAgaG92ZXI6dGV4dC1yZWQtNDAwIHRyYW5zaXRpb24tY29sb3JzIHAtMSByb3VuZGVkIGhvdmVyOmJnLW5ldXRyYWwtODAwXCJcbiAgICAgICAgICAgICAgICAgIHRpdGxlPVwiUmVtb3ZlIGl0ZW1cIlxuICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgIDxUcmFzaDIgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxuICAgICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgICA8L21vdGlvbi5kaXY+XG4gICAgICAgICAgICApKX1cbiAgICAgICAgICA8L0FuaW1hdGVQcmVzZW5jZT5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInB0LTMgYm9yZGVyLXQgYm9yZGVyLW5ldXRyYWwtODAwXCI+XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXgganVzdGlmeS1iZXR3ZWVuIGl0ZW1zLWNlbnRlciB0ZXh0LXNtXCI+XG4gICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZvbnQtbWVkaXVtIHRleHQtcHJpbWFyeS0zMDBcIj5Ub3RhbDo8L3NwYW4+XG4gICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZvbnQtc2VtaWJvbGQgdGV4dC1wcmltYXJ5LTIwMFwiPsKje2NhbGN1bGF0ZVRvdGFsKCl9PC9zcGFuPlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgKX1cbiAgICA8L2Rpdj5cbiAgKTtcbn07XG5cbmV4cG9ydCBjb25zdCBhZGRJdGVtVG9Ob3RlcGFkID0gKG5hbWU6IHN0cmluZywgcHJpY2U6IHN0cmluZykgPT4ge1xuICBjb25zdCBldmVudCA9IG5ldyBDdXN0b21FdmVudCgnYWRkVG9Ob3RlcGFkJywgeyBkZXRhaWw6IHsgbmFtZSwgcHJpY2UgfSB9KTtcbiAgd2luZG93LmRpc3BhdGNoRXZlbnQoZXZlbnQpO1xufTtcbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL2NvbXBvbmVudHMvT3JkZXJOb3RlcGFkLnRzeCJ9        §O x ˇˇ     20241110231641-8láO _G˚}r   http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/OrderNotepad.tsx?t=1732673513418ÖB  d a t a : a p p l i c a t i o n / j s o n ; b a s e 6 4 , e y J 2 Z X J z a W 9 u I j o z L C J t Y X B w a W 5 n c y I 6 I k F B d 0 Z V O z J C Q X h G V j t B Q U F n Q k E s T U F B V U M s Y 0 F B U y x P Q U F R L H N C Q U F P O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q 2 x E L F N B Q V N D L E 1 B Q U 1 D L E 9 B Q U 9 D L F F B Q V F D L G 9 C Q U F v Q j t B Q U N s R C x T Q U F T Q y x R Q U F R Q y x 1 Q k F B d U I 7 Q U F 5 Q m p D L G F B Q U 1 D L G V B Q T R D Q S x D Q U F D L E V B Q U V D L F l B Q V k s R 0 F B R y x N Q U F N O 0 F B Q U F D L E t B Q U E 7 Q U F D L 0 U s U U F B T S x D Q U F D Q y x R Q U F R Q y x T Q U F T L E l B Q U l a L F N B Q X N C L E 1 B Q U 0 7 Q U F D d E Q s V U F B T W E s U U F B U U M s Y U F B Y U M s U U F B U S x j Q U F j O 0 F B Q 2 p E L F d B Q U 9 G L F F B Q V F H L E t B Q U t D L E 1 B Q U 1 K L E t B Q U s s S U F B S T t B Q U F B L E V B Q 3 J D L E N B Q U M 7 Q U F F R F o s W U F B V S x N Q U F N O 0 F B Q 2 R h L G l C Q U F h S S x R Q U F R L G d C Q U F n Q k Y s S 0 F B S 0 c s V U F B V V I s T U F B T S x D Q U F D O 0 F B Q U E s R U F D N 0 Q s R 0 F B R y x D Q U F D Q S x N Q U F N L E N B Q U M 7 Q U F F W F Y s W U F B V S x N Q U F N O 0 F B Q 2 Q s V U F B T W 1 C L G d C Q U F n Q k E s Q 0 F B Q 0 M s V U F B N k I 7 Q U F D b E Q s W U F B T S x F Q U F F Q y x N Q U F N Q y x N Q U F N L E l B Q U l G L E 1 B Q U 1 H O 0 F B Q z l C L F l B Q U 1 D L G V B Q W V k L E 9 B Q U 9 l L E t B Q U s s Q 0 F B Q U M s U 0 F B U U E s S 0 F B S 0 w s U 0 F B U 0 E s S U F B S T t B Q U M z R C x V Q U F J R y x j Q U F j O 0 F B Q 2 h C Y i x r Q k F B V U Q s T 0 F B T 2 l C O 0 F B Q U F B L F V B Q U k s Q 0 F B Q U Q s U 0 F D b k J B L E t B Q U t M L F N B Q V N B L E 9 B Q 1 Y s R U F B R S x H Q U F H S y x N Q U F N R S x V Q U F V R i x L Q U F L R S x X Q U F X L E V B Q U U s S U F D d k N G O 0 F B Q U F B L F F B Q 0 4 s Q 0 F B Q z t B Q U F B L E 1 B Q 0 g s T 0 F B T z t B Q U N M Z i x r Q k F B V S x D Q U F D L E d B Q U d E L F F B Q V E s R U F B R V c s T U F B T U M s T 0 F B T 0 0 s V U F B V S x F Q U F F L E N B Q U M s Q 0 F B Q z t B Q U F B L E 1 B Q 3 J E O 0 F B Q U E s S U F D R j t B Q U V B Q y x X Q U F P Q y x p Q k F B a U I s Z 0 J B Q W d C W C x h Q U F h O 0 F B Q 3 J E L F d B Q U 8 s T U F B T V U s T 0 F B T 0 U s b 0 J B Q W 9 C L G d C Q U F n Q l o s Y U F B Y T t B Q U F B L E V B Q 3 Z F L E d B Q U c s Q 0 F B Q 1 Q s T U F B T S x D Q U F D O 0 F B R V g s U U F B T X N C L G F B Q W F B L E N B Q U N D L F V B Q W t C O 0 F B Q 3 B D d E I s Y 0 F B V U Q s T 0 F B T 3 d C L E 9 B Q U 8 s Q 0 F B Q 0 M s R 0 F B R 0 M s T U F B T U E s T U F B T U g s S 0 F B S y x D Q U F D O 0 F B Q U E s R U F D a E Q 7 Q U F F Q S x R Q U F N S S x p Q k F B a U J B L E N B Q U N K L E 9 B Q W V L L F V B Q W t C O 0 F B Q 3 Z E M 0 I s Y 0 F B V U Q s T 0 F B T 2 l C L E l B Q U k s Q 0 F B Q 0 Q s T U F B T V U s T U F B T T t B Q U N o Q y x V Q U F J Q S x N Q U F N S C x P Q U F P O 0 F B Q 2 Y s Y 0 F B T U 0 s Y 0 F B Y 0 M s S 0 F B S 0 M s S U F B S S x H Q U F H Z i x L Q U F L R S x X Q U F X V S x L Q U F L O 0 F B Q 3 J E L G V B Q U 8 s R U F B R S x H Q U F H W i x N Q U F N R S x V Q U F V V y x Z Q U F Z O 0 F B Q U E s T U F D M U M 7 Q U F D Q S x h Q U F P Y j t B Q U F B Q S x J Q U N U L E N B Q U M s Q 0 F B Q z t B Q U F B L E V B Q 0 o 7 Q U F F Q S x R Q U F N Z 0 I s V 0 F B V 0 E s T U F B T T t B Q U N y Q i 9 C L G N B Q V U s R U F B R T t B Q U N a R S x p Q k F B Y W 1 C L F d B Q V c s Y 0 F B Y z t B Q U F B L E V B Q 3 h D O 0 F B R U E s U U F B T V c s a U J B Q W l C Q S x N Q U F N O 0 F B Q z N C L F d B Q U 9 q Q y x P Q U F P a 0 M s T 0 F B T y x D Q U F D Q y x P Q U F P b k I s U 0 F B U z t B Q U N w Q y x Z Q U F N S i x R Q U F R d 0 I s V 0 F B V 3 B C L E t B Q U t K L E 1 B Q U 1 5 Q i x R Q U F R L E t B Q U s s R U F B R S x D Q U F D O 0 F B Q 3 B E L G F B Q U 9 G L F F B Q V N 2 Q i x R Q U F R S S x L Q U F L R T t B Q U F B Q S x J Q U M v Q i x H Q U F H L E N B Q U M s R U F B R W 9 C L F F B Q V E s Q 0 F B Q z t B Q U F B L E V B Q 2 p C O 0 F B R U E s U 0 F D R T t B Q U F B L E l B Q U M 7 Q U F B Q T t B Q U F B L E 1 B Q 0 M s V 0 F B V y x n R k F B Z 0 Z 4 Q y x T Q U F T O 0 F B Q U E s T U F F c E c 7 Q U F B Q S w r Q k F B Q y x T Q U F J L F d B Q V U s M E N B Q 2 I 7 Q U F B Q S x p Q 0 F B Q y x T Q U F J L F d B Q V U s M k J B Q 2 I 7 Q U F B Q S x t Q 0 F B Q y x n Q k F B Y S x X Q U F V L D h C Q U F 4 Q j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L G 1 C Q U F r R D t B Q U F B L F l B Q 2 x E L H V C Q U F D L F F B Q U c s V 0 F B V S w w Q 0 F B e U M s M E J B Q X Z E O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s b U J B Q W l F O 0 F B Q U E s Z U F G b k U 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x p Q k F H Q T t B Q U F B L F V B Q 0 N F L E 9 B Q U 9 1 Q y x T Q U F T L E t B Q 2 Y 7 Q U F B Q S x Z Q U F D O 0 F B Q U E 7 Q U F B Q S x j Q U N D L F N B Q V N Q O 0 F B Q U F B L G N B Q 1 Q s V 0 F B V T t B Q U F B L G N B R V Y 7 Q U F B Q S x 1 Q 0 F B Q y x V Q U F P L F d B Q V U s Y U F B b E I 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x 1 Q k F B M k I 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x Z Q U o 3 Q j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s V U F N Q T t B Q U F B L G F B W k o 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x l Q W N B O 0 F B Q U E s U U F F Q 2 h D L E 9 B Q U 9 1 Q y x X Q U F X L E l B Q 2 p C L H V C Q U F D L E 9 B Q U U s V 0 F B V S w 2 Q 0 F B N E M s M E R B Q X p E O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s Z U F B b U c s S U F F b k c s d U J B Q U M s U 0 F B S S x X Q U F V L G l C Q U N i O 0 F B Q U E s a U N B Q U M s b U J B Q W d C L E 1 B Q U s s U U F D b k J 2 Q y x p Q k F B T 2 l C O 0 F B Q U F B L F l B Q U k s Q 0 F B Q 3 V C L E 9 B Q U 9 q Q i x V Q U N s Q j t B Q U F B L G N B Q U M s T 0 F B T z t B Q U F B L G N B Q V A 7 Q U F B Q S x n Q k F F Q y x T Q U F T L E V B Q U V r Q i x T Q U F T L E d B Q U d D L E 9 B Q U 8 s T U F B T U M s R 0 F B R y x J Q U F J O 0 F B Q U E s Z 0 J B Q z N D L F N B Q V M 7 Q U F B Q S x r Q k F D U E Y s U 0 F B U z t B Q U F B L G t C Q U N U Q y x P Q U F P O 0 F B Q U E s a 0 J B Q 1 B D L E d B Q U c 7 Q U F B Q S x r Q k F D S E M s W U F B W T t B Q U F B L G 9 C Q U N W S C x T Q U F T L E V B Q U V J L F V B Q V U s T U F B T U M s T U F B T S x T Q U F T O 0 F B Q U E s b 0 J B Q z F D S i x P Q U F P L E V B Q U V H L F V B Q V U s T U F B T U M s T U F B T S x D Q U F D L E t B Q U s s S 0 F B S y x L Q U F L L E N B Q U M s R U F B R T t B Q U F B L G 9 C Q U N s R E g s R 0 F B R y x F Q U F F R S x V Q U F V L E 1 B Q U 1 D L E 1 B Q U 0 s Q 0 F B Q y x N Q U F N L E d B Q U c s T U F B T S x D Q U F D L E V B Q U U 7 Q U F B Q S x r Q k F D a E Q 7 Q U F B Q S x n Q k F D R j t B Q U F B L G d C Q U N B L E 1 B Q U 0 7 Q U F B Q S x r Q k F D S k w s U 0 F B U z t B Q U F B L G t C Q U N U Q y x P Q U F P O 0 F B Q U E s a 0 J B Q 1 B D L E d B Q U c 7 Q U F B Q S x r Q k F D S E M s W U F B W T t B Q U F B L G 9 C Q U N W S C x T Q U F T L E V B Q U V J L F V B Q V U s S 0 F B S 0 M s T U F B T S x T Q U F T O 0 F B Q U E s b 0 J B Q 3 p D S i x P Q U F P L E V B Q U V H L F V B Q V U s T U F B T U M s T U F B T S x D Q U F D L E t B Q U s s S 0 F B S y x L Q U F L L E N B Q U M s R U F B R T t B Q U F B L G 9 C Q U N s R E g s R 0 F B R y x F Q U F F R S x V Q U F V L E 1 B Q U 1 D L E 1 B Q U 0 s Q 0 F B Q y x N Q U F N L E d B Q U c s T U F B T S x D Q U F D L E V B Q U U 7 Q U F B Q S x r Q k F D a E Q 7 Q U F B Q S x n Q k F D R j t B Q U F B L G d C Q U N B O 0 F B Q U E s Z 0 J B Q 0 E s V U F B V U 4 s T U F B T T d C O 0 F B Q U F B L G d C Q U N o Q i x P Q U F P O 0 F B Q U E s a 0 J B Q 0 x v Q y x V Q U F V O 0 F B Q U E s a 0 J B Q 1 Z D L F l B Q V k 7 Q U F B Q S x r Q k F D W k M s V 0 F B V z t B Q U F B L G t C Q U N Y Q y x v Q k F B b 0 I 7 Q U F B Q S x r Q k F D c E J D L H F C Q U F x Q j t B Q U F B L G t C Q U N y Q k M s Y U F B Y T t B Q U F B L G d C Q U N m O 0 F B Q U E s Z 0 J B Q 0 E s V 0 F B V T t B Q U F B L G d C Q U V W O 0 F B Q U E s e U N B Q U M s V U F B S y x X Q U F V L D J C Q U E y Q l o s Z 0 J B Q U 0 3 Q i x R Q U F q R D t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L H l C Q U F z R D t B Q U F B L G t C Q U N 0 R C x 1 Q k F B Q y x T Q U F J L F d B Q V U s M E R B Q 2 I 7 Q U F B Q T t B Q U F B L H N C Q U F D O 0 F B Q U E 7 Q U F B Q S x 3 Q k F D Q y x T Q U F T L E 1 B Q U 1 n Q i x l Q U F l S i x P Q U F P L E V B Q U U 7 Q U F B Q S x 3 Q k F D d k M s V 0 F B V T t B Q U F B L H d C Q U N W L F V B Q V V p Q i x N Q U F N d E I s W U F B W T t B Q U F B L H d C Q U U 1 Q i x p Q 0 F B Q y x T Q U F N L F d B Q V U s a 0 N B Q W p C O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s K 0 J B Q S t D O 0 F B Q U E 7 Q U F B Q S x z Q k F M a k Q 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L G 9 C Q U 1 B O 0 F B Q U E s b 0 J B Q 0 E s d U J B Q U M s V U F B S y x X Q U F V L G 9 D Q U F v Q 3 N C L G d C Q U F N d E I s W U F B M U Q 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S w y Q k F B b U U 7 Q U F B Q S x v Q k F D b k U 7 Q U F B Q S x z Q k F B Q z t B Q U F B O 0 F B Q U E s d 0 J B Q 0 M s U 0 F B U y x N Q U F N U y x l Q U F l S i x P Q U F P L E N B Q U M 7 Q U F B Q S x 3 Q k F D d E M s V 0 F B V T t B Q U F B L H d C Q U V W L G l D Q U F D L F F B Q U s s V 0 F B V S x r Q 0 F B a E I 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S w r Q k F B O E M 7 Q U F B Q T t B Q U F B L H N C Q U p o R D t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s b 0 J B S 0 E 7 Q U F B Q S x 1 Q k F k R j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L H l C Q W V B O 0 F B Q U E s a 0 J B Q 0 E s d U J B Q U M s V U F B S y x X Q U F V L G 9 D Q U F t Q z t B Q U F B O 0 F B Q U E s c U J B Q U d h L F d B Q V d J L E 1 B Q U 0 1 Q i x N Q U F N e U I s U U F B U S x L Q U F L L E V B Q U U s Q 0 F B Q y x J Q U F J R y x N Q U F N d E I s V U F B V W 9 C L F F B Q V E s Q 0 F B Q z t B Q U F B L H V C Q U E x S D t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L H l C Q U E 0 S D t B Q U F B L G t C Q U M 1 S D t B Q U F B L G 9 C Q U F D O 0 F B Q U E 7 Q U F B Q S x z Q k F D Q y x T Q U F T L E 1 B Q U 1 o Q i x X Q U F X Q y x L Q U F L O 0 F B Q U E s c 0 J B Q y 9 C L F d B Q V U 7 Q U F B Q S x z Q k F D V i x P Q U F N O 0 F B Q U E s c 0 J B R U 4 s a U N B Q U M s V U F B T y x X Q U F V L G l C Q U F s Q j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L D Z C Q U E r Q j t B Q U F B O 0 F B Q U E s b 0 J B T G p D O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x r Q k F N Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x j Q T F E S 2 l C L E 1 B Q U 0 3 Q j t B Q U F B Q S x j Q U R i O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s W U E 0 R E E 7 Q U F B Q S x V Q U N E L E t B L 0 R I O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s a U J B Z 0 V B O 0 F B Q U E s V U F D Q S x 1 Q k F B Q y x T Q U F J L F d B Q V U s b 0 N B Q 2 I s a U N B Q U M s U 0 F B S S x X Q U F V L D Z D Q U N i O 0 F B Q U E s b U N B Q U M s V U F B S y x X Q U F V L G d D Q U E r Q i x z Q k F B L 0 M 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x t Q k F B c U Q 7 Q U F B Q S x Z Q U N y R C x 1 Q k F B Q y x V Q U F L L F d B Q V U s a 0 N B Q W l D O 0 F B Q U E 7 Q U F B Q S x j Q U F F c 0 I s Z U F B Z T t B Q U F B L G l C Q U F s R T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L G 1 C Q U F v R T t B Q U F B L G V B R n R F O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s a U J B R 0 E s S 0 F K R j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B L G l C Q U t B O 0 F B Q U E s Y U F 2 R U Y 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x l Q X d F Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q S x J Q T l G S j t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E 7 Q U F B Q T t B Q U F B O 0 F B Q U E s R U F n R 0 E 7 Q U F F S j t B Q U F F b E M s R 0 E x S l d G L G N B Q X l D O 0 F B Q U F 3 R C x L Q U F 6 Q 3 h E O 0 F B N E p O L G F B Q U 1 5 R C x t Q k F B b U J B L E N B Q U M z Q y x N Q U F j Q y x V Q U F r Q j t B Q U M v R C x R Q U F N R i x R Q U F R L E l B Q U k 2 Q y x Z Q U F Z L G d C Q U F n Q i x F Q U F F M U M s U U F B U S x F Q U F F R i x N Q U F N Q y x N Q U F N L E V B Q U U s Q 0 F B Q z t B Q U N 6 R U 8 s U 0 F B T 3 F D L G N B Q W M 5 Q y x L Q U F L O 0 F B Q z V C O 0 F B Q U U s S U F B Q T J D O 0 F B Q U F J L G F B Q U F K L E l B Q U E i L C J u Y W 1 l c y I 6 W y J 1 c 2 V T d G F 0 Z S I s I n V z Z U V m Z m V j d C I s I l B s d X M i L C J N a W 5 1 c y I s I l R y Y X N o M i I s I l N o b 3 B w a W 5 n Q 2 F y d C I s I m 1 v d G l v b i I s I k F u a W 1 h d G V Q c m V z Z W 5 j Z S I s I k 9 y Z G V y T m 9 0 Z X B h Z C I s I m N s Y X N z T m F t Z S I s I l 9 z I i w i b 3 J k Z X J z I i w i c 2 V 0 T 3 J k Z X J z I i w i c 2 F 2 Z W Q i L C J s b 2 N h b F N 0 b 3 J h Z 2 U i L C J n Z X R J d G V t I i w i S l N P T i I s I n B h c n N l I i w i c 2 V 0 S X R l b S I s I n N 0 c m l u Z 2 l m e S I s I m h h b m R s Z U F k Z E l 0 Z W 0 i L C J l d m V u d C I s I m 5 h b W U i L C J w c m l j Z S I s I m R l d G F p b C I s I m V 4 a X N 0 a W 5 n S X R l b S I s I m Z p b m Q i L C J p d G V t I i w i b W F w I i w i c X V h b n R p d H k i L C J 3 a W 5 k b 3 c i L C J h Z G R F d m V u d E x p c 3 R l b m V y I i w i c m V t b 3 Z l R X Z l b n R M a X N 0 Z W 5 l c i I s I n J l b W 9 2 Z U l 0 Z W 0 i L C J p b m R l e C I s I m Z p b H R l c i I s I l 8 i L C J p I i w i d X B k Y X R l U X V h b n R p d H k i L C J k Z W x 0 Y S I s I m 5 l d 1 F 1 Y W 5 0 a X R 5 I i w i T W F 0 a C I s I m 1 h e C I s I m N s Z W F y Q W x s I i w i Y 2 F s Y 3 V s Y X R l V G 9 0 Y W w i L C J y Z W R 1 Y 2 U i L C J 0 b 3 R h b C I s I n B h c n N l R m x v Y X Q i L C J y Z X B s Y W N l I i w i d G 9 G a X h l Z C I s I m x l b m d 0 a C I s I m 9 y Z G V y I i w i b 3 B h Y 2 l 0 e S I s I n N j Y W x l I i w i e S I s I n R y Y W 5 z a X R p b 2 4 i L C J k d X J h d G l v b i I s I m V h c 2 U i L C J v d m V y Z m x v d y I s I n d p b G x D a G F u Z 2 U i L C J 0 c m F u c 2 Z v c m 0 i L C J i Y W N r Z m F j Z V Z p c 2 l i a W x p d H k i L C J X Z W J r a X R G b 2 5 0 U 2 1 v b 3 R o a W 5 n I i w i c G V y c 3 B l Y 3 R p d m U i L C J f Y y I s I m F k Z E l 0 Z W 1 U b 0 5 v d G V w Y W Q i L C J D d X N 0 b 2 1 F d m V u d C I s I m R p c 3 B h d G N o R X Z l b n Q i L C I k U m V m c m V z a F J l Z y Q i X S w i a W d u b 3 J l T G l z d C I 6 W 1 0 s I n N v d X J j Z X M i O l s i T 3 J k Z X J O b 3 R l c G F k L n R z e C J d L C J z b 3 V y Y 2 V z Q 2 9 u d G V u d C I 6 W y J p b X B v c n Q g U m V h Y 3 Q s I H s g d X N l U 3 R h d G U s I H V z Z U V m Z m V j d C B 9 I G Z y b 2 0 g J 3 J l Y W N 0 J z t c b m l t c G 9 y d C B 7 I F B s d X M s I E 1 p b n V z L C B U c m F z a D I s I F N o b 3 B w a W 5 n Q 2 F y d C B 9 I G Z y b 2 0 g J 2 x 1 Y 2 l k Z S 1 y Z W F j d C c 7 X G 5 p b X B v c n Q g e y B t b 3 R p b 2 4 s I E F u a W 1 h d G V Q c m V z Z W 5 j Z S B 9 I G Z y b 2 0 g J 2 Z y Y W 1 l c i 1 t b 3 R p b 2 4 n O 1 x u X G 5 p b n R l c m Z h Y 2 U g T 3 J k Z X J J d G V t I H t c b i A g b m F t Z T o g c 3 R y a W 5 n O 1 x u I C B w c m l j Z T o g c 3 R y a W 5 n O 1 x u I C B x d W F u d G l 0 e T o g b n V t Y m V y O 1 x u f V x u X G 5 p b n R l c m Z h Y 2 U g T 3 J k Z X J O b 3 R l c G F k U H J v c H M g e 1 x u I C B j b G F z c 0 5 h b W U / O i B z d H J p b m c 7 X G 5 9 X G 5 c b m l u d G V y Z m F j Z S B B Z G R U b 0 5 v d G V w Y W R F d m V u d C B l e H R l b m R z I E N 1 c 3 R v b U V 2 Z W 5 0 I H t c b i A g Z G V 0 Y W l s O i B 7 X G 4 g I C A g b m F t Z T o g c 3 R y a W 5 n O 1 x u I C A g I H B y a W N l O i B z d H J p b m c 7 X G 4 g I H 0 7 X G 5 9 X G 5 c b m R l Y 2 x h c m U g Z 2 x v Y m F s I H t c b i A g a W 5 0 Z X J m Y W N l I F d p b m R v d 0 V 2 Z W 5 0 T W F w I H t c b i A g I C A n Y W R k V G 9 O b 3 R l c G F k J z o g Q W R k V G 9 O b 3 R l c G F k R X Z l b n Q 7 X G 4 g I H 1 c b n 1 c b l x u Z X h w b 3 J 0 I G N v b n N 0 I E 9 y Z G V y T m 9 0 Z X B h Z D o g U m V h Y 3 Q u R k M 8 T 3 J k Z X J O b 3 R l c G F k U H J v c H M + I D 0 g K H s g Y 2 x h c 3 N O Y W 1 l I D 0 g J y c g f S k g P T 4 g e 1 x u I C B j b 2 5 z d C B b b 3 J k Z X J z L C B z Z X R P c m R l c n N d I D 0 g d X N l U 3 R h d G U 8 T 3 J k Z X J J d G V t W 1 0 + K C g p I D 0 + I H t c b i A g I C B j b 2 5 z d C B z Y X Z l Z C A 9 I G x v Y 2 F s U 3 R v c m F n Z S 5 n Z X R J d G V t K C d v c m R l c k 5 v d G V w Y W Q n K T t c b i A g I C B y Z X R 1 c m 4 g c 2 F 2 Z W Q g P y B K U 0 9 O L n B h c n N l K H N h d m V k K S A 6 I F t d O 1 x u I C B 9 K T t c b l x u I C B 1 c 2 V F Z m Z l Y 3 Q o K C k g P T 4 g e 1 x u I C A g I G x v Y 2 F s U 3 R v c m F n Z S 5 z Z X R J d G V t K C d v c m R l c k 5 v d G V w Y W Q n L C B K U 0 9 O L n N 0 c m l u Z 2 l m e S h v c m R l c n M p K T t c b i A g f S w g W 2 9 y Z G V y c 1 0 p O 1 x u X G 4 g I H V z Z U V m Z m V j d C g o K S A 9 P i B 7 X G 4 g I C A g Y 2 9 u c 3 Q g a G F u Z G x l Q W R k S X R l b S A 9 I C h l d m V u d D o g Q W R k V G 9 O b 3 R l c G F k R X Z l b n Q p I D 0 + I H t c b i A g I C A g I G N v b n N 0 I H s g b m F t Z S w g c H J p Y 2 U g f S A 9 I G V 2 Z W 5 0 L m R l d G F p b D t c b i A g I C A g I G N v b n N 0 I G V 4 a X N 0 a W 5 n S X R l b S A 9 I G 9 y Z G V y c y 5 m a W 5 k K G l 0 Z W 0 g P T 4 g a X R l b S 5 u Y W 1 l I D 0 9 P S B u Y W 1 l K T t c b i A g I C A g I G l m I C h l e G l z d G l u Z 0 l 0 Z W 0 p I H t c b i A g I C A g I C A g c 2 V 0 T 3 J k Z X J z K G 9 y Z G V y c y 5 t Y X A o a X R l b S A 9 P l x u I C A g I C A g I C A g I G l 0 Z W 0 u b m F t Z S A 9 P T 0 g b m F t Z V x u I C A g I C A g I C A g I C A g P y B 7 I C 4 u L m l 0 Z W 0 s I H F 1 Y W 5 0 a X R 5 O i B p d G V t L n F 1 Y W 5 0 a X R 5 I C s g M S B 9 X G 4 g I C A g I C A g I C A g I C A 6 I G l 0 Z W 1 c b i A g I C A g I C A g K S k 7 X G 4 g I C A g I C B 9 I G V s c 2 U g e 1 x u I C A g I C A g I C B z Z X R P c m R l c n M o W y 4 u L m 9 y Z G V y c y w g e y B u Y W 1 l L C B w c m l j Z S w g c X V h b n R p d H k 6 I D E g f V 0 p O 1 x u I C A g I C A g f V x u I C A g I H 0 7 X G 5 c b i A g I C B 3 a W 5 k b 3 c u Y W R k R X Z l b n R M a X N 0 Z W 5 l c i g n Y W R k V G 9 O b 3 R l c G F k J y w g a G F u Z G x l Q W R k S X R l b S k 7 X G 4 g I C A g c m V 0 d X J u I C g p I D 0 + I H d p b m R v d y 5 y Z W 1 v d m V F d m V u d E x p c 3 R l b m V y K C d h Z G R U b 0 5 v d G V w Y W Q n L C B o Y W 5 k b G V B Z G R J d G V t K T t c b i A g f S w g W 2 9 y Z G V y c 1 0 p O 1 x u X G 4 g I G N v b n N 0 I H J l b W 9 2 Z U l 0 Z W 0 g P S A o a W 5 k Z X g 6 I G 5 1 b W J l c i k g P T 4 g e 1 x u I C A g I H N l d E 9 y Z G V y c y h v c m R l c n M u Z m l s d G V y K C h f L C B p K S A 9 P i B p I C E 9 P S B p b m R l e C k p O 1 x u I C B 9 O 1 x u X G 4 g I G N v b n N 0 I H V w Z G F 0 Z V F 1 Y W 5 0 a X R 5 I D 0 g K G l u Z G V 4 O i B u d W 1 i Z X I s I G R l b H R h O i B u d W 1 i Z X I p I D 0 + I H t c b i A g I C B z Z X R P c m R l c n M o b 3 J k Z X J z L m 1 h c C g o a X R l b S w g a S k g P T 4 g e 1 x u I C A g I C A g a W Y g K G k g P T 0 9 I G l u Z G V 4 K S B 7 X G 4 g I C A g I C A g I G N v b n N 0 I G 5 l d 1 F 1 Y W 5 0 a X R 5 I D 0 g T W F 0 a C 5 t Y X g o M S w g a X R l b S 5 x d W F u d G l 0 e S A r I G R l b H R h K T t c b i A g I C A g I C A g c m V 0 d X J u I H s g L i 4 u a X R l b S w g c X V h b n R p d H k 6 I G 5 l d 1 F 1 Y W 5 0 a X R 5 I H 0 7 X G 4 g I C A g I C B 9 X G 4 g I C A g I C B y Z X R 1 c m 4 g a X R l b T t c b i A g I C B 9 K S k 7 X G 4 g I H 0 7 X G 5 c b i A g Y 2 9 u c 3 Q g Y 2 x l Y X J B b G w g P S A o K S A 9 P i B 7 X G 4 g I C A g c 2 V 0 T 3 J k Z X J z K F t d K T t c b i A g I C B s b 2 N h b F N 0 b 3 J h Z 2 U u c m V t b 3 Z l S X R l b S g n b 3 J k Z X J O b 3 R l c G F k J y k 7 X G 4 g I H 0 7 X G 5 c b i A g Y 2 9 u c 3 Q g Y 2 F s Y 3 V s Y X R l V G 9 0 Y W w g P S A o K S A 9 P i B 7 X G 4 g I C A g c m V 0 d X J u I G 9 y Z G V y c y 5 y Z W R 1 Y 2 U o K H R v d G F s L C B p d G V t K S A 9 P i B 7 X G 4 g I C A g I C B j b 2 5 z d C B w c m l j Z S A 9 I H B h c n N l R m x v Y X Q o a X R l b S 5 w c m l j Z S 5 y Z X B s Y W N l K C f C o y c s I C c n K S k 7 X G 4 g I C A g I C B y Z X R 1 c m 4 g d G 9 0 Y W w g K y A o c H J p Y 2 U g K i B p d G V t L n F 1 Y W 5 0 a X R 5 K T t c b i A g I C B 9 L C A w K S 5 0 b 0 Z p e G V k K D I p O 1 x u I C B 9 O 1 x u X G 4 g I H J l d H V y b i A o X G 4 g I C A g P G R p d i B c b i A g I C A g I G N s Y X N z T m F t Z T 1 7 Y G J n L W J s Y W N r I H J v d W 5 k Z W Q t b G c g c C 0 0 I G 1 h e C 1 3 L W 1 k I G 1 4 L W F 1 d G 8 g c 2 h h Z G 9 3 L W x n I G J v c m R l c i B i b 3 J k Z X I t b m V 1 d H J h b C 0 5 M D A g J H t j b G F z c 0 5 h b W V 9 Y H 1 c b i A g I C A + X G 4 g I C A g I C A 8 Z G l 2 I G N s Y X N z T m F t Z T 1 c I m Z s Z X g g a X R l b X M t Y 2 V u d G V y I G p 1 c 3 R p Z n k t Y m V 0 d 2 V l b i B t Y i 0 0 X C I + X G 4 g I C A g I C A g I D x k a X Y g Y 2 x h c 3 N O Y W 1 l P V w i Z m x l e C B p d G V t c y 1 j Z W 5 0 Z X I g Z 2 F w L T J c I j 5 c b i A g I C A g I C A g I C A 8 U 2 h v c H B p b m d D Y X J 0 I G N s Y X N z T m F t Z T 1 c I n c t N S B o L T U g d G V 4 d C 1 w c m l t Y X J 5 L T M w M F w i I C 8 + X G 4 g I C A g I C A g I C A g P G g y I G N s Y X N z T m F t Z T 1 c I n R l e H Q t b G c g Z m 9 u d C 1 z Z W 1 p Y m 9 s Z C B 0 Z X h 0 L X B y a W 1 h c n k t M z A w X C I + W W 9 1 c i B P c m R l c j w v a D I + X G 4 g I C A g I C A g I D w v Z G l 2 P l x u I C A g I C A g I C B 7 b 3 J k Z X J z L m x l b m d 0 a C A + I D A g J i Y g K F x u I C A g I C A g I C A g I D x i d X R 0 b 2 5 c b i A g I C A g I C A g I C A g I G 9 u Q 2 x p Y 2 s 9 e 2 N s Z W F y Q W x s f V x u I C A g I C A g I C A g I C A g Y 2 x h c 3 N O Y W 1 l P V w i d G V 4 d C 1 z b S B 0 Z X h 0 L X J l Z C 0 0 M D A g a G 9 2 Z X I 6 d G V 4 d C 1 y Z W Q t M z A w I H R y Y W 5 z a X R p b 2 4 t Y 2 9 s b 3 J z I G Z s Z X g g a X R l b X M t Y 2 V u d G V y I G d h c C 0 x X C J c b i A g I C A g I C A g I C A + X G 4 g I C A g I C A g I C A g I C A 8 V H J h c 2 g y I G N s Y X N z T m F t Z T 1 c I n c t N C B o L T R c I i A v P l x u I C A g I C A g I C A g I C A g Q 2 x l Y X I g Q W x s X G 4 g I C A g I C A g I C A g P C 9 i d X R 0 b 2 4 + X G 4 g I C A g I C A g I C l 9 X G 4 g I C A g I C A 8 L 2 R p d j 5 c b l x u I C A g I C A g e 2 9 y Z G V y c y 5 s Z W 5 n d G g g P T 0 9 I D A g P y A o X G 4 g I C A g I C A g I D x w I G N s Y X N z T m F t Z T 1 c I n R l e H Q t b m V 1 d H J h b C 0 1 M D A g d G V 4 d C 1 z b S B 0 Z X h 0 L W N l b n R l c i B w e S 0 y X C I + Q 2 x p Y 2 s g a X R l b X M g Z n J v b S B 0 a G U g b W V u d S B 0 b y B h Z G Q g d G h l b S B o Z X J l P C 9 w P l x u I C A g I C A g K S A 6 I C h c b i A g I C A g I C A g P G R p d i B j b G F z c 0 5 h b W U 9 X C J m b G V 4 I G Z s Z X g t Y 2 9 s X C I + X G 4 g I C A g I C A g I C A g P E F u a W 1 h d G V Q c m V z Z W 5 j Z S B t b 2 R l P V w i c 3 l u Y 1 w i P l x u I C A g I C A g I C A g I C A g e 2 9 y Z G V y c y 5 t Y X A o K G 9 y Z G V y L C B p b m R l e C k g P T 4 g K F x u I C A g I C A g I C A g I C A g I C A 8 b W 9 0 a W 9 u L m R p d l x u I C A g I C A g I C A g I C A g I C A g I G t l e T 1 7 b 3 J k Z X I u b m F t Z X 1 c b i A g I C A g I C A g I C A g I C A g I C B p b m l 0 a W F s P X t 7 I G 9 w Y W N p d H k 6 I D A s I H N j Y W x l O i A w L j k 1 L C B 5 O i A t M T A g f X 1 c b i A g I C A g I C A g I C A g I C A g I C B h b m l t Y X R l P X t 7 I F x u I C A g I C A g I C A g I C A g I C A g I C A g b 3 B h Y 2 l 0 e T o g M S w g X G 4 g I C A g I C A g I C A g I C A g I C A g I C B z Y 2 F s Z T o g M S w g X G 4 g I C A g I C A g I C A g I C A g I C A g I C B 5 O i A w L F x u I C A g I C A g I C A g I C A g I C A g I C A g d H J h b n N p d G l v b j o g e 1 x u I C A g I C A g I C A g I C A g I C A g I C A g I C B v c G F j a X R 5 O i B 7 I G R 1 c m F 0 a W 9 u O i A w L j E 1 L C B l Y X N l O i B c I m x p b m V h c l w i I H 0 s X G 4 g I C A g I C A g I C A g I C A g I C A g I C A g I H N j Y W x l O i B 7 I G R 1 c m F 0 a W 9 u O i A w L j I 1 L C B l Y X N l O i B b M C 4 0 L C A w L j E s I D A u M y w g M V 0 g f S x c b i A g I C A g I C A g I C A g I C A g I C A g I C A g e T o g e y B k d X J h d G l v b j o g M C 4 y N S w g Z W F z Z T o g W z A u M z M s I D E s I D A u N j g s I D F d I H 1 c b i A g I C A g I C A g I C A g I C A g I C A g I H 1 c b i A g I C A g I C A g I C A g I C A g I C B 9 f V x u I C A g I C A g I C A g I C A g I C A g I G V 4 a X Q 9 e 3 s g X G 4 g I C A g I C A g I C A g I C A g I C A g I C B v c G F j a X R 5 O i A w L C B c b i A g I C A g I C A g I C A g I C A g I C A g I H N j Y W x l O i A w L j k 1 L C B c b i A g I C A g I C A g I C A g I C A g I C A g I H k 6 I C 0 x M C x c b i A g I C A g I C A g I C A g I C A g I C A g I H R y Y W 5 z a X R p b 2 4 6 I H t c b i A g I C A g I C A g I C A g I C A g I C A g I C A g b 3 B h Y 2 l 0 e T o g e y B k d X J h d G l v b j o g M C 4 x L C B l Y X N l O i B c I m x p b m V h c l w i I H 0 s X G 4 g I C A g I C A g I C A g I C A g I C A g I C A g I H N j Y W x l O i B 7 I G R 1 c m F 0 a W 9 u O i A w L j E 1 L C B l Y X N l O i B b M C 4 0 L C A w L j E s I D A u M y w g M V 0 g f S x c b i A g I C A g I C A g I C A g I C A g I C A g I C A g e T o g e y B k d X J h d G l v b j o g M C 4 x N S w g Z W F z Z T o g W z A u M z M s I D E s I D A u N j g s I D F d I H 1 c b i A g I C A g I C A g I C A g I C A g I C A g I H 1 c b i A g I C A g I C A g I C A g I C A g I C B 9 f V x u I C A g I C A g I C A g I C A g I C A g I G x h e W 9 1 d F x u I C A g I C A g I C A g I C A g I C A g I G x h e W 9 1 d E l k P X t v c m R l c i 5 u Y W 1 l f V x u I C A g I C A g I C A g I C A g I C A g I H N 0 e W x l P X t 7 I F x u I C A g I C A g I C A g I C A g I C A g I C A g b 3 Z l c m Z s b 3 c 6 I C d o a W R k Z W 4 n L F x u I C A g I C A g I C A g I C A g I C A g I C A g d 2 l s b E N o Y W 5 n Z T o g J 3 R y Y W 5 z Z m 9 y b S w g b 3 B h Y 2 l 0 e S c s X G 4 g I C A g I C A g I C A g I C A g I C A g I C B 0 c m F u c 2 Z v c m 0 6 I C d 0 c m F u c 2 x h d G V a K D A p J y x c b i A g I C A g I C A g I C A g I C A g I C A g I G J h Y 2 t m Y W N l V m l z a W J p b G l 0 e T o g J 2 h p Z G R l b i c s X G 4 g I C A g I C A g I C A g I C A g I C A g I C B X Z W J r a X R G b 2 5 0 U 2 1 v b 3 R o a W 5 n O i A n c 3 V i c G l 4 Z W w t Y W 5 0 a W F s a W F z Z W Q n L F x u I C A g I C A g I C A g I C A g I C A g I C A g c G V y c 3 B l Y 3 R p d m U 6 I D E w M D B c b i A g I C A g I C A g I C A g I C A g I C B 9 f V x u I C A g I C A g I C A g I C A g I C A g I G N s Y X N z T m F t Z T 1 c I m Z s Z X g g a X R l b X M t Y 2 V u d G V y I G d h c C 0 z I H R l e H Q t c 2 0 g Y m c t b m V 1 d H J h b C 0 5 M D A g c C 0 y I H J v d W 5 k Z W Q t b G c g Y m 9 y Z G V y I G J v c m R l c i 1 u Z X V 0 c m F s L T g w M C B t Y i 0 z I G x h c 3 Q 6 b W I t M F w i X G 4 g I C A g I C A g I C A g I C A g I D 5 c b i A g I C A g I C A g I C A g I C A g I C A 8 c 3 B h b i B j b G F z c 0 5 h b W U 9 X C J m b G V 4 L T E g d G V 4 d C 1 w c m l t Y X J 5 L T E w M F w i P n t v c m R l c i 5 u Y W 1 l f T w v c 3 B h b j 5 c b i A g I C A g I C A g I C A g I C A g I C A 8 Z G l 2 I G N s Y X N z T m F t Z T 1 c I m Z s Z X g g a X R l b X M t Y 2 V u d G V y I G d h c C 0 y I G J n L W 5 l d X R y Y W w t O D A w I H J v d W 5 k Z W Q t b W Q g c H g t M V w i P l x u I C A g I C A g I C A g I C A g I C A g I C A g P G J 1 d H R v b l x u I C A g I C A g I C A g I C A g I C A g I C A g I C B v b k N s a W N r P X s o K S A 9 P i B 1 c G R h d G V R d W F u d G l 0 e S h p b m R l e C w g L T E p f V x u I C A g I C A g I C A g I C A g I C A g I C A g I C B j b G F z c 0 5 h b W U 9 X C J w L T E g a G 9 2 Z X I 6 Y m c t b m V 1 d H J h b C 0 3 M D A g c m 9 1 b m R l Z C B 0 c m F u c 2 l 0 a W 9 u L W N v b G 9 y c y B k a X N h Y m x l Z D p v c G F j a X R 5 L T U w X C J c b i A g I C A g I C A g I C A g I C A g I C A g I C A g Z G l z Y W J s Z W Q 9 e 2 9 y Z G V y L n F 1 Y W 5 0 a X R 5 I D w 9 I D F 9 X G 4 g I C A g I C A g I C A g I C A g I C A g I C A + X G 4 g I C A g I C A g I C A g I C A g I C A g I C A g I D x N a W 5 1 c y B j b G F z c 0 5 h b W U 9 X C J 3 L T M u N S B o L T M u N S B 0 Z X h 0 L X B y a W 1 h c n k t M z A w X C I g L z 5 c b i A g I C A g I C A g I C A g I C A g I C A g I D w v Y n V 0 d G 9 u P l x u I C A g I C A g I C A g I C A g I C A g I C A g P H N w Y W 4 g Y 2 x h c 3 N O Y W 1 l P V w i d y 0 2 I H R l e H Q t Y 2 V u d G V y I H R l e H Q t c H J p b W F y e S 0 y M D B c I j 5 7 b 3 J k Z X I u c X V h b n R p d H l 9 P C 9 z c G F u P l x u I C A g I C A g I C A g I C A g I C A g I C A g P G J 1 d H R v b l x u I C A g I C A g I C A g I C A g I C A g I C A g I C B v b k N s a W N r P X s o K S A 9 P i B 1 c G R h d G V R d W F u d G l 0 e S h p b m R l e C w g M S l 9 X G 4 g I C A g I C A g I C A g I C A g I C A g I C A g I G N s Y X N z T m F t Z T 1 c I n A t M S B o b 3 Z l c j p i Z y 1 u Z X V 0 c m F s L T c w M C B y b 3 V u Z G V k I H R y Y W 5 z a X R p b 2 4 t Y 2 9 s b 3 J z X C J c b i A g I C A g I C A g I C A g I C A g I C A g I D 5 c b i A g I C A g I C A g I C A g I C A g I C A g I C A g P F B s d X M g Y 2 x h c 3 N O Y W 1 l P V w i d y 0 z L j U g a C 0 z L j U g d G V 4 d C 1 w c m l t Y X J 5 L T M w M F w i I C 8 + X G 4 g I C A g I C A g I C A g I C A g I C A g I C A 8 L 2 J 1 d H R v b j 5 c b i A g I C A g I C A g I C A g I C A g I C A 8 L 2 R p d j 5 c b i A g I C A g I C A g I C A g I C A g I C A 8 c 3 B h b i B j b G F z c 0 5 h b W U 9 X C J 0 Z X h 0 L X B y a W 1 h c n k t M j A w I H c t M T Y g d G V 4 d C 1 y a W d o d F w i P s K j e y h w Y X J z Z U Z s b 2 F 0 K G 9 y Z G V y L n B y a W N l L n J l c G x h Y 2 U o J 8 K j J y w g J y c p K S A q I G 9 y Z G V y L n F 1 Y W 5 0 a X R 5 K S 5 0 b 0 Z p e G V k K D I p f T w v c 3 B h b j 5 c b i A g I C A g I C A g I C A g I C A g I C A 8 Y n V 0 d G 9 u X G 4 g I C A g I C A g I C A g I C A g I C A g I C B v b k N s a W N r P X s o K S A 9 P i B y Z W 1 v d m V J d G V t K G l u Z G V 4 K X 1 c b i A g I C A g I C A g I C A g I C A g I C A g I G N s Y X N z T m F t Z T 1 c I n R l e H Q t b m V 1 d H J h b C 0 0 M D A g a G 9 2 Z X I 6 d G V 4 d C 1 y Z W Q t N D A w I H R y Y W 5 z a X R p b 2 4 t Y 2 9 s b 3 J z I H A t M S B y b 3 V u Z G V k I G h v d m V y O m J n L W 5 l d X R y Y W w t O D A w X C J c b i A g I C A g I C A g I C A g I C A g I C A g I H R p d G x l P V w i U m V t b 3 Z l I G l 0 Z W 1 c I l x u I C A g I C A g I C A g I C A g I C A g I D 5 c b i A g I C A g I C A g I C A g I C A g I C A g I D x U c m F z a D I g Y 2 x h c 3 N O Y W 1 l P V w i d y 0 z L j U g a C 0 z L j V c I i A v P l x u I C A g I C A g I C A g I C A g I C A g I D w v Y n V 0 d G 9 u P l x u I C A g I C A g I C A g I C A g I C A 8 L 2 1 v d G l v b i 5 k a X Y + X G 4 g I C A g I C A g I C A g I C A p K X 1 c b i A g I C A g I C A g I C A 8 L 0 F u a W 1 h d G V Q c m V z Z W 5 j Z T 5 c b i A g I C A g I C A g I C A 8 Z G l 2 I G N s Y X N z T m F t Z T 1 c I n B 0 L T M g Y m 9 y Z G V y L X Q g Y m 9 y Z G V y L W 5 l d X R y Y W w t O D A w X C I + X G 4 g I C A g I C A g I C A g I C A 8 Z G l 2 I G N s Y X N z T m F t Z T 1 c I m Z s Z X g g a n V z d G l m e S 1 i Z X R 3 Z W V u I G l 0 Z W 1 z L W N l b n R l c i B 0 Z X h 0 L X N t X C I + X G 4 g I C A g I C A g I C A g I C A g I D x z c G F u I G N s Y X N z T m F t Z T 1 c I m Z v b n Q t b W V k a X V t I H R l e H Q t c H J p b W F y e S 0 z M D B c I j 5 U b 3 R h b D o 8 L 3 N w Y W 4 + X G 4 g I C A g I C A g I C A g I C A g I D x z c G F u I G N s Y X N z T m F t Z T 1 c I m Z v b n Q t c 2 V t a W J v b G Q g d G V 4 d C 1 w c m l t Y X J 5 L T I w M F w i P s K j e 2 N h b G N 1 b G F 0 Z V R v d G F s K C l 9 P C 9 z c G F u P l x u I C A g I C A g I C A g I C A g P C 9 k a X Y + X G 4 g I C A g I C A g I C A g P C 9 k a X Y + X G 4 g I C A g I C A g I D w v Z G l 2 P l x u I C A g I C A g K X 1 c b i A g I C A 8 L 2 R p d j 5 c b i A g K T t c b n 0 7 X G 5 c b m V 4 c G 9 y d C B j b 2 5 z d C B h Z G R J d G V t V G 9 O b 3 R l c G F k I D 0 g K G 5 h b W U 6 I H N 0 c m l u Z y w g c H J p Y 2 U 6 I H N 0 c m l u Z y k g P T 4 g e 1 x u I C B j b 2 5 z d C B l d m V u d C A 9 I G 5 l d y B D d X N 0 b 2 1 F d m V u d C g n Y W R k V G 9 O b 3 R l c G F k J y w g e y B k Z X R h a W w 6 I H s g b m F t Z S w g c H J p Y 2 U g f S B 9 K T t c b i A g d 2 l u Z G 9 3 L m R p c 3 B h d G N o R X Z l b n Q o Z X Z l b n Q p O 1 x u f T t c b i J d L C J m a W x l I j o i Q z o v V X N l c n M v Y W J p Z F 8 v R G V z a 3 R v c C 9 T Y X B w a G l y Z S B M b 3 V u Z 2 U v c 3 J j L 2 N v b X B v b m V u d H M v T 3 J k Z X J O b 3 R l c G F k L n R z e C J 9       …}  import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=770d4ef7"; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"];
+import { Plus, Minus, Trash2, ShoppingCart } from "/node_modules/.vite/deps/lucide-react.js?v=770d4ef7";
+import { motion, AnimatePresence } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+export const OrderNotepad = ({ className = "" }) => {
+  _s();
+  const [orders, setOrders] = useState(() => {
+    const saved = localStorage.getItem("orderNotepad");
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("orderNotepad", JSON.stringify(orders));
+  }, [orders]);
+  useEffect(() => {
+    const handleAddItem = (event) => {
+      const { name, price } = event.detail;
+      const existingItem = orders.find((item) => item.name === name);
+      if (existingItem) {
+        setOrders(orders.map(
+          (item) => item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+        ));
+      } else {
+        setOrders([...orders, { name, price, quantity: 1 }]);
+      }
+    };
+    window.addEventListener("addToNotepad", handleAddItem);
+    return () => window.removeEventListener("addToNotepad", handleAddItem);
+  }, [orders]);
+  const removeItem = (index) => {
+    setOrders(orders.filter((_, i) => i !== index));
+  };
+  const updateQuantity = (index, delta) => {
+    setOrders(orders.map((item, i) => {
+      if (i === index) {
+        const newQuantity = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    }));
+  };
+  const clearAll = () => {
+    setOrders([]);
+    localStorage.removeItem("orderNotepad");
+  };
+  const calculateTotal = () => {
+    return orders.reduce((total, item) => {
+      const price = parseFloat(item.price.replace("¬£", ""));
+      return total + price * item.quantity;
+    }, 0).toFixed(2);
+  };
+  return /* @__PURE__ */ jsxDEV(
+    "div",
+    {
+      className: `bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 ${className}`,
+      children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between mb-4", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDEV(ShoppingCart, { className: "w-5 h-5 text-primary-300" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 89,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("h2", { className: "text-lg font-semibold text-primary-300", children: "Your Order" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 90,
+              columnNumber: 11
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 88,
+            columnNumber: 9
+          }, this),
+          orders.length > 0 && /* @__PURE__ */ jsxDEV(
+            "button",
+            {
+              onClick: clearAll,
+              className: "text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1",
+              children: [
+                /* @__PURE__ */ jsxDEV(Trash2, { className: "w-4 h-4" }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                  lineNumber: 97,
+                  columnNumber: 13
+                }, this),
+                "Clear All"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 93,
+              columnNumber: 9
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 87,
+          columnNumber: 7
+        }, this),
+        orders.length === 0 ? /* @__PURE__ */ jsxDEV("p", { className: "text-neutral-500 text-sm text-center py-2", children: "Click items from the menu to add them here" }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 104,
+          columnNumber: 7
+        }, this) : /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col", children: [
+          /* @__PURE__ */ jsxDEV(AnimatePresence, { mode: "sync", children: orders.map(
+            (order, index) => /* @__PURE__ */ jsxDEV(
+              motion.div,
+              {
+                initial: { opacity: 0, scale: 0.95, y: -10 },
+                animate: {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: {
+                    opacity: { duration: 0.15, ease: "linear" },
+                    scale: { duration: 0.25, ease: [0.4, 0.1, 0.3, 1] },
+                    y: { duration: 0.25, ease: [0.33, 1, 0.68, 1] }
+                  }
+                },
+                exit: {
+                  opacity: 0,
+                  scale: 0.95,
+                  y: -10,
+                  transition: {
+                    opacity: { duration: 0.1, ease: "linear" },
+                    scale: { duration: 0.15, ease: [0.4, 0.1, 0.3, 1] },
+                    y: { duration: 0.15, ease: [0.33, 1, 0.68, 1] }
+                  }
+                },
+                layout: true,
+                layoutId: order.name,
+                style: {
+                  overflow: "hidden",
+                  willChange: "transform, opacity",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
+                  WebkitFontSmoothing: "subpixel-antialiased",
+                  perspective: 1e3
+                },
+                className: "flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0",
+                children: [
+                  /* @__PURE__ */ jsxDEV("span", { className: "flex-1 text-primary-100", children: order.name }, void 0, false, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 144,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2 bg-neutral-800 rounded-md px-1", children: [
+                    /* @__PURE__ */ jsxDEV(
+                      "button",
+                      {
+                        onClick: () => updateQuantity(index, -1),
+                        className: "p-1 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50",
+                        disabled: order.quantity <= 1,
+                        children: /* @__PURE__ */ jsxDEV(Minus, { className: "w-3.5 h-3.5 text-primary-300" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                          lineNumber: 151,
+                          columnNumber: 21
+                        }, this)
+                      },
+                      void 0,
+                      false,
+                      {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 146,
+                        columnNumber: 19
+                      },
+                      this
+                    ),
+                    /* @__PURE__ */ jsxDEV("span", { className: "w-6 text-center text-primary-200", children: order.quantity }, void 0, false, {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                      lineNumber: 153,
+                      columnNumber: 19
+                    }, this),
+                    /* @__PURE__ */ jsxDEV(
+                      "button",
+                      {
+                        onClick: () => updateQuantity(index, 1),
+                        className: "p-1 hover:bg-neutral-700 rounded transition-colors",
+                        children: /* @__PURE__ */ jsxDEV(Plus, { className: "w-3.5 h-3.5 text-primary-300" }, void 0, false, {
+                          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                          lineNumber: 158,
+                          columnNumber: 21
+                        }, this)
+                      },
+                      void 0,
+                      false,
+                      {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 154,
+                        columnNumber: 19
+                      },
+                      this
+                    )
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 145,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { className: "text-primary-200 w-16 text-right", children: [
+                    "¬£",
+                    (parseFloat(order.price.replace("¬£", "")) * order.quantity).toFixed(2)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                    lineNumber: 161,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    "button",
+                    {
+                      onClick: () => removeItem(index),
+                      className: "text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800",
+                      title: "Remove item",
+                      children: /* @__PURE__ */ jsxDEV(Trash2, { className: "w-3.5 h-3.5" }, void 0, false, {
+                        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                        lineNumber: 167,
+                        columnNumber: 19
+                      }, this)
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                      lineNumber: 162,
+                      columnNumber: 17
+                    },
+                    this
+                  )
+                ]
+              },
+              order.name,
+              true,
+              {
+                fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+                lineNumber: 109,
+                columnNumber: 11
+              },
+              this
+            )
+          ) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 107,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "pt-3 border-t border-neutral-800", children: /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between items-center text-sm", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: "font-medium text-primary-300", children: "Total:" }, void 0, false, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 174,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "font-semibold text-primary-200", children: [
+              "¬£",
+              calculateTotal()
+            ] }, void 0, true, {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+              lineNumber: 175,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 173,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+            lineNumber: 172,
+            columnNumber: 11
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+          lineNumber: 106,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx",
+      lineNumber: 84,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s(OrderNotepad, "nSYyW0WpbENqGd02I/94i889UXc=");
+_c = OrderNotepad;
+export const addItemToNotepad = (name, price) => {
+  const event = new CustomEvent("addToNotepad", { detail: { name, price } });
+  window.dispatchEvent(event);
+};
+var _c;
+$RefreshReg$(_c, "OrderNotepad");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBQUE7QUFBQSxjQUFFc0IsZUFBZTtBQUFBLGlCQUFsRTtBQUFBO0FBQUE7QUFBQTtBQUFBLG1CQUFvRTtBQUFBLGVBRnRFO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBR0EsS0FKRjtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUtBO0FBQUEsYUF2RUY7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQXdFQTtBQUFBO0FBQUE7QUFBQSxJQTlGSjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsRUFnR0E7QUFFSjtBQUFFbEMsR0ExSldGLGNBQXlDO0FBQUF3RCxLQUF6Q3hEO0FBNEpOLGFBQU15RCxtQkFBbUJBLENBQUMzQyxNQUFjQyxVQUFrQjtBQUMvRCxRQUFNRixRQUFRLElBQUk2QyxZQUFZLGdCQUFnQixFQUFFMUMsUUFBUSxFQUFFRixNQUFNQyxNQUFNLEVBQUUsQ0FBQztBQUN6RU8sU0FBT3FDLGNBQWM5QyxLQUFLO0FBQzVCO0FBQUUsSUFBQTJDO0FBQUFJLGFBQUFKLElBQUEiLCJuYW1lcyI6WyJ1c2VTdGF0ZSIsInVzZUVmZmVjdCIsIlBsdXMiLCJNaW51cyIsIlRyYXNoMiIsIlNob3BwaW5nQ2FydCIsIm1vdGlvbiIsIkFuaW1hdGVQcmVzZW5jZSIsIk9yZGVyTm90ZXBhZCIsImNsYXNzTmFtZSIsIl9zIiwib3JkZXJzIiwic2V0T3JkZXJzIiwic2F2ZWQiLCJsb2NhbFN0b3JhZ2UiLCJnZXRJdGVtIiwiSlNPTiIsInBhcnNlIiwic2V0SXRlbSIsInN0cmluZ2lmeSIsImhhbmRsZUFkZEl0ZW0iLCJldmVudCIsIm5hbWUiLCJwcmljZSIsImRldGFpbCIsImV4aXN0aW5nSXRlbSIsImZpbmQiLCJpdGVtIiwibWFwIiwicXVhbnRpdHkiLCJ3aW5kb3ciLCJhZGRFdmVudExpc3RlbmVyIiwicmVtb3ZlRXZlbnRMaXN0ZW5lciIsInJlbW92ZUl0ZW0iLCJpbmRleCIsImZpbHRlciIsIl8iLCJpIiwidXBkYXRlUXVhbnRpdHkiLCJkZWx0YSIsIm5ld1F1YW50aXR5IiwiTWF0aCIsIm1heCIsImNsZWFyQWxsIiwiY2FsY3VsYXRlVG90YWwiLCJyZWR1Y2UiLCJ0b3RhbCIsInBhcnNlRmxvYXQiLCJyZXBsYWNlIiwidG9GaXhlZCIsImxlbmd0aCIsIm9yZGVyIiwib3BhY2l0eSIsInNjYWxlIiwieSIsInRyYW5zaXRpb24iLCJkdXJhdGlvbiIsImVhc2UiLCJvdmVyZmxvdyIsIndpbGxDaGFuZ2UiLCJ0cmFuc2Zvcm0iLCJiYWNrZmFjZVZpc2liaWxpdHkiLCJXZWJraXRGb250U21vb3RoaW5nIiwicGVyc3BlY3RpdmUiLCJfYyIsImFkZEl0ZW1Ub05vdGVwYWQiLCJDdXN0b21FdmVudCIsImRpc3BhdGNoRXZlbnQiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiT3JkZXJOb3RlcGFkLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IFBsdXMsIE1pbnVzLCBUcmFzaDIsIFNob3BwaW5nQ2FydCB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XG5pbXBvcnQgeyBtb3Rpb24sIEFuaW1hdGVQcmVzZW5jZSB9IGZyb20gJ2ZyYW1lci1tb3Rpb24nO1xuXG5pbnRlcmZhY2UgT3JkZXJJdGVtIHtcbiAgbmFtZTogc3RyaW5nO1xuICBwcmljZTogc3RyaW5nO1xuICBxdWFudGl0eTogbnVtYmVyO1xufVxuXG5pbnRlcmZhY2UgT3JkZXJOb3RlcGFkUHJvcHMge1xuICBjbGFzc05hbWU/OiBzdHJpbmc7XG59XG5cbmludGVyZmFjZSBBZGRUb05vdGVwYWRFdmVudCBleHRlbmRzIEN1c3RvbUV2ZW50IHtcbiAgZGV0YWlsOiB7XG4gICAgbmFtZTogc3RyaW5nO1xuICAgIHByaWNlOiBzdHJpbmc7XG4gIH07XG59XG5cbmRlY2xhcmUgZ2xvYmFsIHtcbiAgaW50ZXJmYWNlIFdpbmRvd0V2ZW50TWFwIHtcbiAgICAnYWRkVG9Ob3RlcGFkJzogQWRkVG9Ob3RlcGFkRXZlbnQ7XG4gIH1cbn1cblxuZXhwb3J0IGNvbnN0IE9yZGVyTm90ZXBhZDogUmVhY3QuRkM8T3JkZXJOb3RlcGFkUHJvcHM+ID0gKHsgY2xhc3NOYW1lID0gJycgfSkgPT4ge1xuICBjb25zdCBbb3JkZXJzLCBzZXRPcmRlcnNdID0gdXNlU3RhdGU8T3JkZXJJdGVtW10+KCgpID0+IHtcbiAgICBjb25zdCBzYXZlZCA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdvcmRlck5vdGVwYWQnKTtcbiAgICByZXR1cm4gc2F2ZWQgPyBKU09OLnBhcnNlKHNhdmVkKSA6IFtdO1xuICB9KTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdvcmRlck5vdGVwYWQnLCBKU09OLnN0cmluZ2lmeShvcmRlcnMpKTtcbiAgfSwgW29yZGVyc10pO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgY29uc3QgaGFuZGxlQWRkSXRlbSA9IChldmVudDogQWRkVG9Ob3RlcGFkRXZlbnQpID0+IHtcbiAgICAgIGNvbnN0IHsgbmFtZSwgcHJpY2UgfSA9IGV2ZW50LmRldGFpbDtcbiAgICAgIGNvbnN0IGV4aXN0aW5nSXRlbSA9IG9yZGVycy5maW5kKGl0ZW0gPT4gaXRlbS5uYW1lID09PSBuYW1lKTtcbiAgICAgIGlmIChleGlzdGluZ0l0ZW0pIHtcbiAgICAgICAgc2V0T3JkZXJzKG9yZGVycy5tYXAoaXRlbSA9PlxuICAgICAgICAgIGl0ZW0ubmFtZSA9PT0gbmFtZVxuICAgICAgICAgICAgPyB7IC4uLml0ZW0sIHF1YW50aXR5OiBpdGVtLnF1YW50aXR5ICsgMSB9XG4gICAgICAgICAgICA6IGl0ZW1cbiAgICAgICAgKSk7XG4gICAgICB9IGVsc2Uge1xuICAgICAgICBzZXRPcmRlcnMoWy4uLm9yZGVycywgeyBuYW1lLCBwcmljZSwgcXVhbnRpdHk6IDEgfV0pO1xuICAgICAgfVxuICAgIH07XG5cbiAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignYWRkVG9Ob3RlcGFkJywgaGFuZGxlQWRkSXRlbSk7XG4gICAgcmV0dXJuICgpID0+IHdpbmRvdy5yZW1vdmVFdmVudExpc3RlbmVyKCdhZGRUb05vdGVwYWQnLCBoYW5kbGVBZGRJdGVtKTtcbiAgfSwgW29yZGVyc10pO1xuXG4gIGNvbnN0IHJlbW92ZUl0ZW0gPSAoaW5kZXg6IG51bWJlcikgPT4ge1xuICAgIHNldE9yZGVycyhvcmRlcnMuZmlsdGVyKChfLCBpKSA9PiBpICE9PSBpbmRleCkpO1xuICB9O1xuXG4gIGNvbnN0IHVwZGF0ZVF1YW50aXR5ID0gKGluZGV4OiBudW1iZXIsIGRlbHRhOiBudW1iZXIpID0+IHtcbiAgICBzZXRPcmRlcnMob3JkZXJzLm1hcCgoaXRlbSwgaSkgPT4ge1xuICAgICAgaWYgKGkgPT09IGluZGV4KSB7XG4gICAgICAgIGNvbnN0IG5ld1F1YW50aXR5ID0gTWF0aC5tYXgoMSwgaXRlbS5xdWFudGl0eSArIGRlbHRhKTtcbiAgICAgICAgcmV0dXJuIHsgLi4uaXRlbSwgcXVhbnRpdHk6IG5ld1F1YW50aXR5IH07XG4gICAgICB9XG4gICAgICByZXR1cm4gaXRlbTtcbiAgICB9KSk7XG4gIH07XG5cbiAgY29uc3QgY2xlYXJBbGwgPSAoKSA9PiB7XG4gICAgc2V0T3JkZXJzKFtdKTtcbiAgICBsb2NhbFN0b3JhZ2UucmVtb3ZlSXRlbSgnb3JkZXJOb3RlcGFkJyk7XG4gIH07XG5cbiAgY29uc3QgY2FsY3VsYXRlVG90YWwgPSAoKSA9PiB7XG4gICAgcmV0dXJuIG9yZGVycy5yZWR1Y2UoKHRvdGFsLCBpdGVtKSA9PiB7XG4gICAgICBjb25zdCBwcmljZSA9IHBhcnNlRmxvYXQoaXRlbS5wcmljZS5yZXBsYWNlKCfCoycsICcnKSk7XG4gICAgICByZXR1cm4gdG90YWwgKyAocHJpY2UgKiBpdGVtLnF1YW50aXR5KTtcbiAgICB9LCAwKS50b0ZpeGVkKDIpO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPGRpdiBcbiAgICAgIGNsYXNzTmFtZT17YGJnLWJsYWNrIHJvdW5kZWQtbGcgcC00IG1heC13LW1kIG14LWF1dG8gc2hhZG93LWxnIGJvcmRlciBib3JkZXItbmV1dHJhbC05MDAgJHtjbGFzc05hbWV9YH1cbiAgICA+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBtYi00XCI+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cbiAgICAgICAgICA8U2hvcHBpbmdDYXJ0IGNsYXNzTmFtZT1cInctNSBoLTUgdGV4dC1wcmltYXJ5LTMwMFwiIC8+XG4gICAgICAgICAgPGgyIGNsYXNzTmFtZT1cInRleHQtbGcgZm9udC1zZW1pYm9sZCB0ZXh0LXByaW1hcnktMzAwXCI+WW91ciBPcmRlcjwvaDI+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICB7b3JkZXJzLmxlbmd0aCA+IDAgJiYgKFxuICAgICAgICAgIDxidXR0b25cbiAgICAgICAgICAgIG9uQ2xpY2s9e2NsZWFyQWxsfVxuICAgICAgICAgICAgY2xhc3NOYW1lPVwidGV4dC1zbSB0ZXh0LXJlZC00MDAgaG92ZXI6dGV4dC1yZWQtMzAwIHRyYW5zaXRpb24tY29sb3JzIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xXCJcbiAgICAgICAgICA+XG4gICAgICAgICAgICA8VHJhc2gyIGNsYXNzTmFtZT1cInctNCBoLTRcIiAvPlxuICAgICAgICAgICAgQ2xlYXIgQWxsXG4gICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICl9XG4gICAgICA8L2Rpdj5cblxuICAgICAge29yZGVycy5sZW5ndGggPT09IDAgPyAoXG4gICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtbmV1dHJhbC01MDAgdGV4dC1zbSB0ZXh0LWNlbnRlciBweS0yXCI+Q2xpY2sgaXRlbXMgZnJvbSB0aGUgbWVudSB0byBhZGQgdGhlbSBoZXJlPC9wPlxuICAgICAgKSA6IChcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtY29sXCI+XG4gICAgICAgICAgPEFuaW1hdGVQcmVzZW5jZSBtb2RlPVwic3luY1wiPlxuICAgICAgICAgICAge29yZGVycy5tYXAoKG9yZGVyLCBpbmRleCkgPT4gKFxuICAgICAgICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgICAgICAgIGtleT17b3JkZXIubmFtZX1cbiAgICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAsIHNjYWxlOiAwLjk1LCB5OiAtMTAgfX1cbiAgICAgICAgICAgICAgICBhbmltYXRlPXt7IFxuICAgICAgICAgICAgICAgICAgb3BhY2l0eTogMSwgXG4gICAgICAgICAgICAgICAgICBzY2FsZTogMSwgXG4gICAgICAgICAgICAgICAgICB5OiAwLFxuICAgICAgICAgICAgICAgICAgdHJhbnNpdGlvbjoge1xuICAgICAgICAgICAgICAgICAgICBvcGFjaXR5OiB7IGR1cmF0aW9uOiAwLjE1LCBlYXNlOiBcImxpbmVhclwiIH0sXG4gICAgICAgICAgICAgICAgICAgIHNjYWxlOiB7IGR1cmF0aW9uOiAwLjI1LCBlYXNlOiBbMC40LCAwLjEsIDAuMywgMV0gfSxcbiAgICAgICAgICAgICAgICAgICAgeTogeyBkdXJhdGlvbjogMC4yNSwgZWFzZTogWzAuMzMsIDEsIDAuNjgsIDFdIH1cbiAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGV4aXQ9e3sgXG4gICAgICAgICAgICAgICAgICBvcGFjaXR5OiAwLCBcbiAgICAgICAgICAgICAgICAgIHNjYWxlOiAwLjk1LCBcbiAgICAgICAgICAgICAgICAgIHk6IC0xMCxcbiAgICAgICAgICAgICAgICAgIHRyYW5zaXRpb246IHtcbiAgICAgICAgICAgICAgICAgICAgb3BhY2l0eTogeyBkdXJhdGlvbjogMC4xLCBlYXNlOiBcImxpbmVhclwiIH0sXG4gICAgICAgICAgICAgICAgICAgIHNjYWxlOiB7IGR1cmF0aW9uOiAwLjE1LCBlYXNlOiBbMC40LCAwLjEsIDAuMywgMV0gfSxcbiAgICAgICAgICAgICAgICAgICAgeTogeyBkdXJhdGlvbjogMC4xNSwgZWFzZTogWzAuMzMsIDEsIDAuNjgsIDFdIH1cbiAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGxheW91dFxuICAgICAgICAgICAgICAgIGxheW91dElkPXtvcmRlci5uYW1lfVxuICAgICAgICAgICAgICAgIHN0eWxlPXt7IFxuICAgICAgICAgICAgICAgICAgb3ZlcmZsb3c6ICdoaWRkZW4nLFxuICAgICAgICAgICAgICAgICAgd2lsbENoYW5nZTogJ3RyYW5zZm9ybSwgb3BhY2l0eScsXG4gICAgICAgICAgICAgICAgICB0cmFuc2Zvcm06ICd0cmFuc2xhdGVaKDApJyxcbiAgICAgICAgICAgICAgICAgIGJhY2tmYWNlVmlzaWJpbGl0eTogJ2hpZGRlbicsXG4gICAgICAgICAgICAgICAgICBXZWJraXRGb250U21vb3RoaW5nOiAnc3VicGl4ZWwtYW50aWFsaWFzZWQnLFxuICAgICAgICAgICAgICAgICAgcGVyc3BlY3RpdmU6IDEwMDBcbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0zIHRleHQtc20gYmctbmV1dHJhbC05MDAgcC0yIHJvdW5kZWQtbGcgYm9yZGVyIGJvcmRlci1uZXV0cmFsLTgwMCBtYi0zIGxhc3Q6bWItMFwiXG4gICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJmbGV4LTEgdGV4dC1wcmltYXJ5LTEwMFwiPntvcmRlci5uYW1lfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIGJnLW5ldXRyYWwtODAwIHJvdW5kZWQtbWQgcHgtMVwiPlxuICAgICAgICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiB1cGRhdGVRdWFudGl0eShpbmRleCwgLTEpfVxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJwLTEgaG92ZXI6YmctbmV1dHJhbC03MDAgcm91bmRlZCB0cmFuc2l0aW9uLWNvbG9ycyBkaXNhYmxlZDpvcGFjaXR5LTUwXCJcbiAgICAgICAgICAgICAgICAgICAgZGlzYWJsZWQ9e29yZGVyLnF1YW50aXR5IDw9IDF9XG4gICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgIDxNaW51cyBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNSB0ZXh0LXByaW1hcnktMzAwXCIgLz5cbiAgICAgICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidy02IHRleHQtY2VudGVyIHRleHQtcHJpbWFyeS0yMDBcIj57b3JkZXIucXVhbnRpdHl9PC9zcGFuPlxuICAgICAgICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiB1cGRhdGVRdWFudGl0eShpbmRleCwgMSl9XG4gICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInAtMSBob3ZlcjpiZy1uZXV0cmFsLTcwMCByb3VuZGVkIHRyYW5zaXRpb24tY29sb3JzXCJcbiAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgPFBsdXMgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgdGV4dC1wcmltYXJ5LTMwMFwiIC8+XG4gICAgICAgICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXByaW1hcnktMjAwIHctMTYgdGV4dC1yaWdodFwiPsKjeyhwYXJzZUZsb2F0KG9yZGVyLnByaWNlLnJlcGxhY2UoJ8KjJywgJycpKSAqIG9yZGVyLnF1YW50aXR5KS50b0ZpeGVkKDIpfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8YnV0dG9uXG4gICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiByZW1vdmVJdGVtKGluZGV4KX1cbiAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInRleHQtbmV1dHJhbC00MDAgaG92ZXI6dGV4dC1yZWQtNDAwIHRyYW5zaXRpb24tY29sb3JzIHAtMSByb3VuZGVkIGhvdmVyOmJnLW5ldXRyYWwtODAwXCJcbiAgICAgICAgICAgICAgICAgIHRpdGxlPVwiUmVtb3ZlIGl0ZW1cIlxuICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgIDxUcmFzaDIgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxuICAgICAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgICAgICA8L21vdGlvbi5kaXY+XG4gICAgICAgICAgICApKX1cbiAgICAgICAgICA8L0FuaW1hdGVQcmVzZW5jZT5•OZ∞cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInB0LTMgYm9yZGVyLXQgYm9yZGVyLW5ldXRyYWwtODAwXCI+XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXgganVzdGlmeS1iZXR3ZWVuIGl0ZW1zLWNlbnRlciB0ZXh0LXNtXCI+XG4gICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZvbnQtbWVkaXVtIHRleHQtcHJpbWFyeS0zMDBcIj5Ub3RhbDo8L3NwYW4+XG4gICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZvbnQtc2VtaWJvbGQgdGV4dC1wcmltYXJ5LTIwMFwiPsKje2NhbGN1bGF0ZVRvdGFsKCl9PC9zcGFuPlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgKX1cbiAgICA8L2Rpdj5cbiAgKTtcbn07XG5cbmV4cG9ydCBjb25zdCBhZGRJdGVtVG9Ob3RlcGFkID0gKG5hbWU6IHN0cmluZywgcHJpY2U6IHN0cmluZykgPT4ge1xuICBjb25zdCBldmVudCA9IG5ldyBDdXN0b21FdmVudCgnYWRkVG9Ob3RlcGFkJywgeyBkZXRhaWw6IHsgbmFtZSwgcHJpY2UgfSB9KTtcbiAgd2luZG93LmRpc3BhdGNoRXZlbnQoZXZlbnQpO1xufTtcbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL2NvbXBvbmVudHMvT3JkZXJOb3RlcGFkLnRzeCJ9”ò¿Ÿó   ë       ÓD      createHotContext   IòÆ_      __vite__createHotContext   Ü¯ﬁŸ      /@vite/client      J^&S      hot    fz|K      /@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx    ≥óñó&      __vite__cjsImport0_react_jsxDevRuntime     C<Ã<      /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7   ¸Q”S      jsxDEV     í‹óÈ      RefreshRuntime	     Y‹Aê      /@react-refresh
+    vKz†      inWebWorker    ÑPRq      WorkerGlobalScope      ¡§\l      self   à˝»3      prevRefreshReg     4ñ@á      prevRefreshSig     ¯2áâ      window     oÚﬂ(      __vite_plugin_react_preamble_installed__   !ÑÁmç      @vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201      "∑JR      $RefreshReg$   L5y®      $RefreshSig$   |∂´ÑG      C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsx     t6UË#      createSignatureFunctionForTransform    «¿w’      __vite__cjsImport3_react   ¿ÆÑî,      /node_modules/.vite/deps/react.js?v=770d4ef7    ,ók      useState   ˚}{c	      useEffect      œp—      Plus   CQÏº      Minus      ìÿ"ä      Trash2     Ïàóa      ShoppingCart   …è|´3      /node_modules/.vite/deps/lucide-react.js?v=770d4ef7    ›≤      motion      .b„      AnimatePresence!    âG	[4      /node_modules/.vite/deps/framer-motion.js?v=770d4ef7"   ˆ°¨£      OrderNotepad#   6CY>	      className$      [⁄Vì      orders%     ¶¡	      setOrders&      ±‹V]      saved'      ¨@;à      localStorage(   Í√Òﬁ      getItem)    ’t…M      orderNotepad*   5ıá∆      parse+      ßª+À      setItem,    nßÎ	      stringify-      y?∂ﬁ      handleAddItem.      II∑P      event/      Í÷r⁄      price0      (tS®      detail1     ï^MM      existingItem2   ˝ÑÃ∫      item3   9Ã      map4    â&:      quantity5    rO      addEventListener6   ·`x¡      addToNotepad7   ]¸ç      removeEventListener8    DâúÓ
+      removeItem9     >	≈      filter:     åœ'»      updateQuantity;     0      delta<      £tˆE      newQuantity=    Kk.      max>    t›Ö      clearAll?   *´î      calculateTotal@     ?ª
+      reduceA     T˝ªW      totalB      ÿ8ª      toFixedC    ú≥ÊŸ      divD    ”lãqM      bg-black rounded-lg p-4 max-w-md mx-auto shadow-lg border border-neutral-900 E      
+}N      childrenF   ã§f&      flex items-center justify-between mb-4G     xŒ‰ı      flex items-center gap-2H    Ì	d      w-5 h-5 text-primary-300I   √ΩµÁF      C:/Users/abid_/Desktop/Sapphire Lounge/src/components/OrderNotepad.tsxJ     Ä‰D&      text-lg font-semibold text-primary-300K     êPÌ÷
+      Your OrderL     ˙U~      buttonM     ;ã¢Ô      onClickN    «
+Q      text-sm text-red-400 hover:text-red-300 transition-colors flex items-center gap-1O      ]∂      w-4 h-4P    7"œ}	      Clear AllQ      Î¿C)      text-neutral-500 text-sm text-center py-2R      #C[¬*      Click items from the menu to add them hereS     ¿ì√      flex flex-colT      ,,\>      syncU   vÕÜ      orderV      ﬂue…      opacityW    ç$Úù      scaleX      ÷q1º      animateY    Ã∏
+      transitionZ     ¿
+7      duration[   ®G,Ç      ease\   äà3π      linear]     blBk      exit^   CcΩ      layout_     †dYò      layoutId`   Ñ€ËW      hiddena     Ÿ
+ª
+      willChangeb     ì†[®      transform, opacityc     RË|	      transformd      ¸†≥2      translateZ(0)e      Ù‡.C      backfaceVisibilityf     
+·C      WebkitFontSmoothingg    W*w˚      subpixel-antialiasedh   ∂¿Ã~      perspectivei    Æ5íf      flex items-center gap-3 text-sm bg-neutral-900 p-2 rounded-lg border border-neutral-800 mb-3 last:mb-0j     ±4PB      spank   ñÆ0x      flex-1 text-primary-100l    .≠ü„6      flex items-center gap-2 bg-neutral-800 rounded-md px-1m     ⁄·ÊF      p-1 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50n     ûzÉw      disabledo   AxvÆ      w-3.5 h-3.5 text-primary-300p   ∏2L
+       w-6 text-center text-primary-200q    çóQ2      p-1 hover:bg-neutral-700 rounded transition-colorsr     ”Â˛r       text-primary-200 w-16 text-rights   uI∂V      text-neutral-400 hover:text-red-400 transition-colors p-1 rounded hover:bg-neutral-800t     “E      titleu      ™ÿåÉ      Remove itemv    ì%      w-3.5 h-3.5w    ¶±^Ê       pt-3 border-t border-neutral-800x   +©ém)      flex justify-between items-center text-smy      Xg      font-medium text-primary-300z   8jû      Total:{     ÃÖ@      font-semibold text-primary-200|      —Âπ      nSYyW0WpbENqGd02I/94i889UXc=}   ƒ5{      addItemToNotepad~   ÃÑDø      CustomEvent    aﬁÔ'      dispatchEventÄ      2AïÚ      __hmr_importÅ   ˙Y†a      currentExportsÇ     )h–¨      registerExportsForReactRefreshÉ     ynÿ      acceptÑ      Ω      nextExportsÖ    ~‡Ñ      invalidateMessageÜ      ÜÄr\'      validateRefreshBoundaryAndEnqueueUpdateá    nà≠
+      invalidateà     ¿≠éÛ      window.$RefreshReg$â    ˚‚?7      OrderNotepad/<ã     ﬂƒ¬*      OrderNotepad/</handleAddItem/existingItem<å     ífˇ      OrderNotepad/</handleAddItem/<ç     g?M      OrderNotepad/</<è   9ßƒ·      OrderNotepad/removeItem/<ë      ∫∫§      OrderNotepad/updateQuantity/<î      H,rÚ      OrderNotepad/calculateTotal/<ï      #¨L,      OrderNotepad/<.children<.children<.children<        4                 A   Ô%,â          	                                                                                                                                                                 	                
+                 
+                            	                
+                                                                                                                                                                                                                                                                                                      ≥Oåc      
+                              ‹`Ã       P
+    P  P"  P}  PÔ `               ç                #            $  P%  P8  P:  P>  ?                            &                                             -  P             .            p `/  1               2               2                               ˝  `             _  i               ˝  `;  P             2  i            <                                               A  2            /               U  ˝  `                                                             p  /            .               Å  P             Ñ            Ö  Ø¬0∞IÙ$KEÆ˙ö         p  /  4     
+   #  E     
+    #  E     
+    #  E         #          ß   A  D      
+   #  E         ß   A  D         ß   A  D         M  #  E        #          ß   A  D         ß   A  D         ß   A  D      
+   #  E         ß   A  D      
+   #  E     
+    d  E     (      X  ]  ^  _  ˚  #  E           V  W  y        V  W  y  Y           V  W  y     
+   Z  [     
+    Z  [     
+    Z  [         V  W  y  Y           V  W  y     
+   Z  [     
+    Z  [     
+    Z  [         †  a  c  e  f  h     
+    #  E         ß   A  D      
+   #  E         M  #  n  E           #          ß   A  D         ß   A  D      
+   #  E         ß   A  D         M  #  E        #          ß   A  D         ß   A  D         ß   A  D      
+   #  E         ß   A  D         M  #  t  E           #          ß   A  D         ß   A  D         ß   A  D         ß   A  D      
+   #  E     
+    #  E     
+    #  E         ß   A  D      
+   #  E         ß   A  D         ß   A  D         ß   A  D         ß   A  D         ß   A  D         0     
+     p  /  á&’™ç!´!   Ã    M§’Ã                 3        ∞±  ±  ±  ﬂ7√       s M   ﬂ√   J   ≥   ﬂª   Äú   ó   ﬂª   ª   !ó	   ±  ﬂ ±  ﬂ ±  ﬂ7J   ú   ó   ﬂæ  ó   öy   ó   ª   J	   õ   ó   ª
+   Ä   „  Å ßó   ª   J   Õ  ﬂª   J   Õ  ﬂª   m   M   ﬂª   √   J   M   ﬂó   ª    s  Œ   ﬂ√   J   ≥   ﬂ√   J   ≥   ﬂm   ≥   ﬂ¡    ¡      w ﬂ¡   Õ   ﬂm   ≥   ﬂª    æ      w ﬂ7J   ú   ó$   ﬂæ  ó%   ö(   ó&   ª   æ  M   ﬂª   æ  M   ﬂó*   7J   ú   ó,   ﬂæ  ó-   ö/   ó.   √   ·J   ‰7J   s ·J   ‰m   w ﬂó3   •M`P	Ä  Í`ê `ó <ê&`ë î `î `PI	`/`/`ê@`ö@
+`/g`ê 8`ê `;Ä ,`
+ˇˇˇˇP`*!``	ˇˇˇˇP$`ë î `/`î `ë î `ˇˇˇÛP
+#ˇˇˇ˚PIÄ CÄ BõPÄP   WÔÔP                            √   ·J   ‰º     º &w ﬂ• `Lˇˇˇ•P$PË  t—®  ñ               †      $∞±   ﬂº  e·J   · ö   ó   ﬂ   ó   ±   ﬂﬂ–   ∞±  ±  ﬂ¡   w  ﬂ¡  µ   m   s ··cöm   ó   J   ‰··„  ö   ó
+   Kô   ó   ﬂﬂ ó   ≥   ﬂ··„  ö   ó   Kô   ó   ﬂﬂ ó   ≥   ﬂ‰ﬂôø   ó   ·K‰u  d·J   ‰¨ﬂ‚s  d ·J   ·Êö   ó   ﬂ Èô   ó   J   ó   ¨≥   ﬂ¨ö   ó    È‰ô5   ó   ‚s  d ·J   ·Êö   ó   ﬂ Èô   ó   J   ó   ¨≥   ﬂö   ó   ﬂﬂô   ó   ‰ﬂb ó   ﬂ¡  µ   m	   h   ¡   µ   i    w ﬂ¡   m
+   h   ¡   i    w ﬂm   ≥   ﬂm   ≥   ﬂm   ±  ﬂm   ±  ﬂ¡  µ      9      æ   1&<   h   ¡      9      <   h   ¡      9      <   h   ¡   √   9      <   9      <   Y<   <    s i    ¡      9       <   !   <"   9#      <   Z<   <    s i   <"   9$      <   X<   	<    s i    ¡   J   ú©   óB   ﬂ¡   %   9&   æ  <'   (   <   h   ¡   √)   9*   +   <   9,      <   a<   <    s i    -   i   <"   9.      <   ]<   	<    s óS   i   <"   9/      <   W<   <    s i    ¡   J   öW   ó\   ¡   0   91   2   <   3   <"   94      <   h<   <    s ôÛ  ód   ¡      95   6   <   h   ¡   √7   98   9   <:   ¡   ·J;   ‰m<   s <"   9=      <   k<   <    s i    ¡      9>   ?   <   ¡      9@   A   <   h   ¡   B   9C   D   <   E   <"   9F      <   Æ <   <    s i    ¡   B   9G   H   <   h   I   i    æ   s  i   <"   9J      <   Ø <   <    s i   <"   9K      <   ≠ <   <    s <"   9L      <   ¨ <   <    s i   <"   9M      <   j<   <    s óö   i   <"   9N      <   T<   <    s §—•—•Æ /`*`	ˇˇˇˇPˇˇˇˇ‚ˇß@`
+EOPD	`
+EJ	PD`K`K$`J(`J.`%%[+%
+5%
+&%
+)%*''A5PH:
+5
+%*''A:PM?%*''A4PHDù%%)*%!
+%*''AJ!P8OOR!%*'GYAD0Pí@[%*''A3PH`	° 2
+8
+:%*''A`/PMd2ê 
+%
+,EeTPHÄ  Î%*''AePHÄ  
+/(
+8%
++
+%*('AÄ  ÒPHÄ  ˆ
+-*U-%*('AÄ  ˆPMÄ  ˛%*('AÄ  tPHÄ %*('AÄ  PMÄ %*''Ad$Pí@Ä !%*' A.P3Ä TÄÄË  »     3   b  ˇˇˇˇ    ì                          d     ∏   ä,„sò   Y                        ∞±   ﬂª   ·J   ‰   s ±   ﬂæ   ö"   ó   ª   ·J   ‰æ   s ô   ó   h    ó   §“•“• &`ë P(`ö ˇˇˇ˙Pó TÄ∏          X   ˇˇˇˇ    V          h   Ú4‹h   /                          ª   ·J   ‰   ª   ·J   ‰¡   µ   s w ﬂ• `ë %
+ˇˇˇˆPˇˇˇ„P$PÄî   }™Ì>t   4                         –   m   ≥   ﬂª   ·J   ‰   ¡   w ﬂm   §—•—• %`K`ë (ˇˇˇﬂP$`%TÄÄÄî         .   ˇˇˇˇ    1          §  QQ˘Ñ           
+             $–   ∞±   ±  ﬂº  J   e·J   ≥   ﬂ·J   ±   ﬂﬂ¡  µ  ·J   ‰m   s ±  ﬂæ  ö2   ó   ¡  µ   ¡  ·J   ‰m   s w ﬂôì   ó	   ¡  µ   h   ¡  ·K‰u  d·J	   ‰ÂÂò   „  „  s  d ·J
+   õ   ó   J   jô◊ˇˇˇó   ÂÂ‡ 9   ¡   <   æ   <   <   jﬂw ﬂó   —• /`° `ë ˇˇˇ˚P(`.	`
+,EPˇˇˇ¯P> 	`
+‘ 
+	ˇˇˇ‰PJ
+P§  î          ˇˇˇˇ      ¥   .   <   +€Ûƒ<                            º  J   ¡   µ   ¢ 
+`ÄÄÑ   hÔÈ©Ñ   R                  	       º  J   ¡   µ   ö1   ó   8·º  ≈    ÂÂw ﬂº  J   &<   ô   ó	   º  ó	   ¢ 
+`ñ 	í 	°  ÄÄÄP   ñß®P                             ª   ·J   ‰   ¡   µ   s ¢ `ë +
+ˇˇˇ‹P1ÄÄl   öUÌÒl   2   	                     Ω  Œ   ﬂ¡  µ   ¡  µ  ·J   ‰m   s w ﬂ•)`
+ë ˇˇˇ˘Pˇˇˇ¯P$PÄÄ0   ÅHèL0   
+                         º ¡   ¢ 
+`x   2p˛x   ;                        Ω  Œ   ﬂΩ Œ   ﬂ¡  µ   ¡  µ  ·J   ‰m   s w ﬂ•í `
+ë ˇˇˇ¸Pˇˇˇ¯PDPÄÄÄ‘   ÛÄ¥   f                       º ¡   öS   ó   ∞±   ﬂª   ·J   ‰º  J   ¡   &s ±   ﬂ8·º  ≈    ÂÂw ﬂæ   <   §“•“ó   º  ¢• `ê &`ˇˇˇÈP(	`	í 	II`#QÄÄ‘         I   ˇˇˇˇ    Z          `   B≠Ω`   *                          ¡   µ    h    w ﬂª   ·J   ‰   w ﬂ• `
+ˇˇˇˇP$`ë P$P\   Á˛ˆµ\   (                          ¡   µ   ·J   ‰m   s ·J   ‰s ¢• `ë 5APJR#Q®   õ¿∞à   F                       ∞±   ﬂª    º J   ·J   ‰      s s ±   ﬂº  æ   º J   *&§“•“• &`ô PˇˇˇÙP(`*TÄÄ®          E   ˇˇˇˇ    C          ¿  à˛∂ë¿    	              ¶       Ω Œ   ﬂ¡  µ   √   J   9   9   <   
+ffffffÓ?<   ˆ<   <   9	   <   <   <   9
+   9   
+333333√?<      <   <   9   
+      –?<   h   
+öôôôôôŸ?i    
+öôôôôôπ?i   
+333333”?i   i   <   <   9   
+      –?<   h   
+ÖÎQ∏’?i    i   
+√ı(\è¬Â?i   i   <   <   <   <   9   <   
+ffffffÓ?<   ˆ<   9   9   
+öôôôôôπ?<      <   <   9   
+333333√?<   h   
+öôôôôôŸ?i    
+öôôôôôπ?i   
+333333”?i   i   <   <   9   
+333333√?<   h   
+ÖÎQ∏’?i    i   
+√ı(\è¬Â?i   i   <   <   <   <   <   º  J   <   9      <      <    !   <"      <#   $   <%   Ë<&   <'   (   <)   h   ¡   *   9+   ,   <)   º  J   <-   9.   /   <0   ê <1   <2    s i    ¡      93   4   <)   h   ¡   5   96   m7   <8   9   <)   º  J:   <;   ¡   √<   9=   >   <)   9?   /   <0   ó <1   <2    s <-   9@   /   <0   í <1   <2    s i    ¡   *   9A   B   <)   º  J:   <-   9C   /   <0   ô <1   <2    s i   ¡   5   9D   mE   <8   F   <)   ¡   √G   9H   >   <)   9I   /   <0   û <1   <2    s <-   9J   /   <0   ö <1   <2    s i   <-   9K   /   <0   ë <1   <2    s i   ¡   *   9L   M   <)   h   N   i    ªO    º  JP   ·JQ   ‰N   R   s s º  J:   *·JS   ‰s i   <-   9T   /   <0   ° <1   <2    s i   ¡   5   9U   mV   <8   W   <)   X   <Y   ¡   √Z   9[   \   <)   9]   /   <0   ß <1   <2    s <-   9^   /   <0   ¢ <1   <2    s i   <-   º  J   9_   /   <0   m<1   <2    s ¢	"`+*%,%&&&%/	ø ¡@%&.'%/	ø ¡@&-%*****M"*%#
+&%*('A$#PH)#
+E%%%%**/!
+-%*('A03PH6!%*(G=A*%PH?%
+/%*('A?%PHD%%%**!
+-%*('AI3PHO!%*(GVAD%PMX%*('A)#PH]#
+/*ô PˇˇˇÈP+í P-%*('A]#PHe#%%***!
+%*('Ak1PHq!%*(GxAe#PM|!%*' A 5PCÄ  ÑÄÄD   ^‰óD                             ¡  µ   ¡   ˇs ¢ `ˇˇˇˇP
+D   T¥3kD                             ¡  µ   ¡   s ¢ `ˇˇˇˇP	ÄD   Îı—wD                             ¡  µ   ¡   s ¢ `ˇˇˇˇPÄÄ®   NÒ!ò   R                 
+      ∞±   ﬂª   Ä   9   9   º  <   º <   <   „  Å ±   ﬂª	   ·J
+   ‰æ   w ﬂ“• &` 
+ë ˇˇˇŒ(`ˇˇˇÚPPÄ®          Q   ˇˇˇˇx   ¢±”x   :   	                     Ω  Œ   ﬂ√   ·J   ‰   ¡   w ﬂ7J   ·J   ‰m   w ﬂ•)`ë xˇˇˇóP$`ˇˇˇ˘PDPÄÄ‹   ì0îÚº   g                       ∞±   ﬂº  õ   ó    §“•ó   √   ·J   ‰   ¡   º  s ±   ﬂæ   ö   ó   7J   ·J   ‰æ   w ﬂó   “• &``AH!`ë Ä  Åˇˇˇ~P(``ˇˇˇıP*PÄÄ‹          f   ˇˇˇˇ              3ıÿ  `  ¬      `  `'  (  )  n  *    `'  +  )  n  ,    `p    `p  Q   4  	  `
+  `0  p  /  ™     p3    pw  {   >     @4    `  7  6    `  `  p  5  6  	  p  `  `9    p  `  `p  =  4  Q     `3    p  `'  8  )    `  `§  /  «  £  ä   4    `@    pB    `  `  `  `  C    @  @V  W  y      @  @  @Z  \  [    @  @Y  X    @  @  @  @  @]  ^  p  _    @`  †  b  a  d  c  e  g  f  h  ˚  i  #  j    @k  E     @I  ß   A  D   !  @l  L  "  @  pM  m  4  n    #  @o  $  @%  @&  @p  '  @(  @  pq    )  @*  @+  @,  @-  @r  £  §  /  «  ä   B  .  @/  @  ps  u  t    0  @v  1  @2  @3  @  `#  ä     `  p>  w  {   >    p  p
+  p  p  p  pC    @D    @F    @G      @H    @I  ß   A  D   B   @J  K  E    @  @L  	  @M  N    
+  @O    @P    @  @p    @Q  R    @  @S       @T  d  3    p4  @5  @w  6  @x  j  7  @y  z  8  @9  @{  £  :  @;  @<  @=  @>  @  `  `~  6  ?  @@  @p  /  0        `  `  Ü  I    á    `  Ç  I    É    p   `                  t          p            p|    p"  Ä  8      pˇXÑ                       à      ! ∞   O   "      !
+               !       â      ! )      â      !       -      !
+       ã      !       å      ! %      ç      ! 1      8      !
+ 0      è      ! :      :      !
+ 4      ë      ! =      >      !
+ I      ?      !
+ A      î      ! P   `   ï      ! M      M      !
+ N      M      !
+ O      M      !
+ ˇ      }      !
+              ! 
+             ! ùH©“      …}      …}                  ß  -  ß  -                 @  :7  @  :7                 â  ˜  â  ˜     (               S    S                  l  ë	  l  ë	                  é  	  é  	                 Ó  
+  Ó  
+  !   (            O  ù  O  ù  $               M	  å	  M	  å	  +              Ä ≥	  ¯	  ≥	  ¯	  -               ‹	  Ò	  ‹	  Ò	  .             Ä 
+    
+    0               @
+  ˚
+  @
+  ˚
+  1                 b    b  9                }  4  }  4  =                û     û     >             Ä   Î/    Î/  {               !  @  !  @  ®   "             ¨$   $  ¨$   $  ¬   "             H+  _+  H+  _+  „                 °7  "8  °7  "8  /  !          Ä "9  );  "9  );  :  5            ‡9  #;  ‡9  #;  <            mŒ˝î                       	                              !                                >                     ˚                                          &                     3                     )   
+        i                             
+                                                     
+                         i                  i          œ                 
+                       ˇˇˇˇ"      "         ˇˇˇˇ}      }                         5°›‹º ﬁÖÀK∞R*      gFÅ«gFÅ«Gò"ﬁ       †    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/OrderNotepad.tsx?t=1732673513418 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"3b2e-HHX2HXOVmdS1PbxGRtjgwBeh61Q"
+Content-Length: 32201
+Date: Wed, 27 Nov 2024 02:19:51 GMT
+Access-Control-Allow-Origin: *
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"3b2e-HHX2HXOVmdS1PbxGRtjgwBeh61Q"
+Date: Wed, 27 Nov 2024 02:11:53 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 32201
+ ctid 2 uncompressed-len 0 net-response-time-onstart 84 net-response-time-onstop 84 alt-data 1;32201,javascript/moz-module-bytecode-20241110231641-8l alt-data-from-child 1  Õâ

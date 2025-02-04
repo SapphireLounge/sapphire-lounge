@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}",
+            "userDataDir": false,
+            "runtimeArgs": [
+                "--disable-web-security",
+                "--allow-file-access-from-files",
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows",
+                "--disable-renderer-backgrounding"
+            ]
+        },
+        {
+            "name": "Launch Firefox",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}",
+            "firefoxExecutable": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+            "profileDir": "${workspaceFolder}/.vscode/firefox-debug-profile",
+            "keepProfileChanges": true,
+            "preferences": {
+                "security.fileuri.strict_origin_policy": false,
+                "browser.tabs.remote.autostart": false,
+                "devtools.debugger.remote-enabled": true,
+                "devtools.chrome.enabled": true,
+                "devtools.debugger.prompt-connection": false
+            }
+        }
+    ]
+}

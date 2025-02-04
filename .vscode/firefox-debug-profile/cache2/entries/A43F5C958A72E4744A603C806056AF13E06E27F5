@@ -1,0 +1,167 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/SEO.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b694899f"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { Helmet } from "/node_modules/.vite/deps/react-helmet-async.js?v=b694899f";
+export function SEO({
+  title = "Sapphire Lounge - Premium Shisha Experience",
+  description = "Experience the finest flavours in an atmosphere of luxury and comfort at Sapphire Lounge. Premium shisha, exclusive events, and exceptional service.",
+  keywords = ["shisha lounge", "premium shisha", "hookah bar", "luxury lounge", "sapphire lounge"],
+  image = "/images/logo/Sapphire Lounge Circle Logo.png",
+  url = "https://sapphirelounge.com",
+  type = "website"
+}) {
+  const siteTitle = title.includes("Sapphire Lounge") ? title : `${title} | Sapphire Lounge`;
+  return /* @__PURE__ */ jsxDEV(Helmet, { children: [
+    /* @__PURE__ */ jsxDEV("title", { children: siteTitle }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 25,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "description", content: description }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 26,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "keywords", content: keywords.join(", ") }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 27,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { property: "og:title", content: siteTitle }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 30,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { property: "og:description", content: description }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 31,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { property: "og:image", content: image }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 32,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { property: "og:url", content: url }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 33,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { property: "og:type", content: type }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 34,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "twitter:card", content: "summary_large_image" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 37,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "twitter:title", content: siteTitle }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 38,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "twitter:description", content: description }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 39,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "twitter:image", content: image }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 40,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "robots", content: "index, follow" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 43,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "viewport", content: "width=device-width, initial-scale=1.0" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 44,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("meta", { name: "theme-color", content: "#050D1A" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 45,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("html", { lang: "en", dir: "ltr" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 48,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("link", { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 51,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("link", { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 52,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("link", { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 53,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("link", { rel: "manifest", href: "/manifest.json" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+      lineNumber: 54,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx",
+    lineNumber: 23,
+    columnNumber: 5
+  }, this);
+}
+_c = SEO;
+var _c;
+$RefreshReg$(_c, "SEO");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/SEO.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBQUE7QUFBQSxXQUEwQztBQUFBLE9BL0I1QztBQUFBO0FBQUE7QUFBQTtBQUFBLFNBZ0NBO0FBRUo7QUFBQ00sS0E3Q2VWO0FBQUcsSUFBQVU7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbIlNFTyIsInRpdGxlIiwiZGVzY3JpcHRpb24iLCJrZXl3b3JkcyIsImltYWdlIiwidXJsIiwidHlwZSIsInNpdGVUaXRsZSIsImluY2x1ZGVzIiwiam9pbiIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIlNFTy50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgSGVsbWV0IH0gZnJvbSAncmVhY3QtaGVsbWV0LWFzeW5jJztcblxuaW50ZXJmYWNlIFNFT1Byb3BzIHtcbiAgdGl0bGU/OiBzdHJpbmc7XG4gIGRlc2NyaXB0aW9uPzogc3RyaW5nO1xuICBrZXl3b3Jkcz86IHN0cmluZ1tdO1xuICBpbWFnZT86IHN0cmluZztcbiAgdXJsPzogc3RyaW5nO1xuICB0eXBlPzogc3RyaW5nO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gU0VPKHtcbiAgdGl0bGUgPSAnU2FwcGhpcmUgTG91bmdlIC0gUHJlbWl1bSBTaGlzaGEgRXhwZXJpZW5jZScsXG4gIGRlc2NyaXB0aW9uID0gJ0V4cGVyaWVuY2UgdGhlIGZpbmVzdCBmbGF2b3VycyBpbiBhbiBhdG1vc3BoZXJlIG9mIGx1eHVyeSBhbmQgY29tZm9ydCBhdCBTYXBwaGlyZSBMb3VuZ2UuIFByZW1pdW0gc2hpc2hhLCBleGNsdXNpdmUgZXZlbnRzLCBhbmQgZXhjZXB0aW9uYWwgc2VydmljZS4nLFxuICBrZXl3b3JkcyA9IFsnc2hpc2hhIGxvdW5nZScsICdwcmVtaXVtIHNoaXNoYScsICdob29rYWggYmFyJywgJ2x1eHVyeSBsb3VuZ2UnLCAnc2FwcGhpcmUgbG91bmdlJ10sXG4gIGltYWdlID0gJy9pbWFnZXMvbG9nby9TYXBwaGlyZSBMb3VuZ2UgQ2lyY2xlIExvZ28ucG5nJyxcbiAgdXJsID0gJ2h0dHBzOi8vc2FwcGhpcmVsb3VuZ2UuY29tJyxcbiAgdHlwZSA9ICd3ZWJzaXRlJ1xufTogU0VPUHJvcHMpIHtcbiAgY29uc3Qgc2l0ZVRpdGxlID0gdGl0bGUuaW5jbHVkZXMoJ1NhcHBoaXJlIExvdW5nZScpID8gdGl0bGUgOiBgJHt0aXRsZX0gfCBTYXBwaGlyZSBMb3VuZ2VgO1xuXG4gIHJldHVybiAoXG4gICAgPEhlbG1ldD5cbiAgICAgIHsvKiBCYXNpYyBNZXRhIFRhZ3MgKi99XG4gICAgICA8dGl0bGU+e3NpdGVUaXRsZX08L3RpdGxlPlxuICAgICAgPG1ldGEgbmFtZT1cImRlc2NyaXB0aW9uXCIgY29udGVudD17ZGVzY3JpcHRpb259IC8+XG4gICAgICA8bWV0YSBuYW1lPVwia2V5d29yZHNcIiBjb250ZW50PXtrZXl3b3Jkcy5qb2luKCcsICcpfSAvPlxuXG4gICAgICB7LyogT3BlbiBHcmFwaCBNZXRhIFRhZ3MgKi99XG4gICAgICA8bWV0YSBwcm9wZXJ0eT1cIm9nOnRpdGxlXCIgY29udGVudD17c2l0ZVRpdGxlfSAvPlxuICAgICAgPG1ldGEgcHJvcGVydHk9XCJvZzpkZXNjcmlwdGlvblwiIGNvbnRlbnQ9e2Rlc2NyaXB0aW9ufSAvPlxuICAgICAgPG1ldGEgcHJvcGVydHk9XCJvZzppbWFnZVwiIGNvbnRlbnQ9e2ltYWdlfSAvPlxuICAgICAgPG1ldGEgcHJvcGVydHk9XCJvZzp1cmxcIiBjb250ZW50PXt1cmx9IC8+XG4gICAgICA8bWV0YSBwcm9wZXJ0eT1cIm9nOnR5cGVcIiBjb250ZW50PXt0eXBlfSAvPlxuXG4gICAgICB7LyogVHdpdHRlciBDYXJkIE1ldGEgVGFncyAqL31cbiAgICAgIDxtZXRhIG5hbWU9XCJ0d2l0dGVyOmNhcmRcIiBjb250ZW50PVwic3VtbWFyeV9sYXJnZV9pbWFnZVwiIC8+XG4gICAgICA8bWV0YSBuYW1lPVwidHdpdHRlcjp0aXRsZVwiIGNvbnRlbnQ9e3NpdGVUaXRsZX0gLz5cbiAgICAgIDxtZXRhIG5hbWU9XCJ0d2l0dGVyOmRlc2NyaXB0aW9uXCIgY29udGVudD17ZGVzY3JpcHRpb259IC8+XG4gICAgICA8bWV0YSBuYW1lPVwidHdpdHRlcjppbWFnZVwiIGNvbnRlbnQ9e2ltYWdlfSAvPlxuXG4gICAgICB7LyogQWRkaXRpb25hbCBNZXRhIFRhZ3MgKi99XG4gICAgICA8bWV0YSBuYW1lPVwicm9ib3RzXCIgY29udGVudD1cImluZGV4LCBmb2xsb3dcIiAvPlxuICAgICAgPG1ldGEgbmFtZT1cInZpZXdwb3J0XCIgY29udGVudD1cIndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjBcIiAvPlxuICAgICAgPG1ldGEgbmFtZT1cInRoZW1lLWNvbG9yXCIgY29udGVudD1cIiMwNTBEMUFcIiAvPlxuICAgICAgXG4gICAgICB7LyogTGFuZ3VhZ2UgYW5kIERpcmVjdGlvbiAqL31cbiAgICAgIDxodG1sIGxhbmc9XCJlblwiIGRpcj1cImx0clwiIC8+XG5cbiAgICAgIHsvKiBGYXZpY29uIExpbmtzICovfVxuICAgICAgPGxpbmsgcmVsPVwiaWNvblwiIHR5cGU9XCJpbWFnZS9wbmdcIiBzaXplcz1cIjMyeDMyXCIgaHJlZj1cIi9mYXZpY29uLTMyeDMyLnBuZ1wiIC8+XG4gICAgICA8bGluayByZWw9XCJpY29uXCIgdHlwZT1cImltYWdlL3BuZ1wiIHNpemVzPVwiMTZ4MTZcIiBocmVmPVwiL2Zhdmljb24tMTZ4MTYucG5nXCIgLz5cbiAgICAgIDxsaW5rIHJlbD1cImFwcGxlLXRvdWNoLWljb25cIiBzaXplcz1cIjE4MHgxODBcIiBocmVmPVwiL2FwcGxlLXRvdWNoLWljb24ucG5nXCIgLz5cbiAgICAgIDxsaW5rIHJlbD1cIm1hbmlmZXN0XCIgaHJlZj1cIi9tYW5pZmVzdC5qc29uXCIgLz5cbiAgICA8L0hlbG1ldD5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL2NvbXBvbmVudHMvU0VPLnRzeCJ9ÌëðÔá½      gg~7gg~9G­†M       ‡    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/SEO.tsx necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1d79-Y+Jr7ziMCOkNpUbNsXnl6Ap7WVY"
+Content-Length: 13548
+Access-Control-Allow-Origin: *
+Date: Sun, 22 Dec 2024 02:49:29 GMT
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1d79-Y+Jr7ziMCOkNpUbNsXnl6Ap7WVY"
+Date: Sun, 22 Dec 2024 01:13:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 13548
+ ctid 2 uncompressed-len 0 net-response-time-onstart 298 net-response-time-onstop 298   4ì

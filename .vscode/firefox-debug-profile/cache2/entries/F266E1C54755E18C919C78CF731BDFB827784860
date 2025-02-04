@@ -1,0 +1,166 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=770d4ef7"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { motion } from "/node_modules/.vite/deps/framer-motion.js?v=770d4ef7";
+function FAQ() {
+  const faqs = [
+    {
+      question: "What is the minimum age requirement?",
+      answer: "You must be 18 or older to enter Sapphire Lounge and enjoy our shisha services. Valid ID is required for entry."
+    },
+    {
+      question: "Do you take reservations?",
+      answer: "Yes, we highly recommend making reservations, especially for weekends and special events. You can book through our website or call us directly."
+    },
+    {
+      question: "What types of shisha/hookah do you offer?",
+      answer: "We offer a wide variety of non-tobacco & nicotine-free flavours, including traditional and modern blends. Our menu includes both standard and premium flavours with options to add extras like an Ice Base, Large Head or an Additional Flavour."
+    },
+    {
+      question: "How long is a typical shisha session?",
+      answer: "A standard session typically last between 2 - 3 hours. You can extend your stay to take advantage of the social setting & atmosphere. But if we have large group bookings, we may ask you to vacate your seat for them."
+    },
+    {
+      question: "Do you serve food and drinks?",
+      answer: "Yes, we offer a selection of hot and cold beverages, light snacks, and desserts to complement your shisha experience."
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer: "We accept all major credit/debit cards and cash payments. Some special events may require advance payment."
+    },
+    {
+      question: "Is there a dress code?",
+      answer: "Yes, we maintain a smart casual dress code. No sportswear or beachwear is permitted in the evening."
+    },
+    {
+      question: "Can I bring my own shisha/tobacco?",
+      answer: "No, for quality control and safety reasons, we only use our own premium shisha products and equipment."
+    },
+    {
+      question: "Do you have outdoor seating?",
+      answer: "Yes, we have a comfortable outdoor seating area with heating for cooler evenings."
+    },
+    {
+      question: "What COVID-19 safety measures do you have in place?",
+      answer: "We follow all current local health guidelines, including regular sanitization of equipment, social distancing measures when required, and staff health monitoring."
+    }
+  ];
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen bg-[#020B18] pt-24 pb-12", children: /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4", children: /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.5 },
+      children: [
+        /* @__PURE__ */ jsxDEV("h1", { className: "text-3xl md:text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400", children: "Frequently Asked Questions" }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+          lineNumber: 56,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "max-w-3xl mx-auto", children: /* @__PURE__ */ jsxDEV("div", { className: "space-y-6", children: faqs.map(
+          (faq, index) => /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0, y: 20 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.5, delay: index * 0.1 },
+              className: "bg-dark-900/50 backdrop-blur-sm rounded-lg p-6 border border-accent-700/20",
+              children: [
+                /* @__PURE__ */ jsxDEV("h3", { className: "text-lg font-semibold text-white mb-2", children: faq.question }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+                  lineNumber: 69,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-gray-300", children: faq.answer }, void 0, false, {
+                  fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+                  lineNumber: 70,
+                  columnNumber: 19
+                }, this)
+              ]
+            },
+            index,
+            true,
+            {
+              fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+              lineNumber: 62,
+              columnNumber: 15
+            },
+            this
+          )
+        ) }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+          lineNumber: 60,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+          lineNumber: 59,
+          columnNumber: 11
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+      lineNumber: 51,
+      columnNumber: 9
+    },
+    this
+  ) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+    lineNumber: 50,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx",
+    lineNumber: 49,
+    columnNumber: 5
+  }, this);
+}
+_c = FAQ;
+export default FAQ;
+var _c;
+$RefreshReg$(_c, "FAQ");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBdURVO0FBdkRWLE9BQU9BLG9CQUFrQjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDekIsU0FBU0MsY0FBYztBQUV2QixTQUFTQyxNQUFNO0FBQ2IsUUFBTUMsT0FBTztBQUFBLElBQ1g7QUFBQSxNQUNFQyxVQUFVO0FBQUEsTUFDVkMsUUFBUTtBQUFBLElBQ1Y7QUFBQSxJQUNBO0FBQUEsTUFDRUQsVUFBVTtBQUFBLE1BQ1ZDLFFBQVE7QUFBQSxJQUNWO0FBQUEsSUFDQTtBQUFBLE1BQ0VELFVBQVU7QUFBQSxNQUNWQyxRQUFRO0FBQUEsSUFDVjtBQUFBLElBQ0E7QUFBQSxNQUNFRCxVQUFVO0FBQUEsTUFDVkMsUUFBUTtBQUFBLElBQ1Y7QUFBQSxJQUNBO0FBQUEsTUFDRUQsVUFBVTtBQUFBLE1BQ1ZDLFFBQVE7QUFBQSxJQUNWO0FBQUEsSUFDQTtBQUFBLE1BQ0VELFVBQVU7QUFBQSxNQUNWQyxRQUFRO0FBQUEsSUFDVjtBQUFBLElBQ0E7QUFBQSxNQUNFRCxVQUFVO0FBQUEsTUFDVkMsUUFBUTtBQUFBLElBQ1Y7QUFBQSxJQUNBO0FBQUEsTUFDRUQsVUFBVTtBQUFBLE1BQ1ZDLFFBQVE7QUFBQSxJQUNWO0FBQUEsSUFDQTtBQUFBLE1BQ0VELFVBQVU7QUFBQSxNQUNWQyxRQUFRO0FBQUEsSUFDVjtBQUFBLElBQ0E7QUFBQSxNQUNFRCxVQUFVO0FBQUEsTUFDVkMsUUFBUTtBQUFBLElBQ1Y7QUFBQSxFQUFDO0FBR0gsU0FDRSx1QkFBQyxTQUFJLFdBQVUseUNBQ2IsaUNBQUMsU0FBSSxXQUFVLDBCQUNiO0FBQUEsSUFBQyxPQUFPO0FBQUEsSUFBUDtBQUFBLE1BQ0MsU0FBUyxFQUFFQyxTQUFTLEdBQUdDLEdBQUcsR0FBRztBQUFBLE1BQzdCLFNBQVMsRUFBRUQsU0FBUyxHQUFHQyxHQUFHLEVBQUU7QUFBQSxNQUM1QixZQUFZLEVBQUVDLFVBQVUsSUFBSTtBQUFBLE1BRTVCO0FBQUEsK0JBQUMsUUFBRyxXQUFVLGlJQUErSCwwQ0FBN0k7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUVBO0FBQUEsUUFDQSx1QkFBQyxTQUFJLFdBQVUscUJBQ2IsaUNBQUMsU0FBSSxXQUFVLGFBQ1pMLGVBQUtNO0FBQUFBLFVBQUksQ0FBQ0MsS0FBS0MsVUFDZDtBQUFBLFlBQUMsT0FBTztBQUFBLFlBQVA7QUFBQSxjQUVDLFNBQVMsRUFBRUwsU0FBUyxHQUFHQyxHQUFHLEdBQUc7QUFBQSxjQUM3QixTQUFTLEVBQUVELFNBQVMsR0FBR0MsR0FBRyxFQUFFO0FBQUEsY0FDNUIsWUFBWSxFQUFFQyxVQUFVLEtBQUtJLE9BQU9ELFFBQVEsSUFBSTtBQUFBLGNBQ2hELFdBQVU7QUFBQSxjQUVWO0FBQUEsdUNBQUMsUUFBRyxXQUFVLHlDQUF5Q0QsY0FBSU4sWUFBM0Q7QUFBQTtBQUFBO0FBQUE7QUFBQSx1QkFBb0U7QUFBQSxnQkFDcEUsdUJBQUMsT0FBRSxXQUFVLGlCQUFpQk0sY0FBSUwsVUFBbEM7QUFBQTtBQUFBO0FBQUE7QUFBQSx1QkFBeUM7QUFBQTtBQUFBO0FBQUEsWUFQcENNO0FBQUFBLFlBRFA7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxVQVNBO0FBQUEsUUFDRCxLQVpIO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFhQSxLQWRGO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFlQTtBQUFBO0FBQUE7QUFBQSxJQXZCRjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsRUF3QkEsS0F6QkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQTBCQSxLQTNCRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBNEJBO0FBRUo7QUFBQ0UsS0EzRVFYO0FBNkVULGVBQWVBO0FBQUksSUFBQVc7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbIlJlYWN0IiwibW90aW9uIiwiRkFRIiwiZmFxcyIsInF1ZXN0aW9uIiwiYW5zd2VyIiwib3BhY2l0eSIsInkiLCJkdXJhdGlvbiIsIm1hcCIsImZhcSIsImluZGV4IiwiZGVsYXkiLCJfYyIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJGQVEudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBtb3Rpb24gfSBmcm9tICdmcmFtZXItbW90aW9uJztcblxuZnVuY3Rpb24gRkFRKCkge1xuICBjb25zdCBmYXFzID0gW1xuICAgIHtcbiAgICAgIHF1ZXN0aW9uOiBcIldoYXQgaXMgdGhlIG1pbmltdW0gYWdlIHJlcXVpcmVtZW50P1wiLFxuICAgICAgYW5zd2VyOiBcIllvdSBtdXN0IGJlIDE4IG9yIG9sZGVyIHRvIGVudGVyIFNhcHBoaXJlIExvdW5nZSBhbmQgZW5qb3kgb3VyIHNoaXNoYSBzZXJ2aWNlcy4gVmFsaWQgSUQgaXMgcmVxdWlyZWQgZm9yIGVudHJ5LlwiXG4gICAgfSxcbiAgICB7XG4gICAgICBxdWVzdGlvbjogXCJEbyB5b3UgdGFrZSByZXNlcnZhdGlvbnM/XCIsXG4gICAgICBhbnN3ZXI6IFwiWWVzLCB3ZSBoaWdobHkgcmVjb21tZW5kIG1ha2luZyByZXNlcnZhdGlvbnMsIGVzcGVjaWFsbHkgZm9yIHdlZWtlbmRzIGFuZCBzcGVjaWFsIGV2ZW50cy4gWW91IGNhbiBib29rIHRocm91Z2ggb3VyIHdlYnNpdGUgb3IgY2FsbCB1cyBkaXJlY3RseS5cIlxuICAgIH0sXG4gICAge1xuICAgICAgcXVlc3Rpb246IFwiV2hhdCB0eXBlcyBvZiBzaGlzaGEvaG9va2FoIGRvIHlvdSBvZmZlcj9cIixcbiAgICAgIGFuc3dlcjogXCJXZSBvZmZlciBhIHdpZGUgdmFyaWV0eSBvZiBub24tdG9iYWNjbyAmIG5pY290aW5lLWZyZWUgZmxhdm91cnMsIGluY2x1ZGluZyB0cmFkaXRpb25hbCBhbmQgbW9kZXJuIGJsZW5kcy4gT3VyIG1lbnUgaW5jbHVkZXMgYm90aCBzdGFuZGFyZCBhbmQgcHJlbWl1bSBmbGF2b3VycyB3aXRoIG9wdGlvbnMgdG8gYWRkIGV4dHJhcyBsaWtlIGFuIEljZSBCYXNlLCBMYXJnZSBIZWFkIG9yIGFuIEFkZGl0aW9uYWwgRmxhdm91ci5cIlxuICAgIH0sXG4gICAge1xuICAgICAgcXVlc3Rpb246IFwiSG93IGxvbmcgaXMgYSB0eXBpY2FsIHNoaXNoYSBzZXNzaW9uP1wiLFxuICAgICAgYW5zd2VyOiBcIkEgc3RhbmRhcmQgc2Vzc2lvbiB0eXBpY2FsbHkgbGFzdCBiZXR3ZWVuIDIgLSAzIGhvdXJzLiBZb3UgY2FuIGV4dGVuZCB5b3VyIHN0YXkgdG8gdGFrZSBhZHZhbnRhZ2Ugb2YgdGhlIHNvY2lhbCBzZXR0aW5nICYgYXRtb3NwaGVyZS4gQnV0IGlmIHdlIGhhdmUgbGFyZ2UgZ3JvdXAgYm9va2luZ3MsIHdlIG1heSBhc2sgeW91IHRvIHZhY2F0ZSB5b3VyIHNlYXQgZm9yIHRoZW0uXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHF1ZXN0aW9uOiBcIkRvIHlvdSBzZXJ2ZSBmb29kIGFuZCBkcmlua3M/XCIsXG4gICAgICBhbnN3ZXI6IFwiWWVzLCB3ZSBvZmZlciBhIHNlbGVjdGlvbiBvZiBob3QgYW5kIGNvbGQgYmV2ZXJhZ2VzLCBsaWdodCBzbmFja3MsIGFuZCBkZXNzZXJ0cyB0byBjb21wbGVtZW50IHlvdXIgc2hpc2hhIGV4cGVyaWVuY2UuXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHF1ZXN0aW9uOiBcIldoYXQgcGF5bWVudCBtZXRob2RzIGRvIHlvdSBhY2NlcHQ/XCIsXG4gICAgICBhbnN3ZXI6IFwiV2UgYWNjZXB0IGFsbCBtYWpvciBjcmVkaXQvZGViaXQgY2FyZHMgYW5kIGNhc2ggcGF5bWVudHMuIFNvbWUgc3BlY2lhbCBldmVudHMgbWF5IHJlcXVpcmUgYWR2YW5jZSBwYXltZW50LlwiXG4gICAgfSxcbiAgICB7XG4gICAgICBxdWVzdGlvbjogXCJJcyB0aGVyZSBhIGRyZXNzIGNvZGU/XCIsXG4gICAgICBhbnN3ZXI6IFwiWWVzLCB3ZSBtYWludGFpbiBhIHNtYXJ0IGNhc3VhbCBkcmVzcyBjb2RlLiBObyBzcG9ydHN3ZWFyIG9yIGJlYWNod2VhciBpcyBwZXJtaXR0ZWQgaW4gdGhlIGV2ZW5pbmcuXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHF1ZXN0aW9uOiBcIkNhbiBJIGJyaW5nIG15IG93biBzaGlzaGEvdG9iYWNjbz9cIixcbiAgICAgIGFuc3dlcjogXCJObywgZm9yIHF1YWxpdHkgY29udHJvbCBhbmQgc2FmZXR5IHJlYXNvbnMsIHdlIG9ubHkgdXNlIG91ciBvd24gcHJlbWl1bSBzaGlzaGEgcHJvZHVjdHMgYW5kIGVxdWlwbWVudC5cIlxuICAgIH0sXG4gICAge1xuICAgICAgcXVlc3Rpb246IFwiRG8geW91IGhhdmUgb3V0ZG9vciBzZWF0aW5nP1wiLFxuICAgICAgYW5zd2VyOiBcIlllcywgd2UgaGF2ZSBhIGNvbWZvcnRhYmxlIG91dGRvb3Igc2VhdGluZyBhcmVhIHdpdGggaGVhdGluZyBmb3IgY29vbGVyIGV2ZW5pbmdzLlwiXG4gICAgfSxcbiAgICB7XG4gICAgICBxdWVzdGlvbjogXCJXaGF0IENPVklELTE5IHNhZmV0eSBtZWFzdXJlcyBkbyB5b3UgaGF2ZSBpbiBwbGFjZT9cIixcbiAgICAgIGFuc3dlcjogXCJXZSBmb2xsb3cgYWxsIGN1cnJlbnQgbG9jYWwgaGVhbHRoIGd1aWRlbGluZXMsIGluY2x1ZGluZyByZWd1bGFyIHNhbml0aXphdGlvbiBvZiBlcXVpcG1lbnQsIHNvY2lhbCBkaXN0YW5jaW5nIG1lYXN1cmVzIHdoZW4gcmVxdWlyZWQsIGFuZCBzdGFmZiBoZWFsdGggbW9uaXRvcmluZy5cIlxuICAgIH1cbiAgXTtcblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwibWluLWgtc2NyZWVuIGJnLVsjMDIwQjE4XSBwdC0yNCBwYi0xMlwiPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJjb250YWluZXIgbXgtYXV0byBweC00XCI+XG4gICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgaW5pdGlhbD17eyBvcGFjaXR5OiAwLCB5OiAyMCB9fVxuICAgICAgICAgIGFuaW1hdGU9e3sgb3BhY2l0eTogMSwgeTogMCB9fVxuICAgICAgICAgIHRyYW5zaXRpb249e3sgZHVyYXRpb246IDAuNSB9fVxuICAgICAgICA+XG4gICAgICAgICAgPGgxIGNsYXNzTmFtZT1cInRleHQtM3hsIG1kOnRleHQtNHhsIGZvbnQtYm9sZCB0ZXh0LWNlbnRlciBtYi04IGJnLWNsaXAtdGV4dCB0ZXh0LXRyYW5zcGFyZW50IGJnLWdyYWRpZW50LXRvLXIgZnJvbS1wcmltYXJ5LTMwMCB0by1hY2NlbnQtNDAwXCI+XG4gICAgICAgICAgICBGcmVxdWVudGx5IEFza2VkIFF1ZXN0aW9uc1xuICAgICAgICAgIDwvaDE+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtYXgtdy0zeGwgbXgtYXV0b1wiPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTZcIj5cbiAgICAgICAgICAgICAge2ZhcXMubWFwKChmYXEsIGluZGV4KSA9PiAoXG4gICAgICAgICAgICAgICAgPG1vdGlvbi5kaXZcbiAgICAgICAgICAgICAgICAgIGtleT17aW5kZXh9XG4gICAgICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAsIHk6IDIwIH19XG4gICAgICAgICAgICAgICAgICBhbmltYXRlPXt7IG9wYWNpdHk6IDEsIHk6IDAgfX1cbiAgICAgICAgICAgICAgICAgIHRyYW5zaXRpb249e3sgZHVyYXRpb246IDAuNSwgZGVsYXk6IGluZGV4ICogMC4xIH19XG4gICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJiZy1kYXJrLTkwMC81MCBiYWNrZHJvcC1ibHVyLXNtIHJvdW5kZWQtbGcgcC02IGJvcmRlciBib3JkZXItYWNjZW50LTcwMC8yMFwiXG4gICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT1cInRleHQtbGcgZm9udC1zZW1pYm9sZCB0ZXh0LXdoaXRlIG1iLTJcIj57ZmFxLnF1ZXN0aW9ufTwvaDM+XG4gICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LWdyYXktMzAwXCI+e2ZhcS5hbnN3ZXJ9PC9wPlxuICAgICAgICAgICAgICAgIDwvbW90aW9uLmRpdj5cbiAgICAgICAgICAgICAgKSl9XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9tb3Rpb24uZGl2PlxuICAgICAgPC9kaXY+XG4gICAgPC9kaXY+XG4gICk7XG59XG5cbmV4cG9ydCBkZWZhdWx0IEZBUTtcbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL3BhZ2VzL0ZBUS50c3gifQ==Búajž´      gD„gD„G”       ’    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/pages/FAQ.tsx?t=1732510852464 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1c34-2z98RCgGHwuOvZZvLy8tx/hABaI"
+Date: Mon, 25 Nov 2024 05:00:52 GMT
+Content-Length: 14879
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"1c34-2z98RCgGHwuOvZZvLy8tx/hABaI"
+Date: Mon, 25 Nov 2024 05:00:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 14879
+ ctid 2 uncompressed-len 0 net-response-time-onstart 12 net-response-time-onstop 13   :

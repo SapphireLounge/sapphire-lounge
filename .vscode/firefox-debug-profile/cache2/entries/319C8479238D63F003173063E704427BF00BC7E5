@@ -1,0 +1,369 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b694899f"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=b694899f"; const useEffect = __vite__cjsImport3_react["useEffect"];
+import { createBrowserRouter, RouterProvider } from "/node_modules/.vite/deps/react-router-dom.js?v=b694899f";
+import { HelmetProvider } from "/node_modules/.vite/deps/react-helmet-async.js?v=b694899f";
+import { A11yProvider } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/A11yAnnouncer.tsx";
+import { JsonLd, restaurantJsonLd } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/JsonLd.tsx";
+import { Layout } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/layout/Layout.tsx";
+import __vite__cjsImport9_react from "/node_modules/.vite/deps/react.js?v=b694899f"; const Suspense = __vite__cjsImport9_react["Suspense"]; const lazy = __vite__cjsImport9_react["lazy"]; const memo = __vite__cjsImport9_react["memo"];
+const Home = lazy(_c = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Home.tsx"));
+_c2 = Home;
+const About = lazy(_c3 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/About.tsx"));
+_c4 = About;
+const Reservations = lazy(_c5 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Reservations.tsx"));
+_c6 = Reservations;
+const Menu = lazy(_c7 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Menu.tsx"));
+_c8 = Menu;
+const Events = lazy(_c9 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Events.tsx"));
+_c10 = Events;
+const Loyalty = lazy(_c11 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Loyalty.tsx?t=1734835339275"));
+_c12 = Loyalty;
+const Contact = lazy(_c13 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Contact.tsx"));
+_c14 = Contact;
+const FAQ = lazy(_c15 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/FAQ.tsx"));
+_c16 = FAQ;
+const Privacy = lazy(_c17 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Privacy.tsx"));
+_c18 = Privacy;
+const Terms = lazy(_c19 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/Terms.tsx"));
+_c20 = Terms;
+const NotFound = lazy(_c21 = () => import("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/pages/NotFound.tsx"));
+_c22 = NotFound;
+const LoadingSpinner = memo(
+  _c23 = () => /* @__PURE__ */ jsxDEV(
+    "div",
+    {
+      className: "min-h-screen flex items-center justify-center",
+      role: "status",
+      "aria-label": "Loading content",
+      children: /* @__PURE__ */ jsxDEV(
+        "div",
+        {
+          className: "animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500",
+          "aria-hidden": "true"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+          lineNumber: 29,
+          columnNumber: 5
+        },
+        this
+      )
+    },
+    void 0,
+    false,
+    {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+      lineNumber: 24,
+      columnNumber: 1
+    },
+    this
+  )
+);
+_c24 = LoadingSpinner;
+LoadingSpinner.displayName = "LoadingSpinner";
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: /* @__PURE__ */ jsxDEV(Layout, {}, void 0, false, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+        lineNumber: 41,
+        columnNumber: 12
+      }, this),
+      children: [
+        {
+          path: "/",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 46,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Home, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 47,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 46,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/about",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 54,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(About, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 55,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 54,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/reservations",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 62,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Reservations, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 63,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 62,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/menu",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 70,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Menu, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 71,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 70,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/events",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 78,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Events, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 79,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 78,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/loyalty",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 86,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Loyalty, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 87,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 86,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/contact",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 94,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Contact, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 95,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 94,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/faq",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 102,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(FAQ, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 103,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 102,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/privacy",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 110,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Privacy, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 111,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 110,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "/terms",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 118,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(Terms, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 119,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 118,
+            columnNumber: 5
+          }, this)
+        },
+        {
+          path: "*",
+          element: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 126,
+            columnNumber: 25
+          }, this), children: /* @__PURE__ */ jsxDEV(NotFound, {}, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 127,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+            lineNumber: 126,
+            columnNumber: 5
+          }, this)
+        }
+      ]
+    }
+  ],
+  {
+    future: {
+      v7_prependBasename: true,
+      v7_normalizeFormMethod: true
+    }
+  }
+);
+function App() {
+  _s();
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+      });
+    }
+  }, []);
+  return /* @__PURE__ */ jsxDEV(HelmetProvider, { children: /* @__PURE__ */ jsxDEV(A11yProvider, { children: [
+    /* @__PURE__ */ jsxDEV(RouterProvider, { router }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+      lineNumber: 154,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(JsonLd, { type: "Restaurant", data: restaurantJsonLd }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+      lineNumber: 155,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+    lineNumber: 153,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx",
+    lineNumber: 152,
+    columnNumber: 5
+  }, this);
+}
+_s(App, "OD7bBpZva5O2jO+Puf00hKivP7c=");
+_c25 = App;
+export default App;
+var _c, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21, _c22, _c23, _c24, _c25;
+$RefreshReg$(_c, "Home$lazy");
+$RefreshReg$(_c2, "Home");
+$RefreshReg$(_c3, "About$lazy");
+$RefreshReg$(_c4, "About");
+$RefreshReg$(_c5, "Reservations$lazy");
+$RefreshReg$(_c6, "Reservations");
+$RefreshReg$(_c7, "Menu$lazy");
+$RefreshReg$(_c8, "Menu");
+$RefreshReg$(_c9, "Events$lazy");
+$RefreshReg$(_c10, "Events");
+$RefreshReg$(_c11, "Loyalty$lazy");
+$RefreshReg$(_c12, "Loyalty");
+$RefreshReg$(_c13, "Contact$lazy");
+$RefreshReg$(_c14, "Contact");
+$RefreshReg$(_c15, "FAQ$lazy");
+$RefreshReg$(_c16, "FAQ");
+$RefreshReg$(_c17, "Privacy$lazy");
+$RefreshReg$(_c18, "Privacy");
+$RefreshReg$(_c19, "Terms$lazy");
+$RefreshReg$(_c20, "Terms");
+$RefreshReg$(_c21, "NotFound$lazy");
+$RefreshReg$(_c22, "NotFound");
+$RefreshReg$(_c23, "LoadingSpinner$memo");
+$RefreshReg$(_c24, "LoadingSpinner");
+$RefreshReg$(_c25, "App");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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TTtBQUFBLFVBQ05DLFNBQ0UsdUJBQUMsWUFBUyxVQUFVLHVCQUFDLG9CQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBQWUsR0FDakMsaUNBQUMsa0JBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBYSxLQURmO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxRQUVKO0FBQUEsUUFDQTtBQUFBLFVBQ0VELE1BQU07QUFBQSxVQUNOQyxTQUNFLHVCQUFDLFlBQVMsVUFBVSx1QkFBQyxvQkFBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFlLEdBQ2pDLGlDQUFDLFVBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBSyxLQURQO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxRQUVKO0FBQUEsUUFDQTtBQUFBLFVBQ0VELE1BQU07QUFBQSxVQUNOQyxTQUNFLHVCQUFDLFlBQVMsVUFBVSx1QkFBQyxvQkFBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFlLEdBQ2pDLGlDQUFDLFlBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBTyxLQURUO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxRQUVKO0FBQUEsUUFDQTtBQUFBLFVBQ0VELE1BQU07QUFBQSxVQUNOQyxTQUNFLHVCQUFDLFlBQVMsVUFBVSx1QkFBQyxvQkFBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFlLEdBQ2pDLGlDQUFDLGFBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBUSxLQURWO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxRQUVKO0FBQUEsUUFDQTtBQUFBLFVBQ0VELE1BQU07QUFBQSxVQUNOQyxTQUNFLHVCQUFDLFlBQVMsVUFBVSx1QkFBQyxvQkFBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFlLEdBQ2pDLGlDQUFDLGFBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBUSxLQURWO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxRQUVKO0FBQUEsUUFDQTtBQUFBLFVBQ0VELE1B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TUFBQTtBQUFBK0IsYUFBQTlCLE1BQUE7QUFBQThCLGFBQUE1QixNQUFBO0FBQUE0QixhQUFBM0IsTUFBQTtBQUFBMkIsYUFBQXpCLE1BQUE7QUFBQXlCLGFBQUF4QixNQUFBO0FBQUF3QixhQUFBdEIsTUFBQTtBQUFBc0IsYUFBQXJCLE1BQUE7QUFBQXFCLGFBQUFELE1BQUEiLCJuYW1lcyI6WyJjcmVhdGVCcm93c2VyUm91dGVyIiwiUm91dGVyUHJvdmlkZXIiLCJIZWxtZXRQcm92aWRlciIsIkExMXlQcm92aWRlciIsIkpzb25MZCIsInJlc3RhdXJhbnRKc29uTGQiLCJMYXlvdXQiLCJTdXNwZW5zZSIsImxhenkiLCJtZW1vIiwiSG9tZSIsIl9jIiwiX2MyIiwiQWJvdXQiLCJfYzMiLCJfYzQiLCJSZXNlcnZhdGlvbnMiLCJfYzUiLCJfYzYiLCJNZW51IiwiX2M3IiwiX2M4IiwiRXZlbnRzIiwiX2M5IiwiX2MxMCIsIkxveWFsdHkiLCJfYzExIiwiX2MxMiIsIkNvbnRhY3QiLCJfYzEzIiwiX2MxNCIsIkZBUSIsIl9jMTUiLCJfYzE2IiwiUHJpdmFjeSIsIl9jMTciLCJfYzE4IiwiVGVybXMiLCJfYzE5IiwiX2MyMCIsIk5vdEZvdW5kIiwiX2MyMSIsIl9jMjIiLCJMb2FkaW5nU3Bpbm5lciIsIl9jMjMiLCJfYzI0IiwiZGlzcGxheU5hbWUiLCJyb3V0ZXIiLCJwYXRoIiwiZWxlbWVudCIsImNoaWxkcmVuIiwiZnV0dXJlIiwidjdfcHJlcGVuZEJhc2VuYW1lIiwidjdfbm9ybWFsaXplRm9ybU1ldGhvZCIsIkFwcCIsIl9zIiwidXNlRWZmZWN0IiwibmF2aWdhdG9yIiwid2luZG93IiwiYWRkRXZlbnRMaXN0ZW5lciIsInNlcnZpY2VXb3JrZXIiLCJyZWdpc3RlciIsImNhdGNoIiwiZXJyb3IiLCJjb25zb2xlIiwiX2MyNSIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJBcHAudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IGNyZWF0ZUJyb3dzZXJSb3V0ZXIsIFJvdXRlclByb3ZpZGVyIH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSc7XG5pbXBvcnQgeyBIZWxtZXRQcm92aWRlciB9IGZyb20gJ3JlYWN0LWhlbG1ldC1hc3luYyc7XG5pbXBvcnQgeyBBMTF5UHJvdmlkZXIgfSBmcm9tICcuL2NvbXBvbmVudHMvQTExeUFubm91bmNlcic7XG5pbXBvcnQgeyBKc29uTGQsIHJlc3RhdXJhbnRKc29uTGQgfSBmcm9tICcuL2NvbXBvbmVudHMvSnNvbkxkJztcbmltcG9ydCB7IExheW91dCB9IGZyb20gJy4vY29tcG9uZW50cy9sYXlvdXQvTGF5b3V0JztcbmltcG9ydCB7IFN1c3BlbnNlLCBsYXp5LCBtZW1vIH0gZnJvbSAncmVhY3QnO1xuXG4vLyBMYXp5IGxvYWQgcm91dGVzIHdpdGggcHJlbG9hZCBoaW50c1xuY29uc3QgSG9tZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0hvbWUnKSk7XG5jb25zdCBBYm91dCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0Fib3V0JykpO1xuY29uc3QgUmVzZXJ2YXRpb25zID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUmVzZXJ2YXRpb25zJykpO1xuY29uc3QgTWVudSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL01lbnUnKSk7XG5jb25zdCBFdmVudHMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9FdmVudHMnKSk7XG5jb25zdCBMb3lhbHR5ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvTG95YWx0eScpKTtcbmNvbnN0IENvbnRhY3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Db250YWN0JykpO1xuY29uc3QgRkFRID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRkFRJykpO1xuY29uc3QgUHJpdmFjeSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ByaXZhY3knKSk7XG5jb25zdCBUZXJtcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Rlcm1zJykpO1xuY29uc3QgTm90Rm91bmQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Ob3RGb3VuZCcpKTtcblxuLy8gRW5oYW5jZWQgbG9hZGluZyBjb21wb25lbnQgd2l0aCBBUklBXG5jb25zdCBMb2FkaW5nU3Bpbm5lciA9IG1lbW8oKCkgPT4gKFxuICA8ZGl2IFxuICAgIGNsYXNzTmFtZT1cIm1pbi1oLXNjcmVlbiBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlclwiXG4gICAgcm9sZT1cInN0YXR1c1wiXG4gICAgYXJpYS1sYWJlbD1cIkxvYWRpbmcgY29udGVudFwiXG4gID5cbiAgICA8ZGl2IFxuICAgICAgY2xhc3NOYW1lPVwiYW5pbWF0ZS1zcGluIHJvdW5kZWQtZnVsbCBoLTEyIHctMTIgYm9yZGVyLXQtMiBib3JkZXItYi0yIGJvcmRlci1wcmltYXJ5LTUwMFwiXG4gICAgICBhcmlhLWhpZGRlbj1cInRydWVcIlxuICAgIC8+XG4gIDwvZGl2PlxuKSk7XG5cbkxvYWRpbmdTcGlubmVyLmRpc3BsYXlOYW1lID0gJ0xvYWRpbmdTcGlubmVyJztcblxuY29uc3Qgcm91dGVyID0gY3JlYXRlQnJvd3NlclJvdXRlcihbXG4gIHtcbiAgICBwYXRoOiBcIi9cIixcbiAgICBlbGVtZW50OiA8TGF5b3V0IC8+LFxuICAgIGNoaWxkcmVuOiBbXG4gICAgICB7XG4gICAgICAgIHBhdGg6IFwiL1wiLFxuICAgICAgICBlbGVtZW50OiAoXG4gICAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8TG9hZGluZ1NwaW5uZXIgLz59PlxuICAgICAgICAgICAgPEhvbWUgLz5cbiAgICAgICAgICA8L1N1c3BlbnNlPlxuICAgICAgICApXG4gICAgICB9LFxuICAgICAge1xuICAgICAgICBwYXRoOiBcIi9hYm91dFwiLFxuICAgICAgICBlbGVtZW50OiAoXG4gICAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8TG9hZGluZ1NwaW5uZXIgLz59PlxuICAgICAgICAgICAgPEFib3V0IC8+XG4gICAgICAgICAgPC9TdXNwZW5zZT5cbiAgICAgICAgKVxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgcGF0aDogXCIvcmVzZXJ2YXRpb25zXCIsXG4gICAgICAgIGVsZW1lbnQ6IChcbiAgICAgICAgICA8U3VzcGVuc2UgZmFsbGJhY2s9ezxMb2FkaW5nU3Bpbm5lciAvPn0+XG4gICAgICAgICAgICA8UmVzZXJ2YXRpb25zIC8+XG4gICAgICAgICAgPC9TdXNwZW5zZT5cbiAgICAgICAgKVxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgcGF0aDogXCIvbWVudVwiLFxuICAgICAgICBlbGVtZW50OiAoXG4gICAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8TG9hZGluZ1NwaW5uZXIgLz59PlxuICAgICAgICAgICAgPE1lbnUgLz5cbiAgICAgICAgICA8L1N1c3BlbnNlPlxuICAgICAgICApXG4gICAgICB9LFxuICAgICAge1xuICAgICAgICBwYXRoOiBcIi9ldmVudHNcIixcbiAgICAgICAgZWxlbWVudDogKFxuICAgICAgICAgIDxTdXNwZW5zZSBmYWxsYmFjaz17PExvYWRpbmdTcGlubmVyIC8+fT5cbiAgICAgICAgICAgIDxFdmVudHMgLz5cbiAgICAgICAgICA8L1N1c3BlbnNlPlxuICAgICAgICApXG4gICAgICB9LFxuICAgICAge1xuICAgICAgICBwYXRoOiBcIi9sb3lhbHR5XCIsXG4gICAgICAgIGVsZW1lbnQ6IChcbiAgICAgICAgICA8U3VzcGVuc2UgZmFsbGJhY2s9ezxMb2FkaW5nU3Bpbm5lciAvPn0+XG4gICAgICAgICAgICA8TG95YWx0eSAvPlxuICAgICAgICAgIDwvU3VzcGVuc2U+XG4gICAgICAgIClcbiAgICAgIH0sXG4gICAgICB7XG4gICAgICAgIHBhdGg6IFwiL2NvbnRhY3RcIixcbiAgICAgICAgZWxlbWVudDogKFxuICAgICAgICAgIDxTdXNwZW5zZSBmYWxsYmFjaz17PExvYWRpbmdTcGlubmVyIC8+fT5cbiAgICAgICAgICAgIDxDb250YWN0IC8+XG4gICAgICAgICAgPC9TdXNwZW5zZT5cbiAgICAgICAgKVxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgcGF0aDogXCIvZmFxXCIsXG4gICAgICAgIGVsZW1lbnQ6IChcbiAgICAgICAgICA8U3VzcGVuc2UgZmFsbGJhY2s9ezxMb2FkaW5nU3Bpbm5lciAvPn0+XG4gICAgICAgICAgICA8RkFRIC8+XG4gICAgICAgICAgPC9TdXNwZW5zZT5cbiAgICAgICAgKVxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgcGF0aDogXCIvcHJpdmFjeVwiLFxuICAgICAgICBlbGVtZW50OiAoXG4gICAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8TG9hZGluZ1NwaW5uZXIgLz59PlxuICAgICAgICAgICAgPFByaXZhY3kgLz5cbiAgICAgICAgICA8L1N1c3BlbnNlPlxuICAgICAgICApXG4gICAgICB9LFxuICAgICAge1xuICAgICAgICBwYXRoOiBcIi90ZXJtc1wiLFxuICAgICAgICBlbGVtZW50OiAoXG4gICAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8TG9hZGluZ1NwaW5uZXIgLz59PlxuICAgICAgICAgICAgPFRlcm1zIC8+XG4gICAgICAgICAgPC9TdXNwZW5zZT5cbiAgICAgICAgKVxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgcGF0aDogXCIqXCIsXG4gICAgICAgIGVsZW1lbnQ6IChcbiAgICAgICAgICA8U3VzcGVuc2UgZmFsbGJhY2s9ezxMb2FkaW5nU3Bpbm5lciAvPn0+XG4gICAgICAgICAgICA8Tm90Rm91bmQgLz5cbiAgICAgICAgICA8L1N1c3BlbnNlPlxuICAgICAgICApXG4gICAgICB9XG4gICAgXVxuICB9XG5dLCB7XG4gIGZ1dHVyZToge1xuICAgIHY3X3ByZXBlbmRCYXNlbmFtZTogdHJ1ZSxcbiAgICB2N19ub3JtYWxpemVGb3JtTWV0aG9kOiB0cnVlXG4gIH1cbn0pO1xuXG5mdW5jdGlvbiBBcHAoKSB7XG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgaWYgKCdzZXJ2aWNlV29ya2VyJyBpbiBuYXZpZ2F0b3IpIHtcbiAgICAgIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdsb2FkJywgKCkgPT4ge1xuICAgICAgICBuYXZpZ2F0b3Iuc2VydmljZVdvcmtlci5yZWdpc3RlcignL3N3LmpzJykuY2F0Y2goZXJyb3IgPT4ge1xuICAgICAgICAgIGNvbnNvbGUuZXJyb3IoJ1NlcnZpY2UgV29ya2VyIHJlZ2lzdHJhdGlvbiBmYWlsZWQ6JywgZXJyb3IpO1xuICAgICAgICB9KTtcbiAgICAgIH0pO1xuICAgIH1cbiAgfSwgW10pO1xuXG4gIHJldHVybiAoXG4gICAgPEhlbG1ldFByb3ZpZGVyPlxuICAgICAgPEExMXlQcm92aWRlcj5cbiAgICAgICAgPFJvdXRlclByb3ZpZGVyIHJvdXRlcj17cm91dGVyfSAvPlxuICAgICAgICA8SnNvbkxkIHR5cGU9XCJSZXN0YXVyYW50XCIgZGF0YT17cmVzdGF1cmFudEpzb25MZH0gLz5cbiAgICAgIDwvQTExeVByb3ZpZGVyPlxuICAgIDwvSGVsbWV0UHJvdmlkZXI+XG4gICk7XG59XG5cbmV4cG9ydCBkZWZhdWx0IEFwcDsiXSwiZmlsZSI6IkM6L1VzZXJzL2FiaWRfL0Rlc2t0b3AvU2FwcGhpcmUgTG91bmdlL3NyYy9BcHAudHN4In0=úî.5      gg~4gn G¬¤       Œ    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/App.tsx?t=1734835339275 necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"3c0a-sxxEYHS71RU9Y4J5UaNqmiO+vyg"
+Date: Sun, 22 Dec 2024 02:49:25 GMT
+Content-Length: 28221
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"3c0a-sxxEYHS71RU9Y4J5UaNqmiO+vyg"
+Date: Sun, 22 Dec 2024 02:49:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 28221
+ ctid 2 uncompressed-len 0 net-response-time-onstart 858 net-response-time-onstop 858   n=

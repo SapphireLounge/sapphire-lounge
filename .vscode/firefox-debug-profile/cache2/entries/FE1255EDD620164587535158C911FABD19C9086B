@@ -1,0 +1,114 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5652dd0c"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { FlavourCard } from "/@fs/C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourCard.tsx";
+const flavours = [
+  {
+    name: "Double Apple",
+    description: "A perfect blend of red and green apples, creating a sweet and refreshing experience.",
+    image: "/images/flavours/double-apple.jpg",
+    strength: "Medium",
+    price: "$24.99"
+  },
+  {
+    name: "Mint Chill",
+    description: "Cool and refreshing mint flavour with an icy finish.",
+    image: "/images/flavours/mint.jpg",
+    strength: "Strong",
+    price: "$24.99"
+  },
+  {
+    name: "Berry Mix",
+    description: "A delightful mixture of strawberries, blueberries, and raspberries.",
+    image: "/images/flavours/berry-mix.jpg",
+    strength: "Light",
+    price: "$26.99"
+  },
+  {
+    name: "Blue Mist",
+    description: "Our signature blend with a mysterious and refreshing taste.",
+    image: "/images/flavours/blue-mist.jpg",
+    strength: "Medium",
+    price: "$29.99"
+  }
+];
+export function FlavourGrid() {
+  return /* @__PURE__ */ jsxDEV("section", { className: "py-16 bg-dark-400", children: /* @__PURE__ */ jsxDEV("div", { className: "container mx-auto px-4", children: [
+    /* @__PURE__ */ jsxDEV("h2", { className: "text-3xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-accent-400", children: "Premium Flavours" }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "text-gray-400 text-center mb-12 max-w-2xl mx-auto", children: "Discover our carefully curated selection of premium shisha flavours, each crafted to provide a unique and memorable experience." }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+      lineNumber: 42,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6", children: flavours.map(
+      (flavour) => /* @__PURE__ */ jsxDEV(FlavourCard, { ...flavour }, flavour.name, false, {
+        fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+        lineNumber: 47,
+        columnNumber: 11
+      }, this)
+    ) }, void 0, false, {
+      fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+      lineNumber: 45,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+    lineNumber: 38,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx",
+    lineNumber: 37,
+    columnNumber: 5
+  }, this);
+}
+_c = FlavourGrid;
+var _c;
+$RefreshReg$(_c, "FlavourGrid");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/abid_/Desktop/Sapphire Lounge/src/components/FlavourGrid.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBc0NRO0FBdENSLE9BQU9BLG9CQUFrQjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDekIsU0FBU0MsbUJBQW1CO0FBRTVCLE1BQU1DLFdBQVc7QUFBQSxFQUNmO0FBQUEsSUFDRUMsTUFBTTtBQUFBLElBQ05DLGFBQWE7QUFBQSxJQUNiQyxPQUFPO0FBQUEsSUFDUEMsVUFBVTtBQUFBLElBQ1ZDLE9BQU87QUFBQSxFQUNUO0FBQUEsRUFDQTtBQUFBLElBQ0VKLE1BQU07QUFBQSxJQUNOQyxhQUFhO0FBQUEsSUFDYkMsT0FBTztBQUFBLElBQ1BDLFVBQVU7QUFBQSxJQUNWQyxPQUFPO0FBQUEsRUFDVDtBQUFBLEVBQ0E7QUFBQSxJQUNFSixNQUFNO0FBQUEsSUFDTkMsYUFBYTtBQUFBLElBQ2JDLE9BQU87QUFBQSxJQUNQQyxVQUFVO0FBQUEsSUFDVkMsT0FBTztBQUFBLEVBQ1Q7QUFBQSxFQUNBO0FBQUEsSUFDRUosTUFBTTtBQUFBLElBQ05DLGFBQWE7QUFBQSxJQUNiQyxPQUFPO0FBQUEsSUFDUEMsVUFBVTtBQUFBLElBQ1ZDLE9BQU87QUFBQSxFQUNUO0FBQUM7QUFHSSxnQkFBU0MsY0FBYztBQUM1QixTQUNFLHVCQUFDLGFBQVEsV0FBVSxxQkFDakIsaUNBQUMsU0FBSSxXQUFVLDBCQUNiO0FBQUEsMkJBQUMsUUFBRyxXQUFVLHFIQUFtSCxnQ0FBakk7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUVBO0FBQUEsSUFDQSx1QkFBQyxPQUFFLFdBQVUscURBQW1ELCtJQUFoRTtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUE7QUFBQSxJQUNBLHVCQUFDLFNBQUksV0FBVSx3REFDWk4sbUJBQVNPO0FBQUFBLE1BQUksQ0FBQ0MsWUFDYix1QkFBQyxlQUErQixHQUFJQSxXQUFsQkEsUUFBUVAsTUFBMUI7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUE0QztBQUFBLElBQzdDLEtBSEg7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUlBO0FBQUEsT0FYRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBWUEsS0FiRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBY0E7QUFFSjtBQUFDUSxLQWxCZUg7QUFBVyxJQUFBRztBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsiUmVhY3QiLCJGbGF2b3VyQ2FyZCIsImZsYXZvdXJzIiwibmFtZSIsImRlc2NyaXB0aW9uIiwiaW1hZ2UiLCJzdHJlbmd0aCIsInByaWNlIiwiRmxhdm91ckdyaWQiLCJtYXAiLCJmbGF2b3VyIiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiRmxhdm91ckdyaWQudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBGbGF2b3VyQ2FyZCB9IGZyb20gJy4vRmxhdm91ckNhcmQnO1xuXG5jb25zdCBmbGF2b3VycyA9IFtcbiAge1xuICAgIG5hbWU6ICdEb3VibGUgQXBwbGUnLFxuICAgIGRlc2NyaXB0aW9uOiAnQSBwZXJmZWN0IGJsZW5kIG9mIHJlZCBhbmQgZ3JlZW4gYXBwbGVzLCBjcmVhdGluZyBhIHN3ZWV0IGFuZCByZWZyZXNoaW5nIGV4cGVyaWVuY2UuJyxcbiAgICBpbWFnZTogJy9pbWFnZXMvZmxhdm91cnMvZG91YmxlLWFwcGxlLmpwZycsXG4gICAgc3RyZW5ndGg6ICdNZWRpdW0nLFxuICAgIHByaWNlOiAnJDI0Ljk5J1xuICB9LFxuICB7XG4gICAgbmFtZTogJ01pbnQgQ2hpbGwnLFxuICAgIGRlc2NyaXB0aW9uOiAnQ29vbCBhbmQgcmVmcmVzaGluZyBtaW50IGZsYXZvdXIgd2l0aCBhbiBpY3kgZmluaXNoLicsXG4gICAgaW1hZ2U6ICcvaW1hZ2VzL2ZsYXZvdXJzL21pbnQuanBnJyxcbiAgICBzdHJlbmd0aDogJ1N0cm9uZycsXG4gICAgcHJpY2U6ICckMjQuOTknXG4gIH0sXG4gIHtcbiAgICBuYW1lOiAnQmVycnkgTWl4JyxcbiAgICBkZXNjcmlwdGlvbjogJ0EgZGVsaWdodGZ1bCBtaXh0dXJlIG9mIHN0cmF3YmVycmllcywgYmx1ZWJlcnJpZXMsIGFuZCByYXNwYmVycmllcy4nLFxuICAgIGltYWdlOiAnL2ltYWdlcy9mbGF2b3Vycy9iZXJyeS1taXguanBnJyxcbiAgICBzdHJlbmd0aDogJ0xpZ2h0JyxcbiAgICBwcmljZTogJyQyNi45OSdcbiAgfSxcbiAge1xuICAgIG5hbWU6ICdCbHVlIE1pc3QnLFxuICAgIGRlc2NyaXB0aW9uOiAnT3VyIHNpZ25hdHVyZSBibGVuZCB3aXRoIGEgbXlzdGVyaW91cyBhbmQgcmVmcmVzaGluZyB0YXN0ZS4nLFxuICAgIGltYWdlOiAnL2ltYWdlcy9mbGF2b3Vycy9ibHVlLW1pc3QuanBnJyxcbiAgICBzdHJlbmd0aDogJ01lZGl1bScsXG4gICAgcHJpY2U6ICckMjkuOTknXG4gIH1cbl0gYXMgY29uc3Q7XG5cbmV4cG9ydCBmdW5jdGlvbiBGbGF2b3VyR3JpZCgpIHtcbiAgcmV0dXJuIChcbiAgICA8c2VjdGlvbiBjbGFzc05hbWU9XCJweS0xNiBiZy1kYXJrLTQwMFwiPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJjb250YWluZXIgbXgtYXV0byBweC00XCI+XG4gICAgICAgIDxoMiBjbGFzc05hbWU9XCJ0ZXh0LTN4bCBmb250LWJvbGQgdGV4dC1jZW50ZXIgbWItNCBiZy1jbGlwLXRleHQgdGV4dC10cmFuc3BhcmVudCBiZy1ncmFkaWVudC10by1yIGZyb20tcHJpbWFyeS0zMDAgdG8tYWNjZW50LTQwMFwiPlxuICAgICAgICAgIFByZW1pdW0gRmxhdm91cnNcbiAgICAgICAgPC9oMj5cbiAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1ncmF5LTQwMCB0ZXh0LWNlbnRlciBtYi0xMiBtYXgtdy0yeGwgbXgtYXV0b1wiPlxuICAgICAgICAgIERpc2NvdmVyIG91ciBjYXJlZnVsbHkgY3VyYXRlZCBzZWxlY3Rpb24gb2YgcHJlbWl1bSBzaGlzaGEgZmxhdm91cnMsIGVhY2ggY3JhZnRlZCB0byBwcm92aWRlIGEgdW5pcXVlIGFuZCBtZW1vcmFibGUgZXhwZXJpZW5jZS5cbiAgICAgICAgPC9wPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdyaWQgZ3JpZC1jb2xzLTEgbWQ6Z3JpZC1jb2xzLTIgbGc6Z3JpZC1jb2xzLTQgZ2FwLTZcIj5cbiAgICAgICAgICB7Zmxhdm91cnMubWFwKChmbGF2b3VyKSA9PiAoXG4gICAgICAgICAgICA8Rmxhdm91ckNhcmQga2V5PXtmbGF2b3VyLm5hbWV9IHsuLi5mbGF2b3VyfSAvPlxuICAgICAgICAgICkpfVxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvc2VjdGlvbj5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvYWJpZF8vRGVza3RvcC9TYXBwaGlyZSBMb3VuZ2Uvc3JjL2NvbXBvbmVudHMvRmxhdm91ckdyaWQudHN4In0=ÚhãdU«      gBßögBßöGì;       è    O^partitionKey=%28http%2Clocalhost%2C5173%29,:http://localhost:5173/@fs/C:/Users/abid_/Desktop/Sapphire%20Lounge/src/components/FlavourGrid.tsx strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"127c-xnx9KZHcrztuVYGBKfgdnlGdZfc"
+Date: Sun, 24 Nov 2024 04:12:10 GMT
+Content-Length: 8923
+ original-response-headers Access-Control-Allow-Origin: *
+Content-Type: text/javascript
+Cache-Control: no-cache
+Etag: W/"127c-xnx9KZHcrztuVYGBKfgdnlGdZfc"
+Date: Sun, 24 Nov 2024 04:12:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 8923
+ ctid 2 uncompressed-len 0 net-response-time-onstart 49 net-response-time-onstop 49   "€
