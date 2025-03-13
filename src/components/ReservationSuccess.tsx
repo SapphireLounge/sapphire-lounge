@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Calendar, Clock, Users, Phone, Mail, MessageSquare, Download, X, Table, Star, Pencil } from 'lucide-react';
+import { CheckCircle2, Calendar, Clock, Users, Phone, Mail, Download, X, Table, Star, Pencil } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { ReservationData } from '../types/reservations';
 

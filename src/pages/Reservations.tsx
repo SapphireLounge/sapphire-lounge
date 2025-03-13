@@ -208,9 +208,10 @@ const Reservations = memo(() => {
                 <input
                   type="text"
                   id="reservation-name"
-                  name="reservation-name"
-                  placeholder="Your Name"
+                  name="name"
                   required
+                  autoComplete="name"
+                  placeholder="Full Name"
                   className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -224,7 +225,9 @@ const Reservations = memo(() => {
                 <input
                   type="email"
                   id="reservation-email"
-                  name="reservation-email"
+                  name="email"
+                  required
+                  autoComplete="email"
                   placeholder="Email Address"
                   className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent text-base md:text-lg text-white placeholder:text-neutral-400"
                   value={formData.email}
@@ -243,9 +246,10 @@ const Reservations = memo(() => {
                 <input
                   type="tel"
                   id="reservation-phone"
-                  name="reservation-phone"
-                  placeholder="Phone Number"
+                  name="phone"
                   required
+                  autoComplete="tel"
+                  placeholder="Phone Number"
                   className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent hover:border-neutral-600 transition-colors text-base md:text-lg text-white placeholder:text-neutral-400"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

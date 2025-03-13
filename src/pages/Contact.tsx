@@ -198,6 +198,7 @@ function Contact() {
                     name="name"
                     placeholder="Your Name"
                     required
+                    autoComplete="name"
                     className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
                       isMobile ? 'py-2.5' : 'py-2'
                     } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
@@ -215,6 +216,7 @@ function Contact() {
                     name="email"
                     placeholder="Email Address"
                     required
+                    autoComplete="email"
                     className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
                       isMobile ? 'py-2.5' : 'py-2'
                     } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
@@ -232,6 +234,7 @@ function Contact() {
                     name="phone"
                     placeholder="Phone Number"
                     required
+                    autoComplete="tel"
                     className={`w-[102%] -ml-[1%] bg-neutral-900 rounded-lg px-4 ${
                       isMobile ? 'py-2.5' : 'py-2'
                     } text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
