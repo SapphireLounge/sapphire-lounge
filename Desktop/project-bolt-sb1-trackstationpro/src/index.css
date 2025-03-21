@@ -1,0 +1,200 @@
+/* stylelint-disable at-rule-no-unknown */
+/* These are valid Tailwind CSS directives - ignore linting errors */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Light theme */
+.light-theme {
+  color-scheme: light;
+}
+
+/* stylelint-disable-next-line */
+body {
+  @apply bg-gray-900 text-white;
+}
+
+/* Light theme overrides */
+.light-theme .custom-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.light-theme .custom-heading {
+  color: #1e40af;
+}
+
+.light-theme .gradient-text {
+  background-image: linear-gradient(to right, #1e40af, #7e22ce);
+  background-clip: text;
+  color: transparent;
+}
+
+/* Light theme sidebar */
+.light-theme aside {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+.light-theme aside button {
+  color: #4b5563;
+}
+
+.light-theme aside button:hover:not(.active) {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.light-theme aside button.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Light theme header */
+.light-theme header {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+/* Light theme cards */
+.light-theme .bg-gray-800 {
+  background-color: #ffffff;
+}
+
+.light-theme .border-gray-700 {
+  border-color: #e5e7eb;
+}
+
+.light-theme .text-gray-400 {
+  color: #6b7280;
+}
+
+.light-theme .hover\:bg-gray-700:hover {
+  background-color: #f3f4f6;
+}
+
+.light-theme .bg-gray-750 {
+  background-color: #f9fafb;
+}
+
+/* Light theme buttons */
+.light-theme .custom-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.light-theme .custom-button:hover {
+  background-color: #2563eb;
+}
+
+.light-theme .custom-button.secondary {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.light-theme .custom-button.secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* stylelint-disable-next-line */
+::-webkit-scrollbar-track {
+  @apply bg-gray-800;
+}
+
+/* stylelint-disable-next-line */
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full;
+}
+
+/* stylelint-disable-next-line */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Light theme scrollbar */
+.light-theme ::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* Custom utility classes */
+.custom-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.custom-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent;
+}
+
+.custom-card {
+  @apply bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300;
+}
+
+.custom-card:hover {
+  @apply shadow-lg;
+}
+
+.custom-button {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors;
+}
+
+.custom-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.custom-heading {
+  @apply text-3xl font-bold mb-6 text-white;
+}

@@ -1,0 +1,213 @@
+/* Custom styles that don't use Tailwind directives */
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.custom-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.custom-card {
+  border-radius: 0.5rem;
+  background-color: #121212; /* Lighter off-black background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+/* Summary card specific styles */
+.summary-card-title {
+  font-size: 1.5rem !important;
+  font-weight: 500 !important;
+  color: #d1d5db !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.summary-card-value {
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  color: white !important;
+  line-height: 1.1 !important;
+}
+
+/* Light theme overrides */
+.light-theme .custom-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.light-theme .custom-heading {
+  color: #1e40af;
+}
+
+.light-theme .custom-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.light-theme .custom-button:hover {
+  background-color: #2563eb;
+}
+
+/* Expand cards horizontally a bit on mobile */
+@media (max-width: 768px) {
+  .custom-card {
+    width: 110%;
+    margin-left: -5%;
+  }
+}
+
+/* Increase size of cards on desktop */
+@media (min-width: 769px) {
+  .custom-card {
+    height: 100%;
+  }
+  
+  .custom-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Consistent text size in cards on desktop */
+  .custom-card h3 {
+    font-size: 1.75rem;
+  }
+  
+  .custom-card p {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile hover effect */
+@media (max-width: 768px) {
+  .custom-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Chart and payments container styles */
+.chart-container {
+  height: 350px;
+  margin: 0 auto;
+}
+
+@media (min-width: 769px) {
+  .chart-container {
+    height: 400px;
+  }
+}
+
+/* Fix layout for the dashboard grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  background-color: #3b82f6;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.custom-button:hover {
+  background-color: #2563eb;
+}
+
+.custom-button:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Enhanced Animation classes */
+.custom-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+  animation-fill-mode: both;
+}
+
+.custom-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+  animation-fill-mode: both;
+}
+
+/* Page transition animation */
+.page-transition {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+  animation-fill-mode: both;
+}
+
+/* Staggered animations for lists */
+.staggered-item {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  will-change: opacity;
+}
+
+.staggered-item:nth-child(1) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; }
+.staggered-item:nth-child(2) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; }
+.staggered-item:nth-child(3) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards; }
+.staggered-item:nth-child(4) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+.staggered-item:nth-child(5) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards; }
+.staggered-item:nth-child(n+6) { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Cross-fade animation for page transitions */
+.cross-fade-enter {
+  opacity: 0;
+}
+
+.cross-fade-enter-active {
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cross-fade-exit {
+  opacity: 1;
+}
+
+.cross-fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hardware acceleration for smoother animations */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
